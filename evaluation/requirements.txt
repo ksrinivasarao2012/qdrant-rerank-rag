@@ -1,0 +1,8 @@
+# Extra dependency for evaluation tooling only -- deliberately NOT added to
+# requirements.txt or backend/requirements.txt. The judge model in
+# judge_model.py runs locally via llama-cpp-python and is never deployed
+# with the app (see judge_model.py for the full reasoning and setup steps).
+#
+# deepeval itself is already in backend/requirements.txt -- not repeated here.
+
+llama-cpp-python

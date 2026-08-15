@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: qdrant-rerank-backend
+    env: python
+    region: singapore
+    plan: free
+    # Second command pre-downloads the embedding + reranker models during
+    # build instead of on the first real request -- without this, whoever
+    # hits the app first pays a slow cold-start download, and that request
+    # fails outright if Hugging Face happens to be unreachable at that moment.
+    buildCommand: pip install -r backend/requirements.txt && python -c "from backend.core.embeddings import get_embeddings; from backend.core.reranker import ReRanker; get_embeddings(); ReRanker().encoder; print('Models warmed.')"
+    # Started from the project root (no --app-dir) so that `backend.*` imports
+    # resolve. Running with --app-dir backend puts Python inside backend/, where
+    # there is no `backend` package to import -- the server cannot start.
+    startCommand: uvicorn backend.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: GROQ_API_KEY
+        sync: false

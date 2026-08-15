@@ -1,0 +1,30 @@
+# Environment & API Keys
+.env
+*.env
+
+# Python Virtual Environment & Caches
+.venv/
+venv/
+ENV/
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Local Vector Database & Data Storage
+data/chroma_db/
+data/
+*.sqlite3
+
+# Test & Helper Artifacts
+test_image_report.pdf
+test_ingest.py
+tod.md
+data_pipeline_guide.md
+test_filter.py
+
+# IDE & OS Caches
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+.claude/
