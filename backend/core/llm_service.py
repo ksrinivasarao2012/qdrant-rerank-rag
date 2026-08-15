@@ -118,7 +118,8 @@ class LLMService:
         local_model_path = Path(__file__).resolve().parents[2] / "data" / "models" / "qwen2.5-1.5b-instruct-q4_k_m.gguf"
         self._local_rewriter = None
         if local_model_path.exists():
-            threads = os.cpu_count() or 4
+            # Limit thread count to max 8 to prevent high CPU utilization/OOM risk
+            threads = min(8, os.cpu_count() or 4)
             try:
                 from llama_cpp import Llama
                 # 1. Try loading with GPU offloading enabled (all layers to GPU)
