@@ -229,6 +229,7 @@ class LLMService:
             history=history_text, query=query
         )
 
+        import time
         # 1. Fall back to Gemini Flash first (Prioritized online rewriter)
         if self.gemini_client is not None:
             try:
@@ -237,7 +238,18 @@ class LLMService:
                 logger.info(f"Gemini query analysis for '{query}' returned: '{rewritten}'")
                 return rewritten
             except Exception as e:
-                logger.warning(f"Failed to analyze query with Gemini: {e}. Falling back to HF/Local/GitHub.")
+                # If we hit a rate limit (status code 429), pause for 5 seconds and retry once
+                if "429" in str(e):
+                    logger.warning(f"Gemini rate limit hit. Sleeping for 5s before retrying...")
+                    time.sleep(5)
+                    try:
+                        response = self.gemini_client.invoke([HumanMessage(content=prompt)])
+                        rewritten = response.content.strip()
+                        return rewritten
+                    except Exception as retry_err:
+                        logger.warning(f"Gemini retry failed: {retry_err}. Falling back to HF/Local/GitHub.")
+                else:
+                    logger.warning(f"Failed to analyze query with Gemini: {e}. Falling back to HF/Local/GitHub.")
 
         # 2. Fall back to Hugging Face Serverless Inference API (Completely Uncapped Daily)
         if self.hf_client is not None:
@@ -247,7 +259,17 @@ class LLMService:
                 logger.info(f"Hugging Face Serverless query analysis for '{query}' returned: '{rewritten}'")
                 return rewritten
             except Exception as e:
-                logger.warning(f"Failed to analyze query with Hugging Face Serverless: {e}. Falling back to Local/GitHub.")
+                if "429" in str(e) or "503" in str(e):
+                    logger.warning(f"HF Serverless busy/rate-limited. Sleeping 5s before retry...")
+                    time.sleep(5)
+                    try:
+                        response = self.hf_client.invoke([HumanMessage(content=prompt)])
+                        rewritten = response.content.strip()
+                        return rewritten
+                    except Exception as retry_err:
+                        logger.warning(f"HF Serverless retry failed: {retry_err}. Falling back to Local/GitHub.")
+                else:
+                    logger.warning(f"Failed to analyze query with Hugging Face Serverless: {e}. Falling back to Local/GitHub.")
 
         # 3. Prioritize Local GGUF Rewriter (Offline, avoids API rate limits completely)
         if self._local_rewriter is not None:
@@ -277,7 +299,17 @@ class LLMService:
                 logger.info(f"GitHub Models query analysis for '{query}' returned: '{rewritten}'")
                 return rewritten
             except Exception as e:
-                logger.warning(f"Failed to analyze query with GitHub Models: {e}. Falling back to OpenRouter.")
+                if "429" in str(e):
+                    logger.warning(f"GitHub Models rate limit hit. Sleeping 5s before retry...")
+                    time.sleep(5)
+                    try:
+                        response = self.github_client.invoke([HumanMessage(content=prompt)])
+                        rewritten = response.content.strip()
+                        return rewritten
+                    except Exception as retry_err:
+                        logger.warning(f"GitHub Models retry failed: {retry_err}. Falling back to OpenRouter.")
+                else:
+                    logger.warning(f"Failed to analyze query with GitHub Models: {e}. Falling back to OpenRouter.")
 
         # 5. Fall back to OpenRouter
         if self.openrouter_client is not None:
@@ -287,8 +319,21 @@ class LLMService:
                 logger.info(f"OpenRouter query analysis for '{query}' returned: '{rewritten}'")
                 return rewritten
             except Exception as e:
-                logger.error(f"Failed to analyze query with OpenRouter: {e}")
-                return query
+                if "429" in str(e):
+                    logger.warning(f"OpenRouter rate limit hit. Sleeping 5s before retry...")
+                    time.sleep(5)
+                    try:
+                        response = self.openrouter_client.invoke([HumanMessage(content=prompt)])
+                        rewritten = response.content.strip()
+                        return rewritten
+                    except Exception as retry_err:
+                        logger.error(f"OpenRouter retry failed: {retry_err}")
+                        return query
+                else:
+                    logger.error(f"Failed to analyze query with OpenRouter: {e}")
+                    return query
+
+        return query
 
         return query
 
