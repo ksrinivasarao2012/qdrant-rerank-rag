@@ -216,7 +216,17 @@ class LLMService:
             history=history_text, query=query
         )
 
-        # 1. Prioritize Local GGUF Rewriter (Offline, avoids API rate limits completely)
+        # 1. Fall back to Gemini Flash first (Prioritized online rewriter)
+        if self.gemini_client is not None:
+            try:
+                response = self.gemini_client.invoke([HumanMessage(content=prompt)])
+                rewritten = response.content.strip()
+                logger.info(f"Gemini query analysis for '{query}' returned: '{rewritten}'")
+                return rewritten
+            except Exception as e:
+                logger.warning(f"Failed to analyze query with Gemini: {e}. Falling back to Local/GitHub.")
+
+        # 2. Prioritize Local GGUF Rewriter (Offline, avoids API rate limits completely)
         if self._local_rewriter is not None:
             try:
                 system_prompt = prompts.get("query_rewrite", self.rewrite_variant).get("system", "")
@@ -234,9 +244,9 @@ class LLMService:
                 logger.info(f"Local query analysis for '{query}' returned: '{rewritten}'")
                 return rewritten
             except Exception as e:
-                logger.warning(f"Local query rewriter failed: {e}. Falling back to API.")
+                logger.warning(f"Local query rewriter failed: {e}. Falling back to GitHub/OpenRouter.")
 
-        # 2. Fall back to GitHub Models API (High limit, 100% free)
+        # 3. Fall back to GitHub Models API (High limit, 100% free)
         if self.github_client is not None:
             try:
                 response = self.github_client.invoke([HumanMessage(content=prompt)])
@@ -244,21 +254,20 @@ class LLMService:
                 logger.info(f"GitHub Models query analysis for '{query}' returned: '{rewritten}'")
                 return rewritten
             except Exception as e:
-                logger.warning(f"Failed to analyze query with GitHub Models: {e}. Falling back to OpenRouter/Gemini.")
+                logger.warning(f"Failed to analyze query with GitHub Models: {e}. Falling back to OpenRouter.")
 
-        # 3. Fall back to OpenRouter or Gemini
-        client_to_use = self.openrouter_client or self.gemini_client
-        if not client_to_use:
-            return query
+        # 4. Fall back to OpenRouter
+        if self.openrouter_client is not None:
+            try:
+                response = self.openrouter_client.invoke([HumanMessage(content=prompt)])
+                rewritten = response.content.strip()
+                logger.info(f"OpenRouter query analysis for '{query}' returned: '{rewritten}'")
+                return rewritten
+            except Exception as e:
+                logger.error(f"Failed to analyze query with OpenRouter: {e}")
+                return query
 
-        try:
-            response = client_to_use.invoke([HumanMessage(content=prompt)])
-            rewritten = response.content.strip()
-            logger.info(f"API query analysis for '{query}' returned: '{rewritten}'")
-            return rewritten
-        except Exception as e:
-            logger.error(f"Failed to analyze query with API: {e}")
-            return query
+        return query
 
     async def stream_answer(
         self,
