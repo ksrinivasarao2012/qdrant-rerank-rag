@@ -35,15 +35,30 @@ def run_benchmarks():
         cmd = [sys.executable, "evaluation/eval_retriever.py"] + run["args"]
         
         try:
-            # We execute each run and let it write its results file.
-            # We capture stdout to extract the aggregated final numbers.
-            res = subprocess.run(cmd, capture_output=True, text=True, check=True)
-            output = res.stdout
-            print(output) # Print raw output to console for tracking
+            # We use Popen to read the output line-by-line as it streams
+            process = subprocess.Popen(
+                cmd,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+                text=True,
+                bufsize=1
+            )
             
-            # Parse the metrics from the stdout output
+            output_lines = []
+            while True:
+                line = process.stdout.readline()
+                if not line and process.poll() is not None:
+                    break
+                if line:
+                    sys.stdout.write(line)
+                    sys.stdout.flush()
+                    output_lines.append(line)
+            
+            process.communicate() # wait for process finish
+            
+            # Parse the metrics from the captured output lines
             mrr, r3, r5, r10 = None, None, None, None
-            for line in output.split("\n"):
+            for line in output_lines:
                 if "MRR=" in line:
                     parts = line.strip().split()
                     for p in parts:
@@ -63,9 +78,8 @@ def run_benchmarks():
                 "r5": r5 or "N/A",
                 "r10": r10 or "N/A"
             })
-        except subprocess.CalledProcessError as e:
+        except Exception as e:
             print(f"Error running configuration {run['name']}: {e}")
-            print(f"Stderr: {e.stderr}")
             results_summary.append({
                 "config": run["name"],
                 "mrr": "FAILED",
