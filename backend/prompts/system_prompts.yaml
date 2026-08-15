@@ -139,7 +139,7 @@ query_rewrite:
   active: clarify_and_expand_v3
 
   defaults:
-    model: gemini-1.5-flash
+    model: openrouter/free
     temperature: 0.0
 
   variants:

@@ -2,6 +2,7 @@ import logging
 from typing import List, Dict, Any, Optional, AsyncGenerator
 from langchain_groq import ChatGroq
 from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_openai import ChatOpenAI
 from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
 from backend.core.config import SETTINGS
 from backend.core import prompts
@@ -56,16 +57,50 @@ class LLMService:
             self.client = None
             logger.warning("GROQ_API_KEY missing in SETTINGS. LLMService disabled.")
 
+        openrouter_key = SETTINGS.OPENROUTER_API_KEY
+        if openrouter_key:
+            self.openrouter_client = ChatOpenAI(
+                openai_api_key=openrouter_key,
+                openai_api_base="https://openrouter.ai/api/v1",
+                model_name=rewrite_cfg["model"],
+                temperature=rewrite_cfg["temperature"],
+                default_headers={
+                    "HTTP-Referer": "https://github.com/ksrinivasarao2012/qdrant-rerank-rag",
+                    "X-Title": "RAG Portfolio Evaluation"
+                }
+            )
+        else:
+            self.openrouter_client = None
+            logger.warning("OPENROUTER_API_KEY missing in SETTINGS. OpenRouter query rewriter disabled.")
+
         gemini_key = SETTINGS.GEMINI_API_KEY
         if gemini_key and gemini_key.startswith("AIzaSy"):
             self.gemini_client = ChatGoogleGenerativeAI(
                 api_key=gemini_key,
-                model=rewrite_cfg["model"],
+                model="gemini-1.5-flash",
                 temperature=rewrite_cfg["temperature"]
             )
         else:
             self.gemini_client = None
             logger.warning("Valid GEMINI_API_KEY (starting with 'AIzaSy') missing in SETTINGS. Gemini query rewriter disabled.")
+
+        # Local rewriter model (only for dev/eval, avoids API limits completely)
+        from pathlib import Path
+        local_model_path = Path(__file__).resolve().parents[2] / "data" / "models" / "qwen2.5-1.5b-instruct-q4_k_m.gguf"
+        self._local_rewriter = None
+        if local_model_path.exists():
+            try:
+                from llama_cpp import Llama
+                logger.info(f"Initializing local query rewriter from {local_model_path.name}...")
+                self._local_rewriter = Llama(
+                    model_path=str(local_model_path),
+                    n_ctx=2048,
+                    n_threads=4,
+                    chat_format="chatml",
+                    verbose=False
+                )
+            except Exception as e:
+                logger.warning(f"Failed to load local query rewriter model: {e}. Falling back to API.")
 
         self.model_name = answer_cfg["model"]
 
@@ -129,14 +164,11 @@ class LLMService:
 
     def rewrite_query(self, query: str, chat_history: Optional[List[Any]] = None) -> str:
         """
-        Uses Gemini 1.5 Flash to check the query for clarity, resolve history references,
-        and generate a search-friendly query. 
+        Uses a local model (falling back to OpenRouter or Gemini if configured) to check the query for clarity, 
+        resolve history references, and generate a search-friendly query. 
         
         If the query is ambiguous, it returns 'CLARIFICATION_REQUIRED: <question>'.
         """
-        if not self.gemini_client:
-            return query
-
         # Format history if present, otherwise pass an empty placeholder
         history_text = ""
         if chat_history:
@@ -152,13 +184,38 @@ class LLMService:
             history=history_text, query=query
         )
 
+        # 1. Prioritize Local GGUF Rewriter (Offline, avoids API rate limits completely)
+        if self._local_rewriter is not None:
+            try:
+                system_prompt = prompts.get("query_rewrite", self.rewrite_variant).get("system", "")
+                messages = []
+                if system_prompt:
+                    messages.append({"role": "system", "content": system_prompt})
+                messages.append({"role": "user", "content": prompt})
+
+                res = self._local_rewriter.create_chat_completion(
+                    messages=messages,
+                    max_tokens=256,
+                    temperature=0.0
+                )
+                rewritten = res["choices"][0]["message"]["content"].strip()
+                logger.info(f"Local query analysis for '{query}' returned: '{rewritten}'")
+                return rewritten
+            except Exception as e:
+                logger.warning(f"Local query rewriter failed: {e}. Falling back to API.")
+
+        # 2. Fall back to APIs
+        client_to_use = self.openrouter_client or self.gemini_client
+        if not client_to_use:
+            return query
+
         try:
-            response = self.gemini_client.invoke([HumanMessage(content=prompt)])
+            response = client_to_use.invoke([HumanMessage(content=prompt)])
             rewritten = response.content.strip()
-            logger.info(f"Query analysis for '{query}' returned: '{rewritten}'")
+            logger.info(f"API query analysis for '{query}' returned: '{rewritten}'")
             return rewritten
         except Exception as e:
-            logger.error(f"Failed to analyze query with Gemini: {e}")
+            logger.error(f"Failed to analyze query with API: {e}")
             return query
 
     async def stream_answer(
