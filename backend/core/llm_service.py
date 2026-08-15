@@ -86,21 +86,38 @@ class LLMService:
 
         # Local rewriter model (only for dev/eval, avoids API limits completely)
         from pathlib import Path
+        import os
         local_model_path = Path(__file__).resolve().parents[2] / "data" / "models" / "qwen2.5-1.5b-instruct-q4_k_m.gguf"
         self._local_rewriter = None
         if local_model_path.exists():
+            threads = os.cpu_count() or 4
             try:
                 from llama_cpp import Llama
-                logger.info(f"Initializing local query rewriter from {local_model_path.name}...")
+                # 1. Try loading with GPU offloading enabled (all layers to GPU)
+                logger.info(f"Initializing local query rewriter from {local_model_path.name} with GPU acceleration...")
                 self._local_rewriter = Llama(
                     model_path=str(local_model_path),
                     n_ctx=2048,
-                    n_threads=4,
+                    n_threads=threads,
+                    n_gpu_layers=-1,
                     chat_format="chatml",
                     verbose=False
                 )
-            except Exception as e:
-                logger.warning(f"Failed to load local query rewriter model: {e}. Falling back to API.")
+            except Exception as gpu_err:
+                logger.warning(f"Failed to load local model with GPU: {gpu_err}. Falling back to CPU.")
+                try:
+                    from llama_cpp import Llama
+                    # 2. Fall back to CPU only (n_gpu_layers=0)
+                    self._local_rewriter = Llama(
+                        model_path=str(local_model_path),
+                        n_ctx=2048,
+                        n_threads=threads,
+                        n_gpu_layers=0,
+                        chat_format="chatml",
+                        verbose=False
+                    )
+                except Exception as cpu_err:
+                    logger.warning(f"Failed to load local query rewriter on CPU: {cpu_err}. Falling back to API.")
 
         self.model_name = answer_cfg["model"]
 
