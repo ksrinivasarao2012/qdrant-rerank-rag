@@ -47,7 +47,7 @@ def main():
         print(f"Error: {EMBEDDED_POINTS_PATH} not found.")
         return 1
 
-    db = VectorDBManager()
+    db = VectorDBManager(force_local=True)
     print(f"Local Qdrant path: {db.db_path}")
     if db.client.__class__.__name__ != "QdrantClient" or os.environ.get("QDRANT_URL"):
         pass  # can't easily introspect mode, but env vars above guarantee local

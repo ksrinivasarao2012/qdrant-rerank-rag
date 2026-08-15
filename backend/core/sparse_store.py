@@ -14,8 +14,9 @@ class SparseVectorGenerator:
     """
     State-free sparse vector generator utilizing the Hashing Trick (Feature Hashing).
     
-    Why: By hashing words to a fixed dimension (65,536), we avoid storing or sync-ing
-    a massive vocabulary mapping file on the server. It is 100% deterministic and stateless.
+    Why: By hashing words to a fixed dimension (see SPARSE_DIM above), we avoid storing
+    or sync-ing a massive vocabulary mapping file on the server. It is 100% deterministic
+    and stateless.
     """
 
     def __init__(self, vocabulary_size: int = SPARSE_DIM):

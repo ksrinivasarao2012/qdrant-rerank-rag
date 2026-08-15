@@ -1,1 +1,256 @@
+# ---------------------------------------------------------------------------
+# Prompt Registry
+# ---------------------------------------------------------------------------
+# Single source of truth for every prompt used by the RAG pipeline.
+#
+# STRUCTURE
+#   <group>:
+#     active:   name of the variant production uses
+#     defaults: keys shared by every variant of this group
+#     variants: named prompt versions; each declares ONLY what differs
+#               from defaults, so a variant reads as a diff, not a copy.
+#
+# TEMPLATING
+#   Prompts use $variable placeholders (Python string.Template), NOT {braces}.
+#   This keeps literal braces in prompt text (JSON examples, LaTeX, code)
+#   working without escaping. Render via backend.core.prompts.
+#
+# A/B TESTING
+#   Add a variant, don't edit an existing one in place. The eval harness sweeps
+#   prompts.variants("answer") and tags each result row with
+#   prompts.fingerprint("answer", name) -- a content hash of the merged variant.
+#   If you edit a variant's text, its fingerprint changes, so stale eval rows
+#   are visibly attributable to different text rather than silently comparable.
+# ---------------------------------------------------------------------------
 
+schema_version: 2
+
+# ===========================================================================
+# Stage 3 - Grounded answer generation from re-ranked citations.
+# ===========================================================================
+answer:
+  # NOTE: llama-3.1-8b-instant is shut down by Groq on 2026-08-16.
+  # Active variant moved to openai/gpt-oss-20b.
+  active: gptoss_strict_v1
+
+  defaults:
+    model: Qwen/Qwen2.5-7B-Instruct
+    temperature: 0.3
+    max_tokens: 1000
+
+    # Variables: $context (pre-rendered citation blocks), $query
+    user: |-
+      CONTEXT INFORMATION:
+      $context
+      ---------------------
+      USER QUESTION: $query
+
+      ANSWER:
+
+    # Repeated once per retrieved chunk to build $context above.
+    # Variables: $index, $source, $page, $snippet
+    citation_block: |
+      --- Citation $index (File: $source, Page: $page) ---
+      $snippet
+
+  variants:
+
+    # ---------------------------------------------------------------------
+    # ACTIVE. Strict grounding on Qwen/Qwen2.5-7B-Instruct
+    # ---------------------------------------------------------------------
+    qwen_strict_v1:
+      notes: >-
+        Strict grounding prompt on Qwen 2.5 7B Instruct.
+      system: |-
+        You are an expert AI assistant specializing in document analysis.
+        Your core task is to answer the user's question STRICTLY based on the provided Context.
+
+        STRICT RULES:
+        1. Do NOT use any outside knowledge or make assumptions beyond the provided Context.
+        2. If the answer cannot be determined from the Context, explicitly state: 'I do not have enough information in the provided documents to answer this question.'
+        3. Keep your response clear, concise, and directly factual to the provided text.
+
+    gptoss_strict_v1:
+      notes: >-
+        Migration of strict_v1 from llama-3.1-8b-instant (Groq shutdown
+        2026-08-16) to openai/gpt-oss-20b. Prompt text unchanged so the
+        eval delta isolates the model, not the wording.
+      model: openai/gpt-oss-20b
+      extra_body:
+        reasoning_effort: low
+      system: |-
+        You are an expert AI assistant specializing in document analysis.
+        Your core task is to answer the user's question STRICTLY based on the provided Context.
+
+        STRICT RULES:
+        1. Do NOT use any outside knowledge or make assumptions beyond the provided Context.
+        2. If the answer cannot be determined from the Context, explicitly state: 'I do not have enough information in the provided documents to answer this question.'
+        3. Keep your response clear, concise, and directly factual to the provided text.
+
+    # ---------------------------------------------------------------------
+    # RETIRED baselines. Model pinned explicitly so these stay a faithful
+    # record of what produced historical eval scores. They will error after
+    # 2026-08-16 -- that is expected. Do not edit; add a new variant instead.
+    # ---------------------------------------------------------------------
+
+    # Baseline. Byte-identical to the original hardcoded prompt -- do not edit
+    # this variant, or historical eval scores lose their reference point.
+    strict_v1:
+      notes: >-
+        RETIRED 2026-08-16. Original production prompt. Hard grounding rules,
+        direct answer, no reasoning scaffold.
+      model: llama-3.1-8b-instant
+      system: |-
+        You are an expert AI assistant specializing in document analysis.
+        Your core task is to answer the user's question STRICTLY based on the provided Context.
+
+        STRICT RULES:
+        1. Do NOT use any outside knowledge or make assumptions beyond the provided Context.
+        2. If the answer cannot be determined from the Context, explicitly state: 'I do not have enough information in the provided documents to answer this question.'
+        3. Keep your response clear, concise, and directly factual to the provided text.
+
+    # Hypothesis: forcing an explicit citation-scan step before answering
+    # reduces unsupported claims on multi-hop questions, at the cost of latency.
+    cot_v2:
+      notes: >-
+        RETIRED 2026-08-16. Chain-of-thought variant. Largely obsolete now
+        that gpt-oss reasons natively -- kept for historical comparison.
+      model: llama-3.1-8b-instant
+      temperature: 0.0
+      system: |-
+        You are an expert AI assistant specializing in document analysis.
+        Your core task is to answer the user's question STRICTLY based on the provided Context.
+
+        Before answering, work through these steps internally:
+        1. Identify which numbered Citations, if any, actually contain the answer.
+        2. Check whether those Citations fully support a complete answer.
+        3. Only then compose your response.
+
+        STRICT RULES:
+        1. Do NOT use any outside knowledge or make assumptions beyond the provided Context.
+        2. If the answer cannot be determined from the Context, explicitly state: 'I do not have enough information in the provided documents to answer this question.'
+        3. Do NOT show your internal reasoning steps. Output only the final answer.
+        4. Keep your response clear, concise, and directly factual to the provided text.
+
+# ===========================================================================
+# Pre-retrieval - turns a follow-up question into a standalone search query.
+# ===========================================================================
+query_rewrite:
+  active: clarify_and_expand_v3
+
+  defaults:
+    model: gemini-1.5-flash
+    temperature: 0.0
+
+  variants:
+
+    standalone_v1:
+      notes: >-
+        Original production prompt. Resolves pronouns against chat history.
+      # Variables: $history (ROLE: content lines), $query
+      user: |-
+        Given the following conversation history and a follow-up question, rewrite the follow-up question to be a standalone, self-contained search query.
+        Do NOT answer the question. Just output the rewritten query.
+
+        CHAT HISTORY:
+        $history
+        FOLLOW-UP QUESTION: $query
+
+        STANDALONE QUERY:
+
+    # Hypothesis: adding domain keywords the user omitted improves BM25 recall,
+    # since sparse search cannot resolve synonyms the way dense search can.
+    keyword_expand_v2:
+      notes: >-
+        Expands the rewritten query with likely synonyms and domain terms to
+        raise BM25 hit rate in the sparse leg of hybrid retrieval.
+      user: |-
+        Given the following conversation history and a follow-up question, rewrite the follow-up question to be a standalone, self-contained search query.
+
+        Resolve all pronouns and implicit references using the history. Then append any domain-specific synonyms or technical terms that a keyword search would need to find the answer, even if the user did not use them.
+        Do NOT answer the question. Output only the rewritten query on a single line.
+
+        CHAT HISTORY:
+        $history
+        FOLLOW-UP QUESTION: $query
+
+        STANDALONE QUERY:
+
+    # Focus on user experience and query refinement:
+    # Analyzes query for ambiguity. If unclear or too vague, outputs CLARIFICATION_REQUIRED: <question>.
+    # Otherwise, rewrites to a standalone query with domain synonyms.
+    clarify_and_expand_v3:
+      notes: >-
+        Checks query for ambiguity. If the query is vague, ambiguous, or lacks context,
+        asks the user for clarification. Otherwise, expands it with search-friendly terms.
+      user: |-
+        Analyze the following conversation history and the follow-up question.
+        
+        Task:
+        1. If the follow-up question is too vague, ambiguous, or completely lacks context to perform a meaningful search (e.g. just saying "explain it", "why", "choose k" without context), output EXACTLY:
+           CLARIFICATION_REQUIRED: <A short, friendly question asking the user to clarify or rewrite their question>
+        2. Otherwise, rewrite the follow-up question into a standalone, self-contained search query. Append common data science synonyms or mathematical terms that will help a search engine find the answer.
+        
+        Do NOT answer the question. Output ONLY the standalone query or the clarification prefix on a single line.
+
+        CHAT HISTORY:
+        $history
+        FOLLOW-UP QUESTION: $query
+
+        RESPONSE:
+
+# ===========================================================================
+# Ingestion - converts images embedded in PDF pages into searchable text.
+# ===========================================================================
+vision_summary:
+  # NOTE: the previous model ID 'llama-3.2-11b-vision-instruct' never existed
+  # on Groq (the real ID was llama-3.2-11b-vision-preview, shut down
+  # 2025-04-14). Every image call had been failing and being swallowed by the
+  # except-block in _summarize_image, so image extraction was silently a no-op.
+  # qwen/qwen3.6-27b is Groq's only remaining vision model as of 2026-08.
+  # It is PREVIEW tier -- it can be withdrawn at short notice. Watch it.
+  active: describe_qwen_v1
+
+  defaults:
+    model: qwen/qwen3.6-27b
+    temperature: 0.2
+    max_tokens: 300
+
+    # Wrapper applied to the model's response before appending to page text.
+    # Double-quoted (not a block scalar) because the leading and trailing blank
+    # lines are significant and must survive exactly.
+    # Variables: $description
+    output_wrapper: "\n\n[EMBEDDED IMAGE DESCRIPTION]:\n$description\n\n"
+
+  variants:
+
+    # ACTIVE. Same prompt as describe_v1, on a vision model that actually exists.
+    describe_qwen_v1:
+      notes: >-
+        Migration of describe_v1 to qwen/qwen3.6-27b after the old Groq vision
+        model was found to be dead. Prompt text unchanged.
+      user: |-
+        Describe this image in detail. If it is a chart, graph, table, or architecture diagram, extract all key data points, labels, numbers, and structural relationships.
+
+    # RETIRED. Model pinned to the (non-existent) original ID for the record.
+    describe_v1:
+      notes: >-
+        RETIRED. Original prompt, but pointed at a model ID that was never
+        valid on Groq -- this variant never actually produced output.
+      model: llama-3.2-11b-vision-instruct
+      user: |-
+        Describe this image in detail. If it is a chart, graph, table, or architecture diagram, extract all key data points, labels, numbers, and structural relationships.
+
+    # Hypothesis: prose descriptions of tables chunk and embed poorly. Forcing
+    # structured output should make numeric lookups retrievable.
+    structured_v2:
+      notes: >-
+        Pushes tabular and chart data into explicit row/label form so numeric
+        values survive chunking and remain searchable.
+      max_tokens: 500
+      user: |-
+        Describe this image in detail for a search index.
+
+        If it contains a chart, graph, or table, transcribe the underlying data explicitly: list every axis label, series name, category, and numeric value as "label: value" pairs. If it is an architecture or flow diagram, list each component and state the connections between them as "A -> B" relationships.
+
+        Write plain prose or lists. Do not use markdown tables.

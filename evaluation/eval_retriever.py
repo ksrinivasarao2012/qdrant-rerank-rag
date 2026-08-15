@@ -76,6 +76,12 @@ def parse_args():
                          help=f"Cross-encoder model name (default: {DEFAULT_RERANKER_MODEL}).")
     parser.add_argument("--ks", type=str, default="3,5,10",
                          help="Comma-separated k values to report recall/precision@k for (default: 3,5,10).")
+    parser.add_argument("--local", action="store_true",
+                         help="Force the local on-disk Qdrant index instead of Qdrant Cloud, regardless "
+                              "of what's in .env. Use this instead of blanking QDRANT_URL/QDRANT_API_KEY "
+                              "in the shell -- that trick doesn't reliably work on Windows (PowerShell's "
+                              "$env:VAR=\"\" deletes the variable rather than blanking it, so .env silently "
+                              "refills it). Requires evaluation/load_local_qdrant.py to have been run first.")
     return parser.parse_args()
 
 
@@ -174,8 +180,8 @@ def evaluate():
     print(f"Loaded {len(cases)} cases ({len(evaluable)} evaluable, "
           f"{skipped} skipped -- no gold_answer_ids, e.g. adversarial/out_of_scope).")
 
-    print("Connecting to Qdrant...")
-    db_manager = VectorDBManager()
+    print(f"Connecting to Qdrant ({'local' if args.local else 'cloud/.env'})...")
+    db_manager = VectorDBManager(force_local=args.local)
     db_manager.collection  # one-time init
 
     reranker = None

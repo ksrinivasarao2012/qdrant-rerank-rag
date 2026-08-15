@@ -14,12 +14,12 @@ class QueryRequest(BaseModel):
     query: str = Field(..., description="The query", min_length=2)
     top_k: int = Field(3, description="Number of results to retrieve")
     chat_history: Optional[List[ChatBot]] = Field(default=[], description="Optional conversational history")
-    source_file: Optional[str] = Field(default=None, description="Optional PDF filename filter")
+    source_file: Optional[str] = Field(default=None, description="Optional tag filter (e.g. 'regression'). Name kept as 'source_file' for backward compatibility with older client code, but it now filters on the 'tags' payload field.")
 
 class Citation(BaseModel):
-    source_file: str = Field(..., description="The name of the PDF this information came from")
-    page_number: int = Field(..., description="The exact page the text was found on.")
-    text_snippet: str = Field(..., description="A short preview of the exact paragraph the AI used.")
+    source_file: str = Field(..., description="The question title of the StackExchange post the answer came from.")
+    page_number: int = Field(..., description="Legacy field from the PDF version -- no meaningful value for StackExchange citations, kept only so the schema stays backward-compatible.")
+    text_snippet: str = Field(..., description="A short preview of the exact chunk the AI used.")
 
 class QueryResponse(BaseModel):
     answer: str = Field(..., description="The generated answer by the LLM for the query")

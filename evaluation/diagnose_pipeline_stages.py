@@ -15,13 +15,14 @@ identical numbers to the cloud run). This script assumes the pipeline code
 is otherwise correct and is looking for where retrieval quality is actually
 being lost.
 
-Run locally. Works against whichever Qdrant the current environment points
-to -- set QDRANT_URL/QDRANT_API_KEY blank first to use the clean local index
-built by load_local_qdrant.py (recommended, since it's equally valid and
-faster):
+Always forces the local on-disk Qdrant index (force_local=True), not
+whatever's in .env -- blanking QDRANT_URL/QDRANT_API_KEY in the shell first
+doesn't reliably work on Windows (PowerShell's $env:VAR="" deletes the
+variable rather than blanking it, so .env silently refills it). Requires
+evaluation/load_local_qdrant.py to have been run first.
 
-    (PowerShell)
-    $env:QDRANT_URL=""; $env:QDRANT_API_KEY=""; python evaluation/diagnose_pipeline_stages.py
+Run locally:
+    python evaluation/diagnose_pipeline_stages.py
 """
 
 import sys
@@ -60,8 +61,8 @@ def main():
         cases = json.load(f)
     standard_cases = [c for c in cases if c["category"] == "standard"][:N_CASES_TO_CHECK]
 
-    print("Connecting to Qdrant...")
-    db = VectorDBManager()
+    print("Connecting to Qdrant (local)...")
+    db = VectorDBManager(force_local=True)
     db.collection
 
     print("Loading reranker...")

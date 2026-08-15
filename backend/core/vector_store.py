@@ -18,17 +18,29 @@ logger = logging.getLogger(__name__)
 sparse_generator = SparseVectorGenerator()
 
 class VectorDBManager:
-    def __init__(self, db_path: str = "./data/qdrant_db", collection_name: str = "stats_se_rag_docs"):
+    def __init__(self, db_path: str = "./data/qdrant_db", collection_name: str = "stats_se_rag_docs",
+                 force_local: bool = False):
         """
         Initializes persistent Qdrant connection with lazy-loaded embeddings and sparse indexing.
+
+        force_local: bypasses QDRANT_URL/QDRANT_API_KEY entirely and always uses the
+        local on-disk client, regardless of what's in .env. Needed because blanking
+        those env vars in the shell before running a script (e.g.
+        `$env:QDRANT_URL=""`) does NOT reliably work on Windows -- PowerShell's
+        $env: provider (via .NET's SetEnvironmentVariable) treats assigning an
+        empty string as DELETING the variable, not setting it to blank. Once
+        deleted, python-dotenv's load_dotenv() (called below) sees it as absent
+        and silently reloads the real value from .env, defeating the trick and
+        connecting to Qdrant Cloud instead of the intended local index. This flag
+        sidesteps the whole problem instead of relying on shell env manipulation.
         """
         os.makedirs(db_path, exist_ok=True)
         self.db_path = db_path
         self.collection_name = collection_name
-        
-        qdrant_url = os.getenv("QDRANT_URL")
-        qdrant_api_key = os.getenv("QDRANT_API_KEY")
-        
+
+        qdrant_url = None if force_local else os.getenv("QDRANT_URL")
+        qdrant_api_key = None if force_local else os.getenv("QDRANT_API_KEY")
+
         if qdrant_url and qdrant_api_key:
             logger.info("Initializing VectorDBManager connecting to Qdrant Cloud...")
             self.client = QdrantClient(url=qdrant_url, api_key=qdrant_api_key)
@@ -73,37 +85,38 @@ class VectorDBManager:
             )
             logger.info(f"Collection {self.collection_name} created successfully.")
         
-        # Ensure payload index on source_file exists for filtering
+        # Ensure payload index on 'tags' exists for topic filtering. Was
+        # 'source_file' -- a leftover from the old PDF-upload version, where
+        # each chunk's payload actually had that field. The current
+        # StackExchange corpus (embed_corpus.py) never sets 'source_file' on
+        # any chunk; the real filterable field is 'tags'. Leaving the old
+        # field name here meant the topic filter dropdown in app.py silently
+        # matched nothing for any specific topic -- only "All Topics" (no
+        # filter) ever worked.
         try:
             self.client.create_payload_index(
                 collection_name=self.collection_name,
-                field_name="source_file",
+                field_name="tags",
                 field_schema=models.PayloadSchemaType.KEYWORD
             )
-            logger.info("Payload index on 'source_file' verified/created.")
+            logger.info("Payload index on 'tags' verified/created.")
         except Exception as e:
-            logger.warning(f"Could not create payload index on 'source_file': {e}")
+            logger.warning(f"Could not create payload index on 'tags': {e}")
 
         self._collection_ready = True
         return self.collection_name
 
     def delete_by_source(self, source_file: str) -> bool:
-        """Deletes all existing vectors originating from a specific source file."""
+        """Deletes all vectors carrying a given tag. Method name still says
+        'source' for backward compatibility with the old PDF-upload version
+        of the code -- semantically it's a tag filter now, matching against
+        the 'tags' payload field (see _tag_filter above for the same fix)."""
         try:
             self.client.delete(
                 collection_name=self.collection,
-                points_selector=models.FilterSelector(
-                    filter=models.Filter(
-                        must=[
-                            models.FieldCondition(
-                                key="source_file",
-                                match=models.MatchValue(value=source_file),
-                            )
-                        ]
-                    )
-                )
+                points_selector=models.FilterSelector(filter=self._tag_filter(source_file))
             )
-            logger.info(f"Cleared existing vectors for source file: {source_file}")
+            logger.info(f"Cleared existing vectors for tag: {source_file}")
             return True
         except Exception as e:
             logger.error(f"Failed to delete existing vectors for {source_file}: {e}")
@@ -182,6 +195,26 @@ class VectorDBManager:
             logger.exception(f"Failed to add chunks to Qdrant after retries ({len(chunks)} chunks lost).")
             return False
 
+    def _tag_filter(self, source_file):
+        """Builds a Qdrant filter for a single tag. Named parameter is still
+        called `source_file` in callers (routes.py, app.py) for backward
+        compatibility -- semantically it's a tag now, matched against the
+        payload's 'tags' field which is the only one actually present on
+        chunks in the current StackExchange corpus. Old field name 'source_file'
+        never gets set by embed_corpus.py, so the previous filter on that key
+        silently matched nothing -- see the bug flagged around the payload
+        index creation above."""
+        if not source_file:
+            return None
+        return models.Filter(
+            must=[
+                models.FieldCondition(
+                    key="tags",
+                    match=models.MatchValue(value=source_file)
+                )
+            ]
+        )
+
     def search(self, query: str, n_results: int = 3, source_file: str = None) -> List[Dict[str, Any]]:
         """
         Performs semantic (dense) search in Qdrant.
@@ -189,27 +222,17 @@ class VectorDBManager:
         logger.info(f"Performing dense search query: '{query}' (limit={n_results})")
         try:
             query_vector = self.embedding.embed_query(query)
-            query_filter = None
-            if source_file:
-                query_filter = models.Filter(
-                    must=[
-                        models.FieldCondition(
-                            key="source_file",
-                            match=models.MatchValue(value=source_file)
-                        )
-                    ]
-                )
             results = self.client.query_points(
                 collection_name=self.collection,
                 query=query_vector,
                 using="dense",
-                query_filter=query_filter,
+                query_filter=self._tag_filter(source_file),
                 limit=n_results
             )
         except Exception as e:
             logger.exception(f"Dense query execution failed for query: '{query}'")
             return []
-        
+
         return self._format_results(results)
 
     def search_sparse(self, query: str, n_results: int = 3, source_file: str = None) -> List[Dict[str, Any]]:
@@ -219,27 +242,17 @@ class VectorDBManager:
         logger.info(f"Performing sparse search query: '{query}' (limit={n_results})")
         try:
             sparse_query = sparse_generator.to_qdrant_sparse(query)
-            query_filter = None
-            if source_file:
-                query_filter = models.Filter(
-                    must=[
-                        models.FieldCondition(
-                            key="source_file",
-                            match=models.MatchValue(value=source_file)
-                        )
-                    ]
-                )
             results = self.client.query_points(
                 collection_name=self.collection,
                 query=sparse_query,
                 using="sparse",
-                query_filter=query_filter,
+                query_filter=self._tag_filter(source_file),
                 limit=n_results
             )
         except Exception as e:
             logger.exception(f"Sparse query execution failed for query: '{query}'")
             return []
-        
+
         return self._format_results(results)
 
     def search_hybrid(self, query: str, n_results: int = 3, source_file: str = None) -> List[Dict[str, Any]]:
@@ -250,17 +263,6 @@ class VectorDBManager:
         try:
             query_vector = self.embedding.embed_query(query)
             sparse_query = sparse_generator.to_qdrant_sparse(query)
-            
-            query_filter = None
-            if source_file:
-                query_filter = models.Filter(
-                    must=[
-                        models.FieldCondition(
-                            key="source_file",
-                            match=models.MatchValue(value=source_file)
-                        )
-                    ]
-                )
             
             # Request prefetching of dense and sparse vectors, then fuse them using RRF
             results = self.client.query_points(
@@ -280,7 +282,7 @@ class VectorDBManager:
                 query=models.FusionQuery(
                     fusion=models.Fusion.RRF
                 ),
-                query_filter=query_filter,
+                query_filter=self._tag_filter(source_file),
                 limit=n_results
             )
         except Exception as e:
