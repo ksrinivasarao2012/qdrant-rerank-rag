@@ -84,6 +84,21 @@ class LLMService:
             self.gemini_client = None
             logger.warning("Valid GEMINI_API_KEY (starting with 'AIzaSy') missing in SETTINGS. Gemini query rewriter disabled.")
 
+        github_token = SETTINGS.GITHUB_TOKEN
+        if github_token:
+            # GitHub Models API uses standard OpenAI compatibility layer
+            # Qwen-2.5-7B-Instruct is a great small model supported on GitHub Models
+            model_to_use = "Qwen-2.5-7B-Instruct"
+            self.github_client = ChatOpenAI(
+                openai_api_key=github_token,
+                openai_api_base="https://models.inference.ai.azure.com",
+                model_name=model_to_use,
+                temperature=rewrite_cfg["temperature"]
+            )
+        else:
+            self.github_client = None
+            logger.warning("GITHUB_TOKEN missing in SETTINGS. GitHub query rewriter disabled.")
+
         # Local rewriter model (only for dev/eval, avoids API limits completely)
         from pathlib import Path
         import os
@@ -221,7 +236,17 @@ class LLMService:
             except Exception as e:
                 logger.warning(f"Local query rewriter failed: {e}. Falling back to API.")
 
-        # 2. Fall back to APIs
+        # 2. Fall back to GitHub Models API (High limit, 100% free)
+        if self.github_client is not None:
+            try:
+                response = self.github_client.invoke([HumanMessage(content=prompt)])
+                rewritten = response.content.strip()
+                logger.info(f"GitHub Models query analysis for '{query}' returned: '{rewritten}'")
+                return rewritten
+            except Exception as e:
+                logger.warning(f"Failed to analyze query with GitHub Models: {e}. Falling back to OpenRouter/Gemini.")
+
+        # 3. Fall back to OpenRouter or Gemini
         client_to_use = self.openrouter_client or self.gemini_client
         if not client_to_use:
             return query
