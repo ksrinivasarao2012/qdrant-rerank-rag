@@ -35,24 +35,34 @@ def run_benchmarks():
         cmd = [sys.executable, "evaluation/eval_retriever.py"] + run["args"]
         
         try:
-            # We use Popen to read the output line-by-line as it streams
+            # We use Popen to read the output and output character by character
+            # to handle carriage returns (\r) correctly for progress bars.
             process = subprocess.Popen(
                 cmd,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.STDOUT,
                 text=True,
-                bufsize=1
+                bufsize=0
             )
             
             output_lines = []
+            current_line = []
+            
             while True:
-                line = process.stdout.readline()
-                if not line and process.poll() is not None:
+                char = process.stdout.read(1)
+                if not char and process.poll() is not None:
                     break
-                if line:
-                    sys.stdout.write(line)
+                if char:
+                    sys.stdout.write(char)
                     sys.stdout.flush()
-                    output_lines.append(line)
+                    if char == '\n':
+                        output_lines.append("".join(current_line))
+                        current_line = []
+                    elif char != '\r':
+                        current_line.append(char)
+            
+            if current_line:
+                output_lines.append("".join(current_line))
             
             process.communicate() # wait for process finish
             
