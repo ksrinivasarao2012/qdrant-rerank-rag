@@ -191,7 +191,7 @@ def evaluate():
 
     llm_service = None
     if args.rewrite:
-        print("Loading LLMService for query rewriting (Local/GitHub/OpenRouter/Gemini)...")
+        print("Loading LLMService for query rewriting (Local/HF/GitHub/OpenRouter/Gemini)...")
         from backend.core.llm_service import LLMService
         llm_service = LLMService()
 

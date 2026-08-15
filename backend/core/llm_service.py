@@ -99,6 +99,19 @@ class LLMService:
             self.github_client = None
             logger.warning("GITHUB_TOKEN missing in SETTINGS. GitHub query rewriter disabled.")
 
+        hf_token = SETTINGS.HF_TOKEN
+        if hf_token:
+            # Hugging Face Serverless Inference API (OpenAI compatible wrapper)
+            self.hf_client = ChatOpenAI(
+                openai_api_key=hf_token,
+                openai_api_base="https://api-inference.huggingface.co/v1/",
+                model_name="Qwen/Qwen2.5-7B-Instruct",
+                temperature=rewrite_cfg["temperature"]
+            )
+        else:
+            self.hf_client = None
+            logger.warning("HF_TOKEN missing in SETTINGS. Hugging Face Serverless query rewriter disabled.")
+
         # Local rewriter model (only for dev/eval, avoids API limits completely)
         from pathlib import Path
         import os
@@ -224,9 +237,19 @@ class LLMService:
                 logger.info(f"Gemini query analysis for '{query}' returned: '{rewritten}'")
                 return rewritten
             except Exception as e:
-                logger.warning(f"Failed to analyze query with Gemini: {e}. Falling back to Local/GitHub.")
+                logger.warning(f"Failed to analyze query with Gemini: {e}. Falling back to HF/Local/GitHub.")
 
-        # 2. Prioritize Local GGUF Rewriter (Offline, avoids API rate limits completely)
+        # 2. Fall back to Hugging Face Serverless Inference API (Completely Uncapped Daily)
+        if self.hf_client is not None:
+            try:
+                response = self.hf_client.invoke([HumanMessage(content=prompt)])
+                rewritten = response.content.strip()
+                logger.info(f"Hugging Face Serverless query analysis for '{query}' returned: '{rewritten}'")
+                return rewritten
+            except Exception as e:
+                logger.warning(f"Failed to analyze query with Hugging Face Serverless: {e}. Falling back to Local/GitHub.")
+
+        # 3. Prioritize Local GGUF Rewriter (Offline, avoids API rate limits completely)
         if self._local_rewriter is not None:
             try:
                 system_prompt = prompts.get("query_rewrite", self.rewrite_variant).get("system", "")
@@ -246,7 +269,7 @@ class LLMService:
             except Exception as e:
                 logger.warning(f"Local query rewriter failed: {e}. Falling back to GitHub/OpenRouter.")
 
-        # 3. Fall back to GitHub Models API (High limit, 100% free)
+        # 4. Fall back to GitHub Models API (High limit, 100% free)
         if self.github_client is not None:
             try:
                 response = self.github_client.invoke([HumanMessage(content=prompt)])
@@ -256,7 +279,7 @@ class LLMService:
             except Exception as e:
                 logger.warning(f"Failed to analyze query with GitHub Models: {e}. Falling back to OpenRouter.")
 
-        # 4. Fall back to OpenRouter
+        # 5. Fall back to OpenRouter
         if self.openrouter_client is not None:
             try:
                 response = self.openrouter_client.invoke([HumanMessage(content=prompt)])
