@@ -51,6 +51,7 @@ class LLMService:
                 model_name=answer_cfg["model"],
                 temperature=answer_cfg["temperature"],
                 max_tokens=answer_cfg["max_tokens"],
+                streaming=True,
                 **client_kwargs
             )
         else:
@@ -164,22 +165,41 @@ class LLMService:
         for msg in chat_history or []:
             role = msg.get("role") if isinstance(msg, dict) else getattr(msg, "role", None)
             content = msg.get("content") if isinstance(msg, dict) else getattr(msg, "content", "")
+            
+            # Extract plain text from Gradio 6 list-based content structures
+            if isinstance(content, list):
+                parts = []
+                for p in content:
+                    if isinstance(p, str):
+                        parts.append(p)
+                    elif isinstance(p, dict) and "text" in p:
+                        parts.append(p["text"])
+                    elif hasattr(p, "text"):
+                        parts.append(p.text)
+                content = " ".join(parts)
+                
             if role and content:
-                normalized.append({"role": role, "content": content})
+                normalized.append({"role": role, "content": str(content)})
         return normalized
 
     def _format_context(self, citations: List[Dict[str, Any]]) -> str:
         """Renders retrieved chunks into the numbered citation blocks the prompt expects."""
-        return "".join(
-            prompts.render(
-                "answer", "citation_block", variant=self.answer_variant,
-                index=idx,
-                source=cite.get("source_file", "Unknown"),
-                page=cite.get("page_number", "N/A"),
-                snippet=cite.get("text_snippet", "").strip()
+        formatted_blocks = []
+        for idx, cite in enumerate(citations, start=1):
+            snippet_text = cite.get("text_snippet", "").strip()
+            # Cap snippet to max 1500 characters (~350-400 words) for fast LLM TTFT
+            if len(snippet_text) > 1500:
+                snippet_text = snippet_text[:1500] + "..."
+            formatted_blocks.append(
+                prompts.render(
+                    "answer", "citation_block", variant=self.answer_variant,
+                    index=idx,
+                    source=cite.get("source_file", "Unknown"),
+                    page=cite.get("page_number", "N/A"),
+                    snippet=snippet_text
+                )
             )
-            for idx, cite in enumerate(citations, start=1)
-        )
+        return "".join(formatted_blocks)
 
     def _build_messages(
         self,
@@ -210,10 +230,8 @@ class LLMService:
 
     def rewrite_query(self, query: str, chat_history: Optional[List[Any]] = None) -> str:
         """
-        Uses a local model (falling back to OpenRouter or Gemini if configured) to check the query for clarity, 
-        resolve history references, and generate a search-friendly query. 
-        
-        If the query is ambiguous, it returns 'CLARIFICATION_REQUIRED: <question>'.
+        Uses an LLM (Groq first for speed, falling back to Gemini / HF / Local / GitHub / OpenRouter)
+        to check the query for clarity, resolve history references, and generate a search-friendly query.
         """
         # Format history if present, otherwise pass an empty placeholder
         history_text = ""
@@ -230,47 +248,35 @@ class LLMService:
             history=history_text, query=query
         )
 
-        import time
-        # 1. Fall back to Gemini Flash first (Prioritized online rewriter)
+        # 1. Primary Rewriter: Groq (Ultra-fast, < 300ms, active API key)
+        if self.client is not None:
+            try:
+                response = self.client.invoke([HumanMessage(content=prompt)])
+                rewritten = response.content.strip()
+                logger.info(f"Groq query analysis for '{query}' returned: '{rewritten}'")
+                return rewritten
+            except Exception as e:
+                logger.warning(f"Failed to analyze query with Groq: {e}. Falling back to Gemini/HF.")
+
+        # 2. Fall back to Gemini Flash first (with 3s timeout)
         if self.gemini_client is not None:
             try:
-                response = self.gemini_client.invoke([HumanMessage(content=prompt)])
+                response = self.gemini_client.invoke([HumanMessage(content=prompt)], config={"timeout": 3.0})
                 rewritten = response.content.strip()
                 logger.info(f"Gemini query analysis for '{query}' returned: '{rewritten}'")
                 return rewritten
             except Exception as e:
-                # If we hit a rate limit (status code 429), pause for 5 seconds and retry once
-                if "429" in str(e):
-                    logger.warning(f"Gemini rate limit hit. Sleeping for 5s before retrying...")
-                    time.sleep(5)
-                    try:
-                        response = self.gemini_client.invoke([HumanMessage(content=prompt)])
-                        rewritten = response.content.strip()
-                        return rewritten
-                    except Exception as retry_err:
-                        logger.warning(f"Gemini retry failed: {retry_err}. Falling back to HF/Local/GitHub.")
-                else:
-                    logger.warning(f"Failed to analyze query with Gemini: {e}. Falling back to HF/Local/GitHub.")
+                logger.warning(f"Failed to analyze query with Gemini: {e}. Falling back to HF/Local/GitHub.")
 
-        # 2. Fall back to Hugging Face Serverless Inference API (Completely Uncapped Daily)
+        # 3. Fall back to Hugging Face Serverless Inference API (with 3s timeout)
         if self.hf_client is not None:
             try:
-                response = self.hf_client.invoke([HumanMessage(content=prompt)])
+                response = self.hf_client.invoke([HumanMessage(content=prompt)], config={"timeout": 3.0})
                 rewritten = response.content.strip()
                 logger.info(f"Hugging Face Serverless query analysis for '{query}' returned: '{rewritten}'")
                 return rewritten
             except Exception as e:
-                if "429" in str(e) or "503" in str(e):
-                    logger.warning(f"HF Serverless busy/rate-limited. Sleeping 5s before retry...")
-                    time.sleep(5)
-                    try:
-                        response = self.hf_client.invoke([HumanMessage(content=prompt)])
-                        rewritten = response.content.strip()
-                        return rewritten
-                    except Exception as retry_err:
-                        logger.warning(f"HF Serverless retry failed: {retry_err}. Falling back to Local/GitHub.")
-                else:
-                    logger.warning(f"Failed to analyze query with Hugging Face Serverless: {e}. Falling back to Local/GitHub.")
+                logger.warning(f"Failed to analyze query with Hugging Face Serverless: {e}. Falling back to Local/GitHub.")
 
         # 3. Prioritize Local GGUF Rewriter (Offline, avoids API rate limits completely)
         if self._local_rewriter is not None:
@@ -415,3 +421,55 @@ class LLMService:
         except Exception as e:
             logger.error(f"Error generating answer: {e}")
             return "An error occurred while generating the response."
+
+# ---------------------------------------------------------------------------
+# Conversational retrieval: give the SEARCH query its missing topic.
+# ---------------------------------------------------------------------------
+
+def build_search_query(
+    query: str,
+    chat_history: Optional[List[Any]] = None,
+    rewritten: Optional[str] = None,
+    max_turns: int = 2,
+    max_chars: int = 400,
+) -> str:
+    """Returns the string that should be sent to retrieval (NOT to the LLM).
+
+    Follow-up questions carry their topic in a pronoun -- "how do I use
+    cross-validation to detect and prevent it?" -- so the bare query has
+    nothing for dense or sparse search to match on. The topic word almost
+    always sits in the previous assistant turn.
+
+    Order of preference:
+      1. The rewriter's output, when it actually rewrote something. A model
+         that resolved the referent produces a better standalone query than
+         concatenation does.
+      2. Otherwise the last `max_turns` messages prepended to the query. This
+         is the deterministic fallback for when no rewriter is configured, the
+         provider is rate-limited, or the call failed -- all of which currently
+         make rewrite_query() hand back the raw pronoun query untouched.
+      3. The raw query, when there is no history to draw on.
+
+    Measured on the multi_turn slice of the golden set (n=22), retrieval only,
+    no rewriter available:
+        baseline        r@3 0.00   r@10 0.00   MRR 0.019
+        history concat  r@3 0.05   r@10 0.18   MRR 0.052
+
+    Known gap: this helps follow-ups and hurts topic switches ("never mind,
+    what is a p-value?"), because the old topic gets dragged into the query.
+    The golden set contains no topic-switch cases, so that cost is unmeasured.
+    Gate on a follow-up signal (short query, pronoun present, no standalone
+    topic noun) before treating this as free.
+    """
+    query = (query or "").strip()
+    if rewritten and rewritten.strip() and rewritten.strip() != query:
+        return rewritten.strip()
+
+    turns = LLMService._format_history(chat_history)[-max_turns:]
+    if not turns:
+        return query
+
+    context = " ".join(m["content"] for m in turns).strip()
+    if len(context) > max_chars:
+        context = context[-max_chars:]
+    return f"{context} {query}".strip()

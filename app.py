@@ -16,7 +16,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), 'backend
 sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 
 from backend.core.vector_store import VectorDBManager
-from backend.core.llm_service import LLMService
+from backend.core.llm_service import LLMService, build_search_query
 from backend.core.reranker import ReRanker
 
 # Configure logging
@@ -44,55 +44,172 @@ logger.info("Models warmed -- ready to serve requests.")
 
 def get_document_list():
     """
-    Tag filter for the corpus. Reads distinct tags from the indexed answers.
-
-    Note: this scrolls the whole collection, which is fine at a few thousand
-    documents but should become a Qdrant facet query once the corpus is large.
+    Returns a predefined list of the most common Cross Validated tags
+    to avoid scrolling a 218k-document collection over the network.
     """
-    try:
-        chunks = vector_db.get_all_chunks()
-        tags = set()
-        for chunk in chunks:
-            for tag in (chunk.get("metadata", {}).get("tags") or []):
-                tags.add(tag)
-        return ["🔍 All Topics"] + sorted(tags)
-    except Exception as e:
-        logger.error(f"Error fetching tag list: {e}")
-        return ["🔍 All Topics"]
+    common_tags = [
+        "machine-learning",
+        "regression",
+        "time-series",
+        "probability",
+        "hypothesis-testing",
+        "bayesian",
+        "distributions",
+        "self-study",
+        "neural-networks",
+        "classification",
+        "clustering",
+        "anova"
+    ]
+    return ["🔍 All Topics"] + sorted(common_tags)
+
 
 
 # NOTE: PDF upload has been removed.
 # The corpus is now the Stack Exchange dump, loaded offline by
 # `backend/scripts/parse_dump.py` -> `backend/scripts/seed_corpus.py`.
 # Ingestion is deliberately NOT a runtime path: it is a one-off batch job run
-# locally, so a Space restart never re-embeds the corpus.
+# locally, so a Space restart never re-embeds the corpus
+
+def get_message_role_and_content(msg):
+    """Safely extracts role and content regardless of Gradio version (dict, ChatMessage, or list/tuple)."""
+    if isinstance(msg, dict):
+        return msg.get("role"), msg.get("content")
+    if hasattr(msg, "role") and hasattr(msg, "content"):
+        return msg.role, msg.content
+    if isinstance(msg, (list, tuple)) and len(msg) >= 2:
+        if msg[0] is not None:
+            return "user", msg[0]
+        return "assistant", msg[1]
+    return None, None
+
+
+def set_message_content(msg, content):
+    """Safely sets the content of a message slot in-place."""
+    if isinstance(msg, dict):
+        msg["content"] = content
+    elif hasattr(msg, "content"):
+        msg.content = content
+    elif isinstance(msg, list) and len(msg) >= 2:
+        msg[1] = content
+    return msg
+
+
+def add_user_message(user_message, history):
+    """Instantly appends the user's query to the chatbot UI and clears the input box."""
+    if not user_message or not user_message.strip():
+        return history, ""
+    
+    is_dict_format = hasattr(gr, "ChatMessage")
+    if is_dict_format:
+        if history and isinstance(history[0], dict):
+            history = history + [{"role": "user", "content": user_message}]
+        else:
+            history = history + [gr.ChatMessage(role="user", content=user_message)]
+    else:
+        history = history + [[user_message, None]]
+    return history, ""
+
+
+def get_text_content(content) -> str:
+    """Helper to extract string content from potentially list-based Gradio 6 multi-modal messages."""
+    if isinstance(content, str):
+        return content
+    if isinstance(content, list):
+        parts = []
+        for p in content:
+            if isinstance(p, str):
+                parts.append(p)
+            elif isinstance(p, dict) and "text" in p:
+                parts.append(p["text"])
+            elif hasattr(p, "text"):
+                parts.append(p.text)
+        return " ".join(parts)
+    return str(content)
+
+
+def needs_query_rewrite(query: str, chat_history: list) -> bool:
+    """
+    Heuristic check to determine if a query requires LLM-based re-writing.
+    Only returns True if chat history exists AND the query contains pronouns
+    or ambiguous referents, or is an ultra-short follow-up (< 4 words).
+    """
+    if not chat_history:
+        return False
+    
+    query_lower = query.lower().strip()
+    words = query_lower.split()
+    
+    if len(words) <= 3:
+        return True
+        
+    referential_terms = {
+        "it", "its", "they", "them", "their", "this", "that", "these", "those",
+        "former", "latter", "the same", "he", "him", "his", "she", "her", "hers"
+    }
+    
+    return any(term in words for term in referential_terms)
+
 
 @spaces.GPU
-def chat_stream(user_message, history, selected_doc):
-    """Processes user query through Query Rewriting, Dual Retrieval (Dense + Sparse), RRF Fusion, Cross-Encoder Re-Ranking, and LLM Streaming."""
-    if not user_message or not user_message.strip():
-        yield history, ""
+def chat_stream(history, selected_doc):
+    """Processes the last message in history through RAG and streams the answer."""
+    import time
+    start_time = time.time()
+    
+    if not history:
+        yield history
         return
 
-    # Convert Gradio chat history format to standard dictionary list
+    # Get the last user message from history
+    is_dict_format = hasattr(gr, "ChatMessage")
+    role, user_message_raw = get_message_role_and_content(history[-1])
+    user_message = get_text_content(user_message_raw)
+
+    # Convert Gradio chat history format (excluding the last user message) to standard dictionary list
     chat_history_dicts = []
-    for user_msg, bot_msg in history:
-        if user_msg:
-            chat_history_dicts.append({"role": "user", "content": user_msg})
-        if bot_msg:
-            chat_history_dicts.append({"role": "assistant", "content": bot_msg})
+    for msg in history[:-1]:
+        r, c = get_message_role_and_content(msg)
+        if r and c:
+            chat_history_dicts.append({"role": r, "content": get_text_content(c)})
 
-    # Step 1: Rewrite Query if chat history exists
-    rewritten_query = llm_service.rewrite_query(user_message, chat_history_dicts)
+    # Append the assistant message slot FIRST to give immediate UI feedback
+    if is_dict_format:
+        if history and isinstance(history[0], dict):
+            history = history + [{"role": "assistant", "content": "*(Thinking & searching documents...)*"}]
+        else:
+            history = history + [gr.ChatMessage(role="assistant", content="*(Thinking & searching documents...)*")]
+    else:
+        if isinstance(history[-1], list):
+            history[-1][1] = "*(Thinking & searching documents...)*"
+        else:
+            history = history + [[None, "*(Thinking & searching documents...)*"]]
+            
+    yield list(history)
 
-    CANDIDATE_K = 15
+    # Step 1: Rewrite Query ONLY if history exists and query contains referential pronouns or is ultra-short
+    if needs_query_rewrite(user_message, chat_history_dicts):
+        rewritten_query = llm_service.rewrite_query(user_message, chat_history_dicts)
+    else:
+        # Standalone questions skip external LLM rewriter calls to eliminate latency
+        rewritten_query = user_message
+
+    # Step 2: Build the SEARCH query. Falls back to concatenating the last two
+    # conversation turns when the rewriter did nothing -- a follow-up like
+    # "how do I prevent it?" is unsearchable on its own. See build_search_query.
+    search_query = build_search_query(user_message, chat_history_dicts, rewritten_query)
+
+    # Candidate pool tuned to 10 for low-latency interactive chat
+    CANDIDATE_K = 10
     filter_source = None if selected_doc in ["🔍 All Topics", None] else selected_doc
 
     # Stage 1: Native Hybrid Search via Qdrant RRF Fusion
-    fused_candidates = vector_db.search_hybrid(query=rewritten_query, n_results=CANDIDATE_K, source_file=filter_source)
+    fused_candidates = vector_db.search_hybrid(query=search_query, n_results=CANDIDATE_K, source_file=filter_source)
 
-    # Stage 2: Cross-Encoder Re-Ranking
-    reranked_results = reranker.rerank(query=rewritten_query, chunks=fused_candidates, top_k=3)
+    # Stage 2: Cross-Encoder Re-Ranking. Scored against what the user actually
+    # typed, not the history-padded search string -- the padding is there to
+    # find candidates, and it would otherwise skew relevance toward the old turn.
+    reranked_results = reranker.rerank(query=user_message, chunks=fused_candidates, top_k=3)
 
     # Format citations. Stack Exchange answers have no page numbers, so a citation
     # is the question title plus the vote score and accepted flag.
@@ -109,33 +226,51 @@ def chat_stream(user_message, history, selected_doc):
         } for res in reranked_results
     ]
 
-    history = history + [[user_message, ""]]
     full_text = ""
 
     try:
+        # Stream answer text with ~50ms batch throttling to prevent Gradio UI queue backpressure
+        last_yield_time = time.time()
         for token in llm_service.stream_answer_sync(query=user_message, citations=citations_list, chat_history=chat_history_dicts):
             full_text += token
+            now = time.time()
+            if now - last_yield_time > 0.05:
+                history[-1] = set_message_content(history[-1], full_text)
+                yield list(history)
+                last_yield_time = now
             
-            # Format text + citations if relevant
-            not_found = "do not have enough information" in full_text.lower() or not citations_list
-            display_text = full_text
-            if citations_list and not not_found:
-                display_text += "\n\n---\n### 📚 Sources\n"
-                for i, cite in enumerate(citations_list, 1):
-                    badge = " ✅ accepted" if cite.get("is_accepted") else ""
-                    title = f"[{cite['source_file']}]({cite['url']})" if cite.get("url") else cite["source_file"]
-                    display_text += (
-                        f"**{i}. {title}** — {cite.get('score', 0)} votes{badge}\n"
-                        # Snippet capped: enough to verify the answer, not a reproduction
-                        f"> {cite['text_snippet'][:300]}...\n\n"
-                    )
+        history[-1] = set_message_content(history[-1], full_text)
+        yield list(history)
+            
+        # -------------------------------------------------------------------
+        # Append Citations & Latency Footer (Done ONLY ONCE at the end)
+        # -------------------------------------------------------------------
+        display_text = full_text
+        not_found = "do not have enough information" in full_text.lower() or not citations_list
+        if citations_list and not not_found:
+            display_text += "\n\n---\n### 📚 Sources\n"
+            for i, cite in enumerate(citations_list, 1):
+                badge = " ✅ accepted" if cite.get("is_accepted") else ""
+                title = f"[{cite['source_file']}]({cite['url']})" if cite.get("url") else cite["source_file"]
+                display_text += (
+                    f"**{i}. {title}** — {cite.get('score', 0)} votes{badge}\n"
+                    # Snippet capped: enough to verify the answer, not a reproduction
+                    f"> {cite['text_snippet'][:300]}...\n\n"
+                )
 
-            history[-1][1] = display_text
-            yield history, ""
+        # Append latency footer
+        latency = time.time() - start_time
+        display_text += f"\n*(⏱️ Generated in {latency:.1f}s)*"
+        
+        # Final UI update
+        history[-1] = set_message_content(history[-1], display_text)
+        yield list(history)
+        
     except Exception as e:
         logger.error(f"Error during streaming answer: {e}")
-        history[-1][1] = full_text + f"\n\n[An error occurred: {str(e)}]"
-        yield history, ""
+        error_msg = full_text + f"\n\n[An error occurred: {str(e)}]"
+        history[-1] = set_message_content(history[-1], error_msg)
+        yield list(history)
 
 # Custom CSS Theme & Glassmorphism Styling
 custom_css = """
@@ -194,7 +329,13 @@ with gr.Blocks(title="⚡ Portfolio RAG Assistant", css=custom_css, theme=gr.the
             chatbot = gr.Chatbot(
                 label="Conversational AI Assistant",
                 height=520,
-                avatar_images=(None, "https://api.dicebear.com/7.x/bottts/svg?seed=PortfolioRAG")
+                avatar_images=(None, "https://api.dicebear.com/7.x/bottts/svg?seed=PortfolioRAG"),
+                latex_delimiters=[
+                    {"left": "$$", "right": "$$", "display": True},
+                    {"left": "$", "right": "$", "display": False},
+                    {"left": "\\(", "right": "\\)", "display": False},
+                    {"left": "\\[", "right": "\\]", "display": True}
+                ]
             )
             with gr.Row():
                 msg_input = gr.Textbox(
@@ -212,16 +353,27 @@ with gr.Blocks(title="⚡ Portfolio RAG Assistant", css=custom_css, theme=gr.the
         outputs=[doc_dropdown]
     )
 
+    # Chain user message insertion -> bot response generation
     submit_btn.click(
+        fn=add_user_message,
+        inputs=[msg_input, chatbot],
+        outputs=[chatbot, msg_input],
+        queue=False
+    ).then(
         fn=chat_stream,
-        inputs=[msg_input, chatbot, doc_dropdown],
-        outputs=[chatbot, msg_input]
+        inputs=[chatbot, doc_dropdown],
+        outputs=[chatbot]
     )
 
     msg_input.submit(
+        fn=add_user_message,
+        inputs=[msg_input, chatbot],
+        outputs=[chatbot, msg_input],
+        queue=False
+    ).then(
         fn=chat_stream,
-        inputs=[msg_input, chatbot, doc_dropdown],
-        outputs=[chatbot, msg_input]
+        inputs=[chatbot, doc_dropdown],
+        outputs=[chatbot]
     )
 
     clear_btn.click(fn=lambda: ([], ""), outputs=[chatbot, msg_input])

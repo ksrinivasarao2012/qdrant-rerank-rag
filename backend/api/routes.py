@@ -5,7 +5,7 @@ import json
 
 from backend.schemas.pydantic_models import QueryRequest
 from backend.core.vector_store import VectorDBManager
-from backend.core.llm_service import LLMService
+from backend.core.llm_service import LLMService, build_search_query
 from backend.core.reranker import ReRanker
 
 
@@ -43,17 +43,26 @@ async def query_rag(payload: QueryRequest):
     
     # Step 1: Rewrite Query (if chat history exists)
     rewritten_query = llm_service.rewrite_query(payload.query, payload.chat_history)
-    
+
+    # Step 2: Build the SEARCH query. Falls back to concatenating the last two
+    # conversation turns when the rewriter did nothing -- a follow-up like
+    # "how do I prevent it?" is unsearchable on its own. See build_search_query.
+    search_query = build_search_query(payload.query, payload.chat_history, rewritten_query)
+    logger.info(f"Search query: '{search_query}'")
+
     CANDIDATE_K = 15
-    
+
     # Stage 1: Native Hybrid Search (Dense + Sparse) fused with RRF directly inside Qdrant
-    fused_candidates = vector_db.search_hybrid(query=rewritten_query, n_results=CANDIDATE_K, source_file=payload.source_file)
+    fused_candidates = vector_db.search_hybrid(query=search_query, n_results=CANDIDATE_K, source_file=payload.source_file)
     logger.info(f"Stage 1 (Hybrid Search): Retrieved and fused {len(fused_candidates)} candidate chunks from Qdrant")
 
     # Stage 2: Cross-Encoder Re-Ranking
+    # Scored against what the user actually typed, not the history-padded
+    # search string -- the padding exists to find candidates, and would
+    # otherwise skew relevance toward the previous turn.
     reranked_results = reranker.rerank(
-        query = rewritten_query, 
-        chunks = fused_candidates, 
+        query = payload.query,
+        chunks = fused_candidates,
         top_k = payload.top_k
     )
     logger.info(f"Stage 2 (Cross-Encoder): Re-ranked candidates down to top {len(reranked_results)} results")

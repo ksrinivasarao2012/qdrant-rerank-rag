@@ -258,11 +258,16 @@ class VectorDBManager:
     def search_hybrid(self, query: str, n_results: int = 3, source_file: str = None) -> List[Dict[str, Any]]:
         """
         Performs hybrid search (dense + sparse) fused with RRF directly inside Qdrant.
+        Dense embedding and sparse encoding are executed concurrently for low latency.
         """
         logger.info(f"Performing native hybrid search query: '{query}' (limit={n_results})")
         try:
-            query_vector = self.embedding.embed_query(query)
-            sparse_query = sparse_generator.to_qdrant_sparse(query)
+            from concurrent.futures import ThreadPoolExecutor
+            with ThreadPoolExecutor(max_workers=2) as executor:
+                f_dense = executor.submit(self.embedding.embed_query, query)
+                f_sparse = executor.submit(sparse_generator.to_qdrant_sparse, query)
+                query_vector = f_dense.result()
+                sparse_query = f_sparse.result()
             
             # Request prefetching of dense and sparse vectors, then fuse them using RRF
             results = self.client.query_points(

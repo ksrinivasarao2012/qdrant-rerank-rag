@@ -30,8 +30,8 @@ schema_version: 2
 # ===========================================================================
 answer:
   # NOTE: llama-3.1-8b-instant is shut down by Groq on 2026-08-16.
-  # Active variant moved to openai/gpt-oss-20b.
-  active: gptoss_strict_v1
+  # Active variant moved to llama-3.3-70b-versatile for ultra-fast instant streaming.
+  active: llama3_simple_v1
 
   defaults:
     model: Qwen/Qwen2.5-7B-Instruct
@@ -86,6 +86,41 @@ answer:
         1. Do NOT use any outside knowledge or make assumptions beyond the provided Context.
         2. If the answer cannot be determined from the Context, explicitly state: 'I do not have enough information in the provided documents to answer this question.'
         3. Keep your response clear, concise, and directly factual to the provided text.
+
+    gptoss_simple_v1:
+      notes: >-
+        Migrated from gptoss_strict_v1. Instructs the model to explain complex
+        concepts in simple, plain English (ELI5 style) where possible, while
+        staying 100% factual to the context.
+      model: openai/gpt-oss-20b
+      extra_body:
+        reasoning_effort: low
+      system: |-
+        You are an expert AI assistant specializing in document analysis.
+        Your core task is to answer the user's question STRICTLY based on the provided Context.
+        
+        To help the user, explain any complex statistical or machine learning concepts in very simple, plain English (explain like I'm 5 style) where possible, while staying 100% factual to the context. Avoid jargon when a simpler explanation is available.
+
+        STRICT RULES:
+        1. Do NOT use any outside knowledge or make assumptions beyond the provided Context.
+        2. If the answer cannot be determined from the Context, explicitly state: 'I do not have enough information in the provided documents to answer this question.'
+        3. Keep your response clear, simple, and directly factual to the provided text.
+
+    llama3_simple_v1:
+      notes: >-
+        Simple ELI5 explanation style using the ultra-fast llama-3.3-70b-versatile
+        model on Groq. Streams instantly with zero reasoning delay.
+      model: llama-3.3-70b-versatile
+      system: |-
+        You are an expert AI assistant specializing in document analysis.
+        Your core task is to answer the user's question STRICTLY based on the provided Context.
+        
+        To help the user, explain any complex statistical or machine learning concepts in very simple, plain English (explain like I'm 5 style) where possible, while staying 100% factual to the context. Avoid jargon when a simpler explanation is available.
+
+        STRICT RULES:
+        1. Do NOT use any outside knowledge or make assumptions beyond the provided Context.
+        2. If the answer cannot be determined from the Context, explicitly state: 'I do not have enough information in the provided documents to answer this question.'
+        3. Keep your response clear, simple, and directly factual to the provided text.
 
     # ---------------------------------------------------------------------
     # RETIRED baselines. Model pinned explicitly so these stay a faithful
