@@ -187,9 +187,9 @@ query_rewrite:
         Analyze the following conversation history and the follow-up question.
         
         Task:
-        1. If the follow-up question is too vague, ambiguous, or completely lacks context to perform a meaningful search (e.g. just saying "explain it", "why", "choose k" without context), output EXACTLY:
+        1. Only if the follow-up question is extremely vague, ambiguous, or completely lacks context to perform a search (for example, just saying "explain it", "why?", "tell me more", or "choose k" without any actual topic), output EXACTLY:
            CLARIFICATION_REQUIRED: <A short, friendly question asking the user to clarify or rewrite their question>
-        2. Otherwise, rewrite the follow-up question into a standalone, self-contained search query. Append common data science synonyms or mathematical terms that will help a search engine find the answer.
+        2. If the question contains specific keywords, techniques, or topics (e.g. "missing data", "normality", "dimensionality reduction", "regression", etc.), it has plenty of context. Do NOT ask for clarification. Instead, rewrite it into a clean, standalone, self-contained search query. Append common data science synonyms or mathematical terms that will help a search engine find the answer.
         
         Do NOT answer the question. Output ONLY the standalone query or the clarification prefix on a single line.
 
