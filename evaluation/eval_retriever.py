@@ -56,6 +56,7 @@ from backend.core.vector_store import VectorDBManager
 from backend.core.reranker import ReRanker
 
 GOLDEN_JSON_PATH = PROJECT_ROOT / "evaluation" / "golden_dataset.json"
+POSTS_JSONL_PATH = PROJECT_ROOT / "data" / "processed" / "posts.jsonl"
 RESULTS_DIR = PROJECT_ROOT / "evaluation" / "results"
 
 DEFAULT_TOP_KS = [3, 5, 10]
@@ -106,6 +107,40 @@ def load_cases(path: Path):
         return json.load(f)
 
 
+def gold_question_ids(cases) -> dict:
+    """Maps every gold answer_id in the eval set to its question_id, by
+    streaming posts.jsonl once.
+
+    Needed for question-level recall (see evaluate()). A manual audit of 32
+    cases found that ~70% of apparent retrieval "misses" were the retriever
+    returning a *different answer to the same question*, or a different
+    thread on the same topic -- the single hand-picked gold answer_id in
+    golden_dataset.json understates real retrieval quality. Answer-level
+    recall stays the strict headline metric; this adds the thread-level one
+    beside it rather than replacing it.
+    """
+    needed = {int(a) for c in cases for a in c.get("gold_answer_ids", [])}
+    lookup, remaining = {}, set(needed)
+    if not remaining or not POSTS_JSONL_PATH.exists():
+        if not POSTS_JSONL_PATH.exists():
+            print(f"Warning: {POSTS_JSONL_PATH.name} not found -- question-level "
+                  f"recall will be reported as 0. Answer-level metrics are unaffected.")
+        return lookup
+    with open(POSTS_JSONL_PATH, "r", encoding="utf-8") as f:
+        for line in f:
+            if not remaining:
+                break
+            post = json.loads(line)
+            aid = post["answer_id"]
+            if aid in remaining:
+                lookup[str(aid)] = str(post["question_id"])
+                remaining.discard(aid)
+    if remaining:
+        print(f"Warning: {len(remaining)} gold answer_ids not found in "
+              f"{POSTS_JSONL_PATH.name}; their question-level recall will read 0.")
+    return lookup
+
+
 def queries_for_case(case: dict):
     """Returns a list of (query_text, sub_label) pairs to evaluate for this
     case. Paraphrase groups test every variant separately (so we can see if
@@ -145,14 +180,18 @@ def ranked_answer_ids(db_manager, reranker, method: str, query: str, pool: int, 
     else:
         ordered = hits  # raw retrieval order (already ranked by the method's own scoring)
 
-    ranked_ids = []
+    ranked_ids, ranked_qids = [], []
     seen = set()
     for chunk in ordered:
-        aid = str(chunk["metadata"].get("answer_id"))
+        meta = chunk["metadata"]
+        aid = str(meta.get("answer_id"))
         if aid and aid not in seen:
             seen.add(aid)
             ranked_ids.append(aid)
-    return ranked_ids
+            # Parallel list, same rank order: ranked_qids[i] is the thread
+            # ranked_ids[i] belongs to. Used for question-level recall.
+            ranked_qids.append(str(meta.get("question_id")))
+    return ranked_ids, ranked_qids
 
 
 def reciprocal_rank(ranked_ids, gold_ids: set) -> float:
@@ -179,6 +218,9 @@ def evaluate():
           + (f" reranker_model={args.reranker_model}" if not args.no_rerank else ""))
     print(f"Loaded {len(cases)} cases ({len(evaluable)} evaluable, "
           f"{skipped} skipped -- no gold_answer_ids, e.g. adversarial/out_of_scope).")
+
+    print("Mapping gold answer_ids to their question_ids (for question-level recall)...")
+    gold_qid_lookup = gold_question_ids(evaluable)
 
     print(f"Connecting to Qdrant ({'local' if args.local else 'cloud/.env'})...")
     db_manager = VectorDBManager(force_local=args.local)
@@ -214,14 +256,21 @@ def evaluate():
     for case, query_text, sub_label in pbar:
         gold_ids = set(case["gold_answer_ids"])
         negative_ids = set(case.get("negative_answer_ids", []))
+        gold_qids = {gold_qid_lookup[a] for a in gold_ids if a in gold_qid_lookup}
         search_query = query_text
         if llm_service is not None:
             try:
-                search_query = llm_service.rewrite_query(query_text)
+                # chat_history matters: multi_turn queries are follow-ups whose
+                # topic lives entirely in the pronoun ("prevent it", "test for
+                # it"). Without the history the rewriter is asked to resolve a
+                # referent it was never shown, so those cases could never pass.
+                search_query = llm_service.rewrite_query(query_text, case.get("chat_history"))
             except Exception as e:
                 print(f"  [{case['query_id']}] rewrite failed ({e}); using raw query")
 
-        ranked = ranked_answer_ids(db_manager, reranker, args.method, search_query, pool, not args.no_rerank)
+        ranked, ranked_qids = ranked_answer_ids(
+            db_manager, reranker, args.method, search_query, pool, not args.no_rerank
+        )
         row = {
             "query_id": case["query_id"],
             "sub_label": sub_label,
@@ -230,11 +279,17 @@ def evaluate():
             "search_query": search_query,
             "mrr": reciprocal_rank(ranked, gold_ids),
             "hit_at": {},
+            "hit_q_at": {},
             "precision_at": {},
+            # Saved so follow-up analysis (which posts actually came back, and
+            # were they reasonable?) does not require re-running the whole eval.
+            "ranked_top10": ranked[:10],
+            "ranked_top10_qids": ranked_qids[:10],
         }
         for k in top_ks:
             top_k_ids = set(ranked[:k])
             row["hit_at"][k] = bool(gold_ids & top_k_ids)
+            row["hit_q_at"][k] = bool(gold_qids & set(ranked_qids[:k]))
             row["precision_at"][k] = len(gold_ids & top_k_ids) / k
         if negative_ids:
             row["distractor_in_top_k"] = {
@@ -257,6 +312,7 @@ def print_summary(rows, top_ks, tag):
         out = {"n": n, "mrr": sum(r["mrr"] for r in subset) / n}
         for k in top_ks:
             out[f"recall@{k}"] = sum(1 for r in subset if r["hit_at"][k]) / n
+            out[f"qrecall@{k}"] = sum(1 for r in subset if r.get("hit_q_at", {}).get(k)) / n
             out[f"precision@{k}"] = sum(r["precision_at"][k] for r in subset) / n
         return out
 
@@ -264,7 +320,10 @@ def print_summary(rows, top_ks, tag):
     overall = agg(rows)
     print(f"  n={overall['n']}  MRR={overall['mrr']:.3f}")
     for k in top_ks:
-        print(f"  recall@{k}={overall[f'recall@{k}']:.3f}  precision@{k}={overall[f'precision@{k}']:.3f}")
+        print(f"  recall@{k}={overall[f'recall@{k}']:.3f}  "
+              f"qrecall@{k}={overall[f'qrecall@{k}']:.3f}  "
+              f"precision@{k}={overall[f'precision@{k}']:.3f}")
+    print("  (qrecall = gold answer's THREAD retrieved, vs recall = that exact answer)")
 
     print("\n=== BY CATEGORY ===")
     by_cat = defaultdict(list)
@@ -272,7 +331,9 @@ def print_summary(rows, top_ks, tag):
         by_cat[r["category"]].append(r)
     for cat in sorted(by_cat):
         stats = agg(by_cat[cat])
-        recall_str = "  ".join(f"recall@{k}={stats[f'recall@{k}']:.2f}" for k in top_ks)
+        recall_str = "  ".join(
+            f"r@{k}={stats[f'recall@{k}']:.2f}/q{stats[f'qrecall@{k}']:.2f}" for k in top_ks
+        )
         print(f"  {cat:20s} n={stats['n']:3d}  MRR={stats['mrr']:.3f}  {recall_str}")
 
     negation_rows = [r for r in rows if "distractor_in_top_k" in r]

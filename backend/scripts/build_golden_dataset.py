@@ -217,121 +217,121 @@ def generate_paraphrases(gemini_client, base_query: str, n=3):
 NEGATION_CASES = [
     {
         "query": "How to test normality without using the Shapiro-Wilk test?",
-        "include": ["normality", "test"], "exclude": ["shapiro", "wilk"],
+        "include": ["normality", "test"],
         "distractor_include": ["shapiro", "wilk"],
         "tags": ["normality-test", "hypothesis-testing"],
     },
     {
         "query": "How do I handle missing data without deleting rows?",
-        "include": ["missing data"], "exclude": ["listwise deletion", "delete"],
+        "include": ["missing", "imputation"],
         "distractor_include": ["listwise deletion"],
         "tags": ["missing-data"],
     },
     {
         "query": "How to compare group means without assuming normal distribution?",
-        "include": ["kruskal-wallis"], "exclude": ["t-test"],
+        "include": ["kruskal"],
         "distractor_include": ["t-test"],
         "tags": ["nonparametric", "hypothesis-testing"],
     },
     {
         "query": "How to reduce dimensionality without using PCA?",
-        "include": ["dimensionality", "reduction"], "exclude": ["pca", "principal component"],
+        "include": ["autoencoder", "dimensionality"],
         "distractor_include": ["pca"],
         "tags": ["dimensionality-reduction"],
     },
     {
         "query": "How to select model features without stepwise regression?",
-        "include": ["feature selection"], "exclude": ["stepwise"],
+        "include": ["feature selection", "lasso"],
         "distractor_include": ["stepwise"],
         "tags": ["feature-selection", "regression"],
     },
     {
         "query": "How to forecast time series data without using ARIMA models?",
-        "include": ["time series", "forecast"], "exclude": ["arima"],
+        "include": ["exponential smoothing"],
         "distractor_include": ["arima"],
         "tags": ["time-series", "forecasting"],
     },
     {
         "query": "Clustering methods that do not require specifying the number of clusters k?",
-        "include": ["clustering"], "exclude": ["k-means", "kmeans"],
+        "include": ["clustering", "number of clusters"],
         "distractor_include": ["k-means"],
         "tags": ["clustering", "unsupervised-learning"],
     },
     {
         "query": "Goodness of fit tests excluding Kolmogorov-Smirnov?",
-        "include": ["goodness of fit"], "exclude": ["kolmogorov", "smirnov"],
+        "include": ["goodness of fit"],
         "distractor_include": ["kolmogorov"],
         "tags": ["goodness-of-fit", "hypothesis-testing"],
     },
     {
         "query": "How is parameter uncertainty estimated without bootstrapping?",
-        "include": ["uncertainty", "estimation"], "exclude": ["bootstrap"],
+        "include": ["delta method"],
         "distractor_include": ["bootstrap"],
         "tags": ["resampling", "bootstrap"],
     },
     {
         "query": "Nonparametric correlation coefficients other than Pearson correlation?",
-        "include": ["correlation"], "exclude": ["pearson"],
+        "include": ["spearman"],
         "distractor_include": ["pearson"],
         "tags": ["correlation", "nonparametric"],
     },
     {
         "query": "Information theory metric for correlation without using mutual information?",
-        "include": ["transfer entropy"], "exclude": ["mutual information"],
+        "include": ["transfer entropy"],
         "distractor_include": ["mutual information"],
         "tags": ["information-theory", "entropy"],
     },
     {
         "query": "Ensemble prediction combining models without stacking or voting?",
-        "include": ["ensemble"], "exclude": ["stacking", "voting"],
+        "include": ["bagging", "boosting"],
         "distractor_include": ["stacking"],
         "tags": ["ensemble-learning"],
     },
     {
         "query": "Outlier detection method that doesn't use Isolation Forests?",
-        "include": ["outlier", "anomaly"], "exclude": ["isolation forest"],
+        "include": ["outlier", "detection"],
         "distractor_include": ["isolation forest"],
         "tags": ["anomaly-detection"],
     },
     {
         "query": "Non-linear dimensionality reduction excluding t-SNE?",
-        "include": ["isomap"], "exclude": ["t-sne"],
+        "include": ["isomap"],
         "distractor_include": ["t-sne"],
         "tags": ["dimensionality-reduction"],
     },
     {
         "query": "Bayesian model diagnostics without checking effective sample size?",
-        "include": ["bayesian", "diagnostics"], "exclude": ["effective sample"],
+        "include": ["posterior predictive"],
         "distractor_include": ["effective sample size"],
         "tags": ["bayesian-inference", "mcmc"],
     },
     {
         "query": "Fitting hierarchical models without random slopes?",
-        "include": ["random intercept"], "exclude": ["random slope"],
+        "include": ["random intercept"],
         "distractor_include": ["random slope"],
         "tags": ["mixed-models", "random-effects-model"],
     },
     {
         "query": "Deep learning sequence modeling without using LSTMs?",
-        "include": ["deep learning", "sequence"], "exclude": ["lstm"],
+        "include": ["gru"],
         "distractor_include": ["lstm"],
         "tags": ["deep-learning"],
     },
     {
         "query": "Non-parametric kernel density estimation without Gaussian kernels?",
-        "include": ["kernel density", "epanechnikov"], "exclude": [],
+        "include": ["epanechnikov"],
         "distractor_include": ["gaussian"],
         "tags": ["kernel-density", "kernel-smoothing"],
     },
     {
         "query": "Feature engineering category mapping without one-hot encoding?",
-        "include": ["categorical", "encoding"], "exclude": ["one-hot"],
+        "include": ["categorical", "encoding"],
         "distractor_include": ["one-hot"],
         "tags": ["feature-engineering"],
     },
     {
         "query": "Recommendation system algorithms excluding collaborative filtering?",
-        "include": ["recommendation"], "exclude": ["collaborative"],
+        "include": ["content based"],
         "distractor_include": ["collaborative filtering"],
         "tags": ["recommender-system"],
     },
@@ -1028,11 +1028,21 @@ ADVERSARIAL_QUERIES = [
 def build_negation_cases(posts):
     out = []
     for i, case in enumerate(NEGATION_CASES, start=1):
-        gold = find_posts_by_keywords(posts, case["include"], case["exclude"], limit=1)
+        # No exclude_words on the GOLD lookup, deliberately. The correct answer
+        # to "X without Y" nearly always discusses Y -- any good answer to
+        # "clustering without specifying k" talks about k-means -- so filtering
+        # gold candidates on the excluded term deleted exactly the right posts.
+        # neg_07 is the proof: the 46-vote "Clustering methods that do not
+        # require pre-specifying the number of clusters" was excluded by
+        # exclude=["k-means"], leaving "Is it important to scale data before
+        # clustering?" as gold. `include` now names the ALTERNATIVE the answer
+        # should be about; the excluded term is still exercised through
+        # distractor_include -> negative_answer_ids, which is what the
+        # distractor diagnostic actually measures.
+        gold = find_posts_by_keywords(posts, case["include"], limit=1)
         distractor = find_posts_by_keywords(posts, case["distractor_include"], limit=1)
         if not gold:
-            print(f"  [negation] SKIPPED neg_{i:02d}: no post matched include={case['include']} "
-                  f"exclude={case['exclude']}")
+            print(f"  [negation] SKIPPED neg_{i:02d}: no post matched include={case['include']}")
             continue
         gold_id = str(gold[0]["answer_id"])
         entry = {
@@ -1268,20 +1278,40 @@ def main():
     golden_dataset += niche
     used_ids |= collect_answer_ids(niche)
 
-    # Programmatic sampling categories can overlap each other (same post
-    # satisfying two predicates) -- exclude_ids prevents that, and also
-    # avoids re-using any post already claimed by a curated category above.
-    citation = build_citation_accuracy_cases(posts, exclude_ids=used_ids)
+    # Programmatic sampling categories can overlap EACH OTHER (the same post
+    # satisfying two predicates), so they still exclude one another -- but the
+    # chain now starts EMPTY rather than from the curated categories' ids.
+    #
+    # Why: reservoir_sample skips excluded ids as it streams, so the excluded
+    # set changes which records enter the reservoir. Seeding that set from the
+    # curated categories meant any change to a curated keyword list silently
+    # re-rolled all 150 standard/code/citation cases -- different questions,
+    # not just different gold answers -- despite RANDOM_SEED being fixed. That
+    # made two builds impossible to compare, which defeats the regression
+    # contract in plan.md E.4. Starting empty makes this sample a pure function
+    # of (corpus, seed).
+    #
+    # The cost is that a curated case and a sampled case can now collide on the
+    # same answer_id. With ~60 curated posts drawn from 93k that is rare, and
+    # it is reported below rather than silently prevented.
+    sampled_ids = set()
+
+    citation = build_citation_accuracy_cases(posts, exclude_ids=sampled_ids)
     golden_dataset += citation
-    used_ids |= collect_answer_ids(citation)
+    sampled_ids |= collect_answer_ids(citation)
 
-    code = build_code_traceback_cases(posts, exclude_ids=used_ids)
+    code = build_code_traceback_cases(posts, exclude_ids=sampled_ids)
     golden_dataset += code
-    used_ids |= collect_answer_ids(code)
+    sampled_ids |= collect_answer_ids(code)
 
-    standard = build_standard_cases(posts, exclude_ids=used_ids)
+    standard = build_standard_cases(posts, exclude_ids=sampled_ids)
     golden_dataset += standard
-    used_ids |= collect_answer_ids(standard)
+    sampled_ids |= collect_answer_ids(standard)
+
+    overlap = used_ids & sampled_ids
+    if overlap:
+        print(f"\nNote: {len(overlap)} answer_id(s) are used by both a curated and a "
+              f"sampled case: {sorted(overlap)[:10]}")
 
     GOLDEN_JSON_PATH.parent.mkdir(parents=True, exist_ok=True)
     with open(GOLDEN_JSON_PATH, "w", encoding="utf-8") as f:

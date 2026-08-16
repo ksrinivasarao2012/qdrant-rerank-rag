@@ -4,10 +4,10 @@
     "category": "negation",
     "query": "How to test normality without using the Shapiro-Wilk test?",
     "gold_answer_ids": [
-      "429"
+      "2501"
     ],
     "graded_relevance": {
-      "429": 3
+      "2501": 3
     },
     "tags": [
       "normality-test",
@@ -22,10 +22,10 @@
     "category": "negation",
     "query": "How do I handle missing data without deleting rows?",
     "gold_answer_ids": [
-      "10352"
+      "702"
     ],
     "graded_relevance": {
-      "10352": 3
+      "702": 3
     },
     "tags": [
       "missing-data"
@@ -57,10 +57,10 @@
     "category": "negation",
     "query": "How to reduce dimensionality without using PCA?",
     "gold_answer_ids": [
-      "325002"
+      "1269"
     ],
     "graded_relevance": {
-      "325002": 3
+      "1269": 3
     },
     "tags": [
       "dimensionality-reduction"
@@ -74,10 +74,10 @@
     "category": "negation",
     "query": "How to select model features without stepwise regression?",
     "gold_answer_ids": [
-      "213177"
+      "2307"
     ],
     "graded_relevance": {
-      "213177": 3
+      "2307": 3
     },
     "tags": [
       "feature-selection",
@@ -92,10 +92,10 @@
     "category": "negation",
     "query": "How to forecast time series data without using ARIMA models?",
     "gold_answer_ids": [
-      "4586"
+      "6172"
     ],
     "graded_relevance": {
-      "4586": 3
+      "6172": 3
     },
     "tags": [
       "time-series",
@@ -110,10 +110,10 @@
     "category": "negation",
     "query": "Clustering methods that do not require specifying the number of clusters k?",
     "gold_answer_ids": [
-      "9019"
+      "268"
     ],
     "graded_relevance": {
-      "9019": 3
+      "268": 3
     },
     "tags": [
       "clustering",
@@ -128,10 +128,10 @@
     "category": "negation",
     "query": "Goodness of fit tests excluding Kolmogorov-Smirnov?",
     "gold_answer_ids": [
-      "215"
+      "3246"
     ],
     "graded_relevance": {
-      "215": 3
+      "3246": 3
     },
     "tags": [
       "goodness-of-fit",
@@ -146,10 +146,10 @@
     "category": "negation",
     "query": "How is parameter uncertainty estimated without bootstrapping?",
     "gold_answer_ids": [
-      "21888"
+      "55048"
     ],
     "graded_relevance": {
-      "21888": 3
+      "55048": 3
     },
     "tags": [
       "resampling",
@@ -164,10 +164,10 @@
     "category": "negation",
     "query": "Nonparametric correlation coefficients other than Pearson correlation?",
     "gold_answer_ids": [
-      "1004"
+      "78"
     ],
     "graded_relevance": {
-      "1004": 3
+      "78": 3
     },
     "tags": [
       "correlation",
@@ -182,10 +182,10 @@
     "category": "negation",
     "query": "Information theory metric for correlation without using mutual information?",
     "gold_answer_ids": [
-      "14319"
+      "35412"
     ],
     "graded_relevance": {
-      "14319": 3
+      "35412": 3
     },
     "tags": [
       "information-theory",
@@ -200,10 +200,10 @@
     "category": "negation",
     "query": "Ensemble prediction combining models without stacking or voting?",
     "gold_answer_ids": [
-      "152698"
+      "47953"
     ],
     "graded_relevance": {
-      "152698": 3
+      "47953": 3
     },
     "tags": [
       "ensemble-learning"
@@ -217,10 +217,10 @@
     "category": "negation",
     "query": "Outlier detection method that doesn't use Isolation Forests?",
     "gold_answer_ids": [
-      "15260"
+      "347833"
     ],
     "graded_relevance": {
-      "15260": 3
+      "347833": 3
     },
     "tags": [
       "anomaly-detection"
@@ -251,10 +251,10 @@
     "category": "negation",
     "query": "Bayesian model diagnostics without checking effective sample size?",
     "gold_answer_ids": [
-      "7264"
+      "36316"
     ],
     "graded_relevance": {
-      "7264": 3
+      "36316": 3
     },
     "tags": [
       "bayesian-inference",
@@ -287,10 +287,10 @@
     "category": "negation",
     "query": "Deep learning sequence modeling without using LSTMs?",
     "gold_answer_ids": [
-      "93439"
+      "278735"
     ],
     "graded_relevance": {
-      "93439": 3
+      "278735": 3
     },
     "tags": [
       "deep-learning"
@@ -304,10 +304,10 @@
     "category": "negation",
     "query": "Non-parametric kernel density estimation without Gaussian kernels?",
     "gold_answer_ids": [
-      "6645"
+      "32567"
     ],
     "graded_relevance": {
-      "6645": 3
+      "32567": 3
     },
     "tags": [
       "kernel-density",
@@ -339,10 +339,10 @@
     "category": "negation",
     "query": "Recommendation system algorithms excluding collaborative filtering?",
     "gold_answer_ids": [
-      "59506"
+      "21130"
     ],
     "graded_relevance": {
-      "59506": 3
+      "21130": 3
     },
     "tags": [
       "recommender-system"
@@ -2281,2389 +2281,2398 @@
   {
     "query_id": "cit_001",
     "category": "citation_accuracy",
-    "query": "intuitive interpretation of canonical parameterization of beta distribution",
+    "query": "How is deviance defined in H2O Deep Learning if the loss function is not quadratic?",
     "gold_answer_ids": [
-      "348886"
+      "349888"
     ],
-    "expected_url": "https://stats.stackexchange.com/a/348886",
+    "expected_url": "https://stats.stackexchange.com/a/349888",
     "tags": [
-      "intuition",
-      "exponential-family",
-      "canonical-correlation"
+      "machine-learning",
+      "deep-learning",
+      "h2o"
     ],
     "notes": "Verify system's returned citation URL matches expected_url exactly."
   },
   {
     "query_id": "cit_002",
     "category": "citation_accuracy",
-    "query": "SAS PROC LOGISTIC - why is Goodness of Fit test rejecting model?",
+    "query": "Completing the Square (Bivariate)",
     "gold_answer_ids": [
-      "276093"
+      "277171"
     ],
-    "expected_url": "https://stats.stackexchange.com/a/276093",
+    "expected_url": "https://stats.stackexchange.com/a/277171",
     "tags": [
-      "logistic",
-      "goodness-of-fit",
-      "sas"
+      "multiple-regression",
+      "linear-algebra"
     ],
     "notes": "Verify system's returned citation URL matches expected_url exactly."
   },
   {
     "query_id": "cit_003",
     "category": "citation_accuracy",
-    "query": "Testing a 2x2 contingency table: male/female, employed/unemployed",
+    "query": "Are the results of OLS linear regression correct?",
     "gold_answer_ids": [
-      "81942"
+      "82378"
     ],
-    "expected_url": "https://stats.stackexchange.com/a/81942",
+    "expected_url": "https://stats.stackexchange.com/a/82378",
     "tags": [
-      "hypothesis-testing",
-      "chi-squared-test",
-      "fishers-exact-test"
+      "spss",
+      "multiple-regression"
     ],
     "notes": "Verify system's returned citation URL matches expected_url exactly."
   },
   {
     "query_id": "cit_004",
     "category": "citation_accuracy",
-    "query": "Kolmogorov distribution as the sup of a Brownian bridge",
+    "query": "Is it reasonable that overfitted model be bettern than non-overfitted model?",
     "gold_answer_ids": [
-      "297203"
+      "298064"
     ],
-    "expected_url": "https://stats.stackexchange.com/a/297203",
+    "expected_url": "https://stats.stackexchange.com/a/298064",
     "tags": [
-      "distributions",
-      "kolmogorov-smirnov-test",
-      "brownian-motion"
+      "machine-learning",
+      "conv-neural-network",
+      "overfitting"
     ],
     "notes": "Verify system's returned citation URL matches expected_url exactly."
   },
   {
     "query_id": "cit_005",
     "category": "citation_accuracy",
-    "query": "Testing for differences between a sample and a subsample",
+    "query": "Checking whether a density is exponential family",
     "gold_answer_ids": [
-      "71188"
+      "71632"
     ],
-    "expected_url": "https://stats.stackexchange.com/a/71188",
+    "expected_url": "https://stats.stackexchange.com/a/71632",
     "tags": [
-      "hypothesis-testing",
-      "group-differences",
-      "independence"
+      "self-study",
+      "density-function",
+      "exponential-family"
     ],
     "notes": "Verify system's returned citation URL matches expected_url exactly."
   },
   {
     "query_id": "cit_006",
     "category": "citation_accuracy",
-    "query": "Which statitical modeling in more appropriate when there are several yi? (MANCOVA,Multivariate regression, canonocal correlation)",
+    "query": "Expected value of $1/x$ when $x$ follows a Beta distribution",
     "gold_answer_ids": [
-      "283579"
+      "284362"
     ],
-    "expected_url": "https://stats.stackexchange.com/a/283579",
+    "expected_url": "https://stats.stackexchange.com/a/284362",
     "tags": [
-      "regression",
-      "multivariate-analysis",
-      "modeling",
-      "mancova"
+      "probability",
+      "expected-value",
+      "beta-distribution",
+      "moment-generating-function"
     ],
     "notes": "Verify system's returned citation URL matches expected_url exactly."
   },
   {
     "query_id": "cit_007",
     "category": "citation_accuracy",
-    "query": "Can we get Moment Generating Function(MGF) from data?",
+    "query": "Comparing changes in a response variable over multiple proportions at different sites",
     "gold_answer_ids": [
-      "464240"
+      "465078"
     ],
-    "expected_url": "https://stats.stackexchange.com/a/464240",
+    "expected_url": "https://stats.stackexchange.com/a/465078",
     "tags": [
-      "probability",
-      "density-function",
-      "moment-generating-function"
+      "inference",
+      "multivariate-analysis",
+      "multilevel-analysis",
+      "proportion"
     ],
     "notes": "Verify system's returned citation URL matches expected_url exactly."
   },
   {
     "query_id": "cit_008",
     "category": "citation_accuracy",
-    "query": "Poisson regression predictions",
+    "query": "representation of a convolutional layer as a fully connected one (matrix representation)",
     "gold_answer_ids": [
-      "410920"
+      "411752"
     ],
-    "expected_url": "https://stats.stackexchange.com/a/410920",
+    "expected_url": "https://stats.stackexchange.com/a/411752",
     "tags": [
-      "machine-learning",
-      "generalized-linear-model",
-      "poisson-regression"
+      "neural-networks",
+      "conv-neural-network",
+      "matrix"
     ],
     "notes": "Verify system's returned citation URL matches expected_url exactly."
   },
   {
     "query_id": "cit_009",
     "category": "citation_accuracy",
-    "query": "Why is Pearson correlation is not an effective metric?",
+    "query": "Don't understand why glmm random effect variance is zero. Have reviewed similar questions still dont get it",
     "gold_answer_ids": [
-      "412931"
+      "414021"
     ],
-    "expected_url": "https://stats.stackexchange.com/a/412931",
+    "expected_url": "https://stats.stackexchange.com/a/414021",
     "tags": [
-      "regression",
-      "metric"
+      "r",
+      "variance",
+      "lme4-nlme",
+      "glmm",
+      "ecology"
     ],
     "notes": "Verify system's returned citation URL matches expected_url exactly."
   },
   {
     "query_id": "cit_010",
     "category": "citation_accuracy",
-    "query": "What are the statistical reasons behind defining BMI index as weight/height$^2$?",
+    "query": "How to use rpart's result in prediction",
     "gold_answer_ids": [
-      "64173"
+      "64554"
     ],
-    "expected_url": "https://stats.stackexchange.com/a/64173",
+    "expected_url": "https://stats.stackexchange.com/a/64554",
     "tags": [
-      "biostatistics"
+      "classification",
+      "rpart"
     ],
     "notes": "Verify system's returned citation URL matches expected_url exactly."
   },
   {
     "query_id": "cit_011",
     "category": "citation_accuracy",
-    "query": "Gaps in a histogram in sampling distribution",
+    "query": "Expected value for a fair die game",
     "gold_answer_ids": [
-      "639834"
+      "641883"
     ],
-    "expected_url": "https://stats.stackexchange.com/a/639834",
+    "expected_url": "https://stats.stackexchange.com/a/641883",
     "tags": [
-      "sampling",
-      "data-visualization",
-      "histogram"
+      "self-study",
+      "expected-value",
+      "dice"
     ],
     "notes": "Verify system's returned citation URL matches expected_url exactly."
   },
   {
     "query_id": "cit_012",
     "category": "citation_accuracy",
-    "query": "Compact notation for one-hot indicator vectors?",
+    "query": "In R, how to detect possible outliers in right skewed data assuming Poisson distribution?",
     "gold_answer_ids": [
-      "454475"
+      "455613"
     ],
-    "expected_url": "https://stats.stackexchange.com/a/454475",
+    "expected_url": "https://stats.stackexchange.com/a/455613",
     "tags": [
-      "notation",
-      "categorical-encoding"
+      "r",
+      "distributions",
+      "poisson-distribution",
+      "outliers",
+      "skewness"
     ],
     "notes": "Verify system's returned citation URL matches expected_url exactly."
   },
   {
     "query_id": "cit_013",
     "category": "citation_accuracy",
-    "query": "Causality, omitted variable bias",
+    "query": "Anova from R output interpretation",
     "gold_answer_ids": [
-      "51381"
+      "51830"
     ],
-    "expected_url": "https://stats.stackexchange.com/a/51381",
+    "expected_url": "https://stats.stackexchange.com/a/51830",
     "tags": [
-      "regression",
-      "multiple-regression",
-      "econometrics",
-      "causality"
+      "r",
+      "self-study",
+      "anova",
+      "interpretation"
     ],
     "notes": "Verify system's returned citation URL matches expected_url exactly."
   },
   {
     "query_id": "cit_014",
     "category": "citation_accuracy",
-    "query": "The equality about conditional expectation",
+    "query": "Two Different Proofs of Continuous Mapping Theorem",
     "gold_answer_ids": [
-      "607021"
+      "609024"
     ],
-    "expected_url": "https://stats.stackexchange.com/a/607021",
+    "expected_url": "https://stats.stackexchange.com/a/609024",
     "tags": [
       "probability",
-      "conditional-expectation"
+      "distributions",
+      "convergence",
+      "measure-theory"
     ],
     "notes": "Verify system's returned citation URL matches expected_url exactly."
   },
   {
     "query_id": "cit_015",
     "category": "citation_accuracy",
-    "query": "Inspecting assumption of homoscedasticity",
+    "query": "Warning in R - Chi-squared approximation may be incorrect",
     "gold_answer_ids": [
-      "80965"
+      "81485"
     ],
-    "expected_url": "https://stats.stackexchange.com/a/80965",
+    "expected_url": "https://stats.stackexchange.com/a/81485",
     "tags": [
-      "anova",
-      "heteroscedasticity",
-      "assumptions",
-      "robust"
+      "r",
+      "categorical-data",
+      "chi-squared-test",
+      "small-sample",
+      "error-message"
     ],
     "notes": "Verify system's returned citation URL matches expected_url exactly."
   },
   {
     "query_id": "cit_016",
     "category": "citation_accuracy",
-    "query": "Neural networks: Active input range of activation functions?",
+    "query": "Self Study: ML Parameter Estimates -- do I need numerical maximization?",
     "gold_answer_ids": [
-      "140111"
+      "140703"
     ],
-    "expected_url": "https://stats.stackexchange.com/a/140111",
+    "expected_url": "https://stats.stackexchange.com/a/140703",
     "tags": [
-      "neural-networks"
+      "self-study",
+      "maximum-likelihood",
+      "point-estimation"
     ],
     "notes": "Verify system's returned citation URL matches expected_url exactly."
   },
   {
     "query_id": "cit_017",
     "category": "citation_accuracy",
-    "query": "Using predict_proba with sklearn's multiclass SVC",
+    "query": "Should $H_0$ be specified as an equality or an inequality for one-sided tests",
     "gold_answer_ids": [
-      "89561"
+      "90145"
     ],
-    "expected_url": "https://stats.stackexchange.com/a/89561",
+    "expected_url": "https://stats.stackexchange.com/a/90145",
     "tags": [
-      "classification",
-      "roc",
-      "multi-class"
+      "hypothesis-testing"
     ],
     "notes": "Verify system's returned citation URL matches expected_url exactly."
   },
   {
     "query_id": "cit_018",
     "category": "citation_accuracy",
-    "query": "Random vs Fixed variables in Linear Regression Model",
+    "query": "How to explain the utility of binomial logistic regression when the predictors are purely categorical",
     "gold_answer_ids": [
-      "399341"
+      "400473"
     ],
-    "expected_url": "https://stats.stackexchange.com/a/399341",
+    "expected_url": "https://stats.stackexchange.com/a/400473",
     "tags": [
-      "regression",
-      "econometrics",
-      "linear-model",
-      "endogeneity"
+      "machine-learning",
+      "logistic",
+      "binary-data",
+      "logistic-curve"
     ],
     "notes": "Verify system's returned citation URL matches expected_url exactly."
   },
   {
     "query_id": "cit_019",
     "category": "citation_accuracy",
-    "query": "How do you do power analysis with a non-parametric approach?",
+    "query": "How to apply FDR when you have two types of test statistics?",
     "gold_answer_ids": [
-      "204122"
+      "205030"
     ],
-    "expected_url": "https://stats.stackexchange.com/a/204122",
+    "expected_url": "https://stats.stackexchange.com/a/205030",
     "tags": [
-      "statistical-power",
-      "kolmogorov-smirnov-test"
+      "correlation",
+      "multiple-comparisons",
+      "spearman-rho",
+      "false-discovery-rate"
     ],
     "notes": "Verify system's returned citation URL matches expected_url exactly."
   },
   {
     "query_id": "cit_020",
     "category": "citation_accuracy",
-    "query": "Comparing two means from one person at one time date",
+    "query": "When to use training and test data sets",
     "gold_answer_ids": [
-      "262400"
+      "263317"
     ],
-    "expected_url": "https://stats.stackexchange.com/a/262400",
+    "expected_url": "https://stats.stackexchange.com/a/263317",
     "tags": [
-      "differences",
-      "analysis-of-means"
+      "multiple-regression",
+      "cross-validation"
     ],
     "notes": "Verify system's returned citation URL matches expected_url exactly."
   },
   {
     "query_id": "code_001",
     "category": "code_traceback",
-    "query": "How can I test for autocorrelated errors in logistic regression?",
+    "query": "Repeated measures regression in R?",
     "gold_answer_ids": [
-      "405105"
+      "405683"
     ],
     "graded_relevance": {
-      "405105": 3
+      "405683": 3
     },
     "tags": [
+      "r",
       "regression",
-      "logistic",
-      "autocorrelation",
-      "residuals",
-      "error"
+      "multiple-regression",
+      "repeated-measures",
+      "linear"
     ]
   },
   {
     "query_id": "code_002",
     "category": "code_traceback",
-    "query": "what is a good measure of goodness of fit for survival models that can be used for comparison between models?",
+    "query": "Why do parameters go untested in Machine Learning?",
     "gold_answer_ids": [
-      "518175"
+      "519258"
     ],
     "graded_relevance": {
-      "518175": 3
+      "519258": 3
     },
     "tags": [
-      "r",
-      "survival",
-      "cox-model",
-      "goodness-of-fit",
-      "model-comparison"
+      "machine-learning",
+      "statistical-significance"
     ]
   },
   {
     "query_id": "code_003",
     "category": "code_traceback",
-    "query": "Comparing proportions between two mega-groups",
+    "query": "Analysis of variance with Weibull or Gamma distributions",
     "gold_answer_ids": [
-      "91251"
+      "91786"
     ],
     "graded_relevance": {
-      "91251": 3
+      "91786": 3
     },
     "tags": [
-      "proportion"
+      "anova",
+      "gamma-distribution",
+      "weibull-distribution"
     ]
   },
   {
     "query_id": "code_004",
     "category": "code_traceback",
-    "query": "Is there an ExtraTreesClassifier-like classifier that has decision boundary function like SVM?",
+    "query": "Fitting SIR model with 2019-nCoV data doesn't conververge",
     "gold_answer_ids": [
-      "446144"
+      "446744"
     ],
     "graded_relevance": {
-      "446144": 3
+      "446744": 3
     },
     "tags": [
-      "machine-learning",
-      "svm",
-      "scikit-learn",
-      "cart"
+      "r",
+      "optimization",
+      "epidemiology",
+      "parameterization",
+      "differential-equations"
     ]
   },
   {
     "query_id": "code_005",
     "category": "code_traceback",
-    "query": "What's wrong with this approach to computing power?",
+    "query": "Feature selection using prior knowledge?",
     "gold_answer_ids": [
-      "326965"
+      "328303"
     ],
     "graded_relevance": {
-      "326965": 3
+      "328303": 3
     },
     "tags": [
-      "t-test",
-      "statistical-power",
-      "teaching"
+      "machine-learning",
+      "cross-validation",
+      "feature-selection",
+      "overfitting"
     ]
   },
   {
     "query_id": "code_006",
     "category": "code_traceback",
-    "query": "How to test if two populations have the same demographics?",
+    "query": "K-fold or hold-out cross validation for ridge regression using R",
     "gold_answer_ids": [
-      "104685"
+      "105185"
     ],
     "graded_relevance": {
-      "104685": 3
+      "105185": 3
     },
     "tags": [
       "r",
-      "hypothesis-testing",
-      "categorical-data"
+      "cross-validation",
+      "prediction",
+      "ridge-regression"
     ]
   },
   {
     "query_id": "code_007",
     "category": "code_traceback",
-    "query": "Creation of contigency table and calculation of effect size (Chi2, Cramer's V)",
+    "query": "Basic question about cross-validation",
     "gold_answer_ids": [
-      "430549"
+      "431393"
     ],
     "graded_relevance": {
-      "430549": 3
+      "431393": 3
     },
     "tags": [
-      "chi-squared-test",
-      "goodness-of-fit",
-      "biostatistics",
-      "contingency-tables",
-      "cramers-v"
+      "cross-validation"
     ]
   },
   {
     "query_id": "code_008",
     "category": "code_traceback",
-    "query": "Tobit model with R",
+    "query": "Power analysis for binomial test via simulation",
     "gold_answer_ids": [
-      "141672"
+      "142179"
     ],
     "graded_relevance": {
-      "141672": 3
+      "142179": 3
     },
     "tags": [
       "r",
-      "tobit-regression"
+      "binomial-distribution",
+      "simulation",
+      "statistical-power"
     ]
   },
   {
     "query_id": "code_009",
     "category": "code_traceback",
-    "query": "What is the likelihood function of having heads 8 times out of 10 toss",
+    "query": "scaling in time series",
     "gold_answer_ids": [
-      "405026"
+      "405598"
     ],
     "graded_relevance": {
-      "405026": 3
+      "405598": 3
     },
     "tags": [
-      "bayesian",
-      "likelihood"
+      "time-series",
+      "data-transformation",
+      "scale-invariance"
     ]
   },
   {
     "query_id": "code_010",
     "category": "code_traceback",
-    "query": "Standard error of regression coefficients without an assumption of homoscedastic normal noise",
+    "query": "p-Value of mean of sample means",
     "gold_answer_ids": [
-      "88467"
+      "88949"
     ],
     "graded_relevance": {
-      "88467": 3
+      "88949": 3
     },
     "tags": [
-      "time-series",
-      "multiple-regression",
-      "least-squares",
-      "heteroscedasticity",
-      "normality-assumption"
+      "p-value"
     ]
   },
   {
     "query_id": "code_011",
     "category": "code_traceback",
-    "query": "Poisson regression with strong pattern in residuals",
+    "query": "Presenting the error term in a quantile regression specification",
     "gold_answer_ids": [
-      "279168"
+      "279914"
     ],
     "graded_relevance": {
-      "279168": 3
+      "279914": 3
     },
     "tags": [
-      "generalized-linear-model",
-      "residuals",
-      "poisson-regression"
+      "quantile-regression"
     ]
   },
   {
     "query_id": "code_012",
     "category": "code_traceback",
-    "query": "What is the interplay between treatments for multiple testing and autocorrelation in hypothesis tests?",
+    "query": "Is peeking in A/B tests bad even if you don't stop your experiment?",
     "gold_answer_ids": [
-      "496299"
+      "496857"
     ],
     "graded_relevance": {
-      "496299": 3
+      "496857": 3
     },
     "tags": [
-      "hypothesis-testing",
-      "multiple-comparisons",
-      "autocorrelation",
-      "change-point",
-      "structural-change"
+      "python",
+      "experiment-design",
+      "ab-test",
+      "stopping-time"
     ]
   },
   {
     "query_id": "code_013",
     "category": "code_traceback",
-    "query": "Why not using cross validation for estimating the error of a linear model?",
+    "query": "How to choose a predictive model after k-fold cross-validation?",
     "gold_answer_ids": [
-      "122483"
+      "122809"
     ],
     "graded_relevance": {
-      "122483": 3
+      "122809": 3
     },
     "tags": [
-      "regression",
-      "linear-model"
-    ]
-  },
-  {
-    "query_id": "code_014",
-    "category": "code_traceback",
-    "query": "Converting survival analysis by a continuous variable to categorical so as to find level of most significant difference",
-    "gold_answer_ids": [
-      "497084"
-    ],
-    "graded_relevance": {
-      "497084": 3
-    },
-    "tags": [
-      "r",
-      "survival"
-    ]
-  },
-  {
-    "query_id": "code_015",
-    "category": "code_traceback",
-    "query": "Number of samples vs Number of features",
-    "gold_answer_ids": [
-      "64918"
-    ],
-    "graded_relevance": {
-      "64918": 3
-    },
-    "tags": [
-      "classification",
-      "sample-size",
-      "feature-selection"
-    ]
-  },
-  {
-    "query_id": "code_016",
-    "category": "code_traceback",
-    "query": "Are gridlines and grey backgrounds chartjunk and should they be used only on an exception basis?",
-    "gold_answer_ids": [
-      "467796"
-    ],
-    "graded_relevance": {
-      "467796": 3
-    },
-    "tags": [
-      "data-visualization",
-      "ggplot2"
-    ]
-  },
-  {
-    "query_id": "code_017",
-    "category": "code_traceback",
-    "query": "Multilinear regression",
-    "gold_answer_ids": [
-      "361314"
-    ],
-    "graded_relevance": {
-      "361314": 3
-    },
-    "tags": [
-      "r",
-      "regression",
-      "mixed-model"
-    ]
-  },
-  {
-    "query_id": "code_018",
-    "category": "code_traceback",
-    "query": "Comparing AIC of Tensor Product Smooths versus Thin Plate Splines",
-    "gold_answer_ids": [
-      "590017"
-    ],
-    "graded_relevance": {
-      "590017": 3
-    },
-    "tags": [
-      "r",
-      "aic",
-      "generalized-additive-model",
-      "splines",
-      "mgcv"
-    ]
-  },
-  {
-    "query_id": "code_019",
-    "category": "code_traceback",
-    "query": "Choosing sample size for building predictive models and machine learning",
-    "gold_answer_ids": [
-      "427598"
-    ],
-    "graded_relevance": {
-      "427598": 3
-    },
-    "tags": [
-      "machine-learning",
-      "mathematical-statistics",
-      "prediction",
-      "sample-size",
-      "error"
-    ]
-  },
-  {
-    "query_id": "code_020",
-    "category": "code_traceback",
-    "query": "Closest approximation of a Poisson GLM using weighted least squares analysis to take into account mean/variance relationship",
-    "gold_answer_ids": [
-      "408473"
-    ],
-    "graded_relevance": {
-      "408473": 3
-    },
-    "tags": [
-      "r",
-      "heteroscedasticity",
-      "poisson-regression",
-      "weighted-regression"
-    ]
-  },
-  {
-    "query_id": "code_021",
-    "category": "code_traceback",
-    "query": "Allowing interaction of smooth by categorical predictor to vary across levels of random effect",
-    "gold_answer_ids": [
-      "590807"
-    ],
-    "graded_relevance": {
-      "590807": 3
-    },
-    "tags": [
-      "random-effects-model",
-      "generalized-additive-model",
-      "mgcv",
-      "brms"
-    ]
-  },
-  {
-    "query_id": "code_022",
-    "category": "code_traceback",
-    "query": "Metropolis Hastings algorithm bivariate normals",
-    "gold_answer_ids": [
-      "525378"
-    ],
-    "graded_relevance": {
-      "525378": 3
-    },
-    "tags": [
-      "r",
-      "markov-chain-montecarlo",
-      "mixture-distribution"
-    ]
-  },
-  {
-    "query_id": "code_023",
-    "category": "code_traceback",
-    "query": "When using cross validation, shouldn't it be mandatory to pipeline the preprocessing steps?",
-    "gold_answer_ids": [
-      "239255"
-    ],
-    "graded_relevance": {
-      "239255": 3
-    },
-    "tags": [
-      "cross-validation",
-      "scikit-learn"
-    ]
-  },
-  {
-    "query_id": "code_024",
-    "category": "code_traceback",
-    "query": "Inconsistencies between conditional probability calculations by hand and with pgmpy (Bayesian Graphical Models)",
-    "gold_answer_ids": [
-      "369329"
-    ],
-    "graded_relevance": {
-      "369329": 3
-    },
-    "tags": [
-      "conditional-probability",
-      "graphical-model",
-      "bayesian-network"
-    ]
-  },
-  {
-    "query_id": "code_025",
-    "category": "code_traceback",
-    "query": "What methods can be used to specify priors from data?",
-    "gold_answer_ids": [
-      "5606"
-    ],
-    "graded_relevance": {
-      "5606": 3
-    },
-    "tags": [
-      "probability",
-      "bayesian",
-      "meta-analysis",
-      "prior"
-    ]
-  },
-  {
-    "query_id": "code_026",
-    "category": "code_traceback",
-    "query": "Cost-sensitive SVM with sklearn",
-    "gold_answer_ids": [
-      "214713"
-    ],
-    "graded_relevance": {
-      "214713": 3
-    },
-    "tags": [
-      "svm",
-      "skewness",
-      "loss-functions"
-    ]
-  },
-  {
-    "query_id": "code_027",
-    "category": "code_traceback",
-    "query": "Giving more importance to under prediction (mean absolute error) than over prediction for forecasting",
-    "gold_answer_ids": [
-      "583722"
-    ],
-    "graded_relevance": {
-      "583722": 3
-    },
-    "tags": [
-      "forecasting",
-      "boosting",
-      "mae"
-    ]
-  },
-  {
-    "query_id": "code_028",
-    "category": "code_traceback",
-    "query": "Questionable Beta Regression Results",
-    "gold_answer_ids": [
-      "220874"
-    ],
-    "graded_relevance": {
-      "220874": 3
-    },
-    "tags": [
-      "r",
-      "regression",
-      "generalized-linear-model"
-    ]
-  },
-  {
-    "query_id": "code_029",
-    "category": "code_traceback",
-    "query": "Extent of multiple testing correction",
-    "gold_answer_ids": [
-      "118184"
-    ],
-    "graded_relevance": {
-      "118184": 3
-    },
-    "tags": [
-      "multiple-comparisons",
-      "bonferroni",
-      "false-discovery-rate"
-    ]
-  },
-  {
-    "query_id": "code_030",
-    "category": "code_traceback",
-    "query": "Number of significant figures to put in a table?",
-    "gold_answer_ids": [
-      "8736"
-    ],
-    "graded_relevance": {
-      "8736": 3
-    },
-    "tags": [
-      "tables"
-    ]
-  },
-  {
-    "query_id": "std_001",
-    "category": "standard",
-    "query": "Effect of Wald-test and collinearity on Logistic Regression model selection",
-    "gold_answer_ids": [
-      "74299"
-    ],
-    "graded_relevance": {
-      "74299": 3
-    },
-    "tags": [
-      "logistic",
-      "categorical-data",
-      "model-selection",
-      "multicollinearity",
-      "model"
-    ]
-  },
-  {
-    "query_id": "std_002",
-    "category": "standard",
-    "query": "Jensen-Shannon divergence for bivariate normal distributions",
-    "gold_answer_ids": [
-      "103110"
-    ],
-    "graded_relevance": {
-      "103110": 3
-    },
-    "tags": [
-      "normal-distribution",
-      "distance-functions",
-      "information-theory"
-    ]
-  },
-  {
-    "query_id": "std_003",
-    "category": "standard",
-    "query": "Statistical test to compare paired scores",
-    "gold_answer_ids": [
-      "146917"
-    ],
-    "graded_relevance": {
-      "146917": 3
-    },
-    "tags": [
-      "r",
-      "statistical-significance",
-      "biostatistics",
-      "bioinformatics"
-    ]
-  },
-  {
-    "query_id": "std_004",
-    "category": "standard",
-    "query": "What does \"middle of the data\" really mean?",
-    "gold_answer_ids": [
-      "373429"
-    ],
-    "graded_relevance": {
-      "373429": 3
-    },
-    "tags": [
-      "regression",
-      "mean",
-      "smoothing"
-    ]
-  },
-  {
-    "query_id": "std_005",
-    "category": "standard",
-    "query": "Can the Dvoretzky\u2013Kiefer\u2013Wolfowitz (a.k.a. Massart) inequality be extended to two empirical distributions?",
-    "gold_answer_ids": [
-      "340910"
-    ],
-    "graded_relevance": {
-      "340910": 3
-    },
-    "tags": [
-      "probability",
-      "mathematical-statistics",
-      "empirical-cumulative-distr-fn"
-    ]
-  },
-  {
-    "query_id": "std_006",
-    "category": "standard",
-    "query": "Which regression analysis should I use for ranked data?",
-    "gold_answer_ids": [
-      "324120"
-    ],
-    "graded_relevance": {
-      "324120": 3
-    },
-    "tags": [
-      "r",
-      "regression",
-      "multiple-regression",
-      "ranks"
-    ]
-  },
-  {
-    "query_id": "std_007",
-    "category": "standard",
-    "query": "Why is covariance matrix not positive-definite when number of observations is less than number of dimensions?",
-    "gold_answer_ids": [
-      "301714"
-    ],
-    "graded_relevance": {
-      "301714": 3
-    },
-    "tags": [
-      "factor-analysis",
-      "covariance-matrix"
-    ]
-  },
-  {
-    "query_id": "std_008",
-    "category": "standard",
-    "query": "Methods for comparing two different models on similar problem domains",
-    "gold_answer_ids": [
-      "531193"
-    ],
-    "graded_relevance": {
-      "531193": 3
-    },
-    "tags": [
-      "hypothesis-testing",
-      "model-comparison"
-    ]
-  },
-  {
-    "query_id": "std_009",
-    "category": "standard",
-    "query": "Will quadratic-based estimation (not necessarily MSE) always generate a symmetric residuals after training it?",
-    "gold_answer_ids": [
-      "545074"
-    ],
-    "graded_relevance": {
-      "545074": 3
-    },
-    "tags": [
-      "machine-learning",
-      "distributions",
-      "residuals",
-      "symmetry"
-    ]
-  },
-  {
-    "query_id": "std_010",
-    "category": "standard",
-    "query": "R: How to use lmer for more than two levels?",
-    "gold_answer_ids": [
-      "396390"
-    ],
-    "graded_relevance": {
-      "396390": 3
-    },
-    "tags": [
-      "r",
-      "lme4-nlme"
-    ]
-  },
-  {
-    "query_id": "std_011",
-    "category": "standard",
-    "query": "For MLE, why does the information inequality imply identifiability",
-    "gold_answer_ids": [
-      "438222"
-    ],
-    "graded_relevance": {
-      "438222": 3
-    },
-    "tags": [
-      "maximum-likelihood",
-      "identifiability"
-    ]
-  },
-  {
-    "query_id": "std_012",
-    "category": "standard",
-    "query": "resettest in lmtest: unexpected behavior on perfect fit",
-    "gold_answer_ids": [
-      "96577"
-    ],
-    "graded_relevance": {
-      "96577": 3
-    },
-    "tags": [
-      "r",
-      "regression",
-      "lm"
-    ]
-  },
-  {
-    "query_id": "std_013",
-    "category": "standard",
-    "query": "What programming language do you recommend to prototype a machine learning problem?",
-    "gold_answer_ids": [
-      "19896"
-    ],
-    "graded_relevance": {
-      "19896": 3
-    },
-    "tags": [
-      "r",
-      "machine-learning",
-      "matlab",
-      "software",
-      "python"
-    ]
-  },
-  {
-    "query_id": "std_014",
-    "category": "standard",
-    "query": "Interpretation of correlation coefficient between two binary variables",
-    "gold_answer_ids": [
-      "578933"
-    ],
-    "graded_relevance": {
-      "578933": 3
-    },
-    "tags": [
-      "correlation"
-    ]
-  },
-  {
-    "query_id": "std_015",
-    "category": "standard",
-    "query": "Probability that one observation comes from the same population as a given sample",
-    "gold_answer_ids": [
-      "232294"
-    ],
-    "graded_relevance": {
-      "232294": 3
-    },
-    "tags": [
-      "probability",
-      "distributions",
-      "sample"
-    ]
-  },
-  {
-    "query_id": "std_016",
-    "category": "standard",
-    "query": "ML for Bernoulli trials",
-    "gold_answer_ids": [
-      "482074"
-    ],
-    "graded_relevance": {
-      "482074": 3
-    },
-    "tags": [
-      "maximum-likelihood",
-      "bernoulli-distribution",
-      "derivative"
-    ]
-  },
-  {
-    "query_id": "std_017",
-    "category": "standard",
-    "query": "Why do typical sequences have probabilities $\\sim2^{-nH(p)}$?",
-    "gold_answer_ids": [
-      "447964"
-    ],
-    "graded_relevance": {
-      "447964": 3
-    },
-    "tags": [
-      "probability",
-      "entropy",
-      "information-theory",
-      "law-of-large-numbers"
-    ]
-  },
-  {
-    "query_id": "std_018",
-    "category": "standard",
-    "query": "Need for assumption of continuity of the distribution",
-    "gold_answer_ids": [
-      "383491"
-    ],
-    "graded_relevance": {
-      "383491": 3
-    },
-    "tags": [
-      "nonparametric"
-    ]
-  },
-  {
-    "query_id": "std_019",
-    "category": "standard",
-    "query": "MATLAB2014b `fitglme` causes error on intermediate results",
-    "gold_answer_ids": [
-      "136917"
-    ],
-    "graded_relevance": {
-      "136917": 3
-    },
-    "tags": [
-      "mixed-model",
-      "generalized-linear-model",
-      "matlab",
-      "glmm"
-    ]
-  },
-  {
-    "query_id": "std_020",
-    "category": "standard",
-    "query": "Two-part model ordinal data",
-    "gold_answer_ids": [
-      "544564"
-    ],
-    "graded_relevance": {
-      "544564": 3
-    },
-    "tags": [
-      "r",
-      "ordinal-data",
-      "ordered-logit",
-      "multinomial-logit"
-    ]
-  },
-  {
-    "query_id": "std_021",
-    "category": "standard",
-    "query": "How to approach time data that aren't time series?",
-    "gold_answer_ids": [
-      "533196"
-    ],
-    "graded_relevance": {
-      "533196": 3
-    },
-    "tags": [
-      "time-series",
-      "panel-data",
-      "trend",
-      "methodology"
-    ]
-  },
-  {
-    "query_id": "std_022",
-    "category": "standard",
-    "query": "What exactly is a background class in a classification problem?",
-    "gold_answer_ids": [
-      "226057"
-    ],
-    "graded_relevance": {
-      "226057": 3
-    },
-    "tags": [
-      "machine-learning",
-      "classification",
-      "terminology"
-    ]
-  },
-  {
-    "query_id": "std_023",
-    "category": "standard",
-    "query": "Should You Simulate the Effect of Confounders on Other Confounders to Test an Estimator?",
-    "gold_answer_ids": [
-      "635690"
-    ],
-    "graded_relevance": {
-      "635690": 3
-    },
-    "tags": [
-      "simulation",
-      "causality"
-    ]
-  },
-  {
-    "query_id": "std_024",
-    "category": "standard",
-    "query": "What exactly does a non-parametric test accomplish & What do you do with the results?",
-    "gold_answer_ids": [
-      "67205"
-    ],
-    "graded_relevance": {
-      "67205": 3
-    },
-    "tags": [
-      "hypothesis-testing",
-      "nonparametric",
-      "wilcoxon-mann-whitney-test"
-    ]
-  },
-  {
-    "query_id": "std_025",
-    "category": "standard",
-    "query": "How can one speed up this correlation calculation in R without multicore?",
-    "gold_answer_ids": [
-      "1263"
-    ],
-    "graded_relevance": {
-      "1263": 3
-    },
-    "tags": [
-      "r",
-      "correlation",
-      "efficiency"
-    ]
-  },
-  {
-    "query_id": "std_026",
-    "category": "standard",
-    "query": "The range of Kendall tau for the Frank copula",
-    "gold_answer_ids": [
-      "433721"
-    ],
-    "graded_relevance": {
-      "433721": 3
-    },
-    "tags": [
-      "copula"
-    ]
-  },
-  {
-    "query_id": "std_027",
-    "category": "standard",
-    "query": "Continue the predictions beyond the current data using time series neural network",
-    "gold_answer_ids": [
-      "162956"
-    ],
-    "graded_relevance": {
-      "162956": 3
-    },
-    "tags": [
-      "time-series",
-      "neural-networks",
-      "dataset"
-    ]
-  },
-  {
-    "query_id": "std_028",
-    "category": "standard",
-    "query": "Is using both training and test sets for hyperparameter tuning overfitting?",
-    "gold_answer_ids": [
-      "366884"
-    ],
-    "graded_relevance": {
-      "366884": 3
-    },
-    "tags": [
-      "machine-learning",
-      "cross-validation",
-      "overfitting"
-    ]
-  },
-  {
-    "query_id": "std_029",
-    "category": "standard",
-    "query": "What is the difference between 2x2 factorial design experiment and a 2-way ANOVA?",
-    "gold_answer_ids": [
-      "19396"
-    ],
-    "graded_relevance": {
-      "19396": 3
-    },
-    "tags": [
-      "anova",
-      "experiment-design"
-    ]
-  },
-  {
-    "query_id": "std_030",
-    "category": "standard",
-    "query": "Poisson probability of more than 200 events",
-    "gold_answer_ids": [
-      "244648"
-    ],
-    "graded_relevance": {
-      "244648": 3
-    },
-    "tags": [
-      "self-study",
-      "poisson-process"
-    ]
-  },
-  {
-    "query_id": "std_031",
-    "category": "standard",
-    "query": "Evaluate the performance of a model with bootstrap",
-    "gold_answer_ids": [
-      "373431"
-    ],
-    "graded_relevance": {
-      "373431": 3
-    },
-    "tags": [
-      "bootstrap",
-      "model-evaluation"
-    ]
-  },
-  {
-    "query_id": "std_032",
-    "category": "standard",
-    "query": "Is it wrong to choose features based on p-value?",
-    "gold_answer_ids": [
-      "291239"
-    ],
-    "graded_relevance": {
-      "291239": 3
-    },
-    "tags": [
-      "regression",
-      "p-value",
-      "feature-selection"
-    ]
-  },
-  {
-    "query_id": "std_033",
-    "category": "standard",
-    "query": "Jaccard Similarity - From Data Mining book - Homework problem",
-    "gold_answer_ids": [
-      "88296"
-    ],
-    "graded_relevance": {
-      "88296": 3
-    },
-    "tags": [
-      "self-study",
-      "distributions",
-      "jaccard-similarity"
-    ]
-  },
-  {
-    "query_id": "std_034",
-    "category": "standard",
-    "query": "How do to model selection and training?",
-    "gold_answer_ids": [
-      "300007"
-    ],
-    "graded_relevance": {
-      "300007": 3
-    },
-    "tags": [
-      "machine-learning",
       "cross-validation",
       "model-selection"
     ]
   },
   {
-    "query_id": "std_035",
-    "category": "standard",
-    "query": "Why my model overfits despite selecting best hyperparameters value in each tuning step?",
+    "query_id": "code_014",
+    "category": "code_traceback",
+    "query": "Co-integration Regression",
     "gold_answer_ids": [
-      "460716"
+      "497940"
     ],
     "graded_relevance": {
-      "460716": 3
+      "497940": 3
+    },
+    "tags": [
+      "time-series",
+      "cointegration"
+    ]
+  },
+  {
+    "query_id": "code_015",
+    "category": "code_traceback",
+    "query": "Need algorithm to compute relative likelihood that data are sample from normal vs lognormal distribution",
+    "gold_answer_ids": [
+      "65354"
+    ],
+    "graded_relevance": {
+      "65354": 3
+    },
+    "tags": [
+      "normal-distribution",
+      "lognormal-distribution"
+    ]
+  },
+  {
+    "query_id": "code_016",
+    "category": "code_traceback",
+    "query": "What do the residuals in a logistic regression mean?",
+    "gold_answer_ids": [
+      "468664"
+    ],
+    "graded_relevance": {
+      "468664": 3
+    },
+    "tags": [
+      "r",
+      "logistic",
+      "generalized-linear-model",
+      "residuals",
+      "aic"
+    ]
+  },
+  {
+    "query_id": "code_017",
+    "category": "code_traceback",
+    "query": "gradient descent and local maximum",
+    "gold_answer_ids": [
+      "362091"
+    ],
+    "graded_relevance": {
+      "362091": 3
     },
     "tags": [
       "machine-learning",
-      "overfitting",
+      "optimization",
+      "gradient-descent",
+      "gradient",
+      "hessian"
+    ]
+  },
+  {
+    "query_id": "code_018",
+    "category": "code_traceback",
+    "query": "Could we explain the disadvantage of imbalanced data mathematically?",
+    "gold_answer_ids": [
+      "590829"
+    ],
+    "graded_relevance": {
+      "590829": 3
+    },
+    "tags": [
+      "machine-learning",
+      "logistic",
+      "classification",
+      "unbalanced-classes"
+    ]
+  },
+  {
+    "query_id": "code_019",
+    "category": "code_traceback",
+    "query": "Backpropagation with Softmax / Cross Entropy",
+    "gold_answer_ids": [
+      "428340"
+    ],
+    "graded_relevance": {
+      "428340": 3
+    },
+    "tags": [
+      "backpropagation",
+      "derivative",
+      "softmax",
+      "cross-entropy"
+    ]
+  },
+  {
+    "query_id": "code_020",
+    "category": "code_traceback",
+    "query": "Showing $\\delta'(X)$ is a Bayes estimator of $\\theta^k$ for specified prior",
+    "gold_answer_ids": [
+      "409723"
+    ],
+    "graded_relevance": {
+      "409723": 3
+    },
+    "tags": [
+      "self-study",
+      "bayesian",
+      "estimation"
+    ]
+  },
+  {
+    "query_id": "code_021",
+    "category": "code_traceback",
+    "query": "Selecting best classification probability threshold with ROC/AUC doesn't necessarily improve F1 score",
+    "gold_answer_ids": [
+      "591305"
+    ],
+    "graded_relevance": {
+      "591305": 3
+    },
+    "tags": [
+      "machine-learning",
+      "classification",
+      "model-evaluation",
+      "roc",
+      "f1"
+    ]
+  },
+  {
+    "query_id": "code_022",
+    "category": "code_traceback",
+    "query": "Estimated linear model: notation, properties of residuals",
+    "gold_answer_ids": [
+      "526359"
+    ],
+    "graded_relevance": {
+      "526359": 3
+    },
+    "tags": [
+      "regression",
+      "linear-model",
+      "residuals",
+      "notation"
+    ]
+  },
+  {
+    "query_id": "code_023",
+    "category": "code_traceback",
+    "query": "How to deal with train test split where a factor variable has only 1 observation for some levels",
+    "gold_answer_ids": [
+      "239936"
+    ],
+    "graded_relevance": {
+      "239936": 3
+    },
+    "tags": [
+      "r",
+      "predictive-models"
+    ]
+  },
+  {
+    "query_id": "code_024",
+    "category": "code_traceback",
+    "query": "Instrumental variables with non-normal endogenous",
+    "gold_answer_ids": [
+      "369959"
+    ],
+    "graded_relevance": {
+      "369959": 3
+    },
+    "tags": [
+      "normality-assumption",
+      "instrumental-variables",
+      "2sls"
+    ]
+  },
+  {
+    "query_id": "code_025",
+    "category": "code_traceback",
+    "query": "Modeling a birth-death process that is not memoryless",
+    "gold_answer_ids": [
+      "5640"
+    ],
+    "graded_relevance": {
+      "5640": 3
+    },
+    "tags": [
+      "stochastic-processes"
+    ]
+  },
+  {
+    "query_id": "code_026",
+    "category": "code_traceback",
+    "query": "Different results for Bayesian ANOVA in JASP and R (BayesFactor)",
+    "gold_answer_ids": [
+      "215281"
+    ],
+    "graded_relevance": {
+      "215281": 3
+    },
+    "tags": [
+      "r",
+      "bayesian",
+      "jasp"
+    ]
+  },
+  {
+    "query_id": "code_027",
+    "category": "code_traceback",
+    "query": "Trying to understand Bootstrapping w/ Python",
+    "gold_answer_ids": [
+      "584687"
+    ],
+    "graded_relevance": {
+      "584687": 3
+    },
+    "tags": [
+      "python",
+      "bootstrap"
+    ]
+  },
+  {
+    "query_id": "code_028",
+    "category": "code_traceback",
+    "query": "In a R markdown statistical analysis report, is it appropriate to encapsulate trivial functionality?",
+    "gold_answer_ids": [
+      "221501"
+    ],
+    "graded_relevance": {
+      "221501": 3
+    },
+    "tags": [
+      "r",
+      "descriptive-statistics"
+    ]
+  },
+  {
+    "query_id": "code_029",
+    "category": "code_traceback",
+    "query": "Performance drop between training and validation datasets",
+    "gold_answer_ids": [
+      "119880"
+    ],
+    "graded_relevance": {
+      "119880": 3
+    },
+    "tags": [
+      "validation",
       "boosting"
+    ]
+  },
+  {
+    "query_id": "code_030",
+    "category": "code_traceback",
+    "query": "Kruskal-Wallis test data considerations",
+    "gold_answer_ids": [
+      "8863"
+    ],
+    "graded_relevance": {
+      "8863": 3
+    },
+    "tags": [
+      "r",
+      "nonparametric",
+      "kruskal-wallis-test"
+    ]
+  },
+  {
+    "query_id": "std_001",
+    "category": "standard",
+    "query": "What's wrong with XKCD's Frequentists vs. Bayesians comic?",
+    "gold_answer_ids": [
+      "74685"
+    ],
+    "graded_relevance": {
+      "74685": 3
+    },
+    "tags": [
+      "bayesian",
+      "frequentist"
+    ]
+  },
+  {
+    "query_id": "std_002",
+    "category": "standard",
+    "query": "News impact curves for various GARCH models in the rugarch-package",
+    "gold_answer_ids": [
+      "103566"
+    ],
+    "graded_relevance": {
+      "103566": 3
+    },
+    "tags": [
+      "r",
+      "garch"
+    ]
+  },
+  {
+    "query_id": "std_003",
+    "category": "standard",
+    "query": "Fisher exact test on paired data",
+    "gold_answer_ids": [
+      "147564"
+    ],
+    "graded_relevance": {
+      "147564": 3
+    },
+    "tags": [
+      "contingency-tables",
+      "fishers-exact-test",
+      "paired-data",
+      "mcnemar-test"
+    ]
+  },
+  {
+    "query_id": "std_004",
+    "category": "standard",
+    "query": "Linear regression model, SCE,SCT,SCM and model's error",
+    "gold_answer_ids": [
+      "374126"
+    ],
+    "graded_relevance": {
+      "374126": 3
+    },
+    "tags": [
+      "r",
+      "regression",
+      "modeling",
+      "linear-model",
+      "error"
+    ]
+  },
+  {
+    "query_id": "std_005",
+    "category": "standard",
+    "query": "One-sided McNemar's test",
+    "gold_answer_ids": [
+      "341853"
+    ],
+    "graded_relevance": {
+      "341853": 3
+    },
+    "tags": [
+      "r",
+      "mcnemar-test",
+      "exact-test"
+    ]
+  },
+  {
+    "query_id": "std_006",
+    "category": "standard",
+    "query": "What's the Kendall Tau's distance between these 2 rankings?",
+    "gold_answer_ids": [
+      "325020"
+    ],
+    "graded_relevance": {
+      "325020": 3
+    },
+    "tags": [
+      "metric",
+      "kendall-tau"
+    ]
+  },
+  {
+    "query_id": "std_007",
+    "category": "standard",
+    "query": "How to tell if there is any improvement, statistically",
+    "gold_answer_ids": [
+      "302399"
+    ],
+    "graded_relevance": {
+      "302399": 3
+    },
+    "tags": [
+      "sampling",
+      "histogram",
+      "measurement-error",
+      "measurement",
+      "pre-post-comparison"
+    ]
+  },
+  {
+    "query_id": "std_008",
+    "category": "standard",
+    "query": "Confirmatory Factor Analysis : validity for a just-identified model",
+    "gold_answer_ids": [
+      "532191"
+    ],
+    "graded_relevance": {
+      "532191": 3
+    },
+    "tags": [
+      "confirmatory-factor",
+      "validity"
+    ]
+  },
+  {
+    "query_id": "std_009",
+    "category": "standard",
+    "query": "Analyzing the pattern in the growth of organisms using discrete data in R",
+    "gold_answer_ids": [
+      "546029"
+    ],
+    "graded_relevance": {
+      "546029": 3
+    },
+    "tags": [
+      "r",
+      "time-series",
+      "biostatistics",
+      "growth-model"
+    ]
+  },
+  {
+    "query_id": "std_010",
+    "category": "standard",
+    "query": "Give upper bound for random variable",
+    "gold_answer_ids": [
+      "397408"
+    ],
+    "graded_relevance": {
+      "397408": 3
+    },
+    "tags": [
+      "probability",
+      "random-variable"
+    ]
+  },
+  {
+    "query_id": "std_011",
+    "category": "standard",
+    "query": "Why does gradient descent HAVE to find the minimum as oppose to a change in the opposite direction",
+    "gold_answer_ids": [
+      "439203"
+    ],
+    "graded_relevance": {
+      "439203": 3
+    },
+    "tags": [
+      "neural-networks",
+      "loss-functions",
+      "weights",
+      "derivative"
+    ]
+  },
+  {
+    "query_id": "std_012",
+    "category": "standard",
+    "query": "Test overfitting of logistic regression with limited volume",
+    "gold_answer_ids": [
+      "97063"
+    ],
+    "graded_relevance": {
+      "97063": 3
+    },
+    "tags": [
+      "cross-validation",
+      "overfitting",
+      "regression-strategies"
+    ]
+  },
+  {
+    "query_id": "std_013",
+    "category": "standard",
+    "query": "Machine learning cookbook / reference card / cheatsheet?",
+    "gold_answer_ids": [
+      "20094"
+    ],
+    "graded_relevance": {
+      "20094": 3
+    },
+    "tags": [
+      "machine-learning",
+      "references"
+    ]
+  },
+  {
+    "query_id": "std_014",
+    "category": "standard",
+    "query": "Bayesian model averaging",
+    "gold_answer_ids": [
+      "579942"
+    ],
+    "graded_relevance": {
+      "579942": 3
+    },
+    "tags": [
+      "bayesian",
+      "maximum-likelihood",
+      "posterior",
+      "model-averaging",
+      "bayes-factors"
+    ]
+  },
+  {
+    "query_id": "std_015",
+    "category": "standard",
+    "query": "Variance of a sum of identically distributed random variables that are not independent",
+    "gold_answer_ids": [
+      "233067"
+    ],
+    "graded_relevance": {
+      "233067": 3
+    },
+    "tags": [
+      "probability",
+      "mathematical-statistics",
+      "variance",
+      "covariance"
+    ]
+  },
+  {
+    "query_id": "std_016",
+    "category": "standard",
+    "query": "Poisson Distribution with Exponential Parameter",
+    "gold_answer_ids": [
+      "482921"
+    ],
+    "graded_relevance": {
+      "482921": 3
+    },
+    "tags": [
+      "poisson-distribution",
+      "exponential-distribution",
+      "compound-distributions"
+    ]
+  },
+  {
+    "query_id": "std_017",
+    "category": "standard",
+    "query": "Where does the underlying statistical model for inference for a proportion come from?",
+    "gold_answer_ids": [
+      "448954"
+    ],
+    "graded_relevance": {
+      "448954": 3
+    },
+    "tags": [
+      "probability",
+      "inference",
+      "proportion"
+    ]
+  },
+  {
+    "query_id": "std_018",
+    "category": "standard",
+    "query": "When MSE for CV is greater than test MSE?",
+    "gold_answer_ids": [
+      "384344"
+    ],
+    "graded_relevance": {
+      "384344": 3
+    },
+    "tags": [
+      "cross-validation",
+      "cart",
+      "mse"
+    ]
+  },
+  {
+    "query_id": "std_019",
+    "category": "standard",
+    "query": "Meaning of significance level and critical values for kolmogorov smirnov goodness of fit test",
+    "gold_answer_ids": [
+      "137413"
+    ],
+    "graded_relevance": {
+      "137413": 3
+    },
+    "tags": [
+      "hypothesis-testing",
+      "statistical-significance",
+      "goodness-of-fit",
+      "kolmogorov-smirnov-test"
+    ]
+  },
+  {
+    "query_id": "std_020",
+    "category": "standard",
+    "query": "Why autocorrelation affects OLS coefficient standard errors?",
+    "gold_answer_ids": [
+      "545461"
+    ],
+    "graded_relevance": {
+      "545461": 3
+    },
+    "tags": [
+      "regression",
+      "standard-error",
+      "autocorrelation"
+    ]
+  },
+  {
+    "query_id": "std_021",
+    "category": "standard",
+    "query": "MOOC on Causal analysis - Recommendations for software engineer",
+    "gold_answer_ids": [
+      "534114"
+    ],
+    "graded_relevance": {
+      "534114": 3
+    },
+    "tags": [
+      "machine-learning",
+      "hypothesis-testing",
+      "classification",
+      "references",
+      "causality"
+    ]
+  },
+  {
+    "query_id": "std_022",
+    "category": "standard",
+    "query": "Random Forest Regression and trended time-series",
+    "gold_answer_ids": [
+      "226776"
+    ],
+    "graded_relevance": {
+      "226776": 3
+    },
+    "tags": [
+      "time-series",
+      "random-forest",
+      "trend"
+    ]
+  },
+  {
+    "query_id": "std_023",
+    "category": "standard",
+    "query": "For which distributions is there a closed-form unbiased estimator for the standard deviation?",
+    "gold_answer_ids": [
+      "636591"
+    ],
+    "graded_relevance": {
+      "636591": 3
+    },
+    "tags": [
+      "mathematical-statistics",
+      "standard-deviation",
+      "unbiased-estimator"
+    ]
+  },
+  {
+    "query_id": "std_024",
+    "category": "standard",
+    "query": "R - Calculate trendline and extend it for 365 days automatically",
+    "gold_answer_ids": [
+      "67545"
+    ],
+    "graded_relevance": {
+      "67545": 3
+    },
+    "tags": [
+      "r",
+      "function"
+    ]
+  },
+  {
+    "query_id": "std_025",
+    "category": "standard",
+    "query": "What is the weak side of decision trees?",
+    "gold_answer_ids": [
+      "1297"
+    ],
+    "graded_relevance": {
+      "1297": 3
+    },
+    "tags": [
+      "machine-learning",
+      "nonparametric",
+      "cart"
+    ]
+  },
+  {
+    "query_id": "std_026",
+    "category": "standard",
+    "query": "Regarding the order of AR and MA terms in ARMA",
+    "gold_answer_ids": [
+      "434502"
+    ],
+    "graded_relevance": {
+      "434502": 3
+    },
+    "tags": [
+      "time-series"
+    ]
+  },
+  {
+    "query_id": "std_027",
+    "category": "standard",
+    "query": "Overview of concepts of the methods that this Single-Cell Differential Expression (SCDE) tool uses?",
+    "gold_answer_ids": [
+      "163451"
+    ],
+    "graded_relevance": {
+      "163451": 3
+    },
+    "tags": [
+      "r",
+      "group-differences"
+    ]
+  },
+  {
+    "query_id": "std_028",
+    "category": "standard",
+    "query": "Visualize categorical data for two variables for 20 observations",
+    "gold_answer_ids": [
+      "367637"
+    ],
+    "graded_relevance": {
+      "367637": 3
+    },
+    "tags": [
+      "categorical-data",
+      "data-visualization",
+      "dataset",
+      "social-science"
+    ]
+  },
+  {
+    "query_id": "std_029",
+    "category": "standard",
+    "query": "Overmatching bias and confounding variables",
+    "gold_answer_ids": [
+      "19615"
+    ],
+    "graded_relevance": {
+      "19615": 3
+    },
+    "tags": [
+      "epidemiology",
+      "bias",
+      "confounding",
+      "matching"
+    ]
+  },
+  {
+    "query_id": "std_030",
+    "category": "standard",
+    "query": "Use of Bayesian hierarchical model",
+    "gold_answer_ids": [
+      "245440"
+    ],
+    "graded_relevance": {
+      "245440": 3
+    },
+    "tags": [
+      "bayesian",
+      "hierarchical-bayesian"
+    ]
+  },
+  {
+    "query_id": "std_031",
+    "category": "standard",
+    "query": "Mixed Effects Model - Some groups have a single value of x",
+    "gold_answer_ids": [
+      "374129"
+    ],
+    "graded_relevance": {
+      "374129": 3
+    },
+    "tags": [
+      "regression",
+      "mixed-model",
+      "regression-coefficients"
+    ]
+  },
+  {
+    "query_id": "std_032",
+    "category": "standard",
+    "query": "Poisson GLMM vs GLM in R (lme4)",
+    "gold_answer_ids": [
+      "292131"
+    ],
+    "graded_relevance": {
+      "292131": 3
+    },
+    "tags": [
+      "r",
+      "lme4-nlme",
+      "poisson-distribution",
+      "deviance"
+    ]
+  },
+  {
+    "query_id": "std_033",
+    "category": "standard",
+    "query": "How do I interpret regression coefficients with autocorrelated residuals?",
+    "gold_answer_ids": [
+      "88748"
+    ],
+    "graded_relevance": {
+      "88748": 3
+    },
+    "tags": [
+      "r",
+      "regression",
+      "time-series",
+      "arima"
+    ]
+  },
+  {
+    "query_id": "std_034",
+    "category": "standard",
+    "query": "Using Poisson for Crime Rates?",
+    "gold_answer_ids": [
+      "300765"
+    ],
+    "graded_relevance": {
+      "300765": 3
+    },
+    "tags": [
+      "regression",
+      "poisson-distribution",
+      "poisson-regression",
+      "offset"
+    ]
+  },
+  {
+    "query_id": "std_035",
+    "category": "standard",
+    "query": "Let $A, B$ be random variables. Does $P(A|B)=1-P(\\overline{A}|B)$?",
+    "gold_answer_ids": [
+      "461755"
+    ],
+    "graded_relevance": {
+      "461755": 3
+    },
+    "tags": [
+      "probability",
+      "conditional-probability",
+      "random-variable"
     ]
   },
   {
     "query_id": "std_036",
     "category": "standard",
-    "query": "Orthogonal polynomials + cross validation: should subsetting be done prior or after constructing the orthogonal polynomials?",
+    "query": "Alternatives to Using ARIMA for forecasting",
     "gold_answer_ids": [
-      "311578"
+      "312401"
     ],
     "graded_relevance": {
-      "311578": 3
+      "312401": 3
     },
     "tags": [
-      "regression",
-      "cross-validation",
-      "total-least-squares"
+      "time-series",
+      "forecasting",
+      "arima",
+      "exponential-smoothing",
+      "univariate"
     ]
   },
   {
     "query_id": "std_037",
     "category": "standard",
-    "query": "Which is more appropriate? Poisson or regular linear regression?",
+    "query": "Recurrent event analysis",
     "gold_answer_ids": [
-      "208012"
+      "208852"
     ],
     "graded_relevance": {
-      "208012": 3
+      "208852": 3
     },
     "tags": [
       "r",
-      "binary-data",
-      "poisson-regression",
-      "multivariate-regression"
+      "survival"
     ]
   },
   {
     "query_id": "std_038",
     "category": "standard",
-    "query": "When y= 1, logit is infinity. How can you regress that? Yet somehow, that's logistic regression",
+    "query": "Survey Analysis: Weighted Randomization to fill Missing Values",
     "gold_answer_ids": [
-      "525290"
+      "526198"
     ],
     "graded_relevance": {
-      "525290": 3
+      "526198": 3
     },
     "tags": [
-      "regression",
-      "logistic"
+      "missing-data",
+      "survey",
+      "data-imputation",
+      "multiple-imputation",
+      "randomized-algorithms"
     ]
   },
   {
     "query_id": "std_039",
     "category": "standard",
-    "query": "likelihood for regression purposes",
+    "query": "Estimate $\\lambda$ in the fitting line $x^\\lambda$, where $x \\in [0, 1]$",
     "gold_answer_ids": [
-      "395339"
+      "396241"
     ],
     "graded_relevance": {
-      "395339": 3
+      "396241": 3
     },
     "tags": [
-      "regression",
-      "maximum-likelihood"
+      "r",
+      "regression"
     ]
   },
   {
     "query_id": "std_040",
     "category": "standard",
-    "query": "Method of Moments for $\\nu$ of standard t-distribution: what if true $\\nu=2$?",
+    "query": "Why do I get such a large divergence between Gaussian and Gamma family GLMs?",
     "gold_answer_ids": [
-      "287272"
+      "288211"
     ],
     "graded_relevance": {
-      "287272": 3
+      "288211": 3
     },
     "tags": [
-      "distributions",
-      "t-distribution",
-      "method-of-moments"
+      "r",
+      "generalized-linear-model",
+      "gamma-distribution",
+      "link-function"
     ]
   },
   {
     "query_id": "std_041",
     "category": "standard",
-    "query": "What is the distinction between short term and long term forecasting?",
+    "query": "How many features can we use to avoid overfitting the classification?",
     "gold_answer_ids": [
-      "124845"
+      "125268"
     ],
     "graded_relevance": {
-      "124845": 3
+      "125268": 3
     },
     "tags": [
-      "forecasting"
+      "classification",
+      "pattern-recognition",
+      "overfitting"
     ]
   },
   {
     "query_id": "std_042",
     "category": "standard",
-    "query": "Which one is the null hypothesis? Conflict between science theory, logic and statistics?",
+    "query": "Weighted clustering on large spatial dataset",
     "gold_answer_ids": [
-      "13804"
+      "13998"
     ],
     "graded_relevance": {
-      "13804": 3
+      "13998": 3
     },
     "tags": [
-      "hypothesis-testing",
-      "philosophical"
+      "r",
+      "clustering",
+      "spatial"
     ]
   },
   {
     "query_id": "std_043",
     "category": "standard",
-    "query": "How to calculate Rousseeuw\u2019s and Croux\u2019 (1993) Qn scale estimator for large samples?",
+    "query": "How to plot a fan (Polar) Dendrogram in R?",
     "gold_answer_ids": [
-      "3992"
+      "4064"
     ],
     "graded_relevance": {
-      "3992": 3
+      "4064": 3
     },
     "tags": [
-      "data-transformation",
-      "scales",
-      "robust",
-      "optimal-scaling"
+      "r",
+      "data-visualization",
+      "dendrogram"
     ]
   },
   {
     "query_id": "std_044",
     "category": "standard",
-    "query": "Model fitting when errors take a Cauchy distribution",
+    "query": "GBM: Predict the response variable measured in {0,20}",
     "gold_answer_ids": [
-      "171336"
+      "171970"
     ],
     "graded_relevance": {
-      "171336": 3
+      "171970": 3
     },
     "tags": [
-      "modeling",
-      "cauchy-distribution"
+      "r",
+      "feature-selection",
+      "boosting"
     ]
   },
   {
     "query_id": "std_045",
     "category": "standard",
-    "query": "How well gradient boosting can predict outside training values domain?",
+    "query": "Trying to compute Gini index on StackOverflow reputation distribution?",
     "gold_answer_ids": [
-      "385451"
+      "386485"
     ],
     "graded_relevance": {
-      "385451": 3
+      "386485": 3
     },
     "tags": [
-      "regression",
-      "machine-learning",
-      "boosting"
+      "gini"
     ]
   },
   {
     "query_id": "std_046",
     "category": "standard",
-    "query": "Why is it bad to teach students that p-values are the probability that findings are due to chance?",
+    "query": "Given a 5.67% chance for success and using its Expected Value, shouldn't this binomial formula equal 50% 1-(1-0.0567)^(100/5.67)?",
     "gold_answer_ids": [
-      "229427"
+      "230026"
     ],
     "graded_relevance": {
-      "229427": 3
+      "230026": 3
     },
     "tags": [
-      "p-value",
-      "randomness",
-      "teaching"
+      "probability",
+      "mathematical-statistics",
+      "binomial-distribution",
+      "descriptive-statistics"
     ]
   },
   {
     "query_id": "std_047",
     "category": "standard",
-    "query": "What does the mean of pairwise differences of two distributions tell use",
+    "query": "Do SVM suffer from imbalanced class sizes?",
     "gold_answer_ids": [
-      "275834"
+      "276723"
     ],
     "graded_relevance": {
-      "275834": 3
+      "276723": 3
     },
     "tags": [
-      "effect-size",
-      "paired-data",
-      "cohens-d"
+      "svm",
+      "sample-size",
+      "libsvm"
     ]
   },
   {
     "query_id": "std_048",
     "category": "standard",
-    "query": "Molecules movement distribution puzzle",
+    "query": "Interpreting regression results",
     "gold_answer_ids": [
-      "147400"
+      "147952"
     ],
     "graded_relevance": {
-      "147400": 3
+      "147952": 3
     },
     "tags": [
-      "probability",
-      "distributions",
-      "sampling",
-      "binomial-distribution"
+      "r",
+      "regression",
+      "time-series",
+      "interpretation"
     ]
   },
   {
     "query_id": "std_049",
     "category": "standard",
-    "query": "Estimate statistical significance of a feature in a time series",
+    "query": "Which metric should I use to rank these distributions?",
     "gold_answer_ids": [
-      "143486"
+      "144029"
     ],
     "graded_relevance": {
-      "143486": 3
+      "144029": 3
     },
     "tags": [
-      "time-series",
-      "hypothesis-testing",
-      "statistical-significance",
-      "arima",
-      "intervention-analysis"
+      "distributions",
+      "ranking",
+      "kurtosis"
     ]
   },
   {
     "query_id": "std_050",
     "category": "standard",
-    "query": "Averaging averages and standard deviations",
+    "query": "Simulating a Brownian Excursion Process using Software",
     "gold_answer_ids": [
-      "161765"
+      "162469"
     ],
     "graded_relevance": {
-      "161765": 3
+      "162469": 3
     },
     "tags": [
-      "standard-deviation",
-      "mean"
+      "r",
+      "matlab",
+      "brownian-motion"
     ]
   },
   {
     "query_id": "std_051",
     "category": "standard",
-    "query": "GARCH in STATA: significant results but still volatility clustering",
+    "query": "How to interpret regression equations with logarithms, based on log difference being approximate to percentage change?",
     "gold_answer_ids": [
-      "199374"
+      "200158"
     ],
     "graded_relevance": {
-      "199374": 3
+      "200158": 3
     },
     "tags": [
-      "stata",
-      "garch"
+      "regression",
+      "logistic",
+      "regression-coefficients",
+      "nonlinear-regression",
+      "logarithm"
     ]
   },
   {
     "query_id": "std_052",
     "category": "standard",
-    "query": "Conditional expectation of Poisson process given number of events",
+    "query": "The effect of ignoring covariance on variance estimates",
     "gold_answer_ids": [
-      "369216"
+      "370069"
     ],
     "graded_relevance": {
-      "369216": 3
+      "370069": 3
     },
     "tags": [
-      "self-study",
-      "conditional-expectation",
-      "poisson-process"
+      "generalized-linear-model"
     ]
   },
   {
     "query_id": "std_053",
     "category": "standard",
-    "query": "Intuition for cumulative hazard function (survival analysis)",
+    "query": "Sharing a model trained on confidential data",
     "gold_answer_ids": [
-      "60250"
+      "60597"
     ],
     "graded_relevance": {
-      "60250": 3
+      "60597": 3
     },
     "tags": [
-      "probability",
-      "survival",
-      "hazard"
+      "machine-learning",
+      "logistic",
+      "scikit-learn"
     ]
   },
   {
     "query_id": "std_054",
     "category": "standard",
-    "query": "Deriving Bellman's Equation in Reinforcement Learning",
+    "query": "Nonparametric bootstrap: Circular reasoning behind colleague's comments?",
     "gold_answer_ids": [
-      "452547"
+      "453517"
     ],
     "graded_relevance": {
-      "452547": 3
+      "453517": 3
     },
     "tags": [
-      "expected-value",
-      "reinforcement-learning"
+      "optimization",
+      "bootstrap"
     ]
   },
   {
     "query_id": "std_055",
     "category": "standard",
-    "query": "Force-directed methods to draw graphs",
+    "query": "Properties of bivariate standard normal and implied conditional probability in the Roy model",
     "gold_answer_ids": [
-      "64139"
+      "64506"
     ],
     "graded_relevance": {
-      "64139": 3
+      "64506": 3
     },
     "tags": [
-      "data-visualization",
-      "graph-theory",
-      "networks",
-      "igraph"
+      "normal-distribution",
+      "causality",
+      "bivariate",
+      "truncation"
     ]
   },
   {
     "query_id": "std_056",
     "category": "standard",
-    "query": "Zero-centering the testing set after PCA on the training set",
+    "query": "Analysis of data given as intervals instead of points",
     "gold_answer_ids": [
-      "255178"
+      "255911"
     ],
     "graded_relevance": {
-      "255178": 3
+      "255911": 3
     },
     "tags": [
-      "machine-learning",
-      "pca",
-      "centering"
+      "probability",
+      "interval-censoring"
     ]
   },
   {
     "query_id": "std_057",
     "category": "standard",
-    "query": "Survival Analysis tools in Python",
+    "query": "Using AIC to select between models that use nested and non-nested variables",
     "gold_answer_ids": [
-      "69484"
+      "69909"
     ],
     "graded_relevance": {
-      "69484": 3
+      "69909": 3
     },
     "tags": [
-      "python",
-      "survival",
-      "mortality"
+      "mixed-model",
+      "spss",
+      "aic",
+      "nested-data"
     ]
   },
   {
     "query_id": "std_058",
     "category": "standard",
-    "query": "Reshuffle before k-fold cross-validation split when doing grid search",
+    "query": "Number of combinations when swapping two sets with some elements in both",
     "gold_answer_ids": [
-      "357254"
+      "358062"
     ],
     "graded_relevance": {
-      "357254": 3
+      "358062": 3
     },
     "tags": [
-      "neural-networks",
-      "cross-validation",
-      "hyperparameter"
+      "combinatorics"
     ]
   },
   {
     "query_id": "std_059",
     "category": "standard",
-    "query": "How is the standard error calculated for the `lambda.1se` output in the cv.glmnet function?",
+    "query": "Establishing a P-Value-type significance measure when data is in discrete categories",
     "gold_answer_ids": [
-      "511257"
+      "512044"
     ],
     "graded_relevance": {
-      "511257": 3
+      "512044": 3
     },
     "tags": [
-      "r",
-      "lasso",
-      "ridge-regression",
-      "glmnet",
-      "elastic-net"
+      "hypothesis-testing",
+      "statistical-significance",
+      "p-value"
     ]
   },
   {
     "query_id": "std_060",
     "category": "standard",
-    "query": "Difference between a gaussian vector and a multivariate gaussian distribution",
+    "query": "predicting nearly constant data",
     "gold_answer_ids": [
-      "174159"
+      "174620"
     ],
     "graded_relevance": {
-      "174159": 3
+      "174620": 3
     },
     "tags": [
-      "correlation",
-      "normal-distribution"
+      "r",
+      "time-series",
+      "prediction",
+      "fused-lasso"
     ]
   },
   {
     "query_id": "std_061",
     "category": "standard",
-    "query": "OLS uses t-test but GLM uses z-test in statsmodels python",
+    "query": "Bayesian : Comparing means of two posterior samples/ Help a Frequentist Out",
     "gold_answer_ids": [
-      "547323"
+      "548331"
     ],
     "graded_relevance": {
-      "547323": 3
+      "548331": 3
     },
     "tags": [
-      "generalized-linear-model",
-      "t-test",
-      "least-squares",
-      "statsmodels",
-      "z-test"
+      "bayesian",
+      "posterior",
+      "two-sample"
     ]
   },
   {
     "query_id": "std_062",
     "category": "standard",
-    "query": "Comparing the variance of paired observations",
+    "query": "Nonhomogeneous Poisson and Heavy tail inter arrival time distribution",
     "gold_answer_ids": [
-      "943"
+      "970"
     ],
     "graded_relevance": {
-      "943": 3
+      "970": 3
     },
     "tags": [
       "distributions",
-      "hypothesis-testing",
-      "standard-deviation",
-      "normal-distribution"
+      "poisson-distribution",
+      "heavy-tailed"
     ]
   },
   {
     "query_id": "std_063",
     "category": "standard",
-    "query": "Why does the Type-3 ANOVA using LRT via car::Anova() give different result than term-by-term LRT model comparison via anova() in R?",
+    "query": "Convert Cohen's d to nonparametric effect size and use as equivalence bounds",
     "gold_answer_ids": [
-      "612485"
+      "613451"
     ],
     "graded_relevance": {
-      "612485": 3
+      "613451": 3
     },
     "tags": [
-      "hypothesis-testing",
-      "anova",
-      "likelihood-ratio",
-      "model-comparison"
+      "nonparametric",
+      "effect-size",
+      "equivalence"
     ]
   },
   {
     "query_id": "std_064",
     "category": "standard",
-    "query": "Interpreting coefficients and understanding logistic lasso",
+    "query": "Can we replace the t-Student distribution by the Normal distribution in this context?",
     "gold_answer_ids": [
-      "401705"
+      "402769"
     ],
     "graded_relevance": {
-      "401705": 3
+      "402769": 3
     },
     "tags": [
-      "regression",
-      "logistic",
-      "interpretation",
-      "regression-coefficients",
-      "lasso"
+      "self-study",
+      "normal-distribution",
+      "confidence-interval",
+      "t-distribution",
+      "chi-squared-distribution"
     ]
   },
   {
     "query_id": "std_065",
     "category": "standard",
-    "query": "Simulate a mixture distribution in R",
+    "query": "Scikit's prediction for linear model",
     "gold_answer_ids": [
-      "179776"
+      "180498"
     ],
     "graded_relevance": {
-      "179776": 3
+      "180498": 3
     },
     "tags": [
-      "r",
-      "simulation",
-      "mixture-distribution"
+      "machine-learning",
+      "python",
+      "lasso",
+      "scikit-learn"
     ]
   },
   {
     "query_id": "std_066",
     "category": "standard",
-    "query": "Ensemble of different kinds of regressors using scikit-learn (or any other python framework)",
+    "query": "Stopping conditions in coin flipping sequence",
     "gold_answer_ids": [
-      "143139"
+      "143588"
     ],
     "graded_relevance": {
-      "143139": 3
+      "143588": 3
     },
     "tags": [
-      "regression",
-      "scikit-learn",
-      "ensemble-learning"
+      "probability"
     ]
   },
   {
     "query_id": "std_067",
     "category": "standard",
-    "query": "Simulating KL Divergence between Cauchy RV and the MLE estimate of the RV - Multimodality seems wrong",
+    "query": "In what form is optical flow used an input to a neural network?",
     "gold_answer_ids": [
-      "340263"
+      "341219"
     ],
     "graded_relevance": {
-      "340263": 3
+      "341219": 3
     },
     "tags": [
-      "r",
-      "distributions",
-      "maximum-likelihood",
-      "kullback-leibler",
-      "cauchy-distribution"
+      "computer-vision"
     ]
   },
   {
     "query_id": "std_068",
     "category": "standard",
-    "query": "Welch's t-test gives worse p-value for more extreme difference",
+    "query": "Differences on exploratory factor analysis, confirmatory factor analysis and principal component analysis",
     "gold_answer_ids": [
-      "28157"
+      "28457"
     ],
     "graded_relevance": {
-      "28157": 3
+      "28457": 3
     },
     "tags": [
-      "t-test"
+      "pca",
+      "factor-analysis",
+      "confirmatory-factor"
     ]
   },
   {
     "query_id": "std_069",
     "category": "standard",
-    "query": "Why linear regression and then approximation to the closest integer value is a bad idea if your dependent variable is ordinal?",
+    "query": "cross entropy loss max value",
     "gold_answer_ids": [
-      "391913"
+      "392689"
     ],
     "graded_relevance": {
-      "391913": 3
+      "392689": 3
     },
     "tags": [
-      "regression",
-      "ordinal-data"
+      "loss-functions",
+      "extreme-value",
+      "cross-entropy"
     ]
   },
   {
     "query_id": "std_070",
     "category": "standard",
-    "query": "Kolmogorov-Smirnov test statistic interpretation with large samples",
+    "query": "Vector AR/ARMA Model",
     "gold_answer_ids": [
-      "465942"
+      "466820"
     ],
     "graded_relevance": {
-      "465942": 3
+      "466820": 3
     },
     "tags": [
-      "distributions",
-      "kolmogorov-smirnov-test"
+      "covariance-matrix",
+      "vector-autoregression",
+      "white-noise"
     ]
   },
   {
     "query_id": "std_071",
     "category": "standard",
-    "query": "From beta distribution to Dirichlet: Estimation of the concentrantion parameters",
+    "query": "Strange results of Ljung-Box test (for white noise process)",
     "gold_answer_ids": [
-      "410797"
+      "411548"
     ],
     "graded_relevance": {
-      "410797": 3
+      "411548": 3
     },
     "tags": [
-      "distributions",
-      "beta-distribution",
-      "marginal-distribution",
-      "dirichlet-distribution",
-      "multivariate-distribution"
+      "r",
+      "time-series",
+      "hypothesis-testing",
+      "white-noise"
     ]
   },
   {
     "query_id": "std_072",
     "category": "standard",
-    "query": "Can I interpret the p-value of a statistic test as a part in Bayesian Formula?",
+    "query": "Does a Binomial converge to Poisson or Normal?",
     "gold_answer_ids": [
-      "558396"
+      "559390"
     ],
     "graded_relevance": {
-      "558396": 3
+      "559390": 3
     },
     "tags": [
-      "hypothesis-testing",
-      "bayesian",
-      "inference"
+      "normal-distribution",
+      "binomial-distribution",
+      "poisson-distribution",
+      "convergence",
+      "central-limit-theorem"
     ]
   },
   {
     "query_id": "std_073",
     "category": "standard",
-    "query": "What are the primary differences between z-scores and t-scores, and are they both considered standard scores?",
+    "query": "Present results from a multinomial model graphically",
     "gold_answer_ids": [
-      "13423"
+      "13558"
     ],
     "graded_relevance": {
-      "13423": 3
+      "13558": 3
     },
     "tags": [
-      "psychometrics",
-      "normalization"
+      "modeling",
+      "interpretation",
+      "multinomial-distribution"
     ]
   },
   {
     "query_id": "std_074",
     "category": "standard",
-    "query": "Transition from pure mathematics to statistics via operational research",
+    "query": "car racing game win factors",
     "gold_answer_ids": [
-      "89526"
+      "90067"
     ],
     "graded_relevance": {
-      "89526": 3
+      "90067": 3
     },
     "tags": [
-      "mathematical-statistics",
-      "careers"
+      "logit",
+      "games"
     ]
   },
   {
     "query_id": "std_075",
     "category": "standard",
-    "query": "Orthogonalized regression reference?",
+    "query": "Testing strict exogeneity in time series",
     "gold_answer_ids": [
-      "24015"
+      "24224"
     ],
     "graded_relevance": {
-      "24015": 3
+      "24224": 3
     },
     "tags": [
-      "regression",
-      "multiple-regression",
-      "orthogonal"
+      "time-series",
+      "hypothesis-testing",
+      "assumptions",
+      "exogeneity"
     ]
   },
   {
     "query_id": "std_076",
     "category": "standard",
-    "query": "Can you perform an ANOVA on r-values (correlation values)?",
+    "query": "How to deal with different outcomes between pairwise correlations and multiple regression",
     "gold_answer_ids": [
-      "163669"
+      "164184"
     ],
     "graded_relevance": {
-      "163669": 3
+      "164184": 3
     },
     "tags": [
       "correlation",
-      "anova",
-      "normality-assumption",
-      "neuroimaging",
-      "z-score"
+      "multiple-regression",
+      "spss",
+      "multicollinearity"
     ]
   },
   {
     "query_id": "std_077",
     "category": "standard",
-    "query": "In PCA, do the principal components beyond the first optimize any expression?",
+    "query": "Meta-analysis of multiple diagnostic tests accuracies",
     "gold_answer_ids": [
-      "222548"
+      "223177"
     ],
     "graded_relevance": {
-      "222548": 3
+      "223177": 3
     },
     "tags": [
-      "pca",
-      "optimization"
+      "meta-analysis",
+      "diagnostic",
+      "sensitivity-specificity",
+      "network-meta-analysis"
     ]
   },
   {
     "query_id": "std_078",
     "category": "standard",
-    "query": "SAS/IML compared to R",
+    "query": "Is it possible to predict the likelihood of an order of random events?",
     "gold_answer_ids": [
-      "5723"
+      "5805"
     ],
     "graded_relevance": {
-      "5723": 3
+      "5805": 3
     },
     "tags": [
-      "r",
-      "sas"
+      "probability",
+      "randomness"
     ]
   },
   {
     "query_id": "std_079",
     "category": "standard",
-    "query": "Repeating an experiment - more valuable than sample size?",
+    "query": "Symbolic computer algebra for statistics",
     "gold_answer_ids": [
-      "10188"
+      "10333"
     ],
     "graded_relevance": {
-      "10188": 3
+      "10333": 3
     },
     "tags": [
-      "self-study",
-      "experiment-design"
+      "python",
+      "computational-statistics",
+      "mathematica",
+      "maple"
     ]
   },
   {
     "query_id": "std_080",
     "category": "standard",
-    "query": "Understanding linear projection in \"The Elements of Statistical Learning\"",
+    "query": "How to generate the transition matrix of Markov Chain needed for Markov Chain Monte Carlo simulation?",
     "gold_answer_ids": [
-      "204508"
+      "205244"
     ],
     "graded_relevance": {
-      "204508": 3
+      "205244": 3
     },
     "tags": [
-      "regression",
-      "machine-learning"
+      "markov-chain-montecarlo",
+      "monte-carlo",
+      "markov-process"
     ]
   },
   {
     "query_id": "std_081",
     "category": "standard",
-    "query": "Why BERT keep some masked tokens unchanged?",
+    "query": "How to reason about independence of combinations of events?",
     "gold_answer_ids": [
-      "467622"
+      "468630"
     ],
     "graded_relevance": {
-      "467622": 3
+      "468630": 3
     },
     "tags": [
-      "neural-networks",
-      "natural-language"
+      "independence",
+      "conditional-independence"
     ]
   },
   {
     "query_id": "std_082",
     "category": "standard",
-    "query": "Competing hazards for event that makes the event of interest more likely",
+    "query": "Why is post treatment bias a bias and not just multicollinearity?",
     "gold_answer_ids": [
-      "162740"
+      "163269"
     ],
     "graded_relevance": {
-      "162740": 3
+      "163269": 3
     },
     "tags": [
-      "survival"
+      "regression",
+      "multicollinearity",
+      "bias",
+      "observational-study"
     ]
   },
   {
     "query_id": "std_083",
     "category": "standard",
-    "query": "What is a good way to test a simple Recurrent Neural Network",
+    "query": "Estimate quantile of value in a vector",
     "gold_answer_ids": [
-      "203641"
+      "204354"
     ],
     "graded_relevance": {
-      "203641": 3
+      "204354": 3
     },
     "tags": [
-      "time-series",
-      "machine-learning",
-      "neural-networks",
-      "validation"
+      "r",
+      "quantiles"
     ]
   },
   {
     "query_id": "std_084",
     "category": "standard",
-    "query": "Linear discriminant analysis posterior not giving expected values in R",
+    "query": "Is frequentist conditional inference still being used in practice?",
     "gold_answer_ids": [
-      "226034"
+      "226718"
     ],
     "graded_relevance": {
-      "226034": 3
+      "226718": 3
     },
     "tags": [
-      "r",
-      "probability",
-      "classification",
-      "linear-model",
-      "posterior"
+      "confidence-interval",
+      "maximum-likelihood",
+      "inference"
     ]
   },
   {
     "query_id": "std_085",
     "category": "standard",
-    "query": "Very small p-value after performing ANOVA TEST (small sample size)",
+    "query": "Finding minimum/maximum peaks in a n-modal distribution",
     "gold_answer_ids": [
-      "426910"
+      "427981"
     ],
     "graded_relevance": {
-      "426910": 3
+      "427981": 3
     },
     "tags": [
-      "hypothesis-testing",
-      "anova",
-      "p-value"
+      "distributions",
+      "inference"
     ]
   },
   {
     "query_id": "std_086",
     "category": "standard",
-    "query": "In scikit-learn, should classifiers be reinstated after every fold?",
+    "query": "Unbiased Estimator for $EX_1EY_1$",
     "gold_answer_ids": [
-      "327682"
+      "328559"
     ],
     "graded_relevance": {
-      "327682": 3
+      "328559": 3
     },
     "tags": [
-      "scikit-learn"
+      "econometrics",
+      "unbiased-estimator",
+      "estimators"
     ]
   },
   {
     "query_id": "std_087",
     "category": "standard",
-    "query": "Does anyone know any good open source software for visualizing data from database?",
+    "query": "How to extract information from a scatterplot matrix when you have large N, discrete data, & many variables?",
     "gold_answer_ids": [
-      "128875"
+      "129551"
     ],
     "graded_relevance": {
-      "128875": 3
+      "129551": 3
     },
     "tags": [
+      "r",
       "data-visualization",
-      "software",
-      "interactive-visualization"
+      "interpretation",
+      "scatterplot"
     ]
   },
   {
     "query_id": "std_088",
     "category": "standard",
-    "query": "Methods of \"Two-Way\" Multidimensional Scaling (MDS)?",
+    "query": "How to compare yearly categorical data? ",
     "gold_answer_ids": [
-      "36042"
+      "36313"
     ],
     "graded_relevance": {
-      "36042": 3
+      "36313": 3
     },
     "tags": [
-      "multivariate-analysis",
-      "multidimensional-scaling",
-      "procrustes-analysis"
+      "r",
+      "time-series",
+      "descriptive-statistics"
     ]
   },
   {
     "query_id": "std_089",
     "category": "standard",
-    "query": "Impose a condition on neural network",
+    "query": "If my data doesn't completely follow the Zipf's law, how do I justify it mathematically?",
     "gold_answer_ids": [
-      "562519"
+      "563400"
     ],
     "graded_relevance": {
-      "562519": 3
+      "563400": 3
     },
     "tags": [
-      "neural-networks",
-      "tensorflow",
-      "keras"
+      "zipf"
     ]
   },
   {
     "query_id": "std_090",
     "category": "standard",
-    "query": "Sampling 100000 times from normal distribution in R : strange distribution of samples' standard deviation",
+    "query": "Help in Expectation Maximization from paper :how to include prior distribution?",
     "gold_answer_ids": [
-      "202454"
+      "203225"
     ],
     "graded_relevance": {
-      "202454": 3
+      "203225": 3
     },
     "tags": [
-      "r",
-      "normal-distribution",
-      "standard-deviation",
-      "simulation",
-      "sample"
+      "self-study",
+      "bayesian",
+      "maximum-likelihood",
+      "expectation-maximization",
+      "moving-average"
     ]
   },
   {
     "query_id": "std_091",
     "category": "standard",
-    "query": "Logistic Regresion / SVM / Random Forest Implementation in Matlab",
+    "query": "Transform response for hurdle model",
     "gold_answer_ids": [
-      "149289"
+      "149910"
     ],
     "graded_relevance": {
-      "149289": 3
+      "149910": 3
     },
     "tags": [
-      "machine-learning",
-      "logistic",
-      "svm",
-      "matlab",
-      "random-forest"
+      "multiple-regression",
+      "data-transformation",
+      "zero-inflation"
     ]
   },
   {
     "query_id": "std_092",
     "category": "standard",
-    "query": "How to model nested fixed-factor with GLMM",
+    "query": "How can I identify ARIMA model for this data?",
     "gold_answer_ids": [
-      "243812"
+      "244655"
     ],
     "graded_relevance": {
-      "243812": 3
+      "244655": 3
     },
     "tags": [
-      "r",
-      "nested-data",
-      "lme4-nlme"
+      "time-series",
+      "arima",
+      "residuals"
     ]
   },
   {
     "query_id": "std_093",
     "category": "standard",
-    "query": "Probability distribution of two different probabilities",
+    "query": "Interpretation of significant interaction term, but insignificant joint effect",
     "gold_answer_ids": [
-      "253232"
+      "253878"
     ],
     "graded_relevance": {
-      "253232": 3
+      "253878": 3
     },
     "tags": [
-      "probability",
-      "distributions",
-      "binomial-distribution",
-      "poisson-binomial-distribution"
+      "least-squares",
+      "interaction"
     ]
   },
   {
     "query_id": "std_094",
     "category": "standard",
-    "query": "Practically speaking, how do people handle ANOVA when the data doesn't quite meet assumptions?",
+    "query": "Given the distribution of a variable X, what is the distribution of f(X)?",
     "gold_answer_ids": [
-      "97105"
+      "97623"
     ],
     "graded_relevance": {
-      "97105": 3
+      "97623": 3
     },
     "tags": [
-      "anova",
-      "heteroscedasticity",
-      "assumptions"
+      "distributions",
+      "standard-deviation",
+      "mean",
+      "function"
     ]
   },
   {
     "query_id": "std_095",
     "category": "standard",
-    "query": "Use of expression \"statistically significantly positive\"",
+    "query": "Adding Regressors: How Does the Estimated Variance of the Error Terms Change?",
     "gold_answer_ids": [
-      "431908"
+      "432823"
     ],
     "graded_relevance": {
-      "431908": 3
+      "432823": 3
     },
     "tags": [
       "regression",
-      "statistical-significance",
-      "terminology"
+      "self-study",
+      "multiple-regression",
+      "error"
     ]
   },
   {
     "query_id": "std_096",
     "category": "standard",
-    "query": "Learning classifier system frameworks",
+    "query": "Visualizing mixed model results",
     "gold_answer_ids": [
-      "38398"
+      "38646"
     ],
     "graded_relevance": {
-      "38398": 3
+      "38646": 3
     },
     "tags": [
-      "optimization",
-      "machine-learning"
+      "r",
+      "data-visualization",
+      "mixed-model"
     ]
   },
   {
     "query_id": "std_097",
     "category": "standard",
-    "query": "Permutation test for mob() tree in partykit",
+    "query": "power analysis via Monte Carlo when effect size, means, and std unknown",
     "gold_answer_ids": [
-      "569816"
+      "570815"
     ],
     "graded_relevance": {
-      "569816": 3
+      "570815": 3
     },
     "tags": [
-      "regression",
-      "machine-learning",
-      "cart",
-      "party"
+      "statistical-power",
+      "monte-carlo"
     ]
   },
   {
     "query_id": "std_098",
     "category": "standard",
-    "query": "Image Clustering with K-means - Postprocessing",
+    "query": "Why do researchers use 10-fold cross validation instead of testing on a validation set?",
     "gold_answer_ids": [
-      "49304"
+      "49694"
     ],
     "graded_relevance": {
-      "49304": 3
+      "49694": 3
     },
     "tags": [
-      "clustering",
-      "python",
-      "k-means",
-      "image-processing",
-      "unsupervised-learning"
+      "classification",
+      "cross-validation"
     ]
   },
   {
     "query_id": "std_099",
     "category": "standard",
-    "query": "Test repeated (within-subjects) observations of multinomial categorical data?",
+    "query": "weights versus shifted log-weights",
     "gold_answer_ids": [
-      "299727"
+      "300372"
     ],
     "graded_relevance": {
-      "299727": 3
+      "300372": 3
     },
     "tags": [
-      "r",
-      "categorical-data",
-      "repeated-measures",
-      "multinomial-distribution"
+      "logarithm",
+      "particle-filter"
     ]
   },
   {
     "query_id": "std_100",
     "category": "standard",
-    "query": "Factors or components in Stata and R (psych, lavaan): Confusing method labels and diverging results",
+    "query": "How can I sample a multivariate normal vector that satisfies a linear equality constraint?",
     "gold_answer_ids": [
-      "618325"
+      "619381"
     ],
     "graded_relevance": {
-      "618325": 3
+      "619381": 3
     },
     "tags": [
-      "r",
-      "stata",
-      "factor-analysis",
-      "lavaan",
-      "polychoric"
+      "sampling",
+      "markov-chain-montecarlo",
+      "multivariate-normal-distribution"
     ]
   }
 ]
