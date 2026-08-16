@@ -61,30 +61,37 @@ manual annotation.
 ```
 user question
      │
-     ├─ conversational follow-up? → prepend the last 2 turns to the search query
-     │                              ("how do I prevent it?" is unsearchable alone)
+     ├─ conversational follow-up? → Smart Guard (needs_query_rewrite)
+     │                              - Standalone query → 0.0s (bypass rewriter)
+     │                              - Pronoun follow-up → Groq fast rewriter (<300ms)
      ▼
-┌─────────────────── Qdrant, one round trip ───────────────────┐
+┌─────────────────── Qdrant, parallel execution ──────────────┐
 │  dense: BAAI/bge-small-en-v1.5 (384-d, cosine)               │
 │  sparse: CRC32 feature hashing (2^18), TF; IDF applied       │
 │          server-side via Modifier.IDF                        │
+│  dense + sparse generated concurrently via ThreadPool        │
 │  fused server-side by Reciprocal Rank Fusion                 │
 └──────────────────────────────┬───────────────────────────────┘
-                               │ 15 candidates
+                               │ 10 candidate chunks
                                ▼
-              cross-encoder/ms-marco-MiniLM-L-6-v2
+            Jina Reranker API (HTTP Session Keep-Alive)
+            fallback: cross-encoder/ms-marco-MiniLM-L-6-v2
                                │ top 3
                                ▼
-              Groq · openai/gpt-oss-20b · streamed
+            Groq · llama-3.3-70b-versatile · 50ms UI batch streaming
                                │
                                ▼
      answer + citations (thread title, vote count, ✓ accepted, link)
 ```
 
+**Ultra-low latency streaming.** Token updates are batched into 50ms micro-batches (~20 FPS) to prevent Gradio UI queue backpressure, bringing total end-to-end response delivery down from **19.4s to 1.2s – 1.9s**.
+
 **Sparse search runs inside the database.** An in-process BM25 index over 218K chunks
 is roughly 1 GB of RAM and has to be rebuilt from a full collection scroll on every
 boot — it does not survive a free-tier container. Moving to Qdrant native sparse
 vectors made startup constant-time and memory flat.
+
+**Persistent HTTP connection pooling.** Jina Re-Ranking uses a shared `requests.Session()` with HTTP keep-alive, avoiding TCP/TLS handshake overhead on every query.
 
 **Ingestion is strictly offline.** `parse_dump.py` → `embed_corpus.py` →
 `upload_embeddings.py`. Nothing embeds at request time, so a restart never re-indexes.
