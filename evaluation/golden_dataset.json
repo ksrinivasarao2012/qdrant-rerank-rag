@@ -110,10 +110,10 @@
     "category": "negation",
     "query": "Clustering methods that do not require specifying the number of clusters k?",
     "gold_answer_ids": [
-      "9019"
+      "241387"
     ],
     "graded_relevance": {
-      "9019": 3
+      "241387": 3
     },
     "tags": [
       "clustering",

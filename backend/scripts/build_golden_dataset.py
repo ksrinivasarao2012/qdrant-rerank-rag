@@ -253,7 +253,10 @@ NEGATION_CASES = [
     },
     {
         "query": "Clustering methods that do not require specifying the number of clusters k?",
-        "include": ["clustering", "number of clusters"],
+        # "number of clusters" also matches "How to define number of clusters in
+        # K-means clustering?" -- the semantic OPPOSITE of this query -- and that
+        # post outranks the right one on votes. "do not require" cannot match it.
+        "include": ["clustering", "do not require"],
         "distractor_include": ["k-means"],
         "tags": ["clustering", "unsupervised-learning"],
     },
