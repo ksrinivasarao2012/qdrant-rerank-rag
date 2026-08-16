@@ -35,36 +35,40 @@ def run_benchmarks():
         cmd = [sys.executable, "evaluation/eval_retriever.py"] + run["args"]
         
         try:
-            # We use Popen to read the output and output character by character
-            # to handle carriage returns (\r) correctly for progress bars.
+            # We use Popen to read the output and parse progress lines
             process = subprocess.Popen(
                 cmd,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.STDOUT,
                 text=True,
-                bufsize=0
+                bufsize=1
             )
             
             output_lines = []
-            current_line = []
-            
-            while True:
-                char = process.stdout.read(1)
-                if not char and process.poll() is not None:
-                    break
-                if char:
-                    sys.stdout.write(char)
+            for line in iter(process.stdout.readline, ""):
+                output_lines.append(line)
+                
+                # Check if this line is a tqdm progress update (contains percentage and e.g. "314 [")
+                if "%|" in line and "/314" in line:
+                    # Clean the line and show only the progress bar on a single line in-place
+                    cleaned = line.strip().replace("\r", "")
+                    sys.stdout.write(f"\r[Progress] {cleaned}")
                     sys.stdout.flush()
-                    if char == '\n':
-                        output_lines.append("".join(current_line))
-                        current_line = []
-                    elif char != '\r':
-                        current_line.append(char)
-            
-            if current_line:
-                output_lines.append("".join(current_line))
+                elif "Evaluating retriever queries:" in line and "0%" in line:
+                    sys.stdout.write("\r[Progress] Starting evaluation...")
+                    sys.stdout.flush()
+                elif "Loading weights:" in line:
+                    # Print loading message on the progress line
+                    sys.stdout.write("\r[Progress] Loading model weights...")
+                    sys.stdout.flush()
+                elif any(kw in line for kw in ["Config:", "Loaded", "Connecting", "Loading reranker"]):
+                    # Standard initialization prints
+                    sys.stdout.write(f"\n{line.strip()}")
+                    sys.stdout.flush()
             
             process.communicate() # wait for process finish
+            sys.stdout.write("\n")
+            sys.stdout.flush()
             
             # Parse the metrics from the captured output lines
             mrr, r3, r5, r10 = None, None, None, None
