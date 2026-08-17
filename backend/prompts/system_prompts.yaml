@@ -171,7 +171,7 @@ answer:
 # Pre-retrieval - turns a follow-up question into a standalone search query.
 # ===========================================================================
 query_rewrite:
-  active: clarify_and_expand_v3
+  active: standalone_v1
 
   defaults:
     model: openrouter/free
@@ -233,6 +233,28 @@ query_rewrite:
         FOLLOW-UP QUESTION: $query
 
         RESPONSE:
+
+    negation_aware_v4:
+      notes: >-
+        Negation-aware query expansion. Detects negation phrases (like "without X", "except Y",
+        "excluding Z") and rewrites the query to remove the negated term while explicitly
+        appending general synonyms and alternative techniques for that domain to prevent dense vector contamination.
+      user: |-
+        You are a search query optimizer. Rewrite the following question to be a standalone, self-contained search query.
+        
+        Rules:
+        1. Resolve all pronouns and conversational referents using the chat history.
+        2. NEGATION HANDLING: If the question contains any negation or exclusion (for example, "without X", "except Y", "excluding Z", "not using W", "other than V"), you must:
+           a. Do NOT include the negated term (X, Y, Z, W, or V) in the final search query.
+           b. Instead, identify the general topic (e.g. normality testing, feature selection, dimensionality reduction, classification) and explicitly append common alternative methods, terms, or algorithms for that domain to help the search engine find valid alternatives.
+        
+        Do NOT answer the question. Output ONLY the standalone query on a single line.
+
+        CHAT HISTORY:
+        $history
+        FOLLOW-UP QUESTION: $query
+
+        STANDALONE QUERY:
 
 # ===========================================================================
 # Ingestion - converts images embedded in PDF pages into searchable text.

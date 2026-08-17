@@ -215,7 +215,33 @@ class VectorDBManager:
             ]
         )
 
-    def search(self, query: str, n_results: int = 3, source_file: str = None) -> List[Dict[str, Any]]:
+    def _combine_filters(self, source_file: str = None, qdrant_filter: Any = None) -> Any:
+        """Merges topic (tag) filters and custom Qdrant filters."""
+        tag_filt = self._tag_filter(source_file) if source_file else None
+        if not tag_filt:
+            return qdrant_filter
+        if not qdrant_filter:
+            return tag_filt
+            
+        must_conditions = []
+        must_not_conditions = []
+        
+        if tag_filt.must:
+            must_conditions.extend(tag_filt.must)
+        if tag_filt.must_not:
+            must_not_conditions.extend(tag_filt.must_not)
+            
+        if qdrant_filter.must:
+            must_conditions.extend(qdrant_filter.must)
+        if qdrant_filter.must_not:
+            must_not_conditions.extend(qdrant_filter.must_not)
+            
+        return models.Filter(
+            must=must_conditions if must_conditions else None,
+            must_not=must_not_conditions if must_not_conditions else None
+        )
+
+    def search(self, query: str, n_results: int = 3, source_file: str = None, qdrant_filter: Any = None) -> List[Dict[str, Any]]:
         """
         Performs semantic (dense) search in Qdrant.
         """
@@ -226,7 +252,7 @@ class VectorDBManager:
                 collection_name=self.collection,
                 query=query_vector,
                 using="dense",
-                query_filter=self._tag_filter(source_file),
+                query_filter=self._combine_filters(source_file, qdrant_filter),
                 limit=n_results
             )
         except Exception as e:
@@ -235,7 +261,7 @@ class VectorDBManager:
 
         return self._format_results(results)
 
-    def search_sparse(self, query: str, n_results: int = 3, source_file: str = None) -> List[Dict[str, Any]]:
+    def search_sparse(self, query: str, n_results: int = 3, source_file: str = None, qdrant_filter: Any = None) -> List[Dict[str, Any]]:
         """
         Performs keyword (sparse) search in Qdrant.
         """
@@ -246,7 +272,7 @@ class VectorDBManager:
                 collection_name=self.collection,
                 query=sparse_query,
                 using="sparse",
-                query_filter=self._tag_filter(source_file),
+                query_filter=self._combine_filters(source_file, qdrant_filter),
                 limit=n_results
             )
         except Exception as e:
@@ -255,7 +281,7 @@ class VectorDBManager:
 
         return self._format_results(results)
 
-    def search_hybrid(self, query: str, n_results: int = 3, source_file: str = None) -> List[Dict[str, Any]]:
+    def search_hybrid(self, query: str, n_results: int = 3, source_file: str = None, qdrant_filter: Any = None) -> List[Dict[str, Any]]:
         """
         Performs hybrid search (dense + sparse) fused with RRF directly inside Qdrant.
         Dense embedding and sparse encoding are executed concurrently for low latency.
@@ -287,7 +313,7 @@ class VectorDBManager:
                 query=models.FusionQuery(
                     fusion=models.Fusion.RRF
                 ),
-                query_filter=self._tag_filter(source_file),
+                query_filter=self._combine_filters(source_file, qdrant_filter),
                 limit=n_results
             )
         except Exception as e:

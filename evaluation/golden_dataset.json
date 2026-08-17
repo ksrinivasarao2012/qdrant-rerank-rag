@@ -404,10 +404,16 @@
       "bias vs variance ML"
     ],
     "gold_answer_ids": [
-      "4287"
+      "4287",
+      "78685",
+      "237850",
+      "444014"
     ],
     "graded_relevance": {
-      "4287": 3
+      "4287": 3,
+      "78685": 2,
+      "237850": 2,
+      "444014": 2
     },
     "tags": [
       "bias-variance",
@@ -573,10 +579,12 @@
       "what happens if you do not scale features in pca"
     ],
     "gold_answer_ids": [
-      "23579"
+      "23579",
+      "23580"
     ],
     "graded_relevance": {
-      "23579": 3
+      "23579": 3,
+      "23580": 2
     },
     "tags": [
       "pca",
@@ -615,10 +623,16 @@
       "r-hat diagnostic for mcmc chains"
     ],
     "gold_answer_ids": [
-      "509"
+      "509",
+      "560",
+      "1623",
+      "21009"
     ],
     "graded_relevance": {
-      "509": 3
+      "509": 3,
+      "560": 2,
+      "1623": 2,
+      "21009": 2
     },
     "tags": [
       "mcmc",
@@ -657,10 +671,16 @@
       "when is bootstrap preferred over traditional methods"
     ],
     "gold_answer_ids": [
-      "26089"
+      "26089",
+      "26093",
+      "26098",
+      "277937"
     ],
     "graded_relevance": {
-      "26089": 3
+      "26089": 3,
+      "26093": 2,
+      "26098": 2,
+      "277937": 2
     },
     "tags": [
       "bootstrap",
@@ -787,10 +807,14 @@
     ],
     "query": "How do I use cross-validation to detect and prevent it?",
     "gold_answer_ids": [
-      "9055"
+      "9055",
+      "9059",
+      "193719"
     ],
     "graded_relevance": {
-      "9055": 3
+      "9055": 3,
+      "9059": 2,
+      "193719": 2
     },
     "tags": [
       "cross-validation",
@@ -812,10 +836,10 @@
     ],
     "query": "Which regularization method handles multicollinearity better?",
     "gold_answer_ids": [
-      "258819"
+      "184023"
     ],
     "graded_relevance": {
-      "258819": 3
+      "184023": 3
     },
     "tags": [
       "regularization",
@@ -837,10 +861,14 @@
     ],
     "query": "How does that differ from a prediction interval?",
     "gold_answer_ids": [
-      "12011"
+      "16498",
+      "271232",
+      "16496"
     ],
     "graded_relevance": {
-      "12011": 3
+      "16498": 3,
+      "271232": 3,
+      "16496": 3
     },
     "tags": [
       "confidence-interval",
@@ -862,10 +890,18 @@
     ],
     "query": "Between AIC and BIC, which one penalizes variables more strictly?",
     "gold_answer_ids": [
-      "579"
+      "579",
+      "582",
+      "583",
+      "15643",
+      "414620"
     ],
     "graded_relevance": {
-      "579": 3
+      "579": 3,
+      "582": 2,
+      "583": 2,
+      "15643": 2,
+      "414620": 2
     },
     "tags": [
       "aic",
@@ -1186,10 +1222,12 @@
     ],
     "query": "How does class imbalance affect it compared to Precision-Recall curves?",
     "gold_answer_ids": [
-      "90781"
+      "90781",
+      "90783"
     ],
     "graded_relevance": {
-      "90781": 3
+      "90781": 3,
+      "90783": 2
     },
     "tags": [
       "roc",
@@ -1604,11 +1642,25 @@
     "query": "Compare the mathematical penalties of AIC and BIC, and explain when to use one over the other.",
     "gold_answer_ids": [
       "494",
-      "579"
+      "579",
+      "582",
+      "583",
+      "587",
+      "767",
+      "10165",
+      "15643",
+      "414620"
     ],
     "graded_relevance": {
       "494": 3,
-      "579": 3
+      "579": 3,
+      "582": 2,
+      "583": 2,
+      "587": 2,
+      "767": 2,
+      "10165": 2,
+      "15643": 2,
+      "414620": 2
     },
     "tags": [
       "aic",
@@ -1672,11 +1724,13 @@
     "query": "Compare Lasso and Ridge regression penalties and how they behave with highly correlated features.",
     "gold_answer_ids": [
       "280847",
-      "258819"
+      "258819",
+      "280868"
     ],
     "graded_relevance": {
       "280847": 3,
-      "258819": 3
+      "258819": 3,
+      "280868": 2
     },
     "tags": [
       "regularization",
@@ -1689,11 +1743,25 @@
     "query": "Explain the difference in how PCA and Factor Analysis handle observed variance.",
     "gold_answer_ids": [
       "78",
-      "1577"
+      "1577",
+      "1579",
+      "1584",
+      "3371",
+      "44453",
+      "83599",
+      "94601",
+      "133806"
     ],
     "graded_relevance": {
       "78": 3,
-      "1577": 3
+      "1577": 3,
+      "1579": 2,
+      "1584": 2,
+      "3371": 2,
+      "44453": 2,
+      "83599": 2,
+      "94601": 2,
+      "133806": 2
     },
     "tags": [
       "dimensionality-reduction",
@@ -1723,11 +1791,23 @@
     "query": "What is the difference between confidence intervals and credible intervals?",
     "gold_answer_ids": [
       "1041",
-      "2281"
+      "2281",
+      "2287",
+      "2372",
+      "2373",
+      "2713",
+      "63193",
+      "169999"
     ],
     "graded_relevance": {
       "1041": 3,
-      "2281": 3
+      "2281": 3,
+      "2287": 2,
+      "2372": 2,
+      "2373": 2,
+      "2713": 2,
+      "63193": 2,
+      "169999": 2
     },
     "tags": [
       "bayesian",
@@ -1757,11 +1837,13 @@
     "query": "How does the Wald test compare to the Likelihood Ratio test for parameter significance?",
     "gold_answer_ids": [
       "3587",
-      "6511"
+      "6511",
+      "3593"
     ],
     "graded_relevance": {
       "3587": 3,
-      "6511": 3
+      "6511": 3,
+      "3593": 2
     },
     "tags": [
       "hypothesis-testing",
@@ -1904,11 +1986,13 @@
     "query": "Compare target encoding and one-hot encoding for high-cardinality features.",
     "gold_answer_ids": [
       "567124",
-      "224055"
+      "224055",
+      "567125"
     ],
     "graded_relevance": {
       "567124": 3,
-      "224055": 3
+      "224055": 3,
+      "567125": 2
     },
     "tags": [
       "feature-engineering"
@@ -1944,7 +2028,7 @@
       "survival-analysis",
       "cox-model"
     ],
-    "notes": "Expected behavior: low-confidence retrieval, not hallucination \u2014 not necessarily a top-1 hit."
+    "notes": "Expected behavior: low-confidence retrieval, not hallucination — not necessarily a top-1 hit."
   },
   {
     "query_id": "niche_02",
@@ -1960,7 +2044,7 @@
       "multiple-testing",
       "fdr"
     ],
-    "notes": "Expected behavior: low-confidence retrieval, not hallucination \u2014 not necessarily a top-1 hit."
+    "notes": "Expected behavior: low-confidence retrieval, not hallucination — not necessarily a top-1 hit."
   },
   {
     "query_id": "niche_03",
@@ -1976,7 +2060,7 @@
       "copula",
       "multivariate"
     ],
-    "notes": "Expected behavior: low-confidence retrieval, not hallucination \u2014 not necessarily a top-1 hit."
+    "notes": "Expected behavior: low-confidence retrieval, not hallucination — not necessarily a top-1 hit."
   },
   {
     "query_id": "niche_04",
@@ -1992,7 +2076,7 @@
       "logistic-regression",
       "goodness-of-fit"
     ],
-    "notes": "Expected behavior: low-confidence retrieval, not hallucination \u2014 not necessarily a top-1 hit."
+    "notes": "Expected behavior: low-confidence retrieval, not hallucination — not necessarily a top-1 hit."
   },
   {
     "query_id": "niche_05",
@@ -2008,23 +2092,29 @@
       "resampling",
       "jackknife"
     ],
-    "notes": "Expected behavior: low-confidence retrieval, not hallucination \u2014 not necessarily a top-1 hit."
+    "notes": "Expected behavior: low-confidence retrieval, not hallucination — not necessarily a top-1 hit."
   },
   {
     "query_id": "niche_06",
     "category": "niche_topic",
     "query": "What are the core assumptions needed to assert causal identification using Instrumental Variables?",
     "gold_answer_ids": [
-      "152985"
+      "152985",
+      "152987",
+      "152990",
+      "421753"
     ],
     "graded_relevance": {
-      "152985": 3
+      "152985": 3,
+      "152987": 2,
+      "152990": 2,
+      "421753": 2
     },
     "tags": [
       "instrumental-variables",
       "causal-inference"
     ],
-    "notes": "Expected behavior: low-confidence retrieval, not hallucination \u2014 not necessarily a top-1 hit."
+    "notes": "Expected behavior: low-confidence retrieval, not hallucination — not necessarily a top-1 hit."
   },
   {
     "query_id": "niche_07",
@@ -2040,7 +2130,7 @@
       "multivariate",
       "distance-metric"
     ],
-    "notes": "Expected behavior: low-confidence retrieval, not hallucination \u2014 not necessarily a top-1 hit."
+    "notes": "Expected behavior: low-confidence retrieval, not hallucination — not necessarily a top-1 hit."
   },
   {
     "query_id": "niche_08",
@@ -2056,7 +2146,7 @@
       "optimization",
       "numerical-methods"
     ],
-    "notes": "Expected behavior: low-confidence retrieval, not hallucination \u2014 not necessarily a top-1 hit."
+    "notes": "Expected behavior: low-confidence retrieval, not hallucination — not necessarily a top-1 hit."
   },
   {
     "query_id": "niche_10",
@@ -2072,7 +2162,7 @@
       "em-algorithm",
       "missing-data"
     ],
-    "notes": "Expected behavior: low-confidence retrieval, not hallucination \u2014 not necessarily a top-1 hit."
+    "notes": "Expected behavior: low-confidence retrieval, not hallucination — not necessarily a top-1 hit."
   },
   {
     "query_id": "niche_11",
@@ -2087,7 +2177,7 @@
     "tags": [
       "mcmc"
     ],
-    "notes": "Expected behavior: low-confidence retrieval, not hallucination \u2014 not necessarily a top-1 hit."
+    "notes": "Expected behavior: low-confidence retrieval, not hallucination — not necessarily a top-1 hit."
   },
   {
     "query_id": "niche_12",
@@ -2103,7 +2193,7 @@
       "regression",
       "econometrics"
     ],
-    "notes": "Expected behavior: low-confidence retrieval, not hallucination \u2014 not necessarily a top-1 hit."
+    "notes": "Expected behavior: low-confidence retrieval, not hallucination — not necessarily a top-1 hit."
   },
   {
     "query_id": "niche_13",
@@ -2118,7 +2208,7 @@
     "tags": [
       "generalized-linear-model"
     ],
-    "notes": "Expected behavior: low-confidence retrieval, not hallucination \u2014 not necessarily a top-1 hit."
+    "notes": "Expected behavior: low-confidence retrieval, not hallucination — not necessarily a top-1 hit."
   },
   {
     "query_id": "niche_14",
@@ -2134,7 +2224,7 @@
       "sample-selection",
       "bias"
     ],
-    "notes": "Expected behavior: low-confidence retrieval, not hallucination \u2014 not necessarily a top-1 hit."
+    "notes": "Expected behavior: low-confidence retrieval, not hallucination — not necessarily a top-1 hit."
   },
   {
     "query_id": "niche_15",
@@ -2150,7 +2240,7 @@
       "nonparametric",
       "smoothing"
     ],
-    "notes": "Expected behavior: low-confidence retrieval, not hallucination \u2014 not necessarily a top-1 hit."
+    "notes": "Expected behavior: low-confidence retrieval, not hallucination — not necessarily a top-1 hit."
   },
   {
     "query_id": "niche_16",
@@ -2166,7 +2256,7 @@
       "time-series",
       "volatility"
     ],
-    "notes": "Expected behavior: low-confidence retrieval, not hallucination \u2014 not necessarily a top-1 hit."
+    "notes": "Expected behavior: low-confidence retrieval, not hallucination — not necessarily a top-1 hit."
   },
   {
     "query_id": "niche_17",
@@ -2182,7 +2272,7 @@
       "time-series",
       "autocorrelation"
     ],
-    "notes": "Expected behavior: low-confidence retrieval, not hallucination \u2014 not necessarily a top-1 hit."
+    "notes": "Expected behavior: low-confidence retrieval, not hallucination — not necessarily a top-1 hit."
   },
   {
     "query_id": "niche_19",
@@ -2197,7 +2287,7 @@
     "tags": [
       "clustering"
     ],
-    "notes": "Expected behavior: low-confidence retrieval, not hallucination \u2014 not necessarily a top-1 hit."
+    "notes": "Expected behavior: low-confidence retrieval, not hallucination — not necessarily a top-1 hit."
   },
   {
     "query_id": "niche_21",
@@ -2212,7 +2302,7 @@
     "tags": [
       "meta-analysis"
     ],
-    "notes": "Expected behavior: low-confidence retrieval, not hallucination \u2014 not necessarily a top-1 hit."
+    "notes": "Expected behavior: low-confidence retrieval, not hallucination — not necessarily a top-1 hit."
   },
   {
     "query_id": "niche_22",
@@ -2228,7 +2318,7 @@
       "spatial",
       "autocorrelation"
     ],
-    "notes": "Expected behavior: low-confidence retrieval, not hallucination \u2014 not necessarily a top-1 hit."
+    "notes": "Expected behavior: low-confidence retrieval, not hallucination — not necessarily a top-1 hit."
   },
   {
     "query_id": "niche_23",
@@ -2244,7 +2334,7 @@
       "bayesian",
       "model-comparison"
     ],
-    "notes": "Expected behavior: low-confidence retrieval, not hallucination \u2014 not necessarily a top-1 hit."
+    "notes": "Expected behavior: low-confidence retrieval, not hallucination — not necessarily a top-1 hit."
   },
   {
     "query_id": "niche_24",
@@ -2260,23 +2350,25 @@
       "structural-equation-modeling",
       "linear-model"
     ],
-    "notes": "Expected behavior: low-confidence retrieval, not hallucination \u2014 not necessarily a top-1 hit."
+    "notes": "Expected behavior: low-confidence retrieval, not hallucination — not necessarily a top-1 hit."
   },
   {
     "query_id": "niche_25",
     "category": "niche_topic",
     "query": "How do you calculate required sample size using power analysis?",
     "gold_answer_ids": [
-      "142083"
+      "142083",
+      "142112"
     ],
     "graded_relevance": {
-      "142083": 3
+      "142083": 3,
+      "142112": 2
     },
     "tags": [
       "power-analysis",
       "experimental-design"
     ],
-    "notes": "Expected behavior: low-confidence retrieval, not hallucination \u2014 not necessarily a top-1 hit."
+    "notes": "Expected behavior: low-confidence retrieval, not hallucination — not necessarily a top-1 hit."
   },
   {
     "query_id": "cit_001",
@@ -3131,7 +3223,7 @@
   {
     "query_id": "std_005",
     "category": "standard",
-    "query": "Can the Dvoretzky\u2013Kiefer\u2013Wolfowitz (a.k.a. Massart) inequality be extended to two empirical distributions?",
+    "query": "Can the Dvoretzky–Kiefer–Wolfowitz (a.k.a. Massart) inequality be extended to two empirical distributions?",
     "gold_answer_ids": [
       "340910"
     ],
@@ -3729,7 +3821,7 @@
   {
     "query_id": "std_043",
     "category": "standard",
-    "query": "How to calculate Rousseeuw\u2019s and Croux\u2019 (1993) Qn scale estimator for large samples?",
+    "query": "How to calculate Rousseeuw’s and Croux’ (1993) Qn scale estimator for large samples?",
     "gold_answer_ids": [
       "3992"
     ],

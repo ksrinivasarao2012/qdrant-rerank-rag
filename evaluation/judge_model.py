@@ -51,7 +51,7 @@ MODEL_PATH = Path(os.getenv("LOCAL_JUDGE_MODEL_PATH", str(DEFAULT_MODEL_PATH)))
 
 N_CTX = 8192       # Qwen2.5's native context; generous enough for a full
                     # retrieved-context + answer + judge-prompt turn
-N_THREADS = os.cpu_count() or 4
+N_THREADS = 4
 MAX_TOKENS = 1024  # DeepEval's verdict/claim-extraction outputs are
                     # structured JSON, not long-form -- no need for more
 
@@ -79,7 +79,6 @@ class LocalGGUFJudge(DeepEvalBaseLLM):
                 model_path=str(self.model_path),
                 n_ctx=self.n_ctx,
                 n_threads=N_THREADS,
-                chat_format="chatml",  # Qwen2.5's chat template
                 verbose=False,
             )
         return self._model

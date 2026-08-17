@@ -146,6 +146,47 @@ def decompose(query):
     return []
 
 
+def extract_negation_terms(query: str) -> list[str]:
+    # Normalise whitespace and punctuation
+    q = re.sub(r'[?.,;!]', '', query).strip()
+    
+    patterns = [
+        # "without using the X", "without X"
+        r"\bwithout\s+(?:using\s+)?(?:the\s+)?([a-zA-Z0-9_\-\s]+)",
+        # "excluding X"
+        r"\bexcluding\s+(?:the\s+)?([a-zA-Z0-9_\-\s]+)",
+        # "other than X"
+        r"\bother\s+than\s+(?:the\s+)?([a-zA-Z0-9_\-\s]+)",
+        # "doesn't use X", "does not use X", "do not require X", "doesn't require X"
+        r"\b(?:doesn't|does\s+not|do\s+not|don't)\s+(?:use|require)\s+(?:specifying\s+)?(?:the\s+)?([a-zA-Z0-9_\-\s]+)"
+    ]
+    
+    terms = []
+    for pat in patterns:
+        matches = re.finditer(pat, q, re.IGNORECASE)
+        for m in matches:
+            term = m.group(1).strip()
+            
+            # If the extracted phrase is long, let's clean it up.
+            # Stop matching at conjunctions like "or", "to", "and", "but"
+            conj_split = re.split(r'\b(?:or|and|to|but|for|with|in)\b', term, flags=re.IGNORECASE)
+            if conj_split:
+                term = conj_split[0].strip()
+                
+            term_words = term.split()
+            # Remove leading articles and action verbs
+            if term_words and term_words[0].lower() in ["a", "an", "the"]:
+                term_words = term_words[1:]
+            if term_words and term_words[0].lower() in ["assuming", "checking", "specifying", "using", "having"]:
+                term_words = term_words[1:]
+                
+            cleaned_term = " ".join(term_words).strip()
+            if cleaned_term and len(cleaned_term) > 2 and len(cleaned_term.split()) <= 4:
+                terms.append(cleaned_term)
+                
+    return list(set(terms))
+
+
 # ------------------------------------------------------------------------ ranking
 
 def rrf_merge(lists):
@@ -187,6 +228,22 @@ def rank(strategy, db, reranker, case, query, pool):
         else:
             hits = db.search_hybrid(query, n_results=pool)
         # Rerank with the ORIGINAL query: sub-queries were only for recall.
+        return dedupe(reranker.rerank(query, hits, top_k=len(hits)) if hits else [])
+
+    if strategy == "negation_filter":
+        from qdrant_client.http import models
+        negated = extract_negation_terms(query)
+        qdrant_filter = None
+        if negated:
+            qdrant_filter = models.Filter(
+                must_not=[
+                    models.FieldCondition(
+                        key="text",
+                        match=models.MatchText(text=term)
+                    ) for term in negated
+                ]
+            )
+        hits = db.search_hybrid(query, n_results=pool, qdrant_filter=qdrant_filter)
         return dedupe(reranker.rerank(query, hits, top_k=len(hits)) if hits else [])
 
     hits = db.search_hybrid(query, n_results=pool)

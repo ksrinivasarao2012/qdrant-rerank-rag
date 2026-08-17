@@ -54,6 +54,7 @@ sys.path.insert(0, str(PROJECT_ROOT))
 
 from backend.core.vector_store import VectorDBManager
 from backend.core.reranker import ReRanker
+from backend.core.llm_service import build_search_query
 
 GOLDEN_JSON_PATH = PROJECT_ROOT / "evaluation" / "golden_dataset.json"
 POSTS_JSONL_PATH = PROJECT_ROOT / "data" / "processed" / "posts.jsonl"
@@ -83,6 +84,8 @@ def parse_args():
                               "in the shell -- that trick doesn't reliably work on Windows (PowerShell's "
                               "$env:VAR=\"\" deletes the variable rather than blanking it, so .env silently "
                               "refills it). Requires evaluation/load_local_qdrant.py to have been run first.")
+    parser.add_argument("--category", type=str, default=None,
+                         help="Filter evaluation cases to a specific category (e.g. multi_turn).")
     return parser.parse_args()
 
 
@@ -212,6 +215,8 @@ def evaluate():
         return 1
 
     evaluable = [c for c in cases if c.get("gold_answer_ids")]
+    if args.category:
+        evaluable = [c for c in evaluable if c.get("category") == args.category]
     skipped = len(cases) - len(evaluable)
     print(f"Config: method={args.method} rerank={not args.no_rerank} "
           f"rewrite={args.rewrite} pool={pool} ks={top_ks}"
@@ -258,15 +263,20 @@ def evaluate():
         negative_ids = set(case.get("negative_answer_ids", []))
         gold_qids = {gold_qid_lookup[a] for a in gold_ids if a in gold_qid_lookup}
         search_query = query_text
+        rewritten_query = None
         if llm_service is not None:
             try:
                 # chat_history matters: multi_turn queries are follow-ups whose
                 # topic lives entirely in the pronoun ("prevent it", "test for
                 # it"). Without the history the rewriter is asked to resolve a
                 # referent it was never shown, so those cases could never pass.
-                search_query = llm_service.rewrite_query(query_text, case.get("chat_history"))
+                rewritten_query = llm_service.rewrite_query(query_text, case.get("chat_history"))
+                search_query = rewritten_query
             except Exception as e:
                 print(f"  [{case['query_id']}] rewrite failed ({e}); using raw query")
+        
+        # Apply standalone search query construction (concat fallback if rewriter did nothing)
+        search_query = build_search_query(query_text, case.get("chat_history"), rewritten_query)
 
         ranked, ranked_qids = ranked_answer_ids(
             db_manager, reranker, args.method, search_query, pool, not args.no_rerank

@@ -29,8 +29,18 @@ Run with: python evaluation/eval_pipeline.py
 import sys
 import json
 import time
+import os
 from pathlib import Path
 from collections import defaultdict
+
+# Prevent PyTorch deadlocks & HuggingFace network hangs
+for _v in ("OMP", "MKL", "OPENBLAS", "NUMEXPR"):
+    os.environ[f"{_v}_NUM_THREADS"] = "1"
+os.environ["VECLIB_MAXIMUM_THREADS"] = "1"
+os.environ["HF_HUB_OFFLINE"] = "1"
+os.environ["TRANSFORMERS_OFFLINE"] = "1"
+import torch
+torch.set_num_threads(1)
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(PROJECT_ROOT))
@@ -42,6 +52,7 @@ from backend.core.config import SETTINGS
 from evaluation.judge_model import get_judge
 
 GOLDEN_JSON_PATH = PROJECT_ROOT / "evaluation" / "golden_dataset.json"
+POSTS_JSONL_PATH = PROJECT_ROOT / "data" / "processed" / "posts.jsonl"
 RESULTS_DIR = PROJECT_ROOT / "evaluation" / "results"
 
 CANDIDATE_K = 15   # matches routes.py
@@ -50,6 +61,7 @@ TOP_K = 3          # matches QueryRequest's default
 CONTEXTUAL_RELEVANCY_THRESHOLD = 0.5
 FAITHFULNESS_THRESHOLD = 0.5
 ANSWER_RELEVANCY_THRESHOLD = 0.5
+CONTEXTUAL_RECALL_THRESHOLD = 0.5
 
 
 def load_cases(path: Path):
@@ -59,6 +71,24 @@ def load_cases(path: Path):
         return None
     with open(path, "r", encoding="utf-8") as f:
         return json.load(f)
+
+
+def load_gold_posts_map(posts_path: Path, needed_ids: set) -> dict:
+    """Reads posts.jsonl and extracts answer_text for requested gold_answer_ids."""
+    out = {}
+    if not posts_path.exists():
+        return out
+    with open(posts_path, "r", encoding="utf-8") as f:
+        for line in f:
+            if not line.strip():
+                continue
+            post = json.loads(line)
+            aid = str(post.get("answer_id"))
+            if aid in needed_ids:
+                out[aid] = post.get("answer_text", "")
+                if len(out) == len(needed_ids):
+                    break
+    return out
 
 
 def query_for_case(case: dict):
@@ -116,6 +146,10 @@ def evaluate():
     print(f"Loaded {len(cases)} cases ({len(evaluable)} evaluable, "
           f"{skipped} skipped -- no gold_answer_ids/query, e.g. adversarial/out_of_scope).")
 
+    all_needed_gold_ids = {str(gid) for c in evaluable for gid in c.get("gold_answer_ids", [])}
+    print(f"Loading gold answer texts for {len(all_needed_gold_ids)} post IDs from posts.jsonl...")
+    gold_posts_map = load_gold_posts_map(POSTS_JSONL_PATH, all_needed_gold_ids)
+
     print("Connecting to Qdrant, loading reranker, generator (Groq), and judge (local GGUF)...")
     db_manager = VectorDBManager()
     db_manager.collection  # one-time init
@@ -123,12 +157,13 @@ def evaluate():
     llm_service = LLMService()
     judge = get_judge()
 
-    from deepeval.metrics import ContextualRelevancyMetric, FaithfulnessMetric, AnswerRelevancyMetric
+    from deepeval.metrics import ContextualRelevancyMetric, FaithfulnessMetric, AnswerRelevancyMetric, ContextualRecallMetric
     from deepeval.test_case import LLMTestCase
 
     contextual_metric = ContextualRelevancyMetric(threshold=CONTEXTUAL_RELEVANCY_THRESHOLD, model=judge, include_reason=True)
     faithfulness_metric = FaithfulnessMetric(threshold=FAITHFULNESS_THRESHOLD, model=judge, include_reason=True)
     relevancy_metric = AnswerRelevancyMetric(threshold=ANSWER_RELEVANCY_THRESHOLD, model=judge, include_reason=True)
+    contextual_recall_metric = ContextualRecallMetric(threshold=CONTEXTUAL_RECALL_THRESHOLD, model=judge, include_reason=True)
 
     rows = []
     for case in evaluable:
@@ -165,9 +200,13 @@ def evaluate():
             continue
 
         retrieval_context = [c["text_snippet"] for c in citations]
+        gold_texts = [gold_posts_map.get(str(gid), "") for gid in case.get("gold_answer_ids", []) if gold_posts_map.get(str(gid))]
+        expected_output = "\n\n".join(gold_texts) if gold_texts else None
+
         test_case = LLMTestCase(
             input=query,
             actual_output=answer,
+            expected_output=expected_output,
             retrieval_context=retrieval_context,
         )
 
@@ -178,16 +217,21 @@ def evaluate():
             "rewritten_query": rewritten_query,
             "answer": answer,
             "gold_answer_ids": case["gold_answer_ids"],
+            "expected_output_present": expected_output is not None,
             # Component-retriever-style signal for free: did the actual
             # gold answer make it into what got retrieved this run?
             "gold_answer_retrieved": bool(set(case["gold_answer_ids"]) & retrieved_answer_ids),
         }
 
-        for name, metric, key in [
+        metric_list = [
             ("contextual_relevancy", contextual_metric, "contextual_relevancy_score"),
             ("faithfulness", faithfulness_metric, "faithfulness_score"),
             ("answer_relevancy", relevancy_metric, "answer_relevancy_score"),
-        ]:
+        ]
+        if expected_output:
+            metric_list.append(("contextual_recall", contextual_recall_metric, "contextual_recall_score"))
+
+        for name, metric, key in metric_list:
             try:
                 metric.measure(test_case)
                 row[key] = metric.score
@@ -199,6 +243,7 @@ def evaluate():
         rows.append(row)
         print(f"  [{case['query_id']}] gold_retrieved={row['gold_answer_retrieved']} "
               f"ctx_rel={row.get('contextual_relevancy_score')} "
+              f"ctx_rec={row.get('contextual_recall_score')} "
               f"faith={row.get('faithfulness_score')} "
               f"ans_rel={row.get('answer_relevancy_score')}")
 
@@ -221,6 +266,7 @@ def print_summary(rows):
     print(f"  n={len(rows)}  gold_answer_retrieved_rate={gold_hit_rate:.3f}")
     for key, label in [
         ("contextual_relevancy_score", "contextual_relevancy"),
+        ("contextual_recall_score", "contextual_recall"),
         ("faithfulness_score", "faithfulness"),
         ("answer_relevancy_score", "answer_relevancy"),
     ]:
@@ -235,11 +281,12 @@ def print_summary(rows):
         subset = by_cat[cat]
         hit_rate = sum(1 for r in subset if r["gold_answer_retrieved"]) / len(subset)
         ctx = agg(subset, "contextual_relevancy_score")
+        rec = agg(subset, "contextual_recall_score")
         faith = agg(subset, "faithfulness_score")
         rel = agg(subset, "answer_relevancy_score")
         fmt = lambda v: f"{v:.2f}" if v is not None else "n/a"
         print(f"  {cat:20s} n={len(subset):3d}  gold_hit={hit_rate:.2f}  "
-              f"ctx_rel={fmt(ctx)}  faith={fmt(faith)}  ans_rel={fmt(rel)}")
+              f"ctx_rel={fmt(ctx)}  ctx_rec={fmt(rec)}  faith={fmt(faith)}  ans_rel={fmt(rel)}")
 
 
 def save_results(rows):

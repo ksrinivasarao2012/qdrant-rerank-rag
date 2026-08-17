@@ -116,7 +116,9 @@ class LLMService:
         # Local rewriter model (only for dev/eval, avoids API limits completely)
         from pathlib import Path
         import os
-        local_model_path = Path(__file__).resolve().parents[2] / "data" / "models" / "qwen2.5-1.5b-instruct-q4_k_m.gguf"
+        local_model_path = Path(__file__).resolve().parents[2] / "data" / "models" / "qwen2.5-7b-instruct-q4_k_m.gguf"
+        if not local_model_path.exists():
+            local_model_path = Path(__file__).resolve().parents[2] / "data" / "models" / "qwen2.5-1.5b-instruct-q4_k_m.gguf"
         self._local_rewriter = None
         if local_model_path.exists():
             # Limit thread count to max 8 to prevent high CPU utilization/OOM risk
