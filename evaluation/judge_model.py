@@ -75,6 +75,15 @@ class LocalGGUFJudge(DeepEvalBaseLLM):
             from llama_cpp import Llama
             print(f"Loading local judge model from {self.model_path.name} "
                   f"(n_ctx={self.n_ctx}, n_threads={N_THREADS})...")
+            try:
+                import psutil
+                p = psutil.Process()
+                p.nice(psutil.BELOW_NORMAL_PRIORITY_CLASS)
+                p.cpu_affinity([0, 1])
+                print("Process priority set to BELOW_NORMAL. CPU affinity restricted to Cores 0,1.")
+            except Exception as pe:
+                print(f"Failed to set process priority/affinity: {pe}")
+
             self._model = Llama(
                 model_path=str(self.model_path),
                 n_ctx=self.n_ctx,
