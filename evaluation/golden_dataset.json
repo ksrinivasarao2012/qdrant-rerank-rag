@@ -877,7 +877,7 @@
   },
   {
     "query_id": "mturn_04",
-    "category": "multi_turn",
+    "category": "multi_hop",
     "chat_history": [
       {
         "role": "user",
@@ -890,18 +890,10 @@
     ],
     "query": "Between AIC and BIC, which one penalizes variables more strictly?",
     "gold_answer_ids": [
-      "579",
-      "582",
-      "583",
-      "15643",
-      "414620"
+      "583"
     ],
     "graded_relevance": {
-      "579": 3,
-      "582": 2,
-      "583": 2,
-      "15643": 2,
-      "414620": 2
+      "583": 3
     },
     "tags": [
       "aic",
@@ -949,10 +941,12 @@
     ],
     "query": "Does increasing the number of trees cause it to overfit?",
     "gold_answer_ids": [
-      "66546"
+      "348246",
+      "346984"
     ],
     "graded_relevance": {
-      "66546": 3
+      "348246": 3,
+      "346984": 3
     },
     "tags": [
       "random-forest",
@@ -974,10 +968,10 @@
     ],
     "query": "Is the MLE estimator always unbiased?",
     "gold_answer_ids": [
-      "272925"
+      "183062"
     ],
     "graded_relevance": {
-      "272925": 3
+      "183062": 3
     },
     "tags": [
       "estimation-theory",
@@ -999,10 +993,10 @@
     ],
     "query": "How do we test for it?",
     "gold_answer_ids": [
-      "196587"
+      "235916"
     ],
     "graded_relevance": {
-      "196587": 3
+      "235916": 3
     },
     "tags": [
       "time-series",
@@ -1024,10 +1018,10 @@
     ],
     "query": "Do we need to scale features before running it?",
     "gold_answer_ids": [
-      "37696"
+      "78"
     ],
     "graded_relevance": {
-      "37696": 3
+      "78": 3
     },
     "tags": [
       "pca",
@@ -1049,10 +1043,10 @@
     ],
     "query": "What does rejecting it tell us about the alternative hypothesis?",
     "gold_answer_ids": [
-      "29160"
+      "85914"
     ],
     "graded_relevance": {
-      "29160": 3
+      "85914": 3
     },
     "tags": [
       "hypothesis-testing"
@@ -1060,7 +1054,7 @@
   },
   {
     "query_id": "mturn_11",
-    "category": "multi_turn",
+    "category": "multi_hop",
     "chat_history": [
       {
         "role": "user",
@@ -1073,10 +1067,14 @@
     ],
     "query": "Why do deep networks prefer ReLU over sigmoid?",
     "gold_answer_ids": [
-      "345609"
+      "126362",
+      "211359",
+      "298793"
     ],
     "graded_relevance": {
-      "345609": 3
+      "126362": 3,
+      "211359": 3,
+      "298793": 3
     },
     "tags": [
       "neural-networks",
@@ -1098,10 +1096,10 @@
     ],
     "query": "How do we construct confidence intervals using these samples?",
     "gold_answer_ids": [
-      "1401"
+      "104746"
     ],
     "graded_relevance": {
-      "1401": 3
+      "104746": 3
     },
     "tags": [
       "bootstrap",
@@ -1123,10 +1121,10 @@
     ],
     "query": "What happens if the instrument is weak?",
     "gold_answer_ids": [
-      "267606"
+      "107931"
     ],
     "graded_relevance": {
-      "267606": 3
+      "107931": 3
     },
     "tags": [
       "causal-inference",
@@ -1148,10 +1146,12 @@
     ],
     "query": "Does a decay schedule help optimization convergence?",
     "gold_answer_ids": [
-      "211340"
+      "200105",
+      "352037"
     ],
     "graded_relevance": {
-      "211340": 3
+      "200105": 3,
+      "352037": 3
     },
     "tags": [
       "optimization",
@@ -1173,10 +1173,10 @@
     ],
     "query": "Why does this artificially reduce variance?",
     "gold_answer_ids": [
-      "339121"
+      "45868"
     ],
     "graded_relevance": {
-      "339121": 3
+      "45868": 3
     },
     "tags": [
       "missing-data",
@@ -1185,7 +1185,7 @@
   },
   {
     "query_id": "mturn_17",
-    "category": "multi_turn",
+    "category": "multi_hop",
     "chat_history": [
       {
         "role": "user",
@@ -1198,10 +1198,10 @@
     ],
     "query": "How does it compare to t-SNE for preserving global structure?",
     "gold_answer_ids": [
-      "398806"
+      "402676"
     ],
     "graded_relevance": {
-      "398806": 3
+      "402676": 3
     },
     "tags": [
       "dimensionality-reduction"
@@ -1249,10 +1249,10 @@
     ],
     "query": "When should we use a random intercept vs random slope?",
     "gold_answer_ids": [
-      "463480"
+      "66895"
     ],
     "graded_relevance": {
-      "463480": 3
+      "66895": 3
     },
     "tags": [
       "mixed-models"
@@ -1297,10 +1297,12 @@
     ],
     "query": "How does right-censoring affect the Kaplan-Meier estimate?",
     "gold_answer_ids": [
-      "571159"
+      "198481",
+      "636153"
     ],
     "graded_relevance": {
-      "571159": 3
+      "198481": 3,
+      "636153": 3
     },
     "tags": [
       "survival-analysis"
@@ -1321,10 +1323,10 @@
     ],
     "query": "How does running multiple A/B tests at once affect the false positive rate?",
     "gold_answer_ids": [
-      "306544"
+      "64486"
     ],
     "graded_relevance": {
-      "306544": 3
+      "64486": 3
     },
     "tags": [
       "ab-testing",
