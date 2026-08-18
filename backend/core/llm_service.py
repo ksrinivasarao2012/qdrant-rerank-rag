@@ -395,7 +395,8 @@ class LLMService:
         Synchronously streams the LLM answer token-by-token.
         """
         if not self.client:
-            raise ValueError("LLM Client not initialized. Check Groq API Key.")
+            yield "\n[Error: GROQ_API_KEY is missing or invalid. Please add your GROQ_API_KEY in Hugging Face Space Settings ➡️ Variables and secrets.]"
+            return
 
         messages = self._build_messages(query, citations, chat_history)
 
@@ -405,7 +406,7 @@ class LLMService:
                     yield chunk.content
         except Exception as e:
             logger.error(f"Error streaming answer: {e}")
-            yield "\n[An error occurred while generating the response.]"
+            yield f"\n[An error occurred while generating the response: {str(e)}]"
 
 
     def generate_answer(
