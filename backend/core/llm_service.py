@@ -1,8 +1,17 @@
 import logging
 from typing import List, Dict, Any, Optional, AsyncGenerator
 from langchain_groq import ChatGroq
-from langchain_google_genai import ChatGoogleGenerativeAI
-from langchain_openai import ChatOpenAI
+
+try:
+    from langchain_google_genai import ChatGoogleGenerativeAI
+except ImportError:
+    ChatGoogleGenerativeAI = None
+
+try:
+    from langchain_openai import ChatOpenAI
+except ImportError:
+    ChatOpenAI = None
+
 from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
 from backend.core.config import SETTINGS
 from backend.core import prompts
@@ -59,7 +68,7 @@ class LLMService:
             logger.warning("GROQ_API_KEY missing in SETTINGS. LLMService disabled.")
 
         openrouter_key = SETTINGS.OPENROUTER_API_KEY
-        if openrouter_key:
+        if openrouter_key and ChatOpenAI:
             self.openrouter_client = ChatOpenAI(
                 openai_api_key=openrouter_key,
                 openai_api_base="https://openrouter.ai/api/v1",
@@ -72,10 +81,9 @@ class LLMService:
             )
         else:
             self.openrouter_client = None
-            logger.warning("OPENROUTER_API_KEY missing in SETTINGS. OpenRouter query rewriter disabled.")
 
         gemini_key = SETTINGS.GEMINI_API_KEY
-        if gemini_key and gemini_key.startswith("AIzaSy"):
+        if gemini_key and gemini_key.startswith("AIzaSy") and ChatGoogleGenerativeAI:
             self.gemini_client = ChatGoogleGenerativeAI(
                 api_key=gemini_key,
                 model="gemini-1.5-flash",
@@ -83,10 +91,9 @@ class LLMService:
             )
         else:
             self.gemini_client = None
-            logger.warning("Valid GEMINI_API_KEY (starting with 'AIzaSy') missing in SETTINGS. Gemini query rewriter disabled.")
 
         github_token = SETTINGS.GITHUB_TOKEN
-        if github_token:
+        if github_token and ChatOpenAI:
             # GitHub Models API uses standard OpenAI compatibility layer
             # Qwen-2.5-7B-Instruct is a great small model supported on GitHub Models
             model_to_use = "Qwen-2.5-7B-Instruct"
@@ -98,10 +105,9 @@ class LLMService:
             )
         else:
             self.github_client = None
-            logger.warning("GITHUB_TOKEN missing in SETTINGS. GitHub query rewriter disabled.")
 
         hf_token = SETTINGS.HF_TOKEN
-        if hf_token:
+        if hf_token and ChatOpenAI:
             # Hugging Face Serverless Inference API (OpenAI compatible wrapper)
             self.hf_client = ChatOpenAI(
                 openai_api_key=hf_token,
@@ -111,7 +117,6 @@ class LLMService:
             )
         else:
             self.hf_client = None
-            logger.warning("HF_TOKEN missing in SETTINGS. Hugging Face Serverless query rewriter disabled.")
 
         # Local rewriter model (only for dev/eval, avoids API limits completely)
         from pathlib import Path
