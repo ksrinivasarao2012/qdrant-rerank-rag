@@ -327,6 +327,7 @@ with gr.Blocks(title="⚡ Portfolio RAG Assistant", css=custom_css, theme=gr.the
         # Main Chatbot Interface
         with gr.Column(scale=3):
             chatbot = gr.Chatbot(
+                type="messages",
                 label="Conversational AI Assistant",
                 height=520,
                 avatar_images=(None, "https://api.dicebear.com/7.x/bottts/svg?seed=PortfolioRAG"),
