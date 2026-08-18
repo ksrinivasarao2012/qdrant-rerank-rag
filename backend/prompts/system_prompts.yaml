@@ -29,9 +29,7 @@ schema_version: 2
 # Stage 3 - Grounded answer generation from re-ranked citations.
 # ===========================================================================
 answer:
-  # NOTE: llama-3.1-8b-instant is shut down by Groq on 2026-08-16.
-  # Active variant moved to llama-3.3-70b-versatile for ultra-fast instant streaming.
-  active: llama3_simple_v1
+  active: gptoss_simple_v1
 
   defaults:
     model: Qwen/Qwen2.5-7B-Instruct
