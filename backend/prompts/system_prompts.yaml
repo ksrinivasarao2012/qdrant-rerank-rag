@@ -108,9 +108,9 @@ answer:
 
     llama3_simple_v1:
       notes: >-
-        Simple ELI5 explanation style using the ultra-fast llama-3.3-70b-versatile
+        Simple ELI5 explanation style using the ultra-fast llama-3.1-70b-versatile
         model on Groq. Streams instantly with zero reasoning delay.
-      model: llama-3.3-70b-versatile
+      model: llama-3.1-70b-versatile
       system: |-
         You are an expert AI assistant specializing in document analysis.
         Your core task is to answer the user's question STRICTLY based on the provided Context.

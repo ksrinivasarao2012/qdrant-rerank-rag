@@ -405,8 +405,29 @@ class LLMService:
                 if chunk.content:
                     yield chunk.content
         except Exception as e:
-            logger.error(f"Error streaming answer: {e}")
-            yield f"\n[An error occurred while generating the response: {str(e)}]"
+            logger.warning(f"Primary model stream error: {e}. Attempting fallback Groq models...")
+            fallback_models = ["llama-3.1-70b-versatile", "llama-3.1-8b-instant", "llama3-70b-8192", "mixtral-8x7b-32768"]
+            succeeded = False
+            for fb_model in fallback_models:
+                try:
+                    fallback_client = ChatGroq(
+                        api_key=SETTINGS.GROQ_API_KEY,
+                        model_name=fb_model,
+                        temperature=0.3,
+                        streaming=True
+                    )
+                    for chunk in fallback_client.stream(messages):
+                        if chunk.content:
+                            yield chunk.content
+                    succeeded = True
+                    break
+                except Exception as fb_err:
+                    logger.warning(f"Fallback model {fb_model} failed: {fb_err}")
+                    continue
+            
+            if not succeeded:
+                logger.error(f"All Groq streaming models failed: {e}")
+                yield f"\n[An error occurred while generating the response: {str(e)}]"
 
 
     def generate_answer(
