@@ -4,10 +4,14 @@
     "category": "negation",
     "query": "How to test normality without using the Shapiro-Wilk test?",
     "gold_answer_ids": [
-      "429"
+      "1648",
+      "74954",
+      "52297"
     ],
     "graded_relevance": {
-      "429": 3
+      "1648": 3,
+      "74954": 3,
+      "52297": 3
     },
     "tags": [
       "normality-test",
@@ -57,10 +61,14 @@
     "category": "negation",
     "query": "How to reduce dimensionality without using PCA?",
     "gold_answer_ids": [
-      "325002"
+      "124545",
+      "262060",
+      "410405"
     ],
     "graded_relevance": {
-      "325002": 3
+      "124545": 3,
+      "262060": 3,
+      "410405": 3
     },
     "tags": [
       "dimensionality-reduction"
@@ -74,10 +82,12 @@
     "category": "negation",
     "query": "How to select model features without stepwise regression?",
     "gold_answer_ids": [
-      "213177"
+      "13698",
+      "27310"
     ],
     "graded_relevance": {
-      "213177": 3
+      "13698": 3,
+      "27310": 3
     },
     "tags": [
       "feature-selection",
@@ -92,10 +102,12 @@
     "category": "negation",
     "query": "How to forecast time series data without using ARIMA models?",
     "gold_answer_ids": [
-      "4586"
+      "125016",
+      "157379"
     ],
     "graded_relevance": {
-      "4586": 3
+      "125016": 3,
+      "157379": 3
     },
     "tags": [
       "time-series",
@@ -110,10 +122,12 @@
     "category": "negation",
     "query": "Clustering methods that do not require specifying the number of clusters k?",
     "gold_answer_ids": [
-      "241387"
+      "195481",
+      "3692"
     ],
     "graded_relevance": {
-      "241387": 3
+      "195481": 3,
+      "3692": 3
     },
     "tags": [
       "clustering",
@@ -128,10 +142,12 @@
     "category": "negation",
     "query": "Goodness of fit tests excluding Kolmogorov-Smirnov?",
     "gold_answer_ids": [
-      "215"
+      "207512",
+      "70208"
     ],
     "graded_relevance": {
-      "215": 3
+      "207512": 3,
+      "70208": 3
     },
     "tags": [
       "goodness-of-fit",
@@ -164,10 +180,14 @@
     "category": "negation",
     "query": "Nonparametric correlation coefficients other than Pearson correlation?",
     "gold_answer_ids": [
-      "1004"
+      "3733",
+      "3744",
+      "3946"
     ],
     "graded_relevance": {
-      "1004": 3
+      "3733": 3,
+      "3744": 3,
+      "3946": 3
     },
     "tags": [
       "correlation",
@@ -182,10 +202,14 @@
     "category": "negation",
     "query": "Information theory metric for correlation without using mutual information?",
     "gold_answer_ids": [
-      "14319"
+      "394490",
+      "77016",
+      "50680"
     ],
     "graded_relevance": {
-      "14319": 3
+      "394490": 3,
+      "77016": 3,
+      "50680": 3
     },
     "tags": [
       "information-theory",
@@ -200,10 +224,12 @@
     "category": "negation",
     "query": "Ensemble prediction combining models without stacking or voting?",
     "gold_answer_ids": [
-      "152698"
+      "102645",
+      "40474"
     ],
     "graded_relevance": {
-      "152698": 3
+      "102645": 3,
+      "40474": 3
     },
     "tags": [
       "ensemble-learning"
@@ -217,10 +243,12 @@
     "category": "negation",
     "query": "Outlier detection method that doesn't use Isolation Forests?",
     "gold_answer_ids": [
-      "15260"
+      "2042",
+      "27804"
     ],
     "graded_relevance": {
-      "15260": 3
+      "2042": 3,
+      "27804": 3
     },
     "tags": [
       "anomaly-detection"
@@ -234,10 +262,12 @@
     "category": "negation",
     "query": "Non-linear dimensionality reduction excluding t-SNE?",
     "gold_answer_ids": [
-      "46481"
+      "124545",
+      "364255"
     ],
     "graded_relevance": {
-      "46481": 3
+      "124545": 3,
+      "364255": 3
     },
     "tags": [
       "dimensionality-reduction"
@@ -251,10 +281,12 @@
     "category": "negation",
     "query": "Bayesian model diagnostics without checking effective sample size?",
     "gold_answer_ids": [
-      "7264"
+      "71037",
+      "194152"
     ],
     "graded_relevance": {
-      "7264": 3
+      "71037": 3,
+      "194152": 3
     },
     "tags": [
       "bayesian-inference",
@@ -269,10 +301,12 @@
     "category": "negation",
     "query": "Fitting hierarchical models without random slopes?",
     "gold_answer_ids": [
-      "35187"
+      "243225",
+      "32421"
     ],
     "graded_relevance": {
-      "35187": 3
+      "243225": 3,
+      "32421": 3
     },
     "tags": [
       "mixed-models",
@@ -287,10 +321,14 @@
     "category": "negation",
     "query": "Deep learning sequence modeling without using LSTMs?",
     "gold_answer_ids": [
-      "93439"
+      "531971",
+      "472920",
+      "222587"
     ],
     "graded_relevance": {
-      "93439": 3
+      "531971": 3,
+      "472920": 3,
+      "222587": 3
     },
     "tags": [
       "deep-learning"
@@ -304,10 +342,12 @@
     "category": "negation",
     "query": "Non-parametric kernel density estimation without Gaussian kernels?",
     "gold_answer_ids": [
-      "6645"
+      "244023",
+      "33320"
     ],
     "graded_relevance": {
-      "6645": 3
+      "244023": 3,
+      "33320": 3
     },
     "tags": [
       "kernel-density",
@@ -322,10 +362,12 @@
     "category": "negation",
     "query": "Feature engineering category mapping without one-hot encoding?",
     "gold_answer_ids": [
-      "8060"
+      "411775",
+      "298951"
     ],
     "graded_relevance": {
-      "8060": 3
+      "411775": 3,
+      "298951": 3
     },
     "tags": [
       "feature-engineering"
@@ -339,10 +381,12 @@
     "category": "negation",
     "query": "Recommendation system algorithms excluding collaborative filtering?",
     "gold_answer_ids": [
-      "59506"
+      "424127",
+      "133694"
     ],
     "graded_relevance": {
-      "59506": 3
+      "424127": 3,
+      "133694": 3
     },
     "tags": [
       "recommender-system"
@@ -993,10 +1037,14 @@
     ],
     "query": "How do we test for it?",
     "gold_answer_ids": [
-      "235916"
+      "235916",
+      "131244",
+      "137615"
     ],
     "graded_relevance": {
-      "235916": 3
+      "235916": 3,
+      "131244": 3,
+      "137615": 3
     },
     "tags": [
       "time-series",
@@ -1236,7 +1284,7 @@
   },
   {
     "query_id": "mturn_19",
-    "category": "multi_turn",
+    "category": "multi_hop",
     "chat_history": [
       {
         "role": "user",
