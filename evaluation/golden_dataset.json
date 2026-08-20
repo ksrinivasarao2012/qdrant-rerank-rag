@@ -1219,16 +1219,16 @@
         "content": "Mean imputation replaces missing values in a variable with the mean of the observed values."
       }
     ],
-    "query": "What are the main drawbacks and consequences of this approach?",
+    "query": "Why does this artificially reduce variance?",
     "gold_answer_ids": [
-      "45868",
-      "303737",
-      "509026"
+      "78065",
+      "440047",
+      "45868"
     ],
     "graded_relevance": {
-      "45868": 3,
-      "303737": 3,
-      "509026": 3
+      "78065": 3,
+      "440047": 3,
+      "45868": 3
     },
     "tags": [
       "missing-data",
