@@ -112,3 +112,20 @@ git push -f hf main
 2. **Step 2:** Review & apply **Category 4 (`niche_topic` - 22 cases)** into `evaluation/golden_dataset.json`.
 3. **Step 3:** Execute full **Contextual Recall & MRR Benchmarks** across the entire 294-case dataset and generate the final benchmark score report.
 4. **Step 4:** Phase 2 retrieval optimizations (Multi-hop RRF query decomposition & negation token filtering).
+
+---
+
+## 6. 📝 Living Chronological Change Log & Decision History
+
+*This section is updated after **EVERY** modification to maintain full transparency on WHAT was changed, WHY it was changed, and the verified OUTCOME.*
+
+| Timestamp | Component / File | What Was Changed | Why We Did It (Rationale) | Verified Outcome / Impact |
+| :--- | :--- | :--- | :--- | :--- |
+| **2026-08-18** | `requirements.txt`, `app.py` | Stripped offline testing packages; added `show_api=False` and `type="messages"`. | HF Space crashed during build (`OOMKilled exit 137`) and launch (`Pydantic 2.9 schema bug` + `Chatbot tuples error`). | Space successfully built, launched, and started serving on ZeroGPU. |
+| **2026-08-18** | `system_prompts.yaml`, `llm_service.py` | Switched active answer prompt to `openai/gpt-oss-20b` (`gptoss_simple_v1`) with fallback cascade. | Groq decommissioned legacy `llama-3.1-70b-versatile` tag, causing HTTP 400 `model_decommissioned`. | Restored instant token-by-token answer streaming on live Space. |
+| **2026-08-18** | `golden_dataset.json` (Multi-Turn) | Reclassified 4 standalone comparisons to `multi_hop` and added sibling multi-golds across 18 cases. | Single-gold labels caused artificial recall failures when the retriever fetched valid sibling answers from the same thread. | Multi-turn category expanded with verified sibling post IDs. |
+| **2026-08-19** | `golden_dataset.json` (Negation) | Updated 16 negation cases with verified alternative methods (Isomap, Anderson-Darling, DBSCAN, etc.). | 80% of original negation golds explained the *forbidden* method rather than the *alternative*. | All 20 negation cases mapped to verified alternative posts in `posts.jsonl`. |
+| **2026-08-20** | `golden_dataset.json` (`mturn_15`) | Updated gold IDs to `["235052", "384202"]`. | Old gold (`352037`) was a general debugging checklist; new posts directly explain learning rate annealing and convergence. | LLM Judge evaluated and marked **`mturn_15: [+] OK / PASS`**. |
+| **2026-08-20** | `golden_dataset.json` (`mturn_16`) | Added post `440047` and `78065` to multi-gold set. | Kept question 100% intact while giving complete mathematical coverage of zero-deviation variance shrinkage under mean imputation. | Question preserved with 3 complementary ground-truth answers. |
+| **2026-08-20** | `audit_golden_dataset.py` | Supported comma-separated categories (e.g. `--category multi_turn,negation`). | User requested a single unified command to audit multiple categories sequentially without manual runs. | Enables single-command multi-category audits. |
+
