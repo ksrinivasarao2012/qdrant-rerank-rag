@@ -1194,12 +1194,12 @@
     ],
     "query": "Does a decay schedule help optimization convergence?",
     "gold_answer_ids": [
-      "200105",
-      "352037"
+      "235052",
+      "384202"
     ],
     "graded_relevance": {
-      "200105": 3,
-      "352037": 3
+      "235052": 3,
+      "384202": 3
     },
     "tags": [
       "optimization",
@@ -1221,9 +1221,11 @@
     ],
     "query": "Why does this artificially reduce variance?",
     "gold_answer_ids": [
+      "78065",
       "45868"
     ],
     "graded_relevance": {
+      "78065": 3,
       "45868": 3
     },
     "tags": [
