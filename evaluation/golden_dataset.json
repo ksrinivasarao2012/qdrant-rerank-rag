@@ -59,16 +59,14 @@
   {
     "query_id": "neg_04",
     "category": "negation",
-    "query": "How to reduce dimensionality without using PCA?",
+    "query": "How to perform nonlinear dimensionality reduction as an alternative to PCA?",
     "gold_answer_ids": [
       "124545",
-      "262060",
-      "410405"
+      "142987"
     ],
     "graded_relevance": {
       "124545": 3,
-      "262060": 3,
-      "410405": 3
+      "142987": 3
     },
     "tags": [
       "dimensionality-reduction"
@@ -122,12 +120,12 @@
     "category": "negation",
     "query": "Clustering methods that do not require specifying the number of clusters k?",
     "gold_answer_ids": [
-      "195481",
-      "3692"
+      "241389",
+      "88891"
     ],
     "graded_relevance": {
-      "195481": 3,
-      "3692": 3
+      "241389": 3,
+      "88891": 3
     },
     "tags": [
       "clustering",
@@ -222,14 +220,14 @@
   {
     "query_id": "neg_12",
     "category": "negation",
-    "query": "Ensemble prediction combining models without stacking or voting?",
+    "query": "Ensemble methods like bagging and boosting explained?",
     "gold_answer_ids": [
-      "102645",
-      "40474"
+      "372975",
+      "15267"
     ],
     "graded_relevance": {
-      "102645": 3,
-      "40474": 3
+      "372975": 3,
+      "15267": 3
     },
     "tags": [
       "ensemble-learning"
@@ -279,14 +277,14 @@
   {
     "query_id": "neg_15",
     "category": "negation",
-    "query": "Bayesian model diagnostics without checking effective sample size?",
+    "query": "What are the best methods for checking convergence in MCMC?",
     "gold_answer_ids": [
-      "71037",
-      "194152"
+      "560",
+      "99388"
     ],
     "graded_relevance": {
-      "71037": 3,
-      "194152": 3
+      "560": 3,
+      "99388": 3
     },
     "tags": [
       "bayesian-inference",
@@ -340,14 +338,14 @@
   {
     "query_id": "neg_18",
     "category": "negation",
-    "query": "Non-parametric kernel density estimation without Gaussian kernels?",
+    "query": "What is a kernel in kernel density estimation and what are some common choices?",
     "gold_answer_ids": [
       "244023",
-      "33320"
+      "487708"
     ],
     "graded_relevance": {
       "244023": 3,
-      "33320": 3
+      "487708": 3
     },
     "tags": [
       "kernel-density",
@@ -379,14 +377,14 @@
   {
     "query_id": "neg_20",
     "category": "negation",
-    "query": "Recommendation system algorithms excluding collaborative filtering?",
+    "query": "How to build a recommender system using association rules or market basket analysis?",
     "gold_answer_ids": [
-      "424127",
-      "133694"
+      "391727",
+      "183667"
     ],
     "graded_relevance": {
-      "424127": 3,
-      "133694": 3
+      "391727": 3,
+      "183667": 3
     },
     "tags": [
       "recommender-system"
