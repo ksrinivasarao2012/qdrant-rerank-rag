@@ -42,9 +42,12 @@ def main():
     import argparse
     parser = argparse.ArgumentParser()
     parser.add_argument("--category", type=str, default=None, help="Specific category to audit.")
+    parser.add_argument("--query_id", type=str, default=None, help="Specific query_id to audit (e.g. mturn_16).")
     args = parser.parse_args()
 
-    if args.category:
+    if args.query_id:
+        evaluable = [c for c in cases if c.get("query_id") == args.query_id]
+    elif args.category:
         selected_cats = {c.strip() for c in args.category.split(",")}
         evaluable = [c for c in cases if c.get("category") in selected_cats]
     else:
