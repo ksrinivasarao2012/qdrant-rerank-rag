@@ -1221,14 +1221,14 @@
     ],
     "query": "Why does this artificially reduce variance?",
     "gold_answer_ids": [
-      "78065",
-      "440047",
-      "45868"
+      "280130",
+      "118211",
+      "303737"
     ],
     "graded_relevance": {
-      "78065": 3,
-      "440047": 3,
-      "45868": 3
+      "280130": 3,
+      "118211": 3,
+      "303737": 3
     },
     "tags": [
       "missing-data",
