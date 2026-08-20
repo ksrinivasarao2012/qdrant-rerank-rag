@@ -1222,10 +1222,12 @@
     "query": "Why does this artificially reduce variance?",
     "gold_answer_ids": [
       "78065",
+      "440047",
       "45868"
     ],
     "graded_relevance": {
       "78065": 3,
+      "440047": 3,
       "45868": 3
     },
     "tags": [
