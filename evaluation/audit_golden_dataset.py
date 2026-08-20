@@ -45,7 +45,8 @@ def main():
     args = parser.parse_args()
 
     if args.category:
-        evaluable = [c for c in cases if c.get("category") == args.category]
+        selected_cats = {c.strip() for c in args.category.split(",")}
+        evaluable = [c for c in cases if c.get("category") in selected_cats]
     else:
         curated_categories = {"multi_hop", "niche_topic", "paraphrase_group", "negation", "multi_turn"}
         evaluable = [c for c in cases if c.get("category") in curated_categories]
