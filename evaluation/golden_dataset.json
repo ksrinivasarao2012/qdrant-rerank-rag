@@ -404,10 +404,12 @@
       "compare ridge and lasso penalty"
     ],
     "gold_answer_ids": [
-      "32690"
+      "874",
+      "240221"
     ],
     "graded_relevance": {
-      "32690": 3
+      "874": 3,
+      "240221": 3
     },
     "tags": [
       "regularization",
@@ -425,10 +427,10 @@
       "definition of statistical p-value"
     ],
     "gold_answer_ids": [
-      "14929"
+      "46858"
     ],
     "graded_relevance": {
-      "14929": 3
+      "46858": 3
     },
     "tags": [
       "p-value",
@@ -473,10 +475,10 @@
       "cross validation vs single train test split"
     ],
     "gold_answer_ids": [
-      "511872"
+      "52277"
     ],
     "graded_relevance": {
-      "511872": 3
+      "52277": 3
     },
     "tags": [
       "cross-validation",
@@ -494,10 +496,10 @@
       "intuition behind central limit theorem"
     ],
     "gold_answer_ids": [
-      "8887"
+      "49127"
     ],
     "graded_relevance": {
-      "8887": 3
+      "49127": 3
     },
     "tags": [
       "probability",
@@ -515,10 +517,12 @@
       "multicollinearity diagnosis steps"
     ],
     "gold_answer_ids": [
-      "163967"
+      "3557",
+      "124219"
     ],
     "graded_relevance": {
-      "163967": 3
+      "3557": 3,
+      "124219": 3
     },
     "tags": [
       "multicollinearity",
@@ -578,10 +582,10 @@
       "linearity of logit assumption check"
     ],
     "gold_answer_ids": [
-      "182270"
+      "573804"
     ],
     "graded_relevance": {
-      "182270": 3
+      "573804": 3
     },
     "tags": [
       "logistic-regression",
@@ -599,10 +603,10 @@
       "when is anova preferred over independent samples t-test"
     ],
     "gold_answer_ids": [
-      "1639"
+      "236886"
     ],
     "graded_relevance": {
-      "1639": 3
+      "236886": 3
     },
     "tags": [
       "anova",
@@ -638,16 +642,16 @@
     "category": "paraphrase_group",
     "group_id": "time_series_stationarity",
     "variants": [
-      "What is stationarity in time series?",
+      "What is the difference between a stationary test and a unit root test?",
       "why must time series be stationary before forecasting",
       "definition and significance of stationarity in models",
       "how is stationarity verified in time series"
     ],
     "gold_answer_ids": [
-      "48362"
+      "235916"
     ],
     "graded_relevance": {
-      "48362": 3
+      "235916": 3
     },
     "tags": [
       "time-series",
@@ -740,10 +744,10 @@
       "interpreting receiver operating characteristic curves"
     ],
     "gold_answer_ids": [
-      "308525"
+      "132832"
     ],
     "graded_relevance": {
-      "308525": 3
+      "132832": 3
     },
     "tags": [
       "roc-auc",
@@ -761,10 +765,10 @@
       "matching methods in causal inference"
     ],
     "gold_answer_ids": [
-      "36287"
+      "144844"
     ],
     "graded_relevance": {
-      "36287": 3
+      "144844": 3
     },
     "tags": [
       "propensity-score",
@@ -782,10 +786,10 @@
       "imputing data best practices in python r"
     ],
     "gold_answer_ids": [
-      "30571"
+      "229254"
     ],
     "graded_relevance": {
-      "30571": 3
+      "229254": 3
     },
     "tags": [
       "missing-data",
@@ -824,10 +828,10 @@
       "recommender system matrix factorization explained"
     ],
     "gold_answer_ids": [
-      "21947"
+      "391727"
     ],
     "graded_relevance": {
-      "21947": 3
+      "391727": 3
     },
     "tags": [
       "recommender-system",
