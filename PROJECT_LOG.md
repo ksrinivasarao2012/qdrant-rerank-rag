@@ -68,6 +68,12 @@ Total Dataset: **294 evaluation test cases across 10 categories**.
 * Full LLM judge audit completed in [`niche_topic_audit_report.md`](file:///C:/Users/Srinivasa/.gemini/antigravity-ide/brain/2aac9f65-d485-4026-bc73-ba733300333b/niche_topic_audit_report.md).
 * Next step: Apply candidate replacement IDs and verify database existence.
 
+### **Category 5: `paraphrase_group` (20 Paraphrased Cases)** — `[STATUS: 100% COMPLETE & VERIFIED]`
+* **Fixes Applied:**
+  * Updated 12 mismatched cases to point to high-precision conceptual answers in `posts.jsonl` (e.g., L1/L2 tradeoffs, probability interpretations of ROC AUC, VIF multicollinearity, and t-test vs ANOVA equivalence).
+  * Refined `para_12` query to match the exact database post comparing stationary and unit root tests.
+* **Audit Result:** **20 / 20 (100% PASS)** via `Qwen-2.5-7B` judge.
+
 ---
 
 ## 4. 🛠️ Essential Command Reference
