@@ -2444,7 +2444,7 @@
   {
     "query_id": "cit_002",
     "category": "citation_accuracy",
-    "query": "SAS PROC LOGISTIC - why is Goodness of Fit test rejecting model?",
+    "query": "What does literature suggest doing when Goodness of Fit tests in SAS PROC LOGISTIC become problematic due to large datasets?",
     "gold_answer_ids": [
       "276093"
     ],
@@ -2459,9 +2459,9 @@
   {
     "query_id": "cit_003",
     "category": "citation_accuracy",
-    "query": "Testing a 2x2 contingency table: male/female, employed/unemployed",
+    "query": "What is the difference between a contingency table chi-squared test and McNemar's test, and when should each be used?",
     "gold_answer_ids": [
-      "81942"
+      "141358"
     ],
     "expected_url": "https://stats.stackexchange.com/a/81942",
     "tags": [
@@ -2489,7 +2489,7 @@
   {
     "query_id": "cit_005",
     "category": "citation_accuracy",
-    "query": "Testing for differences between a sample and a subsample",
+    "query": "Is a t-test appropriate for testing differences between two sub-samples rather than comparing a sample directly to its own sub-sample?",
     "gold_answer_ids": [
       "71188"
     ],
@@ -2504,7 +2504,7 @@
   {
     "query_id": "cit_006",
     "category": "citation_accuracy",
-    "query": "Which statitical modeling in more appropriate when there are several yi? (MANCOVA,Multivariate regression, canonocal correlation)",
+    "query": "How to handle regression modeling when there are several dependent variables (yi)?",
     "gold_answer_ids": [
       "283579"
     ],
@@ -2592,7 +2592,7 @@
   {
     "query_id": "cit_012",
     "category": "citation_accuracy",
-    "query": "Compact notation for one-hot indicator vectors?",
+    "query": "What is the mathematical notation or representation for dummy (one-hot) indicator variables?",
     "gold_answer_ids": [
       "454475"
     ],
@@ -2665,7 +2665,7 @@
   {
     "query_id": "cit_017",
     "category": "citation_accuracy",
-    "query": "Using predict_proba with sklearn's multiclass SVC",
+    "query": "Why can the results of predict_proba be slightly different from predict for SVC in scikit-learn, and where is the implementation detailed?",
     "gold_answer_ids": [
       "89561"
     ],
@@ -2724,7 +2724,7 @@
   {
     "query_id": "code_001",
     "category": "code_traceback",
-    "query": "How can I test for autocorrelated errors in logistic regression?",
+    "query": "For panel data with binary variables representing failures, how does the answer suggest investigating potential autocorrelation between the response variables Y_j?",
     "gold_answer_ids": [
       "405105"
     ],
@@ -2742,7 +2742,7 @@
   {
     "query_id": "code_002",
     "category": "code_traceback",
-    "query": "what is a good measure of goodness of fit for survival models that can be used for comparison between models?",
+    "query": "What is the danger of using automated predictor selection on a random forest sample to select predictors for later Cox models?",
     "gold_answer_ids": [
       "518175"
     ],
@@ -2774,7 +2774,7 @@
   {
     "query_id": "code_004",
     "category": "code_traceback",
-    "query": "Is there an ExtraTreesClassifier-like classifier that has decision boundary function like SVM?",
+    "query": "For the question 'Is there an ExtraTreesClassifier-like classifier that has decision boundary function like SVM?', why does the answer explain that such a classifier is not possible?",
     "gold_answer_ids": [
       "446144"
     ],
@@ -2871,7 +2871,7 @@
   {
     "query_id": "code_010",
     "category": "code_traceback",
-    "query": "Standard error of regression coefficients without an assumption of homoscedastic normal noise",
+    "query": "How can one treat heteroscedasticity in regression packages using least squares?",
     "gold_answer_ids": [
       "88467"
     ],
@@ -2905,7 +2905,7 @@
   {
     "query_id": "code_012",
     "category": "code_traceback",
-    "query": "What is the interplay between treatments for multiple testing and autocorrelation in hypothesis tests?",
+    "query": "Is it recommended to handle multiple testing corrections and autocorrelation simultaneously or in two separate steps, and how?",
     "gold_answer_ids": [
       "496299"
     ],
@@ -2923,7 +2923,7 @@
   {
     "query_id": "code_013",
     "category": "code_traceback",
-    "query": "Why not using cross validation for estimating the error of a linear model?",
+    "query": "What are the common alternatives to cross-validation for estimating the error of a linear model, and when is splitting the sample appropriate?",
     "gold_answer_ids": [
       "122483"
     ],
@@ -2984,7 +2984,7 @@
   {
     "query_id": "code_017",
     "category": "code_traceback",
-    "query": "Multilinear regression",
+    "query": "In linear regression, how does horizontal noise in a predictor variable affect the estimate of the slope coefficient?",
     "gold_answer_ids": [
       "361314"
     ],
@@ -3018,7 +3018,7 @@
   {
     "query_id": "code_019",
     "category": "code_traceback",
-    "query": "Choosing sample size for building predictive models and machine learning",
+    "query": "How does the optimal number of features relate to sample size for different classification rules?",
     "gold_answer_ids": [
       "427598"
     ],
@@ -3070,7 +3070,7 @@
   {
     "query_id": "code_022",
     "category": "code_traceback",
-    "query": "Metropolis Hastings algorithm bivariate normals",
+    "query": "In the provided R code, how are the parameters for the mixture components defined, and why can we use the Metropolis algorithm instead of Metropolis-Hastings?",
     "gold_answer_ids": [
       "525378"
     ],
@@ -3086,7 +3086,7 @@
   {
     "query_id": "code_023",
     "category": "code_traceback",
-    "query": "When using cross validation, shouldn't it be mandatory to pipeline the preprocessing steps?",
+    "query": "Why should preprocessing steps be re-calculated inside the cross-validation loop rather than performed beforehand?",
     "gold_answer_ids": [
       "239255"
     ],
@@ -3101,7 +3101,7 @@
   {
     "query_id": "code_024",
     "category": "code_traceback",
-    "query": "Inconsistencies between conditional probability calculations by hand and with pgmpy (Bayesian Graphical Models)",
+    "query": "What bug in pgmpy's BayesianModel.py causes descendants of a node to return empty, and how can it be fixed?",
     "gold_answer_ids": [
       "369329"
     ],
@@ -3198,7 +3198,7 @@
   {
     "query_id": "code_030",
     "category": "code_traceback",
-    "query": "Number of significant figures to put in a table?",
+    "query": "Why does the author suggest writing 12 instead of 120 in a table alongside 1.2?",
     "gold_answer_ids": [
       "8736"
     ],

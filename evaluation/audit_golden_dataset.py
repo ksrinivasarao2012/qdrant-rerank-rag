@@ -119,12 +119,49 @@ JSON:"""
             res_text = judge.generate(prompt).strip()
             
             # Clean JSON if model returned markdown blocks
-            if "```json" in res_text:
-                res_text = res_text.split("```json")[1].split("```")[0].strip()
-            elif "```" in res_text:
-                res_text = res_text.split("```")[1].split("```")[0].strip()
+            clean_text = res_text
+            if "```json" in clean_text:
+                clean_text = clean_text.split("```json")[1].split("```")[0].strip()
+            elif "```" in clean_text:
+                clean_text = clean_text.split("```")[1].split("```")[0].strip()
 
-            result = json.loads(res_text)
+            try:
+                result = json.loads(clean_text)
+            except Exception as parse_err:
+                # Regex fallback for nested unescaped quotes
+                import re
+                result = {}
+                # 1. is_aligned
+                aligned_match = re.search(r'"is_aligned"\s*:\s*(true|false)', clean_text, re.IGNORECASE)
+                if aligned_match:
+                    result["is_aligned"] = aligned_match.group(1).lower() == "true"
+                else:
+                    result["is_aligned"] = False
+                
+                # 2. suggested_action
+                action_match = re.search(r'"suggested_action"\s*:\s*"([^"]+)"', clean_text)
+                if action_match:
+                    result["suggested_action"] = action_match.group(1)
+                else:
+                    result["suggested_action"] = "NO_ACTION"
+                
+                # 3. reason
+                reason_match = re.search(r'"reason"\s*:\s*"(.*)"\s*,\s*"suggested_action"', clean_text, re.DOTALL)
+                if not reason_match:
+                    reason_match = re.search(r'"reason"\s*:\s*"(.*)"\s*\}\s*$', clean_text, re.DOTALL)
+                if not reason_match:
+                    reason_match = re.search(r'"reason"\s*:\s*"(.*)"', clean_text, re.DOTALL)
+                
+                if reason_match:
+                    reason_val = reason_match.group(1).strip()
+                    if reason_val.endswith('"'):
+                        reason_val = reason_val[:-1]
+                    # Also strip any trailing comma/key residues
+                    if '","suggested_action"' in reason_val:
+                        reason_val = reason_val.split('","suggested_action"')[0]
+                    result["reason"] = reason_val
+                else:
+                    result["reason"] = f"Regex parsing fallback failed. Raw: {clean_text}"
         except Exception as e:
             result = {
                 "is_aligned": False,
