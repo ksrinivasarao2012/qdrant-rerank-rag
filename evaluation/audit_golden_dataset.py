@@ -172,16 +172,23 @@ JSON:"""
         is_aligned = result.get("is_aligned", False)
         reason = result.get("reason", "Unknown")
         action = result.get("suggested_action", "NO_ACTION")
+        human_verified = bool(case.get("human_verified"))
+        human_verified_note = case.get("human_verified_note", "")
 
-        if not is_aligned:
-            mismatches_count += 1
-            status = "[-] MISMATCH"
-        else:
+        if is_aligned:
             status = "[+] OK"
+        elif human_verified:
+            status = "[~] MISMATCH (human_verified override)"
+            mismatches_count += 1
+        else:
+            status = "[-] MISMATCH"
+            mismatches_count += 1
 
         print(f"[{idx}/{len(evaluable)}] Case {qid} ({category}): {status} | Action: {action}")
         if not is_aligned:
             print(f"  Reason: {reason}")
+            if human_verified:
+                print(f"  Human-verified: {human_verified_note}")
 
         report.append({
             "query_id": qid,
@@ -190,17 +197,25 @@ JSON:"""
             "gold_ids": gold_ids,
             "is_aligned": is_aligned,
             "reason": reason,
-            "suggested_action": action
+            "suggested_action": action,
+            "human_verified": human_verified,
+            "human_verified_note": human_verified_note,
         })
 
     # Save report
     with open(AUDIT_REPORT_PATH, "w", encoding="utf-8") as f:
         json.dump(report, f, indent=2, ensure_ascii=False)
 
+    hv_override_count = sum(1 for r in report if not r.get("is_aligned") and r.get("human_verified"))
+    raw_pass = len(evaluable) - mismatches_count
+    verified_pass = raw_pass + hv_override_count
+
     print("\n================ AUDIT SUMMARY ================")
     print(f"Total curated cases audited: {len(evaluable)}")
-    print(f"Aligned cases: {len(evaluable) - mismatches_count}")
-    print(f"Mismatched/Flagged cases: {mismatches_count}")
+    print(f"Raw judge pass:               {raw_pass}/{len(evaluable)}  ({raw_pass/len(evaluable)*100:.1f}%)")
+    print(f"Human-verified overrides:     {hv_override_count} (judge flagged, human review says gold is correct)")
+    print(f"Verified pass rate:           {verified_pass}/{len(evaluable)}  ({verified_pass/len(evaluable)*100:.1f}%)")
+    print(f"Genuine mismatch/gap:         {mismatches_count - hv_override_count}")
     print(f"Audit report saved to: {AUDIT_REPORT_PATH}")
     print("===============================================")
     return 0

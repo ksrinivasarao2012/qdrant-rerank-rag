@@ -45,9 +45,9 @@ MULTI_TURN_FIXES = {
         "reason": "Explains feature scaling / standardization choices before running PCA."
     },
     "mturn_10": {
-        "gold_answer_ids": ["85914", "85908"],
-        "graded_relevance": {"85914": 3, "85908": 3},
-        "reason": "Explains what rejecting the null hypothesis tells us about the alternative hypothesis."
+        "gold_answer_ids": ["67210"],
+        "graded_relevance": {"67210": 3},
+        "reason": "Query drifted to a U-statistic + non-parametric-test definition question. Post 67210 (accepted, score 50, thread 'What exactly does a non-parametric test accomplish...') defines non-parametric tests and explicitly explains what to do with the Mann-Whitney U-statistic (count-then-scale to estimate P(X<Y)). Prior gold 85914 was a null-hypothesis-rejection answer, mismatched to the current query."
     },
     "mturn_11": {
         "new_category": "multi_hop",
@@ -193,6 +193,168 @@ NEGATION_FIXES = {
     }
 }
 
+# Category 3: multi_hop fixes (sourced from evaluation/multi_hop_audit_report.md,
+# cross-checked against fresh golden_audit_report.json — 14 cases flagged REPLACE_GOLD).
+# All candidate IDs verified present in data/processed/posts.jsonl.
+MULTI_HOP_FIXES = {
+    "hop_02": {
+        "gold_answer_ids": ["372975", "152698"],
+        "graded_relevance": {"372975": 3, "152698": 3},
+        "reason": "Bagging = parallel bootstrap averaging vs Boosting = sequential residual correction of weak learners. 372975 has literal 'Bagging:'/'Boosting:' sections with pseudocode; 152698 is a decision guide for when to pick each. (Revised 2026-08-25 after 7B judge flagged the original .md report candidates 77025/348246 as too indirect.)"
+    },
+    "hop_03": {
+        "gold_answer_ids": ["176390", "7404"],
+        "graded_relevance": {"176390": 3, "7404": 3},
+        "reason": "176390 ('Do underpowered studies have increased likelihood of false positives?', score 40 accepted) directly relates power to Type I error; 7404 ('How do I find the probability of a type II error?', score 33 accepted) covers Type II + beta + power quantitatively. (Revised again 2026-08-25 after 7B judge flagged 1616/14157 as mnemonic + visualization rather than the three-way relationship.)"
+    },
+    "hop_04": {
+        "gold_answer_ids": ["55605", "253992"],
+        "graded_relevance": {"55605": 3, "253992": 3},
+        "reason": "F1 as the harmonic mean of precision and recall — summarizes the precision-recall trade-off."
+    },
+    "hop_05": {
+        "gold_answer_ids": ["876", "4274"],
+        "graded_relevance": {"876": 3, "4274": 3},
+        "reason": "Lasso vs Ridge: L1 arbitrary selection among correlated features vs L2 grouping/shrinkage effect."
+    },
+    "hop_07": {
+        "gold_answer_ids": ["184497", "220563"],
+        "graded_relevance": {"184497": 3, "220563": 3},
+        "reason": "Direct SGD-vs-Adam comparison (184497, 'Difference between GradientDescentOptimizer and AdamOptimizer', score 85 accepted) + Adam mechanism (220563, 'How does the Adam method of stochastic gradient descent work?', score 49). (Revised 2026-08-25 after 7B judge flagged the .md report's 352037 as generic 'network doesn't learn' troubleshooting rather than an SGD-vs-Adam comparison.)"
+    },
+    "hop_09": {
+        "gold_answer_ids": ["77025", "148060"],
+        "graded_relevance": {"77025": 3, "148060": 3},
+        "reason": "77025 ('Is random forest a boosting algorithm?', score 105 accepted) explicitly frames RF as variance-reduction bagging vs boosting as bias-reduction — exactly the query's dimensions. 148060 covers RF vs Boosting parametric properties. (Revised 2026-08-25 after 7B judge flagged 348246 as a hyperparameter-tuning post.)"
+    },
+    "hop_11": {
+        "gold_answer_ids": ["357974", "409271"],
+        "graded_relevance": {"357974": 3, "409271": 3},
+        "reason": "H(p,q) = H(p) + D_KL(p||q): cross-entropy = entropy + KL divergence, used interchangeably in classification loss."
+    },
+    "hop_12": {
+        "gold_answer_ids": ["66294", "214315"],
+        "graded_relevance": {"66294": 3, "214315": 3},
+        "reason": "Random Forest decorrelates trees via random feature subsets (mtry), reducing ensemble variance vs plain bagging."
+    },
+    "hop_14": {
+        "gold_answer_ids": ["402676", "364255"],
+        "graded_relevance": {"402676": 3, "364255": 3},
+        "reason": "t-SNE (Student-t local probabilities) vs UMAP (fuzzy simplicial sets) — differences in preserving global structure."
+    },
+    "hop_16": {
+        "gold_answer_ids": ["341566", "27870"],
+        "graded_relevance": {"341566": 3, "27870": 3},
+        "reason": "341566 explains the interplay between random intercept and random slope (correlation under treatment coding, with illustrative pictures); 27870 walks through fitting a mixed model with both random slope and random intercept. (Revised 2026-08-25 after 7B judge flagged 243225 as a convergence-warning post unrelated to the intercept-vs-slope comparison.)"
+    },
+    "hop_17": {
+        "gold_answer_ids": ["531971", "472920"],
+        "graded_relevance": {"531971": 3, "472920": 3},
+        "reason": "Transformer self-attention O(1) path length vs RNN sequential recurrence O(n) with vanishing gradients on long sequences."
+    },
+    "hop_18": {
+        "gold_answer_ids": ["3954", "19209"],
+        "graded_relevance": {"3954": 3, "19209": 3},
+        "reason": "3954 is the canonical SVM primer (score 111 accepted); 19209 ('Why bother with the dual problem when fitting SVM?', score 60 accepted) explains dual formulation which is the mathematical machinery the kernel trick exploits. (Revised again 2026-08-25 after 7B judge flagged 2168 as too brief and 3954 alone as generic SVM workflow; dual-problem post is a stronger kernel-trick-relevance signal.)"
+    },
+    "hop_19": {
+        "gold_answer_ids": ["550708", "614855"],
+        "graded_relevance": {"550708": 3, "614855": 3},
+        "reason": "Target encoding vs one-hot encoding for high-cardinality categoricals: dimensionality explosion vs target leakage / smoothing."
+    },
+    # hop_20 (Collaborative vs content-based filtering): REMOVED 2026-08-25 —
+    # user decision to delete rather than flag. Corpus (stats.stackexchange.com)
+    # has abundant CF material but almost no content-based-filtering posts, so
+    # no gold pair on this corpus can satisfy the query. See PROJECT_LOG.md.
+}
+
+# Category 4: niche_topic fixes (sourced from evaluation/niche_topic_audit_report.md —
+# 17 cases flagged REPLACE_GOLD). All candidate IDs verified present in posts.jsonl.
+NICHE_TOPIC_FIXES = {
+    "niche_01": {
+        "gold_answer_ids": ["96741", "357498"],
+        "graded_relevance": {"96741": 3, "357498": 3},
+        "reason": "Cox PH ties: Efron approximation vs Breslow method — survival analysis tie handling."
+    },
+    "niche_02": {
+        "gold_answer_ids": ["63497", "21225"],
+        "graded_relevance": {"63497": 3, "21225": 3},
+        "reason": "Benjamini-Hochberg step-up procedure P_(i) <= (i/m) Q controlling the false discovery rate."
+    },
+    "niche_03": {
+        "gold_answer_ids": ["30205", "573589"],
+        "graded_relevance": {"30205": 3, "573589": 3},
+        "reason": "Sklar's theorem: copulas decompose a joint distribution into uniform marginals + a dependency structure."
+    },
+    "niche_04": {
+        "gold_answer_ids": ["118227", "18772"],
+        "graded_relevance": {"118227": 3, "18772": 3},
+        "reason": "118227 ('Model building and selection using Hosmer et al. 2013') and 18772 ('Hosmer-Lemeshow vs AIC for logistic regression') both discuss the HL test directly. (Revised 2026-08-25 after 7B judge flagged 3562 as an R^2 post rather than HL-specific.)"
+    },
+    "niche_07": {
+        "gold_answer_ids": ["62147", "20549"],
+        "graded_relevance": {"62147": 3, "20549": 3},
+        "reason": "62147 is the canonical Mahalanobis explainer (score 255 accepted); 20549 covers the distribution of an observation-level Mahalanobis distance. (Revised 2026-08-25 after 7B judge flagged the pairing with 117463 (ZCA whitening) as off-topic.)"
+    },
+    "niche_10": {
+        "gold_answer_ids": ["236104", "504927"],
+        "graded_relevance": {"236104": 3, "504927": 3},
+        "reason": "236104 title is literally 'EM-algorithm and missing data'; 504927 walks through EM MLE on bivariate normal WITH missing data. (Revised 2026-08-25 after 7B judge flagged the .md report's 262560/628785 as EM-vs-gradient-descent rather than missing-data-specific.)"
+    },
+    "niche_11": {
+        "gold_answer_ids": ["244902", "104817"],
+        "graded_relevance": {"244902": 3, "104817": 3},
+        "reason": "244902 title is literally 'When would one use Gibbs sampling instead of Metropolis-Hastings?' — exact query match. 104817 'Gibbs sampling versus general MH-MCMC' is the same comparison. (Revised 2026-08-25 after 7B judge flagged 207 (generic MCMC layperson explainer) and 27374 (LR vs BF) as off-topic.)"
+    },
+    "niche_12": {
+        "gold_answer_ids": ["126661", "65657"],
+        "graded_relevance": {"126661": 3, "65657": 3},
+        "reason": "126661 'How to use the Hausman test for gender discrimination?' and 65657 'Hausman test for panel data, fe and re' are both Hausman-specific with worked examples. (Revised 2026-08-25 after 7B judge flagged 66895/90759 as generic mixed-effects rather than Hausman-specific.)"
+    },
+    "niche_13": {
+        "gold_answer_ids": ["174144", "176929"],
+        "graded_relevance": {"174144": 3, "176929": 3},
+        "reason": "Tweedie GLM: compound Poisson-gamma distribution for continuous non-negative data with a point mass at zero."
+    },
+    "niche_15": {
+        "gold_answer_ids": ["161080", "226123"],
+        "graded_relevance": {"161080": 3, "226123": 3},
+        "reason": "161080 ('Difference between LOESS and LOWESS') and 226123 ('Explanation of what Nate Silver said about loess') focus on LOESS/local regression directly. (Revised 2026-08-25 after 7B judge flagged 25081 (splines) and 517784 (spline interpolation) as not local-linear-specific.)"
+    },
+    # niche_16 (ARCH vs GARCH specifically): REMOVED 2026-08-25 —
+    # user decision, along with 3 other niche corpus gaps (niche_01, 19, 21).
+    # Corpus lacks a direct ARCH-vs-GARCH comparison (posts pair with ARMA
+    # instead). See PROJECT_LOG.md.
+    "niche_17": {
+        "gold_answer_ids": ["148290", "192165"],
+        "graded_relevance": {"148290": 3, "192165": 3},
+        "reason": "Ljung-Box: portmanteau test pooling sample autocorrelations up to lag h against white-noise null."
+    },
+    # niche_19 (DBSCAN core points vs k-means centroids): REMOVED 2026-08-25 —
+    # user decision, along with 3 other niche corpus gaps. Corpus discusses each
+    # algorithm separately but has no direct side-by-side comparison. See PROJECT_LOG.md.
+    "niche_21": {
+        "gold_answer_ids": ["324692", "243014"],
+        "graded_relevance": {"324692": 3, "243014": 3},
+        "reason": "Meta-analysis heterogeneity: Cochran's Q chi-square, I^2 percentage of variation across studies, forest-plot CI overlap."
+    },
+    "niche_22": {
+        "gold_answer_ids": ["74127", "36146"],
+        "graded_relevance": {"74127": 3, "36146": 3},
+        "reason": "Moran's I with spatial weights matrix W measuring global spatial autocorrelation (clustering vs dispersion)."
+    },
+    "niche_23": {
+        "gold_answer_ids": ["27374", "204334"],
+        "graded_relevance": {"27374": 3, "204334": 3},
+        "reason": "27374 ('Likelihood ratio vs Bayes Factor', score 49 accepted) frames BF as the marginal-likelihood ratio for model comparison; 204334 ('Can I make a decision using a Bayes factor?', score 10 accepted) covers the decision-making side. (Revised 2026-08-25 after 7B judge flagged 201591 (alternatives to p-values) as too broad; 27374 retained since it IS the direct comparison ratio explanation.)"
+    },
+    "niche_24": {
+        "gold_answer_ids": ["21507", "63418"],
+        "graded_relevance": {"21507": 3, "63418": 3},
+        "reason": "21507 ('Introduction to structural equation modeling', score 22 accepted) is a canonical SEM primer that contextualizes path analysis; 63418 ('Difference Between Simultaneous Equation Model and Structural Equation Model', score 16 accepted) is the closest direct comparison. (Revised 2026-08-25 after 7B judge flagged 376925/43502 as Pearl-causality posts rather than SEM-vs-path.)"
+    }
+}
+
 def load_posts_index(needed_ids):
     """Load only requested post IDs from posts.jsonl for fast inspection."""
     posts_map = {}
@@ -301,5 +463,9 @@ if __name__ == "__main__":
         apply_category_fixes("multi_turn", MULTI_TURN_FIXES)
     elif category == "negation":
         apply_category_fixes("negation", NEGATION_FIXES)
+    elif category == "multi_hop":
+        apply_category_fixes("multi_hop", MULTI_HOP_FIXES)
+    elif category == "niche_topic":
+        apply_category_fixes("niche_topic", NICHE_TOPIC_FIXES)
     else:
         print(f"Category '{category}' not yet configured in script.")

@@ -22,13 +22,18 @@ from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
-MODEL_NAME = "BAAI/bge-small-en-v1.5"
+# Upgraded from bge-small-en-v1.5 (33M params, 384-dim) to bge-base-en-v1.5
+# (110M params, 768-dim) for significantly better paraphrase/semantic recall.
+# IMPORTANT: Changing this requires deleting the existing Qdrant collection and
+# re-running embed_corpus.py + upload_embeddings.py -- the vector dimension
+# changed from 384 to 768, and the two are not compatible in the same collection.
+MODEL_NAME = "BAAI/bge-base-en-v1.5"
 DEVICE = "cpu"
 NORMALIZE = True
 
 # Dimension of MODEL_NAME's output. VectorDBManager creates its Qdrant
 # collection with this size, so it lives next to the model name it depends on.
-EMBEDDING_DIM = 384
+EMBEDDING_DIM = 768
 
 _instance: Optional[Any] = None
 _lock = threading.Lock()

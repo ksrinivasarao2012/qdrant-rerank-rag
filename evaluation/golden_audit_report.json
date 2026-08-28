@@ -1,0 +1,555 @@
+[
+  {
+    "query_id": "neg_01",
+    "category": "negation",
+    "query": "How to test normality without using the Shapiro-Wilk test?",
+    "gold_ids": [
+      "1648",
+      "74954",
+      "52297"
+    ],
+    "is_aligned": true,
+    "reason": "The answer provides a detailed discussion on alternative normality tests to the Shapiro-Wilk test, which directly addresses the user's query. It includes information on various tests, their usage, and comparisons, along with practical examples in R.",
+    "suggested_action": "NO_ACTION",
+    "human_verified": false,
+    "human_verified_note": ""
+  },
+  {
+    "query_id": "neg_02",
+    "category": "negation",
+    "query": "How do I handle missing data without deleting rows?",
+    "gold_ids": [
+      "10352"
+    ],
+    "is_aligned": true,
+    "reason": "The answer is topically aligned with the query as it discusses methods to handle missing data, specifically focusing on imputation techniques rather than deletion.",
+    "suggested_action": "NO_ACTION",
+    "human_verified": false,
+    "human_verified_note": ""
+  },
+  {
+    "query_id": "neg_03",
+    "category": "negation",
+    "query": "How to compare group means without assuming normal distribution?",
+    "gold_ids": [
+      "8849"
+    ],
+    "is_aligned": true,
+    "reason": "The answer is topically aligned with the query as it discusses methods to compare group means without assuming a normal distribution, which is the core of the user's query.",
+    "suggested_action": "NO_ACTION",
+    "human_verified": false,
+    "human_verified_note": ""
+  },
+  {
+    "query_id": "neg_04",
+    "category": "negation",
+    "query": "How to perform nonlinear dimensionality reduction as an alternative to PCA?",
+    "gold_ids": [
+      "124545",
+      "142987"
+    ],
+    "is_aligned": true,
+    "reason": "The answer discusses nonlinear dimensionality reduction methods as requested, providing examples like Isomap and kernel PCA, and explains the difference between parametric and non-parametric methods. It also mentions recent developments in handling out-of-sample data, which is relevant to the query.",
+    "suggested_action": "NO_ACTION",
+    "human_verified": false,
+    "human_verified_note": ""
+  },
+  {
+    "query_id": "neg_05",
+    "category": "negation",
+    "query": "How to select model features without stepwise regression?",
+    "gold_ids": [
+      "13698",
+      "27310"
+    ],
+    "is_aligned": true,
+    "reason": "The answer provides multiple methods for selecting model features without using stepwise regression, which directly addresses the user's query. It includes expert opinion, PLS regression, LASSO, machine learning methods like Random Forests, and PCA. The answer also mentions relevant R packages and provides additional resources for further learning.",
+    "suggested_action": "NO_ACTION",
+    "human_verified": false,
+    "human_verified_note": ""
+  },
+  {
+    "query_id": "neg_06",
+    "category": "negation",
+    "query": "How to forecast time series data without using ARIMA models?",
+    "gold_ids": [
+      "125016",
+      "157379"
+    ],
+    "is_aligned": true,
+    "reason": "The answer is topically aligned with the query as it discusses methods for forecasting time series data without using ARIMA models, which directly addresses the user's question.",
+    "suggested_action": "NO_ACTION",
+    "human_verified": false,
+    "human_verified_note": ""
+  },
+  {
+    "query_id": "neg_07",
+    "category": "negation",
+    "query": "Clustering methods that do not require specifying the number of clusters k?",
+    "gold_ids": [
+      "241389",
+      "88891"
+    ],
+    "is_aligned": true,
+    "reason": "The answer is topically aligned with the query as it discusses clustering methods that do not require specifying the number of clusters k. It provides examples of such methods and explains their characteristics.",
+    "suggested_action": "NO_ACTION",
+    "human_verified": false,
+    "human_verified_note": ""
+  },
+  {
+    "query_id": "neg_08",
+    "category": "negation",
+    "query": "Goodness of fit tests excluding Kolmogorov-Smirnov?",
+    "gold_ids": [
+      "207512",
+      "70208"
+    ],
+    "is_aligned": true,
+    "reason": "The answer discusses alternative goodness of fit tests and methods, which are relevant to the query about excluding the Kolmogorov-Smirnov test. It provides specific recommendations and statistical methods that are pertinent to assessing model fit.",
+    "suggested_action": "NO_ACTION",
+    "human_verified": false,
+    "human_verified_note": ""
+  },
+  {
+    "query_id": "neg_09",
+    "category": "negation",
+    "query": "How is parameter uncertainty estimated without bootstrapping?",
+    "gold_ids": [
+      "21888"
+    ],
+    "is_aligned": true,
+    "reason": "The answer discusses methods for estimating parameter uncertainty without bootstrapping, specifically focusing on the delta method. It provides a detailed explanation and mathematical derivation, which is relevant to the user's query.",
+    "suggested_action": "NO_ACTION",
+    "human_verified": false,
+    "human_verified_note": ""
+  },
+  {
+    "query_id": "neg_10",
+    "category": "negation",
+    "query": "Nonparametric correlation coefficients other than Pearson correlation?",
+    "gold_ids": [
+      "3733",
+      "3744",
+      "3946"
+    ],
+    "is_aligned": true,
+    "reason": "The answer is topically aligned with the query as it discusses nonparametric correlation coefficients other than Pearson's correlation, which is exactly what the user asked for.",
+    "suggested_action": "NO_ACTION",
+    "human_verified": false,
+    "human_verified_note": ""
+  },
+  {
+    "query_id": "neg_11",
+    "category": "negation",
+    "query": "Information theory metric for correlation without using mutual information?",
+    "gold_ids": [
+      "394490",
+      "77016",
+      "50680"
+    ],
+    "is_aligned": true,
+    "reason": "The answer provides alternative metrics for measuring correlation without using mutual information, which directly addresses the user's query. It mentions distance correlation tests and the maximal information coefficient (MIC) as valid alternatives.",
+    "suggested_action": "NO_ACTION",
+    "human_verified": false,
+    "human_verified_note": ""
+  },
+  {
+    "query_id": "neg_12",
+    "category": "negation",
+    "query": "Ensemble methods like bagging and boosting explained?",
+    "gold_ids": [
+      "372975",
+      "15267"
+    ],
+    "is_aligned": true,
+    "reason": "The answer provides a detailed explanation of ensemble methods like bagging and boosting, which directly addresses the user's query. It covers the key concepts, including the differences between bagging and boosting, and provides pseudo-code for both methods. The answer also includes additional information about Random Forests, which is relevant to the topic.",
+    "suggested_action": "NO_ACTION",
+    "human_verified": false,
+    "human_verified_note": ""
+  },
+  {
+    "query_id": "neg_13",
+    "category": "negation",
+    "query": "Outlier detection method that doesn't use Isolation Forests?",
+    "gold_ids": [
+      "2042",
+      "27804"
+    ],
+    "is_aligned": true,
+    "reason": "The answer provides methods for outlier detection that do not involve Isolation Forests, such as ordered robust Mahalanobis distances and influence functions. It aligns well with the user's query.",
+    "suggested_action": "NO_ACTION",
+    "human_verified": false,
+    "human_verified_note": ""
+  },
+  {
+    "query_id": "neg_14",
+    "category": "negation",
+    "query": "Non-linear dimensionality reduction excluding t-SNE?",
+    "gold_ids": [
+      "124545",
+      "364255"
+    ],
+    "is_aligned": true,
+    "reason": "The answer is topically aligned with the query as it discusses non-linear dimensionality reduction methods other than t-SNE, which is what the user was asking for.",
+    "suggested_action": "NO_ACTION",
+    "human_verified": false,
+    "human_verified_note": ""
+  },
+  {
+    "query_id": "neg_15",
+    "category": "negation",
+    "query": "What are the best methods for checking convergence in MCMC?",
+    "gold_ids": [
+      "560",
+      "99388"
+    ],
+    "is_aligned": true,
+    "reason": "The answer is topically aligned with the query as it discusses methods for checking convergence in MCMC, which directly addresses the user's request.",
+    "suggested_action": "NO_ACTION",
+    "human_verified": false,
+    "human_verified_note": ""
+  },
+  {
+    "query_id": "neg_16",
+    "category": "negation",
+    "query": "Fitting hierarchical models without random slopes?",
+    "gold_ids": [
+      "243225",
+      "32421"
+    ],
+    "is_aligned": true,
+    "reason": "The answer discusses how to fit hierarchical models without random slopes, which directly addresses the user's query about fitting hierarchical models without random slopes.",
+    "suggested_action": "NO_ACTION",
+    "human_verified": false,
+    "human_verified_note": ""
+  },
+  {
+    "query_id": "neg_17",
+    "category": "negation",
+    "query": "Deep learning sequence modeling without using LSTMs?",
+    "gold_ids": [
+      "531971",
+      "472920",
+      "222587"
+    ],
+    "is_aligned": true,
+    "reason": "The gold answer discusses sequence modeling techniques without using LSTMs, which aligns with the user's query about deep learning sequence modeling without LSTMs. The answer provides detailed information on Transformers and their mechanisms, which are alternatives to LSTMs for sequence modeling.",
+    "suggested_action": "NO_ACTION",
+    "human_verified": false,
+    "human_verified_note": ""
+  },
+  {
+    "query_id": "neg_18",
+    "category": "negation",
+    "query": "What is a kernel in kernel density estimation and what are some common choices?",
+    "gold_ids": [
+      "244023",
+      "487708"
+    ],
+    "is_aligned": true,
+    "reason": "The answer is topically aligned with the query as it discusses what a kernel is in the context of kernel density estimation and mentions common choices for kernels.",
+    "suggested_action": "NO_ACTION",
+    "human_verified": false,
+    "human_verified_note": ""
+  },
+  {
+    "query_id": "neg_19",
+    "category": "negation",
+    "query": "Feature engineering category mapping without one-hot encoding?",
+    "gold_ids": [
+      "411775",
+      "298951"
+    ],
+    "is_aligned": true,
+    "reason": "The answer is topically aligned with the query as it discusses various methods for handling categorical features without one-hot encoding, which directly addresses the user's question.",
+    "suggested_action": "NO_ACTION",
+    "human_verified": false,
+    "human_verified_note": ""
+  },
+  {
+    "query_id": "neg_20",
+    "category": "negation",
+    "query": "How to build a recommender system using association rules or market basket analysis?",
+    "gold_ids": [
+      "391727",
+      "183667"
+    ],
+    "is_aligned": true,
+    "reason": "The answer is topically aligned with the query as it discusses both association rules (market basket analysis) and collaborative filtering, which are relevant to building a recommender system. It provides clear distinctions and examples that are helpful for understanding the differences between these methods.",
+    "suggested_action": "NO_ACTION",
+    "human_verified": false,
+    "human_verified_note": ""
+  },
+  {
+    "query_id": "para_01",
+    "category": "paraphrase_group",
+    "query": "What is the difference between Lasso and Ridge regression?",
+    "gold_ids": [
+      "874",
+      "240221"
+    ],
+    "is_aligned": true,
+    "reason": "The answer provides a detailed explanation of the differences between Lasso and Ridge regression, which directly addresses the user's query. It covers both theoretical and practical aspects of the two methods.",
+    "suggested_action": "NO_ACTION",
+    "human_verified": false,
+    "human_verified_note": ""
+  },
+  {
+    "query_id": "para_02",
+    "category": "paraphrase_group",
+    "query": "What does a p-value actually mean?",
+    "gold_ids": [
+      "46858"
+    ],
+    "is_aligned": true,
+    "reason": "The answer provides a detailed explanation of what a p-value means, including the technical definition and the limitations of using p-values for making decisions about the null hypothesis. It also addresses the confusion surrounding p-values and points to further reading for a deeper understanding.",
+    "suggested_action": "NO_ACTION",
+    "human_verified": false,
+    "human_verified_note": ""
+  },
+  {
+    "query_id": "para_03",
+    "category": "paraphrase_group",
+    "query": "What is the bias-variance tradeoff in machine learning?",
+    "gold_ids": [
+      "4287",
+      "78685",
+      "237850",
+      "444014"
+    ],
+    "is_aligned": true,
+    "reason": "The answer is topically aligned with the query as it discusses the bias-variance tradeoff in machine learning, which directly addresses the user's question.",
+    "suggested_action": "NO_ACTION",
+    "human_verified": false,
+    "human_verified_note": ""
+  },
+  {
+    "query_id": "para_04",
+    "category": "paraphrase_group",
+    "query": "Why do we use cross-validation?",
+    "gold_ids": [
+      "52277"
+    ],
+    "is_aligned": true,
+    "reason": "The answer is topically aligned with the query as it discusses the purpose and methodology of cross-validation, which directly addresses why cross-validation is used.",
+    "suggested_action": "NO_ACTION",
+    "human_verified": false,
+    "human_verified_note": ""
+  },
+  {
+    "query_id": "para_05",
+    "category": "paraphrase_group",
+    "query": "Explain the Central Limit Theorem.",
+    "gold_ids": [
+      "49127"
+    ],
+    "is_aligned": true,
+    "reason": "The answer discusses the Central Limit Theorem (CLT) and provides a clear explanation of how the distribution of sample means behaves as the sample size increases, which is directly relevant to the user's query. It also mentions the convergence to a normal distribution, which is a key aspect of the CLT.",
+    "suggested_action": "NO_ACTION",
+    "human_verified": false,
+    "human_verified_note": ""
+  },
+  {
+    "query_id": "para_06",
+    "category": "paraphrase_group",
+    "query": "How to detect multicollinearity?",
+    "gold_ids": [
+      "3557",
+      "124219"
+    ],
+    "is_aligned": true,
+    "reason": "The answer is topically aligned with the query as it discusses methods to detect multicollinearity, which is what the user asked for. It mentions VIFs, correlation matrices, and other relevant techniques.",
+    "suggested_action": "NO_ACTION",
+    "human_verified": false,
+    "human_verified_note": ""
+  },
+  {
+    "query_id": "para_07",
+    "category": "paraphrase_group",
+    "query": "How does learning rate affect gradient descent?",
+    "gold_ids": [
+      "312977"
+    ],
+    "is_aligned": true,
+    "reason": "The answer discusses the impact of the learning rate on gradient descent, specifically comparing SGD and GD, which directly addresses the user's query.",
+    "suggested_action": "NO_ACTION",
+    "human_verified": false,
+    "human_verified_note": ""
+  },
+  {
+    "query_id": "para_08",
+    "category": "paraphrase_group",
+    "query": "Can random forests overfit?",
+    "gold_ids": [
+      "66546"
+    ],
+    "is_aligned": true,
+    "reason": "The answer discusses whether random forests can overfit, which directly addresses the user's query. It provides relevant information about how random forests handle training data and the importance of using out-of-bag (OOB) error for assessing model performance.",
+    "suggested_action": "NO_ACTION",
+    "human_verified": false,
+    "human_verified_note": ""
+  },
+  {
+    "query_id": "para_09",
+    "category": "paraphrase_group",
+    "query": "What are the assumptions of logistic regression?",
+    "gold_ids": [
+      "573804"
+    ],
+    "is_aligned": true,
+    "reason": "The answer discusses the key assumptions of logistic regression, which directly aligns with the user's query. It correctly mentions the lack of normality assumption and the presence of heteroskedasticity, and provides additional useful information about residuals and the use of splines.",
+    "suggested_action": "NO_ACTION",
+    "human_verified": false,
+    "human_verified_note": ""
+  },
+  {
+    "query_id": "para_10",
+    "category": "paraphrase_group",
+    "query": "When to use ANOVA vs t-test?",
+    "gold_ids": [
+      "236886"
+    ],
+    "is_aligned": true,
+    "reason": "The answer discusses when to use ANOVA versus a t-test, which directly addresses the user's query. It provides a clear explanation and includes code to demonstrate the relationship between the t-statistic and the F-statistic under different conditions.",
+    "suggested_action": "NO_ACTION",
+    "human_verified": false,
+    "human_verified_note": ""
+  },
+  {
+    "query_id": "para_11",
+    "category": "paraphrase_group",
+    "query": "Do we need to scale features before PCA?",
+    "gold_ids": [
+      "23579",
+      "23580"
+    ],
+    "is_aligned": true,
+    "reason": "The answer discusses whether scaling is necessary before PCA, which directly addresses the user's query about the need for feature scaling in PCA. It provides examples of models that require or do not require scaling and mentions that rescaling can make a significant difference, especially for PCA-related tasks.",
+    "suggested_action": "NO_ACTION",
+    "human_verified": false,
+    "human_verified_note": ""
+  },
+  {
+    "query_id": "para_12",
+    "category": "paraphrase_group",
+    "query": "What is the difference between a stationary test and a unit root test?",
+    "gold_ids": [
+      "235916"
+    ],
+    "is_aligned": true,
+    "reason": "The answer provides a detailed explanation of the concepts of unit root tests and stationarity tests, including their hypotheses, common tests, and how they complement each other. It also discusses the practical application and interpretation of the results, which directly addresses the user's query.",
+    "suggested_action": "NO_ACTION",
+    "human_verified": false,
+    "human_verified_note": ""
+  },
+  {
+    "query_id": "para_13",
+    "category": "paraphrase_group",
+    "query": "How to verify MCMC convergence?",
+    "gold_ids": [
+      "509",
+      "560",
+      "1623",
+      "21009"
+    ],
+    "is_aligned": true,
+    "reason": "The answer is topically aligned with the query as it discusses methods for verifying MCMC convergence, which directly addresses the user's question.",
+    "suggested_action": "NO_ACTION",
+    "human_verified": false,
+    "human_verified_note": ""
+  },
+  {
+    "query_id": "para_14",
+    "category": "paraphrase_group",
+    "query": "What is the kernel trick in SVM?",
+    "gold_ids": [
+      "435237"
+    ],
+    "is_aligned": true,
+    "reason": "The answer discusses the kernel trick in SVM, which directly addresses the user's query. It provides examples and explanations that are relevant to the topic.",
+    "suggested_action": "NO_ACTION",
+    "human_verified": false,
+    "human_verified_note": ""
+  },
+  {
+    "query_id": "para_15",
+    "category": "paraphrase_group",
+    "query": "Why do we use bootstrapping?",
+    "gold_ids": [
+      "26089",
+      "26093",
+      "26098",
+      "277937"
+    ],
+    "is_aligned": true,
+    "reason": "The answer is topically aligned with the query as it explains why bootstrapping is used, which directly addresses the user's question.",
+    "suggested_action": "NO_ACTION",
+    "human_verified": false,
+    "human_verified_note": ""
+  },
+  {
+    "query_id": "para_16",
+    "category": "paraphrase_group",
+    "query": "How to interpret ROC AUC?",
+    "gold_ids": [
+      "132832"
+    ],
+    "is_aligned": true,
+    "reason": "The answer is topically aligned with the query as it provides a detailed explanation of how to interpret ROC AUC, including its various interpretations and the process of computing it. It also includes relevant definitions and examples.",
+    "suggested_action": "NO_ACTION",
+    "human_verified": false,
+    "human_verified_note": ""
+  },
+  {
+    "query_id": "para_17",
+    "category": "paraphrase_group",
+    "query": "What is propensity score matching?",
+    "gold_ids": [
+      "144844"
+    ],
+    "is_aligned": true,
+    "reason": "The answer provides a detailed explanation of propensity score matching, including the default method used in the matchit package and the differences between logit-based and Mahalanobis distance methods. It addresses the user's query about propensity score matching comprehensively.",
+    "suggested_action": "NO_ACTION",
+    "human_verified": false,
+    "human_verified_note": ""
+  },
+  {
+    "query_id": "para_18",
+    "category": "paraphrase_group",
+    "query": "How to impute missing data?",
+    "gold_ids": [
+      "229254"
+    ],
+    "is_aligned": true,
+    "reason": "The answer is topically aligned with the query as it discusses various methods for imputing missing data, which directly addresses the user's question.",
+    "suggested_action": "NO_ACTION",
+    "human_verified": false,
+    "human_verified_note": ""
+  },
+  {
+    "query_id": "para_19",
+    "category": "paraphrase_group",
+    "query": "Does gradient descent get stuck in local minima?",
+    "gold_ids": [
+      "457221"
+    ],
+    "is_aligned": true,
+    "reason": "The answer discusses the behavior of gradient descent and momentum-based SGD in relation to local minima, which directly addresses the user's query about whether gradient descent gets stuck in local minima.",
+    "suggested_action": "NO_ACTION",
+    "human_verified": false,
+    "human_verified_note": ""
+  },
+  {
+    "query_id": "para_20",
+    "category": "paraphrase_group",
+    "query": "How does collaborative filtering work?",
+    "gold_ids": [
+      "391727"
+    ],
+    "is_aligned": true,
+    "reason": "The answer is topically aligned with the query as it explains how collaborative filtering works, including its applications and differences with market basket analysis.",
+    "suggested_action": "NO_ACTION",
+    "human_verified": false,
+    "human_verified_note": ""
+  }
+]

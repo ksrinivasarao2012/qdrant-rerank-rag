@@ -169,7 +169,7 @@ answer:
 # Pre-retrieval - turns a follow-up question into a standalone search query.
 # ===========================================================================
 query_rewrite:
-  active: standalone_v1
+  active: negation_aware_v4
 
   defaults:
     model: openrouter/free

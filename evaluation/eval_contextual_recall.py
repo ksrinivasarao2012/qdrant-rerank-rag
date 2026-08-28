@@ -40,7 +40,7 @@ POSTS_JSONL_PATH = PROJECT_ROOT / "data" / "processed" / "posts.jsonl"
 RESULTS_DIR = PROJECT_ROOT / "evaluation" / "results"
 
 CANDIDATE_K = 15
-TOP_K = 3
+TOP_K = 5
 
 
 def parse_args():
@@ -88,6 +88,112 @@ def build_citations(reranked_results):
     return citations
 
 
+async def eval_case_async(case, db_manager, reranker, llm_service, judge, gold_map):
+    from deepeval.metrics import ContextualRecallMetric
+    from deepeval.test_case import LLMTestCase
+    import asyncio
+
+    query = case["query"]
+    try:
+        # Run retrieval and reranking in a worker thread so it doesn't block the async loop
+        def retrieval_steps():
+            rewritten = None
+            search_query = query
+            try:
+                rewritten = llm_service.rewrite_query(query, case.get("chat_history"))
+                search_query = rewritten
+            except Exception:
+                pass
+            
+            search_query = build_search_query(query, case.get("chat_history"), rewritten)
+            candidates = db_manager.search_hybrid(query=search_query, n_results=CANDIDATE_K)
+            reranked = reranker.rerank(query=search_query, chunks=candidates, top_k=TOP_K)
+            return search_query, reranked
+
+        search_query, reranked = await asyncio.to_thread(retrieval_steps)
+    except Exception as e:
+        print(f"  [{case['query_id']}] Error in retrieval: {e}")
+        return None
+
+    if not reranked:
+        return None
+
+    citations_3 = build_citations(reranked[:3])
+    retrieved_context_3 = [c["text_snippet"] for c in citations_3]
+
+    gold_texts = [gold_map.get(str(gid), "") for gid in case.get("gold_answer_ids", []) if gold_map.get(str(gid))]
+    expected_output = "\n\n".join(gold_texts) if gold_texts else None
+
+    if not expected_output:
+        return None
+
+    test_case = LLMTestCase(
+        input=query,
+        actual_output="[Evaluation of Retrieval Context Only]",
+        expected_output=expected_output,
+        retrieval_context=retrieved_context_3
+    )
+
+    # Use a new metric instance per case to avoid concurrent state conflicts
+    recall_metric = ContextualRecallMetric(threshold=0.5, model=judge, include_reason=True)
+    try:
+        await recall_metric.a_measure(test_case)
+        score = recall_metric.score
+        reason = recall_metric.reason
+    except Exception as e:
+        score = None
+        reason = str(e)
+
+    retrieved_aids_5 = [str(c["metadata"].get("answer_id")) for c in reranked[:5]]
+    retrieved_aids_3 = retrieved_aids_5[:3]
+    retrieved_aids_1 = retrieved_aids_5[:1]
+
+    gold_set = set(case["gold_answer_ids"])
+    exact_gold_hit_1 = bool(gold_set & set(retrieved_aids_1))
+    exact_gold_hit_3 = bool(gold_set & set(retrieved_aids_3))
+    exact_gold_hit_5 = bool(gold_set & set(retrieved_aids_5))
+
+    rr = 0.0
+    for idx, c in enumerate(reranked[:5], start=1):
+        if str(c["metadata"].get("answer_id")) in gold_set:
+            rr = 1.0 / idx
+            break
+
+    retrieved_in_top_1 = sum(1 for c in reranked[:1] if str(c["metadata"].get("answer_id")) in gold_set)
+    retrieved_in_top_3 = sum(1 for c in reranked[:3] if str(c["metadata"].get("answer_id")) in gold_set)
+    retrieved_in_top_5 = sum(1 for c in reranked[:5] if str(c["metadata"].get("answer_id")) in gold_set)
+
+    precision_1 = retrieved_in_top_1 / 1.0
+    precision_3 = retrieved_in_top_3 / 3.0
+    precision_5 = retrieved_in_top_5 / 5.0
+
+    print(f"\n[{case['query_id']}] Category: {case['category']}")
+    print(f"  Query: {query}")
+    print(f"  Search Query: {search_query.encode('ascii', 'replace').decode('ascii')}")
+    print(f"  Retrieved IDs: {retrieved_aids_5}")
+    print(f"  Gold IDs: {list(gold_set)}")
+    print(f"  Hits: Recall@1: {exact_gold_hit_1} | Recall@3: {exact_gold_hit_3} | Recall@5: {exact_gold_hit_5}")
+    print(f"  Precision: P@1: {precision_1:.3f} | P@3: {precision_3:.3f} | P@5: {precision_5:.3f}")
+    print(f"  MRR: {rr:.3f}")
+    print(f"  Contextual Recall Score: {score}")
+    print(f"  Reason: {reason}")
+
+    return {
+        "query_id": case["query_id"],
+        "category": case["category"],
+        "query": query,
+        "exact_gold_hit_1": exact_gold_hit_1,
+        "exact_gold_hit_3": exact_gold_hit_3,
+        "exact_gold_hit_5": exact_gold_hit_5,
+        "precision_1": precision_1,
+        "precision_3": precision_3,
+        "precision_5": precision_5,
+        "mrr": rr,
+        "contextual_recall_score": score,
+        "reason": reason
+    }
+
+
 def run_eval():
     args = parse_args()
 
@@ -113,87 +219,90 @@ def run_eval():
     llm_service = LLMService()
     judge = get_judge()
 
-    from deepeval.metrics import ContextualRecallMetric
-    from deepeval.test_case import LLMTestCase
+    import asyncio
 
-    recall_metric = ContextualRecallMetric(threshold=0.5, model=judge, include_reason=True)
+    async def main_async():
+        # Limit concurrency to 5 to protect API rate limits while maintaining high speed
+        sem = asyncio.Semaphore(5)
 
-    rows = []
-    for case in evaluable:
-        query = case["query"]
-        try:
-            rewritten = None
-            search_query = query
-            try:
-                rewritten = llm_service.rewrite_query(query, case.get("chat_history"))
-                search_query = rewritten
-            except Exception as re:
-                print(f"  [{case['query_id']}] LLM Rewrite failed ({re}); using raw query")
-            
-            search_query = build_search_query(query, case.get("chat_history"), rewritten)
-            candidates = db_manager.search_hybrid(query=search_query, n_results=CANDIDATE_K)
-            reranked = reranker.rerank(query=search_query, chunks=candidates, top_k=TOP_K)
-        except Exception as e:
-            print(f"  [{case['query_id']}] Error in retrieval: {e}")
-            continue
+        async def sem_eval_case(case):
+            async with sem:
+                return await eval_case_async(case, db_manager, reranker, llm_service, judge, gold_map)
 
-        if not reranked:
-            continue
+        tasks = [sem_eval_case(c) for c in evaluable]
+        
+        from tqdm.asyncio import tqdm_asyncio
+        results = await tqdm_asyncio.gather(*tasks, desc="Evaluating cases")
+        return [r for r in results if r is not None]
 
-        citations = build_citations(reranked)
-        retrieved_context = [c["text_snippet"] for c in citations]
-
-        gold_texts = [gold_map.get(str(gid), "") for gid in case.get("gold_answer_ids", []) if gold_map.get(str(gid))]
-        expected_output = "\n\n".join(gold_texts) if gold_texts else None
-
-        if not expected_output:
-            print(f"  [{case['query_id']}] Skip: No gold answer text found.")
-            continue
-
-        test_case = LLMTestCase(
-            input=query,
-            actual_output="[Evaluation of Retrieval Context Only]",
-            expected_output=expected_output,
-            retrieval_context=retrieved_context
-        )
-
-        try:
-            recall_metric.measure(test_case)
-            score = recall_metric.score
-            reason = recall_metric.reason
-        except Exception as e:
-            score = None
-            reason = str(e)
-
-        retrieved_aids = {str(c["metadata"].get("answer_id")) for c in reranked}
-        exact_gold_hit = bool(set(case["gold_answer_ids"]) & retrieved_aids)
-
-        row = {
-            "query_id": case["query_id"],
-            "category": case["category"],
-            "query": query,
-            "exact_gold_hit": exact_gold_hit,
-            "contextual_recall_score": score,
-            "reason": reason
-        }
-        rows.append(row)
-
-        print(f"\n[{case['query_id']}] Category: {case['category']}")
-        print(f"  Query: {query}")
-        print(f"  Exact Gold Hit (Recall@3): {exact_gold_hit}")
-        print(f"  Contextual Recall Score: {score}")
-        print(f"  Reason: {reason}")
+    rows = asyncio.run(main_async())
 
     if rows:
-        valid_scores = [r["contextual_recall_score"] for r in rows if r["contextual_recall_score"] is not None]
-        avg_score = sum(valid_scores) / len(valid_scores) if valid_scores else 0
-        hit_rate = sum(1 for r in rows if r["exact_gold_hit"]) / len(rows)
+        # Category breakdown
+        cat_stats = defaultdict(lambda: {
+            "count": 0,
+            "hits_1": 0,
+            "hits_3": 0,
+            "hits_5": 0,
+            "precision_1_sum": 0.0,
+            "precision_3_sum": 0.0,
+            "precision_5_sum": 0.0,
+            "mrr_sum": 0.0,
+            "valid_recall_scores": [],
+        })
 
-        print("\n================ SUMMARY ================")
-        print(f"Evaluated Cases: {len(rows)}")
-        print(f"Exact Gold Hit Rate (Recall@3): {hit_rate:.3f}")
-        print(f"Average Contextual Recall Score: {avg_score:.3f}")
-        print("=========================================")
+        for r in rows:
+            cat = r["category"]
+            cat_stats[cat]["count"] += 1
+            if r["exact_gold_hit_1"]:
+                cat_stats[cat]["hits_1"] += 1
+            if r["exact_gold_hit_3"]:
+                cat_stats[cat]["hits_3"] += 1
+            if r["exact_gold_hit_5"]:
+                cat_stats[cat]["hits_5"] += 1
+            cat_stats[cat]["precision_1_sum"] += r["precision_1"]
+            cat_stats[cat]["precision_3_sum"] += r["precision_3"]
+            cat_stats[cat]["precision_5_sum"] += r["precision_5"]
+            cat_stats[cat]["mrr_sum"] += r["mrr"]
+            if r["contextual_recall_score"] is not None:
+                cat_stats[cat]["valid_recall_scores"].append(r["contextual_recall_score"])
+
+        # Global stats
+        total_cases = len(rows)
+        global_hit_1 = sum(1 for r in rows if r["exact_gold_hit_1"]) / total_cases
+        global_hit_3 = sum(1 for r in rows if r["exact_gold_hit_3"]) / total_cases
+        global_hit_5 = sum(1 for r in rows if r["exact_gold_hit_5"]) / total_cases
+        global_prec_1 = sum(r["precision_1"] for r in rows) / total_cases
+        global_prec_3 = sum(r["precision_3"] for r in rows) / total_cases
+        global_prec_5 = sum(r["precision_5"] for r in rows) / total_cases
+        global_mrr = sum(r["mrr"] for r in rows) / total_cases
+        global_valid_scores = [r["contextual_recall_score"] for r in rows if r["contextual_recall_score"] is not None]
+        global_avg_recall = sum(global_valid_scores) / len(global_valid_scores) if global_valid_scores else 0
+
+        print("\n================ GLOBAL SUMMARY ================")
+        print(f"Total Evaluated Cases: {total_cases}")
+        print(f"Recall:              R@1: {global_hit_1:.3f} | R@3: {global_hit_3:.3f} | R@5: {global_hit_5:.3f}")
+        print(f"Precision:           P@1: {global_prec_1:.3f} | P@3: {global_prec_3:.3f} | P@5: {global_prec_5:.3f}")
+        print(f"MRR:                 {global_mrr:.3f}")
+        print(f"Avg Context Recall:  {global_avg_recall:.3f} (based on {len(global_valid_scores)} valid cases)")
+        print("================================================\n")
+
+        print("================ CATEGORY SUMMARY ================")
+        print(f"{'Category':<20} | {'Count':<5} | {'R@1':<6} | {'R@3':<6} | {'R@5':<6} | {'P@1':<6} | {'P@3':<6} | {'P@5':<6} | {'MRR':<6} | {'Avg Context Rec':<15}")
+        print("-" * 110)
+        for cat, stats in sorted(cat_stats.items()):
+            count = stats["count"]
+            rec_1 = stats["hits_1"] / count
+            rec_3 = stats["hits_3"] / count
+            rec_5 = stats["hits_5"] / count
+            prec_1 = stats["precision_1_sum"] / count
+            prec_3 = stats["precision_3_sum"] / count
+            prec_5 = stats["precision_5_sum"] / count
+            mrr = stats["mrr_sum"] / count
+            valid_recall = stats["valid_recall_scores"]
+            avg_rec = sum(valid_recall) / len(valid_recall) if valid_recall else 0.0
+            print(f"{cat:<20} | {count:<5} | {rec_1:<6.3f} | {rec_3:<6.3f} | {rec_5:<6.3f} | {prec_1:<6.3f} | {prec_3:<6.3f} | {prec_5:<6.3f} | {mrr:<6.3f} | {avg_rec:<15.3f}")
+        print("==================================================")
 
     return 0
 

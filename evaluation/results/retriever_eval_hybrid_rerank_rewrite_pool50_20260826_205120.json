@@ -1,0 +1,1042 @@
+[
+  {
+    "query_id": "neg_01",
+    "sub_label": null,
+    "category": "negation",
+    "query": "How to test normality without using the Shapiro-Wilk test?",
+    "search_query": "normality testing methods excluding Shapiro-Wilk: Anderson-Darling test, Kolmogorov\u2011Smirnov test, Lilliefors test, D\u2019Agostino\u2019s K\u2011squared test, Jarque\u2011Bera test, QQ\u2011plot analysis, histogram inspection, skewness and kurtosis evaluation, normal probability plot, and other non\u2011parametric normality checks",
+    "mrr": 1.0,
+    "hit_at": {
+      "3": true,
+      "5": true,
+      "10": true
+    },
+    "hit_q_at": {
+      "3": true,
+      "5": true,
+      "10": true
+    },
+    "precision_at": {
+      "3": 0.6666666666666666,
+      "5": 0.4,
+      "10": 0.2
+    },
+    "ranked_top10": [
+      "52297",
+      "1648",
+      "362865",
+      "129954",
+      "301843",
+      "299020",
+      "58773",
+      "521474",
+      "351639",
+      "413269"
+    ],
+    "ranked_top10_qids": [
+      "52293",
+      "1645",
+      "362861",
+      "90697",
+      "164804",
+      "299012",
+      "58764",
+      "521417",
+      "351624",
+      "413263"
+    ],
+    "distractor_in_top_k": {
+      "3": false,
+      "5": false,
+      "10": false
+    }
+  },
+  {
+    "query_id": "neg_02",
+    "sub_label": null,
+    "category": "negation",
+    "query": "How do I handle missing data without deleting rows?",
+    "search_query": "missing data handling imputation techniques mean imputation median imputation mode imputation k\u2011nearest neighbors imputation multiple imputation regression imputation interpolation hot deck",
+    "mrr": 0.0,
+    "hit_at": {
+      "3": false,
+      "5": false,
+      "10": false
+    },
+    "hit_q_at": {
+      "3": false,
+      "5": false,
+      "10": false
+    },
+    "precision_at": {
+      "3": 0.0,
+      "5": 0.0,
+      "10": 0.0
+    },
+    "ranked_top10": [
+      "229254",
+      "303737",
+      "439936",
+      "612818",
+      "509026",
+      "355552",
+      "580311",
+      "164966",
+      "358834",
+      "418338"
+    ],
+    "ranked_top10_qids": [
+      "228735",
+      "303722",
+      "439934",
+      "612617",
+      "508999",
+      "355169",
+      "580266",
+      "164868",
+      "358807",
+      "418278"
+    ],
+    "distractor_in_top_k": {
+      "3": false,
+      "5": false,
+      "10": false
+    }
+  },
+  {
+    "query_id": "neg_03",
+    "sub_label": null,
+    "category": "negation",
+    "query": "How to compare group means without assuming normal distribution?",
+    "search_query": "nonparametric tests for comparing group means without assuming normal distribution",
+    "mrr": 0.0,
+    "hit_at": {
+      "3": false,
+      "5": false,
+      "10": false
+    },
+    "hit_q_at": {
+      "3": false,
+      "5": false,
+      "10": false
+    },
+    "precision_at": {
+      "3": 0.0,
+      "5": 0.0,
+      "10": 0.0
+    },
+    "ranked_top10": [
+      "418640",
+      "475369",
+      "380729",
+      "470645",
+      "169859",
+      "566346",
+      "38898",
+      "206777",
+      "368479",
+      "404515"
+    ],
+    "ranked_top10_qids": [
+      "418636",
+      "475360",
+      "380724",
+      "470644",
+      "169857",
+      "566345",
+      "38881",
+      "205775",
+      "368478",
+      "404472"
+    ],
+    "distractor_in_top_k": {
+      "3": false,
+      "5": false,
+      "10": false
+    }
+  },
+  {
+    "query_id": "neg_04",
+    "sub_label": null,
+    "category": "negation",
+    "query": "How to perform nonlinear dimensionality reduction as an alternative to PCA?",
+    "search_query": "nonlinear dimensionality reduction techniques as alternatives to PCA methods for reducing dimensionality without linear assumptions",
+    "mrr": 0.25,
+    "hit_at": {
+      "3": false,
+      "5": true,
+      "10": true
+    },
+    "hit_q_at": {
+      "3": false,
+      "5": true,
+      "10": true
+    },
+    "precision_at": {
+      "3": 0.0,
+      "5": 0.2,
+      "10": 0.1
+    },
+    "ranked_top10": [
+      "130244",
+      "225040",
+      "290753",
+      "142987",
+      "514253",
+      "502530",
+      "110211",
+      "115307",
+      "115950",
+      "314874"
+    ],
+    "ranked_top10_qids": [
+      "130207",
+      "224957",
+      "290750",
+      "142960",
+      "512630",
+      "502471",
+      "110185",
+      "115175",
+      "94463",
+      "227173"
+    ],
+    "distractor_in_top_k": {
+      "3": false,
+      "5": false,
+      "10": false
+    }
+  },
+  {
+    "query_id": "neg_05",
+    "sub_label": null,
+    "category": "negation",
+    "query": "How to select model features without stepwise regression?",
+    "search_query": "feature selection methods alternatives to stepwise regression LASSO Ridge ElasticNet Random Forest importance Recursive Feature Elimination Mutual Information PCA",
+    "mrr": 1.0,
+    "hit_at": {
+      "3": true,
+      "5": true,
+      "10": true
+    },
+    "hit_q_at": {
+      "3": true,
+      "5": true,
+      "10": true
+    },
+    "precision_at": {
+      "3": 0.3333333333333333,
+      "5": 0.2,
+      "10": 0.1
+    },
+    "ranked_top10": [
+      "27310",
+      "292332",
+      "541384",
+      "344900",
+      "164246",
+      "350248",
+      "367176",
+      "200959",
+      "401211",
+      "236698"
+    ],
+    "ranked_top10_qids": [
+      "27300",
+      "292291",
+      "451480",
+      "250381",
+      "164048",
+      "350242",
+      "367155",
+      "200823",
+      "401203",
+      "236673"
+    ],
+    "distractor_in_top_k": {
+      "3": false,
+      "5": false,
+      "10": false
+    }
+  },
+  {
+    "query_id": "neg_06",
+    "sub_label": null,
+    "category": "negation",
+    "query": "How to forecast time series data without using ARIMA models?",
+    "search_query": "time series forecasting methods excluding ARIMA: exponential smoothing, Prophet, LSTM, neural networks, machine learning, state\u2011space models, Kalman filter, Bayesian structural time series, VAR, GARCH",
+    "mrr": 0.05555555555555555,
+    "hit_at": {
+      "3": false,
+      "5": false,
+      "10": false
+    },
+    "hit_q_at": {
+      "3": false,
+      "5": false,
+      "10": false
+    },
+    "precision_at": {
+      "3": 0.0,
+      "5": 0.0,
+      "10": 0.0
+    },
+    "ranked_top10": [
+      "478601",
+      "160417",
+      "17133",
+      "72272",
+      "245441",
+      "13076",
+      "324296",
+      "313934",
+      "284808",
+      "12985"
+    ],
+    "ranked_top10_qids": [
+      "478600",
+      "160382",
+      "17117",
+      "72244",
+      "245433",
+      "12969",
+      "324295",
+      "313927",
+      "284780",
+      "12969"
+    ],
+    "distractor_in_top_k": {
+      "3": false,
+      "5": false,
+      "10": false
+    }
+  },
+  {
+    "query_id": "neg_07",
+    "sub_label": null,
+    "category": "negation",
+    "query": "Clustering methods that do not require specifying the number of clusters k?",
+    "search_query": "clustering methods without specifying number of clusters alternatives hierarchical agglomerative density-based DBSCAN OPTICS mean shift spectral clustering",
+    "mrr": 1.0,
+    "hit_at": {
+      "3": true,
+      "5": true,
+      "10": true
+    },
+    "hit_q_at": {
+      "3": true,
+      "5": true,
+      "10": true
+    },
+    "precision_at": {
+      "3": 0.3333333333333333,
+      "5": 0.2,
+      "10": 0.1
+    },
+    "ranked_top10": [
+      "241389",
+      "319812",
+      "257196",
+      "70579",
+      "88845",
+      "281301",
+      "39029",
+      "158544",
+      "299940",
+      "172390"
+    ],
+    "ranked_top10_qids": [
+      "241381",
+      "319807",
+      "257166",
+      "70568",
+      "14955",
+      "281088",
+      "39013",
+      "158415",
+      "3713",
+      "172339"
+    ],
+    "distractor_in_top_k": {
+      "3": false,
+      "5": false,
+      "10": false
+    }
+  },
+  {
+    "query_id": "neg_08",
+    "sub_label": null,
+    "category": "negation",
+    "query": "Goodness of fit tests excluding Kolmogorov-Smirnov?",
+    "search_query": "goodness of fit tests alternatives Anderson-Darling chi-square test Lilliefors Cramer\u2011von Mises Shapiro\u2011Wilk",
+    "mrr": 0.0,
+    "hit_at": {
+      "3": false,
+      "5": false,
+      "10": false
+    },
+    "hit_q_at": {
+      "3": false,
+      "5": false,
+      "10": false
+    },
+    "precision_at": {
+      "3": 0.0,
+      "5": 0.0,
+      "10": 0.0
+    },
+    "ranked_top10": [
+      "230015",
+      "230617",
+      "20249",
+      "459057",
+      "129954",
+      "129826",
+      "201439",
+      "201538",
+      "1648",
+      "52082"
+    ],
+    "ranked_top10_qids": [
+      "68762",
+      "68762",
+      "20247",
+      "459044",
+      "90697",
+      "90697",
+      "201434",
+      "201434",
+      "1645",
+      "51470"
+    ],
+    "distractor_in_top_k": {
+      "3": false,
+      "5": false,
+      "10": false
+    }
+  },
+  {
+    "query_id": "neg_09",
+    "sub_label": null,
+    "category": "negation",
+    "query": "How is parameter uncertainty estimated without bootstrapping?",
+    "search_query": "parameter uncertainty estimation methods alternative to bootstrapping: jackknife, asymptotic standard errors, sandwich estimators, Bayesian credible intervals, likelihood-based confidence intervals, Monte Carlo simulation, cross\u2011validation",
+    "mrr": 0.0,
+    "hit_at": {
+      "3": false,
+      "5": false,
+      "10": false
+    },
+    "hit_q_at": {
+      "3": false,
+      "5": false,
+      "10": false
+    },
+    "precision_at": {
+      "3": 0.0,
+      "5": 0.0,
+      "10": 0.0
+    },
+    "ranked_top10": [
+      "11217",
+      "104746",
+      "104681",
+      "268441",
+      "124687",
+      "285206",
+      "134384",
+      "358316",
+      "25758",
+      "191489"
+    ],
+    "ranked_top10_qids": [
+      "11210",
+      "104040",
+      "104040",
+      "268415",
+      "119934",
+      "285023",
+      "134368",
+      "358301",
+      "25218",
+      "190348"
+    ],
+    "distractor_in_top_k": {
+      "3": false,
+      "5": false,
+      "10": false
+    }
+  },
+  {
+    "query_id": "neg_10",
+    "sub_label": null,
+    "category": "negation",
+    "query": "Nonparametric correlation coefficients other than Pearson correlation?",
+    "search_query": "nonparametric correlation coefficients alternatives to Pearson correlation Spearman rank correlation Kendall tau distance correlation rank-based correlation methods",
+    "mrr": 1.0,
+    "hit_at": {
+      "3": true,
+      "5": true,
+      "10": true
+    },
+    "hit_q_at": {
+      "3": true,
+      "5": true,
+      "10": true
+    },
+    "precision_at": {
+      "3": 0.3333333333333333,
+      "5": 0.2,
+      "10": 0.1
+    },
+    "ranked_top10": [
+      "3744",
+      "529735",
+      "559030",
+      "450029",
+      "120685",
+      "452535",
+      "110112",
+      "105470",
+      "397210",
+      "531449"
+    ],
+    "ranked_top10_qids": [
+      "3730",
+      "3730",
+      "558032",
+      "449053",
+      "120673",
+      "450159",
+      "64938",
+      "105466",
+      "397136",
+      "530249"
+    ],
+    "distractor_in_top_k": {
+      "3": false,
+      "5": false,
+      "10": false
+    }
+  },
+  {
+    "query_id": "neg_11",
+    "sub_label": null,
+    "category": "negation",
+    "query": "Information theory metric for correlation without using mutual information?",
+    "search_query": "information theory correlation metric alternatives Pearson Spearman distance correlation Hilbert\u2011Schmidt independence criterion",
+    "mrr": 0.0,
+    "hit_at": {
+      "3": false,
+      "5": false,
+      "10": false
+    },
+    "hit_q_at": {
+      "3": false,
+      "5": false,
+      "10": false
+    },
+    "precision_at": {
+      "3": 0.0,
+      "5": 0.0,
+      "10": 0.0
+    },
+    "ranked_top10": [
+      "176335",
+      "559030",
+      "588148",
+      "3738",
+      "219184",
+      "591766",
+      "27128",
+      "11747",
+      "110112",
+      "269840"
+    ],
+    "ranked_top10_qids": [
+      "176332",
+      "558032",
+      "81659",
+      "3730",
+      "219029",
+      "591763",
+      "27127",
+      "11746",
+      "64938",
+      "269834"
+    ],
+    "distractor_in_top_k": {
+      "3": false,
+      "5": false,
+      "10": false
+    }
+  },
+  {
+    "query_id": "neg_12",
+    "sub_label": null,
+    "category": "negation",
+    "query": "Ensemble methods like bagging and boosting explained?",
+    "search_query": "Explain ensemble methods such as bagging and boosting, including their principles, typical algorithms, and use cases.",
+    "mrr": 0.16666666666666666,
+    "hit_at": {
+      "3": false,
+      "5": false,
+      "10": true
+    },
+    "hit_q_at": {
+      "3": false,
+      "5": false,
+      "10": true
+    },
+    "precision_at": {
+      "3": 0.0,
+      "5": 0.0,
+      "10": 0.1
+    },
+    "ranked_top10": [
+      "25141",
+      "149725",
+      "102645",
+      "350399",
+      "19232",
+      "372975",
+      "266281",
+      "266274",
+      "152698",
+      "37537"
+    ],
+    "ranked_top10_qids": [
+      "25121",
+      "149701",
+      "102631",
+      "350305",
+      "19224",
+      "372634",
+      "266249",
+      "266249",
+      "152680",
+      "32703"
+    ],
+    "distractor_in_top_k": {
+      "3": false,
+      "5": false,
+      "10": false
+    }
+  },
+  {
+    "query_id": "neg_13",
+    "sub_label": null,
+    "category": "negation",
+    "query": "Outlier detection method that doesn't use Isolation Forests?",
+    "search_query": "outlier detection methods alternative to Isolation Forest: DBSCAN, One-Class SVM, Local Outlier Factor, Mahalanobis distance, Z-score, robust covariance, autoencoder, k-nearest neighbors, density-based, statistical thresholding, clustering-based anomaly detection",
+    "mrr": 0.0,
+    "hit_at": {
+      "3": false,
+      "5": false,
+      "10": false
+    },
+    "hit_q_at": {
+      "3": false,
+      "5": false,
+      "10": false
+    },
+    "precision_at": {
+      "3": 0.0,
+      "5": 0.0,
+      "10": 0.0
+    },
+    "ranked_top10": [
+      "104452",
+      "411369",
+      "482287",
+      "486772",
+      "159584",
+      "44184",
+      "78276",
+      "138817",
+      "318072",
+      "328119"
+    ],
+    "ranked_top10_qids": [
+      "104373",
+      "410776",
+      "482096",
+      "486715",
+      "159578",
+      "44176",
+      "78269",
+      "138675",
+      "62069",
+      "328109"
+    ],
+    "distractor_in_top_k": {
+      "3": false,
+      "5": false,
+      "10": false
+    }
+  },
+  {
+    "query_id": "neg_14",
+    "sub_label": null,
+    "category": "negation",
+    "query": "Non-linear dimensionality reduction excluding t-SNE?",
+    "search_query": "non-linear dimensionality reduction methods alternatives to t\u2011SNE Isomap LLE Laplacian Eigenmaps UMAP",
+    "mrr": 0.0625,
+    "hit_at": {
+      "3": false,
+      "5": false,
+      "10": false
+    },
+    "hit_q_at": {
+      "3": false,
+      "5": false,
+      "10": true
+    },
+    "precision_at": {
+      "3": 0.0,
+      "5": 0.0,
+      "10": 0.0
+    },
+    "ranked_top10": [
+      "130244",
+      "301032",
+      "142987",
+      "502392",
+      "110211",
+      "271185",
+      "79588",
+      "502530",
+      "115307",
+      "319364"
+    ],
+    "ranked_top10_qids": [
+      "130207",
+      "300915",
+      "142960",
+      "502388",
+      "110185",
+      "270391",
+      "69921",
+      "502471",
+      "115175",
+      "227173"
+    ],
+    "distractor_in_top_k": {
+      "3": false,
+      "5": false,
+      "10": false
+    }
+  },
+  {
+    "query_id": "neg_15",
+    "sub_label": null,
+    "category": "negation",
+    "query": "What are the best methods for checking convergence in MCMC?",
+    "search_query": "best methods for checking convergence in MCMC algorithms for Bayesian inference and Markov chain Monte Carlo simulation techniques to assess convergence quality and reliability of posterior estimates",
+    "mrr": 0.5,
+    "hit_at": {
+      "3": true,
+      "5": true,
+      "10": true
+    },
+    "hit_q_at": {
+      "3": true,
+      "5": true,
+      "10": true
+    },
+    "precision_at": {
+      "3": 0.3333333333333333,
+      "5": 0.2,
+      "10": 0.1
+    },
+    "ranked_top10": [
+      "1623",
+      "560",
+      "56087",
+      "61545",
+      "279458",
+      "344208",
+      "311163",
+      "13203",
+      "137142",
+      "545999"
+    ],
+    "ranked_top10_qids": [
+      "507",
+      "507",
+      "56077",
+      "61169",
+      "277568",
+      "344189",
+      "311151",
+      "13149",
+      "137130",
+      "545965"
+    ],
+    "distractor_in_top_k": {
+      "3": false,
+      "5": false,
+      "10": false
+    }
+  },
+  {
+    "query_id": "neg_16",
+    "sub_label": null,
+    "category": "negation",
+    "query": "Fitting hierarchical models without random slopes?",
+    "search_query": "hierarchical models fitting methods alternative approaches fixed effects random intercepts generalized linear mixed models Bayesian hierarchical models",
+    "mrr": 0.0,
+    "hit_at": {
+      "3": false,
+      "5": false,
+      "10": false
+    },
+    "hit_q_at": {
+      "3": false,
+      "5": false,
+      "10": false
+    },
+    "precision_at": {
+      "3": 0.0,
+      "5": 0.0,
+      "10": 0.0
+    },
+    "ranked_top10": [
+      "114260",
+      "490602",
+      "492164",
+      "73213",
+      "545099",
+      "486597",
+      "474650",
+      "260266",
+      "151800",
+      "252888"
+    ],
+    "ranked_top10_qids": [
+      "114129",
+      "490562",
+      "491996",
+      "69111",
+      "545006",
+      "486590",
+      "474611",
+      "256065",
+      "4700",
+      "4700"
+    ],
+    "distractor_in_top_k": {
+      "3": false,
+      "5": false,
+      "10": false
+    }
+  },
+  {
+    "query_id": "neg_17",
+    "sub_label": null,
+    "category": "negation",
+    "query": "Deep learning sequence modeling without using LSTMs?",
+    "search_query": "deep learning sequence modeling alternatives to LSTMs: GRU, Transformer, Temporal Convolutional Networks, RNN, attention mechanisms",
+    "mrr": 0.25,
+    "hit_at": {
+      "3": false,
+      "5": true,
+      "10": true
+    },
+    "hit_q_at": {
+      "3": false,
+      "5": true,
+      "10": true
+    },
+    "precision_at": {
+      "3": 0.0,
+      "5": 0.2,
+      "10": 0.1
+    },
+    "ranked_top10": [
+      "369361",
+      "226180",
+      "421522",
+      "472920",
+      "345441",
+      "475224",
+      "278735",
+      "269916",
+      "325640",
+      "472907"
+    ],
+    "ranked_top10_qids": [
+      "369322",
+      "226179",
+      "421503",
+      "472822",
+      "344508",
+      "475218",
+      "278722",
+      "269914",
+      "154788",
+      "472822"
+    ],
+    "distractor_in_top_k": {
+      "3": false,
+      "5": false,
+      "10": false
+    }
+  },
+  {
+    "query_id": "neg_18",
+    "sub_label": null,
+    "category": "negation",
+    "query": "What is a kernel in kernel density estimation and what are some common choices?",
+    "search_query": "kernel density estimation kernel definition and common kernel choices (Gaussian, Epanechnikov, Uniform, Triweight, Tri-cube, Quartic, Biweight)",
+    "mrr": 0.5,
+    "hit_at": {
+      "3": true,
+      "5": true,
+      "10": true
+    },
+    "hit_q_at": {
+      "3": true,
+      "5": true,
+      "10": true
+    },
+    "precision_at": {
+      "3": 0.3333333333333333,
+      "5": 0.2,
+      "10": 0.1
+    },
+    "ranked_top10": [
+      "430141",
+      "487708",
+      "219913",
+      "60326",
+      "530541",
+      "230017",
+      "32567",
+      "473023",
+      "15229",
+      "397721"
+    ],
+    "ranked_top10_qids": [
+      "405625",
+      "487704",
+      "219833",
+      "60318",
+      "530535",
+      "230012",
+      "32565",
+      "473000",
+      "12759",
+      "397310"
+    ],
+    "distractor_in_top_k": {
+      "3": false,
+      "5": false,
+      "10": false
+    }
+  },
+  {
+    "query_id": "neg_19",
+    "sub_label": null,
+    "category": "negation",
+    "query": "Feature engineering category mapping without one-hot encoding?",
+    "search_query": "feature engineering category mapping alternatives to one-hot encoding: label encoding, ordinal encoding, target encoding, binary encoding, frequency encoding, hashing, embedding, mean encoding, count encoding, target mean encoding, target distribution encoding, target smoothing encoding, target encoding with cross\u2011validation, target encoding with regularization, target encoding with smoothing, target encoding with shrinkage, target encoding with Bayesian smoothing, target encoding with regularization, target encoding with cross\u2011validation, target encoding with cross\u2011validation smoothing, target encoding with cross\u2011validation shrinkage, target encoding with cross\u2011validation Bayesian smoothing, target encoding with cross\u2011validation regularization, target encoding with cross\u2011validation smoothing, target encoding with cross\u2011validation shrinkage, target encoding with cross\u2011validation Bayesian smoothing, target encoding with cross\u2011validation regularization, target encoding with cross\u2011validation smoothing, target encoding with cross\u2011validation shrinkage, target encoding with cross\u2011validation Bayesian smoothing, target encoding with cross\u2011validation regularization, target encoding with cross\u2011validation smoothing, target encoding with cross\u2011validation shrinkage, target encoding with cross\u2011validation Bayesian smoothing, target encoding with cross\u2011validation regularization, target encoding with cross\u2011validation smoothing, target encoding with cross\u2011validation shrinkage, target encoding with cross\u2011validation Bayesian smoothing, target encoding with cross\u2011validation regularization, target encoding with cross\u2011validation smoothing, target encoding with cross\u2011validation shrinkage, target encoding with cross\u2011validation Bayesian smoothing, target encoding with cross\u2011validation regularization, target encoding with cross\u2011validation smoothing, target encoding with cross\u2011validation shrinkage, target encoding with cross\u2011validation Bayesian smoothing, target encoding with cross\u2011validation regularization, target encoding with cross\u2011validation smoothing, target encoding with cross\u2011validation shrinkage, target encoding with cross\u2011validation Bayesian smoothing, target encoding with cross\u2011validation regularization, target encoding with cross\u2011validation smoothing, target encoding with cross\u2011validation shrinkage, target encoding with cross\u2011validation Bayesian smoothing, target encoding with cross\u2011validation regularization, target encoding with cross\u2011validation smoothing, target encoding with cross\u2011validation shrinkage, target encoding with cross\u2011validation Bayesian smoothing, target encoding with cross\u2011validation regularization, target encoding with cross\u2011validation smoothing, target encoding with cross\u2011validation shrinkage, target encoding with cross\u2011validation Bayesian smoothing, target encoding with cross\u2011validation regularization, target encoding with cross\u2011validation smoothing, target encoding with cross\u2011validation shrinkage, target encoding with cross\u2011validation Bayesian smoothing, target encoding with cross\u2011validation regularization, target encoding with cross\u2011validation smoothing, target encoding with cross\u2011validation shrinkage, target encoding with cross\u2011validation Bayesian smoothing, target encoding with cross\u2011validation regularization, target encoding with cross\u2011validation smoothing, target encoding with cross\u2011validation shrinkage, target encoding with cross\u2011validation Bayesian smoothing, target encoding with cross\u2011validation regularization, target encoding with cross\u2011validation smoothing, target encoding with cross\u2011validation shrinkage, target encoding with cross\u2011validation Bayesian smoothing, target encoding with cross\u2011validation regularization, target encoding with cross\u2011validation smoothing, target encoding with cross\u2011validation shrinkage, target encoding with cross\u2011validation Bayesian smoothing, target encoding with cross\u2011validation regularization, target encoding with cross\u2011validation smoothing, target encoding with cross\u2011validation shrinkage, target encoding with cross\u2011validation Bayesian smoothing, target encoding with cross\u2011validation regularization, target encoding with cross\u2011validation smoothing, target encoding with cross\u2011validation shrinkage, target encoding with cross\u2011validation Bayesian smoothing, target encoding with cross\u2011validation regularization, target encoding with cross\u2011validation smoothing, target encoding with cross\u2011validation shrinkage, target encoding with cross\u2011validation Bayesian smoothing, target encoding with cross\u2011validation regularization, target encoding with cross\u2011validation smoothing, target encoding with cross\u2011validation shrinkage, target encoding with cross\u2011validation Bayesian smoothing, target encoding with cross\u2011validation regularization, target encoding with cross\u2011validation smoothing, target encoding with cross\u2011validation shrinkage, target encoding with cross\u2011validation Bayesian smoothing, target encoding with cross\u2011validation regularization, target encoding with cross\u2011validation smoothing, target encoding with cross\u2011validation shrinkage, target encoding with cross\u2011validation Bayesian smoothing, target encoding with cross\u2011validation regularization, target encoding with cross\u2011validation smoothing, target encoding with cross\u2011validation shrinkage, target encoding with cross\u2011validation Bayesian smoothing, target encoding with cross\u2011",
+    "mrr": 0.0,
+    "hit_at": {
+      "3": false,
+      "5": false,
+      "10": false
+    },
+    "hit_q_at": {
+      "3": true,
+      "5": true,
+      "10": true
+    },
+    "precision_at": {
+      "3": 0.0,
+      "5": 0.0,
+      "10": 0.0
+    },
+    "ranked_top10": [
+      "619809",
+      "550708",
+      "352040",
+      "350398",
+      "546404",
+      "577742",
+      "405299",
+      "567125",
+      "565632",
+      "587309"
+    ],
+    "ranked_top10_qids": [
+      "411767",
+      "411767",
+      "352029",
+      "350353",
+      "546396",
+      "577574",
+      "405268",
+      "567095",
+      "565623",
+      "587252"
+    ],
+    "distractor_in_top_k": {
+      "3": false,
+      "5": false,
+      "10": false
+    }
+  },
+  {
+    "query_id": "neg_20",
+    "sub_label": null,
+    "category": "negation",
+    "query": "How to build a recommender system using association rules or market basket analysis?",
+    "search_query": "How to build a recommender system using association rules or market basket analysis?",
+    "mrr": 0.5,
+    "hit_at": {
+      "3": true,
+      "5": true,
+      "10": true
+    },
+    "hit_q_at": {
+      "3": true,
+      "5": true,
+      "10": true
+    },
+    "precision_at": {
+      "3": 0.6666666666666666,
+      "5": 0.4,
+      "10": 0.2
+    },
+    "ranked_top10": [
+      "72531",
+      "391727",
+      "183667",
+      "96478",
+      "444289",
+      "21765",
+      "72602",
+      "283864",
+      "86449",
+      "583397"
+    ],
+    "ranked_top10_qids": [
+      "71361",
+      "256012",
+      "183599",
+      "95351",
+      "444283",
+      "21340",
+      "72582",
+      "283358",
+      "76448",
+      "583379"
+    ],
+    "distractor_in_top_k": {
+      "3": false,
+      "5": false,
+      "10": false
+    }
+  }
+]

@@ -56,6 +56,22 @@ MAX_TOKENS = 1024  # DeepEval's verdict/claim-extraction outputs are
                     # structured JSON, not long-form -- no need for more
 
 
+def clean_json_response(text: str) -> str:
+    cleaned = text.strip()
+    import re
+    # Remove <think>...</think> tags and everything inside them
+    cleaned = re.sub(r"<think>.*?</think>", "", cleaned, flags=re.DOTALL).strip()
+    
+    # Remove markdown code block wrappers (e.g. ```json ... ```)
+    if cleaned.startswith("```json"):
+        cleaned = cleaned[7:]
+    elif cleaned.startswith("```"):
+        cleaned = cleaned[3:]
+    if cleaned.endswith("```"):
+        cleaned = cleaned[:-3]
+    return cleaned.strip()
+
+
 class LocalGGUFJudge(DeepEvalBaseLLM):
     def __init__(self, model_path: Path = MODEL_PATH, n_ctx: int = N_CTX):
         self.model_path = Path(model_path)
@@ -84,12 +100,25 @@ class LocalGGUFJudge(DeepEvalBaseLLM):
             except Exception as pe:
                 print(f"Failed to set process priority/affinity: {pe}")
 
-            self._model = Llama(
-                model_path=str(self.model_path),
-                n_ctx=self.n_ctx,
-                n_threads=N_THREADS,
-                verbose=False,
-            )
+            try:
+                # 1. Try loading with GPU offloading enabled
+                self._model = Llama(
+                    model_path=str(self.model_path),
+                    n_ctx=self.n_ctx,
+                    n_threads=N_THREADS,
+                    n_gpu_layers=-1,
+                    verbose=False,
+                )
+                print("Local GGUF judge loaded with GPU offloading.")
+            except Exception as gpu_err:
+                print(f"Failed to load GGUF model with GPU: {gpu_err}. Falling back to CPU.")
+                self._model = Llama(
+                    model_path=str(self.model_path),
+                    n_ctx=self.n_ctx,
+                    n_threads=N_THREADS,
+                    n_gpu_layers=0,
+                    verbose=False,
+                )
         return self._model
 
     def _chat(self, prompt: str) -> str:
@@ -99,7 +128,7 @@ class LocalGGUFJudge(DeepEvalBaseLLM):
             max_tokens=MAX_TOKENS,
             temperature=0.0,
         )
-        return response["choices"][0]["message"]["content"]
+        return clean_json_response(response["choices"][0]["message"]["content"])
 
     def generate(self, prompt: str) -> str:
         return self._chat(prompt)
@@ -115,5 +144,99 @@ class LocalGGUFJudge(DeepEvalBaseLLM):
         return self.model_path.stem
 
 
-def get_judge() -> LocalGGUFJudge:
+class GroqJudge(DeepEvalBaseLLM):
+    def __init__(self, model_name: str = None):
+        # Default to the active reasoning model (openai/gpt-oss-20b)
+        self.model_name = model_name or os.getenv("GROQ_JUDGE_MODEL", "openai/gpt-oss-20b")
+        self.client = None
+        super().__init__(self.model_name)
+
+    def load_model(self):
+        if self.client is None:
+            from langchain_groq import ChatGroq
+            self.client = ChatGroq(
+                api_key=os.getenv("GROQ_API_KEY"),
+                model_name=self.model_name,
+                temperature=0.0,
+                max_retries=6,
+            )
+        return self.client
+
+    def _chat(self, prompt: str) -> str:
+        client = self.load_model()
+        from langchain_core.messages import HumanMessage
+        response = client.invoke([HumanMessage(content=prompt)])
+        return clean_json_response(response.content)
+
+    def generate(self, prompt: str) -> str:
+        return self._chat(prompt)
+
+    async def a_generate(self, prompt: str) -> str:
+        client = self.load_model()
+        from langchain_core.messages import HumanMessage
+        response = await client.ainvoke([HumanMessage(content=prompt)])
+        return response.content
+
+    def get_model_name(self) -> str:
+        return self.model_name
+
+
+class GeminiJudge(DeepEvalBaseLLM):
+    def __init__(self, model_name: str = "gemini-flash-latest"):
+        self.model_name = model_name
+        self.api_key = os.getenv("GEMINI_API_KEY")
+        super().__init__(self.model_name)
+
+    def load_model(self):
+        return self
+
+    def _chat(self, prompt: str) -> str:
+        if not self.api_key:
+            raise ValueError("GEMINI_API_KEY is not set in .env")
+        import urllib.request
+        import json
+        
+        # Using Google Generative Language API
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/{self.model_name}:generateContent?key={self.api_key}"
+        body = {
+            "contents": [{"parts": [{"text": prompt}]}],
+            "generationConfig": {
+                "temperature": 0.0,
+                "responseMimeType": "application/json"
+            }
+        }
+        data = json.dumps(body).encode("utf-8")
+        req = urllib.request.Request(
+            url,
+            data=data,
+            headers={"Content-Type": "application/json", "User-Agent": "Mozilla/5.0"}
+        )
+        try:
+            with urllib.request.urlopen(req, timeout=120) as r:
+                res_data = json.loads(r.read().decode("utf-8"))
+                text = res_data["candidates"][0]["content"]["parts"][0]["text"]
+                return clean_json_response(text)
+        except Exception as e:
+            if hasattr(e, "read"):
+                err_content = e.read().decode("utf-8")
+                raise RuntimeError(f"Gemini API Error: {err_content}")
+            raise e
+
+    def generate(self, prompt: str) -> str:
+        return self._chat(prompt)
+
+    async def a_generate(self, prompt: str) -> str:
+        import asyncio
+        return await asyncio.to_thread(self._chat, prompt)
+
+    def get_model_name(self) -> str:
+        return self.model_name
+
+
+def get_judge():
+    judge_type = os.getenv("EVAL_JUDGE_TYPE", "local").lower().strip()
+    if judge_type == "groq":
+        return GroqJudge()
+    elif judge_type == "gemini":
+        return GeminiJudge()
     return LocalGGUFJudge()

@@ -1,0 +1,1036 @@
+[
+  {
+    "query_id": "mturn_01",
+    "sub_label": null,
+    "category": "multi_turn",
+    "query": "How do I use cross-validation to detect and prevent it?",
+    "search_query": "How do I use cross-validation to detect and prevent overfitting?",
+    "mrr": 0.2,
+    "hit_at": {
+      "3": false,
+      "5": true,
+      "10": true
+    },
+    "hit_q_at": {
+      "3": false,
+      "5": true,
+      "10": true
+    },
+    "precision_at": {
+      "3": 0.0,
+      "5": 0.2,
+      "10": 0.2
+    },
+    "ranked_top10": [
+      "621831",
+      "209245",
+      "2931",
+      "416565",
+      "193719",
+      "9059",
+      "605282",
+      "36172",
+      "535682",
+      "310367"
+    ],
+    "ranked_top10_qids": [
+      "621825",
+      "5097",
+      "2914",
+      "416553",
+      "9053",
+      "9053",
+      "604728",
+      "36171",
+      "534538",
+      "310365"
+    ]
+  },
+  {
+    "query_id": "mturn_02",
+    "sub_label": null,
+    "category": "multi_turn",
+    "query": "Which regularization method handles multicollinearity better?",
+    "search_query": "What is regularization? Regularization adds a penalty term to the loss function to discourage overly complex models and reduce overfitting. Which regularization method handles multicollinearity better?",
+    "mrr": 0.0,
+    "hit_at": {
+      "3": false,
+      "5": false,
+      "10": false
+    },
+    "hit_q_at": {
+      "3": false,
+      "5": false,
+      "10": false
+    },
+    "precision_at": {
+      "3": 0.0,
+      "5": 0.0,
+      "10": 0.0
+    },
+    "ranked_top10": [
+      "184023",
+      "338715",
+      "353476",
+      "443790",
+      "492081",
+      "502853",
+      "575253",
+      "347541",
+      "246937",
+      "491572"
+    ],
+    "ranked_top10_qids": [
+      "184019",
+      "4961",
+      "351589",
+      "443092",
+      "292291",
+      "502849",
+      "295383",
+      "347530",
+      "4961",
+      "491547"
+    ]
+  },
+  {
+    "query_id": "mturn_03",
+    "sub_label": null,
+    "category": "multi_turn",
+    "query": "How does that differ from a prediction interval?",
+    "search_query": "What is the difference between a confidence interval and a prediction interval?",
+    "mrr": 0.05,
+    "hit_at": {
+      "3": false,
+      "5": false,
+      "10": false
+    },
+    "hit_q_at": {
+      "3": false,
+      "5": false,
+      "10": false
+    },
+    "precision_at": {
+      "3": 0.0,
+      "5": 0.0,
+      "10": 0.0
+    },
+    "ranked_top10": [
+      "182816",
+      "16496",
+      "271232",
+      "16498",
+      "562340",
+      "94100",
+      "252762",
+      "75040",
+      "378139",
+      "296020"
+    ],
+    "ranked_top10_qids": [
+      "16493",
+      "16493",
+      "16493",
+      "16493",
+      "562058",
+      "16493",
+      "252743",
+      "75022",
+      "69144",
+      "296015"
+    ]
+  },
+  {
+    "query_id": "mturn_04",
+    "sub_label": null,
+    "category": "multi_turn",
+    "query": "Between AIC and BIC, which one penalizes variables more strictly?",
+    "search_query": "What is AIC? AIC (Akaike Information Criterion) is a metric for model selection that estimates the quality of each model relative to others, penalizing parameters. Between AIC and BIC, which one penalizes variables more strictly?",
+    "mrr": 0.14285714285714285,
+    "hit_at": {
+      "3": false,
+      "5": false,
+      "10": true
+    },
+    "hit_q_at": {
+      "3": false,
+      "5": false,
+      "10": true
+    },
+    "precision_at": {
+      "3": 0.0,
+      "5": 0.0,
+      "10": 0.2
+    },
+    "ranked_top10": [
+      "493214",
+      "582131",
+      "278576",
+      "347654",
+      "20228",
+      "24151",
+      "15643",
+      "104058",
+      "549374",
+      "582"
+    ],
+    "ranked_top10_qids": [
+      "493131",
+      "580148",
+      "278570",
+      "347652",
+      "20224",
+      "24116",
+      "577",
+      "103539",
+      "237625",
+      "577"
+    ]
+  },
+  {
+    "query_id": "mturn_05",
+    "sub_label": null,
+    "category": "multi_turn",
+    "query": "What assumption does it make about the mean and variance?",
+    "search_query": "What assumption does the Poisson distribution make about the mean and variance?",
+    "mrr": 0.0,
+    "hit_at": {
+      "3": false,
+      "5": false,
+      "10": false
+    },
+    "hit_q_at": {
+      "3": false,
+      "5": false,
+      "10": false
+    },
+    "precision_at": {
+      "3": 0.0,
+      "5": 0.0,
+      "10": 0.0
+    },
+    "ranked_top10": [
+      "364050",
+      "7076",
+      "605941",
+      "134203",
+      "345560",
+      "455877",
+      "158183",
+      "569500",
+      "549206",
+      "1180"
+    ],
+    "ranked_top10_qids": [
+      "364047",
+      "7049",
+      "605924",
+      "133635",
+      "345537",
+      "455874",
+      "158153",
+      "568986",
+      "549204",
+      "1174"
+    ]
+  },
+  {
+    "query_id": "mturn_06",
+    "sub_label": null,
+    "category": "multi_turn",
+    "query": "Does increasing the number of trees cause it to overfit?",
+    "search_query": "Does increasing the number of trees in a Random Forest cause overfitting?",
+    "mrr": 0.0,
+    "hit_at": {
+      "3": false,
+      "5": false,
+      "10": false
+    },
+    "hit_q_at": {
+      "3": false,
+      "5": false,
+      "10": false
+    },
+    "precision_at": {
+      "3": 0.0,
+      "5": 0.0,
+      "10": 0.0
+    },
+    "ranked_top10": [
+      "172476",
+      "112026",
+      "169359",
+      "348246",
+      "112023",
+      "296200",
+      "172479",
+      "508000",
+      "167172",
+      "301451"
+    ],
+    "ranked_top10_qids": [
+      "169357",
+      "111968",
+      "169357",
+      "348245",
+      "111968",
+      "189344",
+      "169357",
+      "507992",
+      "167158",
+      "301442"
+    ]
+  },
+  {
+    "query_id": "mturn_07",
+    "sub_label": null,
+    "category": "multi_turn",
+    "query": "Is the MLE estimator always unbiased?",
+    "search_query": "Is the maximum likelihood estimator always unbiased?",
+    "mrr": 0.0,
+    "hit_at": {
+      "3": false,
+      "5": false,
+      "10": false
+    },
+    "hit_q_at": {
+      "3": false,
+      "5": false,
+      "10": false
+    },
+    "precision_at": {
+      "3": 0.0,
+      "5": 0.0,
+      "10": 0.0
+    },
+    "ranked_top10": [
+      "563234",
+      "183062",
+      "183011",
+      "245074",
+      "451239",
+      "598928",
+      "579074",
+      "291444",
+      "395286",
+      "303248"
+    ],
+    "ranked_top10_qids": [
+      "563228",
+      "183006",
+      "183006",
+      "222110",
+      "451223",
+      "545742",
+      "207760",
+      "291417",
+      "10343",
+      "303244"
+    ]
+  },
+  {
+    "query_id": "mturn_08",
+    "sub_label": null,
+    "category": "multi_turn",
+    "query": "How do we test for it?",
+    "search_query": "How do we test for stationarity in time series?",
+    "mrr": 0.0,
+    "hit_at": {
+      "3": false,
+      "5": false,
+      "10": false
+    },
+    "hit_q_at": {
+      "3": false,
+      "5": false,
+      "10": false
+    },
+    "precision_at": {
+      "3": 0.0,
+      "5": 0.0,
+      "10": 0.0
+    },
+    "ranked_top10": [
+      "204425",
+      "27340",
+      "384175",
+      "603082",
+      "6799",
+      "384174",
+      "196801",
+      "222776",
+      "136984",
+      "410303"
+    ],
+    "ranked_top10_qids": [
+      "204421",
+      "27332",
+      "384170",
+      "189833",
+      "6798",
+      "384170",
+      "195151",
+      "222765",
+      "136979",
+      "410302"
+    ]
+  },
+  {
+    "query_id": "mturn_09",
+    "sub_label": null,
+    "category": "multi_turn",
+    "query": "Do we need to scale features before running it?",
+    "search_query": "Do we need to scale features before running principal component analysis?",
+    "mrr": 0.0,
+    "hit_at": {
+      "3": false,
+      "5": false,
+      "10": false
+    },
+    "hit_q_at": {
+      "3": false,
+      "5": false,
+      "10": false
+    },
+    "precision_at": {
+      "3": 0.0,
+      "5": 0.0,
+      "10": 0.0
+    },
+    "ranked_top10": [
+      "258892",
+      "478430",
+      "224109",
+      "562658",
+      "407759",
+      "213825",
+      "385782",
+      "445281",
+      "178104",
+      "563726"
+    ],
+    "ranked_top10_qids": [
+      "258891",
+      "477797",
+      "223296",
+      "562617",
+      "407658",
+      "213471",
+      "385775",
+      "445259",
+      "77350",
+      "563721"
+    ]
+  },
+  {
+    "query_id": "mturn_10",
+    "sub_label": null,
+    "category": "multi_turn",
+    "query": "What does rejecting it tell us about the alternative hypothesis?",
+    "search_query": "What does rejecting the null hypothesis tell us about the alternative hypothesis?",
+    "mrr": 0.0,
+    "hit_at": {
+      "3": false,
+      "5": false,
+      "10": false
+    },
+    "hit_q_at": {
+      "3": false,
+      "5": false,
+      "10": false
+    },
+    "precision_at": {
+      "3": 0.0,
+      "5": 0.0,
+      "10": 0.0
+    },
+    "ranked_top10": [
+      "124086",
+      "498057",
+      "242106",
+      "501452",
+      "559845",
+      "185052",
+      "275682",
+      "623096",
+      "185036",
+      "221979"
+    ],
+    "ranked_top10_qids": [
+      "124084",
+      "275677",
+      "240821",
+      "501446",
+      "559822",
+      "185023",
+      "275677",
+      "18988",
+      "185023",
+      "144998"
+    ]
+  },
+  {
+    "query_id": "mturn_11",
+    "sub_label": null,
+    "category": "multi_turn",
+    "query": "Why do deep networks prefer ReLU over sigmoid?",
+    "search_query": "What is a neural network activation function? An activation function defines the output of a node given an input or set of inputs, introducing non-linearity to the network. Why do deep networks prefer ReLU over sigmoid?",
+    "mrr": 0.0,
+    "hit_at": {
+      "3": false,
+      "5": false,
+      "10": false
+    },
+    "hit_q_at": {
+      "3": false,
+      "5": false,
+      "10": false
+    },
+    "precision_at": {
+      "3": 0.0,
+      "5": 0.0,
+      "10": 0.0
+    },
+    "ranked_top10": [
+      "158565",
+      "578527",
+      "483766",
+      "578427",
+      "271812",
+      "578524",
+      "211359",
+      "354658",
+      "571675",
+      "188452"
+    ],
+    "ranked_top10_qids": [
+      "158549",
+      "423856",
+      "483764",
+      "126238",
+      "271703",
+      "115981",
+      "126238",
+      "225748",
+      "571669",
+      "188277"
+    ]
+  },
+  {
+    "query_id": "mturn_12",
+    "sub_label": null,
+    "category": "multi_turn",
+    "query": "How do we construct confidence intervals using these samples?",
+    "search_query": "How do we construct confidence intervals using bootstrap samples?",
+    "mrr": 0.0,
+    "hit_at": {
+      "3": false,
+      "5": false,
+      "10": false
+    },
+    "hit_q_at": {
+      "3": false,
+      "5": false,
+      "10": false
+    },
+    "precision_at": {
+      "3": 0.0,
+      "5": 0.0,
+      "10": 0.0
+    },
+    "ranked_top10": [
+      "9161",
+      "19345",
+      "369791",
+      "328777",
+      "408602",
+      "255090",
+      "373664",
+      "368488",
+      "14217",
+      "135596"
+    ],
+    "ranked_top10_qids": [
+      "9104",
+      "19340",
+      "369710",
+      "319030",
+      "408295",
+      "254991",
+      "373658",
+      "368464",
+      "14213",
+      "135549"
+    ]
+  },
+  {
+    "query_id": "mturn_13",
+    "sub_label": null,
+    "category": "multi_turn",
+    "query": "What happens if the instrument is weak?",
+    "search_query": "What happens if the instrument is weak in instrumental variables estimation?",
+    "mrr": 0.05555555555555555,
+    "hit_at": {
+      "3": false,
+      "5": false,
+      "10": false
+    },
+    "hit_q_at": {
+      "3": false,
+      "5": false,
+      "10": false
+    },
+    "precision_at": {
+      "3": 0.0,
+      "5": 0.0,
+      "10": 0.0
+    },
+    "ranked_top10": [
+      "638404",
+      "187290",
+      "107931",
+      "147029",
+      "518955",
+      "523536",
+      "88936",
+      "184803",
+      "138406",
+      "631418"
+    ],
+    "ranked_top10_qids": [
+      "637895",
+      "187271",
+      "107922",
+      "147023",
+      "518943",
+      "304020",
+      "88919",
+      "184790",
+      "137802",
+      "631415"
+    ]
+  },
+  {
+    "query_id": "mturn_15",
+    "sub_label": null,
+    "category": "multi_turn",
+    "query": "Does a decay schedule help optimization convergence?",
+    "search_query": "Does a decay schedule help with optimization convergence?",
+    "mrr": 0.0,
+    "hit_at": {
+      "3": false,
+      "5": false,
+      "10": false
+    },
+    "hit_q_at": {
+      "3": false,
+      "5": false,
+      "10": false
+    },
+    "precision_at": {
+      "3": 0.0,
+      "5": 0.0,
+      "10": 0.0
+    },
+    "ranked_top10": [
+      "561152",
+      "200105",
+      "451733",
+      "61900",
+      "324549",
+      "473515",
+      "349166",
+      "242125",
+      "361442",
+      "235052"
+    ],
+    "ranked_top10_qids": [
+      "561124",
+      "200063",
+      "451668",
+      "61885",
+      "323570",
+      "473254",
+      "349142",
+      "242004",
+      "351409",
+      "235042"
+    ]
+  },
+  {
+    "query_id": "mturn_16",
+    "sub_label": null,
+    "category": "multi_turn",
+    "query": "Why does this artificially reduce variance?",
+    "search_query": "Why does mean imputation artificially reduce variance?",
+    "mrr": 0.0,
+    "hit_at": {
+      "3": false,
+      "5": false,
+      "10": false
+    },
+    "hit_q_at": {
+      "3": false,
+      "5": false,
+      "10": false
+    },
+    "precision_at": {
+      "3": 0.0,
+      "5": 0.0,
+      "10": 0.0
+    },
+    "ranked_top10": [
+      "132824",
+      "476849",
+      "436341",
+      "303737",
+      "184539",
+      "534457",
+      "167074",
+      "11197",
+      "558051",
+      "567508"
+    ],
+    "ranked_top10_qids": [
+      "120521",
+      "476829",
+      "436340",
+      "303722",
+      "184486",
+      "534325",
+      "167037",
+      "11191",
+      "558034",
+      "567423"
+    ]
+  },
+  {
+    "query_id": "mturn_17",
+    "sub_label": null,
+    "category": "multi_turn",
+    "query": "How does it compare to t-SNE for preserving global structure?",
+    "search_query": "How does UMAP compare to t-SNE in preserving global structure?",
+    "mrr": 0.125,
+    "hit_at": {
+      "3": false,
+      "5": false,
+      "10": true
+    },
+    "hit_q_at": {
+      "3": false,
+      "5": false,
+      "10": true
+    },
+    "precision_at": {
+      "3": 0.0,
+      "5": 0.0,
+      "10": 0.1
+    },
+    "ranked_top10": [
+      "402676",
+      "402756",
+      "502428",
+      "558395",
+      "410405",
+      "364255",
+      "393219",
+      "398806",
+      "502392",
+      "619658"
+    ],
+    "ranked_top10_qids": [
+      "402668",
+      "402668",
+      "502396",
+      "554945",
+      "400995",
+      "270391",
+      "393208",
+      "398734",
+      "502388",
+      "616082"
+    ]
+  },
+  {
+    "query_id": "mturn_18",
+    "sub_label": null,
+    "category": "multi_turn",
+    "query": "How does class imbalance affect it compared to Precision-Recall curves?",
+    "search_query": "How does class imbalance affect the ROC curve compared to Precision-Recall curves?",
+    "mrr": 0.2,
+    "hit_at": {
+      "3": false,
+      "5": true,
+      "10": true
+    },
+    "hit_q_at": {
+      "3": false,
+      "5": true,
+      "10": true
+    },
+    "precision_at": {
+      "3": 0.0,
+      "5": 0.2,
+      "10": 0.1
+    },
+    "ranked_top10": [
+      "368883",
+      "398284",
+      "359739",
+      "51053",
+      "90783",
+      "132561",
+      "616250",
+      "201911",
+      "398208",
+      "463061"
+    ],
+    "ranked_top10_qids": [
+      "201750",
+      "398199",
+      "355816",
+      "51042",
+      "90779",
+      "132547",
+      "260164",
+      "201750",
+      "398199",
+      "7207"
+    ]
+  },
+  {
+    "query_id": "mturn_19",
+    "sub_label": null,
+    "category": "multi_turn",
+    "query": "When should we use a random intercept vs random slope?",
+    "search_query": "What is a mixed effects model? A mixed effects model contains both fixed effects (population parameters) and random effects (group-specific variations). When should we use a random intercept vs random slope?",
+    "mrr": 0.0,
+    "hit_at": {
+      "3": false,
+      "5": false,
+      "10": false
+    },
+    "hit_q_at": {
+      "3": false,
+      "5": false,
+      "10": false
+    },
+    "precision_at": {
+      "3": 0.0,
+      "5": 0.0,
+      "10": 0.0
+    },
+    "ranked_top10": [
+      "137837",
+      "399151",
+      "632683",
+      "311157",
+      "275469",
+      "276098",
+      "295290",
+      "4703",
+      "408650",
+      "360637"
+    ],
+    "ranked_top10_qids": [
+      "120964",
+      "399049",
+      "632522",
+      "311140",
+      "275450",
+      "275450",
+      "295287",
+      "4700",
+      "408646",
+      "349386"
+    ]
+  },
+  {
+    "query_id": "mturn_20",
+    "sub_label": null,
+    "category": "multi_turn",
+    "query": "When should we prefer it over accuracy?",
+    "search_query": "When should the F1 score be preferred over accuracy?",
+    "mrr": 0.0,
+    "hit_at": {
+      "3": false,
+      "5": false,
+      "10": false
+    },
+    "hit_q_at": {
+      "3": false,
+      "5": false,
+      "10": false
+    },
+    "precision_at": {
+      "3": 0.0,
+      "5": 0.0,
+      "10": 0.0
+    },
+    "ranked_top10": [
+      "563631",
+      "496193",
+      "275945",
+      "620771",
+      "274830",
+      "217404",
+      "514843",
+      "123314",
+      "207248",
+      "299918"
+    ],
+    "ranked_top10_qids": [
+      "563531",
+      "365310",
+      "275926",
+      "620520",
+      "274807",
+      "217376",
+      "514838",
+      "123036",
+      "137917",
+      "299913"
+    ]
+  },
+  {
+    "query_id": "mturn_21",
+    "sub_label": null,
+    "category": "multi_turn",
+    "query": "How does right-censoring affect the Kaplan-Meier estimate?",
+    "search_query": "What is censoring in survival analysis? Censoring occurs when the exact event time is unknown for some subjects -- e.g. they haven't experienced the event by the end of the study. How does right-censoring affect the Kaplan-Meier estimate?",
+    "mrr": 0.0,
+    "hit_at": {
+      "3": false,
+      "5": false,
+      "10": false
+    },
+    "hit_q_at": {
+      "3": false,
+      "5": false,
+      "10": false
+    },
+    "precision_at": {
+      "3": 0.0,
+      "5": 0.0,
+      "10": 0.0
+    },
+    "ranked_top10": [
+      "546956",
+      "198121",
+      "608876",
+      "87092",
+      "592388",
+      "96695",
+      "362287",
+      "436682",
+      "636153",
+      "343333"
+    ],
+    "ranked_top10_qids": [
+      "546914",
+      "197628",
+      "608834",
+      "87046",
+      "591877",
+      "96618",
+      "362212",
+      "436677",
+      "636114",
+      "343332"
+    ]
+  },
+  {
+    "query_id": "mturn_22",
+    "sub_label": null,
+    "category": "multi_turn",
+    "query": "How does running multiple A/B tests at once affect the false positive rate?",
+    "search_query": "What is A/B testing? A/B testing randomly splits users into groups shown different variants, comparing an outcome metric to decide which variant performs better. How does running multiple A/B tests at once affect the false positive rate?",
+    "mrr": 0.2,
+    "hit_at": {
+      "3": false,
+      "5": true,
+      "10": true
+    },
+    "hit_q_at": {
+      "3": false,
+      "5": true,
+      "10": true
+    },
+    "precision_at": {
+      "3": 0.0,
+      "5": 0.2,
+      "10": 0.1
+    },
+    "ranked_top10": [
+      "569970",
+      "632718",
+      "149786",
+      "398909",
+      "306544",
+      "620897",
+      "108902",
+      "579107",
+      "244823",
+      "109350"
+    ],
+    "ranked_top10_qids": [
+      "569161",
+      "632707",
+      "149774",
+      "398436",
+      "306537",
+      "620879",
+      "108554",
+      "578618",
+      "244646",
+      "108554"
+    ]
+  },
+  {
+    "query_id": "mturn_23",
+    "sub_label": null,
+    "category": "multi_turn",
+    "query": "How does that differ from bagging methods like Random Forest?",
+    "search_query": "How does gradient boosting differ from bagging methods like Random Forest?",
+    "mrr": 0.05555555555555555,
+    "hit_at": {
+      "3": false,
+      "5": false,
+      "10": false
+    },
+    "hit_q_at": {
+      "3": false,
+      "5": false,
+      "10": false
+    },
+    "precision_at": {
+      "3": 0.0,
+      "5": 0.0,
+      "10": 0.0
+    },
+    "ranked_top10": [
+      "454758",
+      "52260",
+      "242041",
+      "449461",
+      "134818",
+      "77025",
+      "603551",
+      "552385",
+      "149725",
+      "372975"
+    ],
+    "ranked_top10_qids": [
+      "454722",
+      "52259",
+      "77018",
+      "77018",
+      "52034",
+      "77018",
+      "603464",
+      "552356",
+      "149701",
+      "372634"
+    ]
+  }
+]
