@@ -16,6 +16,11 @@ import argparse
 from pathlib import Path
 from collections import defaultdict
 
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+if hasattr(sys.stderr, "reconfigure"):
+    sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+
 # Prevent PyTorch deadlocks & HuggingFace network hangs
 for _v in ("OMP", "MKL", "OPENBLAS", "NUMEXPR"):
     os.environ[f"{_v}_NUM_THREADS"] = "1"
@@ -30,10 +35,9 @@ sys.path.insert(0, str(PROJECT_ROOT))
 
 from backend.core.vector_store import VectorDBManager
 from backend.core.reranker import ReRanker
-from backend.core.llm_service import LLMService
+from backend.core.llm_service import LLMService, build_search_query, decompose_query
 from backend.core.config import SETTINGS
 from evaluation.judge_model import get_judge
-from backend.core.llm_service import build_search_query
 
 GOLDEN_JSON_PATH = PROJECT_ROOT / "evaluation" / "golden_dataset.json"
 POSTS_JSONL_PATH = PROJECT_ROOT / "data" / "processed" / "posts.jsonl"
@@ -45,7 +49,7 @@ TOP_K = 5
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Evaluate Contextual Recall using DeepEval.")
-    parser.add_argument("--n", type=int, default=10, help="Number of test cases to evaluate (default: 10).")
+    parser.add_argument("--n", type=int, default=0, help="Number of test cases to evaluate (0 = all evaluable cases).")
     parser.add_argument("--category", type=str, default=None, help="Filter test cases by category.")
     parser.add_argument("--local", action="store_true", help="Force local on-disk Qdrant index.")
     return parser.parse_args()
@@ -106,8 +110,12 @@ async def eval_case_async(case, db_manager, reranker, llm_service, judge, gold_m
                 pass
             
             search_query = build_search_query(query, case.get("chat_history"), rewritten)
-            candidates = db_manager.search_hybrid(query=search_query, n_results=CANDIDATE_K)
-            reranked = reranker.rerank(query=search_query, chunks=candidates, top_k=TOP_K)
+            decomposed = decompose_query(search_query, llm_service=llm_service)
+            if len(decomposed) > 1:
+                candidates = db_manager.search_multi_query(decomposed, n_results=CANDIDATE_K)
+            else:
+                candidates = db_manager.search_hybrid(query=search_query, n_results=CANDIDATE_K)
+            reranked = reranker.rerank(query=query, chunks=candidates, top_k=TOP_K)
             return search_query, reranked
 
         search_query, reranked = await asyncio.to_thread(retrieval_steps)
@@ -206,7 +214,9 @@ def run_eval():
     if args.category:
         evaluable = [c for c in evaluable if c.get("category") == args.category]
 
-    evaluable = evaluable[:args.n]
+    if args.n and args.n > 0:
+        evaluable = evaluable[:args.n]
+
     print(f"Evaluating {len(evaluable)} cases for Contextual Recall...")
 
     needed_ids = {str(gid) for c in evaluable for gid in c.get("gold_answer_ids", [])}
@@ -222,12 +232,21 @@ def run_eval():
     import asyncio
 
     async def main_async():
-        # Limit concurrency to 5 to protect API rate limits while maintaining high speed
-        sem = asyncio.Semaphore(5)
+        # Limit concurrency to 3 to protect Groq API rate limits
+        sem = asyncio.Semaphore(3)
 
         async def sem_eval_case(case):
             async with sem:
-                return await eval_case_async(case, db_manager, reranker, llm_service, judge, gold_map)
+                for attempt in range(3):
+                    try:
+                        res = await eval_case_async(case, db_manager, reranker, llm_service, judge, gold_map)
+                        await asyncio.sleep(0.2)
+                        return res
+                    except Exception as err:
+                        if attempt == 2:
+                            print(f"[{case.get('query_id')}] Failed after 3 attempts: {err}")
+                            return None
+                        await asyncio.sleep(2 ** (attempt + 1))
 
         tasks = [sem_eval_case(c) for c in evaluable]
         
@@ -299,10 +318,34 @@ def run_eval():
             prec_3 = stats["precision_3_sum"] / count
             prec_5 = stats["precision_5_sum"] / count
             mrr = stats["mrr_sum"] / count
-            valid_recall = stats["valid_recall_scores"]
-            avg_rec = sum(valid_recall) / len(valid_recall) if valid_recall else 0.0
-            print(f"{cat:<20} | {count:<5} | {rec_1:<6.3f} | {rec_3:<6.3f} | {rec_5:<6.3f} | {prec_1:<6.3f} | {prec_3:<6.3f} | {prec_5:<6.3f} | {mrr:<6.3f} | {avg_rec:<15.3f}")
         print("==================================================")
+
+        RESULTS_DIR.mkdir(parents=True, exist_ok=True)
+        timestamp = time.strftime("%Y%m%d_%H%M%S")
+        out_filename = RESULTS_DIR / f"contextual_recall_eval_{timestamp}.json"
+        with open(out_filename, "w", encoding="utf-8") as f:
+            json.dump({
+                "timestamp": timestamp,
+                "total_cases": total_cases,
+                "global_avg_contextual_recall": global_avg_recall,
+                "global_mrr": global_mrr,
+                "global_recall_at_1": global_hit_1,
+                "global_recall_at_3": global_hit_3,
+                "global_recall_at_5": global_hit_5,
+                "category_breakdown": {
+                    cat: {
+                        "count": st["count"],
+                        "recall_at_1": st["hits_1"] / st["count"],
+                        "recall_at_3": st["hits_3"] / st["count"],
+                        "recall_at_5": st["hits_5"] / st["count"],
+                        "mrr": st["mrr_sum"] / st["count"],
+                        "avg_contextual_recall": (sum(st["valid_recall_scores"]) / len(st["valid_recall_scores"])) if st["valid_recall_scores"] else 0.0
+                    }
+                    for cat, st in cat_stats.items()
+                },
+                "rows": rows
+            }, f, indent=2)
+        print(f"\nSaved full Contextual Recall report to: {out_filename}")
 
     return 0
 
