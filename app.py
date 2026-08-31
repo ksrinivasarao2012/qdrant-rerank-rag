@@ -130,25 +130,13 @@ def get_text_content(content) -> str:
 
 def needs_query_rewrite(query: str, chat_history: list) -> bool:
     """
-    Heuristic check to determine if a query requires LLM-based re-writing.
-    Only returns True if chat history exists AND the query contains pronouns
-    or ambiguous referents, or is an ultra-short follow-up (< 4 words).
+    Determines if a query requires LLM-based rewriting and typo normalization.
+    Returns True if:
+    1. Chat history exists (to resolve conversational referents and pronouns).
+    2. Query contains negation terms (to prevent distractor term contamination).
+    3. Standalone queries to perform fast typo and grammar normalization.
     """
-    if not chat_history:
-        return False
-    
-    query_lower = query.lower().strip()
-    words = query_lower.split()
-    
-    if len(words) <= 3:
-        return True
-        
-    referential_terms = {
-        "it", "its", "they", "them", "their", "this", "that", "these", "those",
-        "former", "latter", "the same", "he", "him", "his", "she", "her", "hers"
-    }
-    
-    return any(term in words for term in referential_terms)
+    return True
 
 
 @spaces.GPU

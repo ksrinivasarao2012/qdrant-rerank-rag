@@ -1,3 +1,6 @@
+import os
+import re
+import time
 import logging
 from typing import List, Dict, Any, Optional, AsyncGenerator
 from langchain_groq import ChatGroq
@@ -255,15 +258,40 @@ class LLMService:
             history=history_text, query=query
         )
 
-        # 1. Primary Rewriter: Groq (Ultra-fast, < 300ms, active API key)
-        if self.client is not None:
-            try:
-                response = self.client.invoke([HumanMessage(content=prompt)])
-                rewritten = response.content.strip()
-                logger.info(f"Groq query analysis for '{query}' returned: '{rewritten}'")
-                return rewritten
-            except Exception as e:
-                logger.warning(f"Failed to analyze query with Groq: {e}. Falling back to Gemini/HF.")
+        # 1. Primary Rewriter: Groq (Ultra-fast, < 300ms, active API key with multi-model cascade)
+        groq_api_key = os.getenv("GROQ_API_KEY")
+        if groq_api_key:
+            groq_models_to_try = [
+                os.getenv("GROQ_MODEL", "openai/gpt-oss-20b"),
+                "openai/gpt-oss-120b",
+                "qwen/qwen3.6-27b",
+                "qwen/qwen3.8-27b"
+            ]
+            # Deduplicate preserving order
+            seen_models = set()
+            unique_groq_models = [m for m in groq_models_to_try if not (m in seen_models or seen_models.add(m))]
+
+            for g_model in unique_groq_models:
+                try:
+                    from langchain_groq import ChatGroq
+                    temp_client = ChatGroq(
+                        api_key=groq_api_key,
+                        model_name=g_model,
+                        temperature=0.0,
+                        max_tokens=256
+                    )
+                    response = temp_client.invoke([HumanMessage(content=prompt)])
+                    rewritten = response.content.strip()
+                    # Strip reasoning tags if returned by reasoning models (e.g. Qwen/DeepSeek)
+                    rewritten = re.sub(r'<think>.*?</think>', '', rewritten, flags=re.DOTALL).strip()
+                    # Clean any leading label repetitions
+                    if "STANDALONE QUERY:" in rewritten:
+                        rewritten = rewritten.split("STANDALONE QUERY:")[-1].strip()
+                    if rewritten:
+                        logger.info(f"Groq ({g_model}) query analysis for '{query}' returned: '{rewritten}'")
+                        return rewritten
+                except Exception as e:
+                    logger.warning(f"Groq model {g_model} query rewrite failed: {e}. Trying next model...")
 
         # 2. Fall back to Gemini Flash first (with 3s timeout)
         if self.gemini_client is not None:

@@ -103,6 +103,7 @@ answer:
         1. Do NOT use any outside knowledge or make assumptions beyond the provided Context.
         2. If the answer cannot be determined from the Context, explicitly state: 'I do not have enough information in the provided documents to answer this question.'
         3. Keep your response clear, simple, and directly factual to the provided text.
+        4. When presenting code snippets based on the context, make the code complete and self-contained, including all necessary library imports in Python (`import ...`) or package declarations in R (`library(...)`).
 
     llama3_simple_v1:
       notes: >-
@@ -234,19 +235,20 @@ query_rewrite:
 
     negation_aware_v4:
       notes: >-
-        Negation-aware query expansion. Detects negation phrases (like "without X", "except Y",
-        "excluding Z") and rewrites the query to remove the negated term while explicitly
-        appending general synonyms and alternative techniques for that domain to prevent dense vector contamination.
+        Negation-aware and typo-correcting query expansion. Detects typos,
+        resolves chat history pronouns, and rewrites negation phrases by removing
+        negated terms and appending alternative domain keywords.
       user: |-
-        You are a search query optimizer. Rewrite the following question to be a standalone, self-contained search query.
+        You are an expert search query optimizer. Rewrite the following question to be a clean, standalone, self-contained search query.
         
         Rules:
-        1. Resolve all pronouns and conversational referents using the chat history.
-        2. NEGATION HANDLING: If the question contains any negation or exclusion (for example, "without X", "except Y", "excluding Z", "not using W", "other than V"), you must:
+        1. TYPO & GRAMMAR CORRECTION: Correct all typos, missing characters, and misspelled statistical or programming terms (e.g., 'rovide' -> 'provide', 'Lnear' -> 'linear', 'regresion' -> 'regression', 'hypthesis' -> 'hypothesis', 'clasification' -> 'classification').
+        2. PRONOUN RESOLUTION: Resolve all pronouns and conversational referents using the chat history if provided.
+        3. NEGATION HANDLING: If the question contains any negation or exclusion (for example, "without X", "except Y", "excluding Z", "not using W", "other than V"), you must:
            a. Do NOT include the negated term (X, Y, Z, W, or V) in the final search query.
            b. Instead, identify the general topic (e.g. normality testing, feature selection, dimensionality reduction, classification) and explicitly append common alternative methods, terms, or algorithms for that domain to help the search engine find valid alternatives.
         
-        Do NOT answer the question. Output ONLY the standalone query on a single line.
+        Do NOT answer the question. Output ONLY the rewritten standalone query on a single line.
 
         CHAT HISTORY:
         $history
