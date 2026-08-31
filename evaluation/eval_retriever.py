@@ -54,7 +54,7 @@ sys.path.insert(0, str(PROJECT_ROOT))
 
 from backend.core.vector_store import VectorDBManager
 from backend.core.reranker import ReRanker
-from backend.core.llm_service import build_search_query
+from backend.core.llm_service import build_search_query, decompose_query
 
 GOLDEN_JSON_PATH = PROJECT_ROOT / "evaluation" / "golden_dataset.json"
 POSTS_JSONL_PATH = PROJECT_ROOT / "data" / "processed" / "posts.jsonl"
@@ -86,6 +86,8 @@ def parse_args():
                               "refills it). Requires evaluation/load_local_qdrant.py to have been run first.")
     parser.add_argument("--category", type=str, default=None,
                          help="Filter evaluation cases to a specific category (e.g. multi_turn).")
+    parser.add_argument("--decompose", action="store_true",
+                         help="Enable multi-query decomposition for comparative/multi-hop queries.")
     return parser.parse_args()
 
 
@@ -95,6 +97,8 @@ def config_tag(args, top_ks, pool) -> str:
     parts = [args.method]
     parts.append("norerank" if args.no_rerank else "rerank")
     parts.append("rewrite" if args.rewrite else "raw")
+    if getattr(args, "decompose", False):
+        parts.append("decompose")
     parts.append(f"pool{pool}")
     if not args.no_rerank and args.reranker_model != DEFAULT_RERANKER_MODEL:
         parts.append(args.reranker_model.split("/")[-1])
@@ -156,7 +160,11 @@ def queries_for_case(case: dict):
     return []
 
 
-def retrieve(db_manager, method: str, query: str, pool: int):
+def retrieve(db_manager, method: str, query: str, pool: int, use_decompose: bool = False):
+    if use_decompose:
+        decomposed = decompose_query(query)
+        if len(decomposed) > 1:
+            return db_manager.search_multi_query(decomposed, n_results=pool)
     if method == "dense":
         return db_manager.search(query, n_results=pool)
     if method == "sparse":
@@ -164,22 +172,15 @@ def retrieve(db_manager, method: str, query: str, pool: int):
     return db_manager.search_hybrid(query, n_results=pool)
 
 
-def ranked_answer_ids(db_manager, reranker, method: str, query: str, pool: int, use_rerank: bool):
+def ranked_answer_ids(db_manager, reranker, method: str, query: str, pool: int, use_rerank: bool, use_decompose: bool = False, original_query: str = None):
     """Runs the retrieval path (method -> optional cross-encoder rerank) and
-    returns a de-duplicated, rank-ordered list of answer_ids as strings.
-
-    When reranking, reranks the FULL candidate pool, not just the eventual
-    top_k -- chunks are per-answer-fragments, so several of the top chunks
-    can belong to the same answer. Capping the rerank step at top_k before
-    deduplicating would let chunk-level duplicates burn through the top
-    slots and unfairly shrink recall@k. Reranking everything first and
-    deduplicating after avoids that."""
-    hits = retrieve(db_manager, method, query, pool)
+    returns a de-duplicated, rank-ordered list of answer_ids as strings."""
+    hits = retrieve(db_manager, method, query, pool, use_decompose=use_decompose)
     if not hits:
-        return []
+        return [], []
 
     if use_rerank:
-        ordered = reranker.rerank(query, hits, top_k=len(hits))
+        ordered = reranker.rerank(original_query or query, hits, top_k=len(hits))
     else:
         ordered = hits  # raw retrieval order (already ranked by the method's own scoring)
 
@@ -279,7 +280,8 @@ def evaluate():
         search_query = build_search_query(query_text, case.get("chat_history"), rewritten_query)
 
         ranked, ranked_qids = ranked_answer_ids(
-            db_manager, reranker, args.method, search_query, pool, not args.no_rerank
+            db_manager, reranker, args.method, search_query, pool, not args.no_rerank,
+            use_decompose=args.decompose, original_query=query_text
         )
         row = {
             "query_id": case["query_id"],

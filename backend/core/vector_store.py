@@ -322,6 +322,54 @@ class VectorDBManager:
         
         return self._format_results(results)
 
+    def search_multi_query(
+        self,
+        queries: List[str],
+        n_results: int = 10,
+        source_file: str = None,
+        qdrant_filter: Any = None
+    ) -> List[Dict[str, Any]]:
+        """
+        Executes parallel hybrid searches across multiple sub-queries (e.g. decomposed multi-hop comparisons)
+        and merges candidates using Reciprocal Rank Fusion (RRF).
+        """
+        if not queries:
+            return []
+        if len(queries) == 1:
+            return self.search_hybrid(queries[0], n_results=n_results, source_file=source_file, qdrant_filter=qdrant_filter)
+
+        logger.info(f"Executing Multi-Query Parallel Hybrid Search for {len(queries)} sub-queries: {queries}")
+        from concurrent.futures import ThreadPoolExecutor
+        
+        all_query_results = []
+        with ThreadPoolExecutor(max_workers=len(queries)) as executor:
+            futures = [
+                executor.submit(self.search_hybrid, q, n_results=n_results * 2, source_file=source_file, qdrant_filter=qdrant_filter)
+                for q in queries
+            ]
+            for f in futures:
+                try:
+                    all_query_results.append(f.result())
+                except Exception as e:
+                    logger.warning(f"Sub-query execution failed: {e}")
+
+        # Reciprocal Rank Fusion across all sub-queries
+        rrf_scores: Dict[str, float] = {}
+        doc_lookup: Dict[str, Dict[str, Any]] = {}
+        RRF_K = 60
+
+        for sub_results in all_query_results:
+            for rank, doc in enumerate(sub_results, start=1):
+                doc_id = doc["id"]
+                rrf_scores[doc_id] = rrf_scores.get(doc_id, 0.0) + (1.0 / (RRF_K + rank))
+                if doc_id not in doc_lookup:
+                    doc_lookup[doc_id] = doc
+
+        # Sort documents by fused RRF score descending
+        fused_sorted_ids = sorted(rrf_scores.keys(), key=lambda did: rrf_scores[did], reverse=True)
+        return [doc_lookup[did] for did in fused_sorted_ids[:n_results]]
+
+
     def _format_results(self, results) -> List[Dict[str, Any]]:
         """Helper to format Qdrant hits into standard RAG dictionary chunks."""
         clean_results = []

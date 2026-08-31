@@ -33,7 +33,7 @@ class ReRanker:
 
         from backend.core.config import SETTINGS
 
-        if SETTINGS.JINA_API_KEY:
+        if SETTINGS.JINA_API_KEY and not getattr(self, "_jina_disabled", False):
             logger.info("Using Jina Rerank API with HTTP Session reuse...")
             try:
                 headers = {
@@ -62,6 +62,8 @@ class ReRanker:
                     logger.info("Jina API re-ranking complete.")
                     return reranked_chunks
                 else:
+                    if res.status_code in [401, 402, 403]:
+                        self._jina_disabled = True
                     logger.warning(f"Jina API failed ({res.status_code}): {res.text}. Falling back to local Cross-Encoder.")
             except Exception as e:
                 logger.warning(f"Jina API connection error: {e}. Falling back to local Cross-Encoder.")

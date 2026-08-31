@@ -16,7 +16,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), 'backend
 sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 
 from backend.core.vector_store import VectorDBManager
-from backend.core.llm_service import LLMService, build_search_query
+from backend.core.llm_service import LLMService, build_search_query, decompose_query
 from backend.core.reranker import ReRanker
 
 # Configure logging
@@ -198,13 +198,17 @@ def chat_stream(history, selected_doc):
     # conversation turns when the rewriter did nothing -- a follow-up like
     # "how do I prevent it?" is unsearchable on its own. See build_search_query.
     search_query = build_search_query(user_message, chat_history_dicts, rewritten_query)
+    decomposed_queries = decompose_query(search_query, llm_service=llm_service)
 
     # Candidate pool tuned to 10 for low-latency interactive chat
     CANDIDATE_K = 10
     filter_source = None if selected_doc in ["🔍 All Topics", None] else selected_doc
 
-    # Stage 1: Native Hybrid Search via Qdrant RRF Fusion
-    fused_candidates = vector_db.search_hybrid(query=search_query, n_results=CANDIDATE_K, source_file=filter_source)
+    # Stage 1: Native Hybrid Search via Qdrant RRF Fusion (with multi-query decomposition)
+    if len(decomposed_queries) > 1:
+        fused_candidates = vector_db.search_multi_query(queries=decomposed_queries, n_results=CANDIDATE_K, source_file=filter_source)
+    else:
+        fused_candidates = vector_db.search_hybrid(query=search_query, n_results=CANDIDATE_K, source_file=filter_source)
 
     # Stage 2: Cross-Encoder Re-Ranking. Scored against what the user actually
     # typed, not the history-padded search string -- the padding is there to

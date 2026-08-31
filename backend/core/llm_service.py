@@ -451,6 +451,7 @@ class LLMService:
             logger.error(f"Error generating answer: {e}")
             return "An error occurred while generating the response."
 
+
 # ---------------------------------------------------------------------------
 # Conversational retrieval: give the SEARCH query its missing topic.
 # ---------------------------------------------------------------------------
@@ -502,3 +503,76 @@ def build_search_query(
     if len(context) > max_chars:
         context = context[-max_chars:]
     return f"{context} {query}".strip()
+
+
+# ---------------------------------------------------------------------------
+# Multi-Hop Query Decomposition: Split comparative queries into parallel searches
+# ---------------------------------------------------------------------------
+
+import re
+
+COMPARISON_PATTERNS = [
+    r"\bcompare\b",
+    r"\bdiffer(?:ence|ent|s)?\b",
+    r"\bvs\.?\b",
+    r"\bversus\b",
+    r"\brelationship between\b",
+    r"\btrade-?off between\b",
+    r"\badvantages? of .* over\b",
+    r"\bwhen to use .* (?:instead of|over)\b",
+    r"\bwhich is better\b",
+    r"\bcontrast(?:ing)?\b"
+]
+
+def is_comparison_query(query: str) -> bool:
+    """Detects whether a query is asking for a comparison between two or more statistical concepts."""
+    q_lower = query.lower()
+    return any(re.search(pat, q_lower) for pat in COMPARISON_PATTERNS)
+
+
+def decompose_query_heuristic(query: str) -> List[str]:
+    """
+    Fast, rule-based fallback heuristic to split comparison questions into sub-queries.
+    E.g. 'Compare AIC and BIC' -> ['Compare AIC and BIC', 'AIC statistics', 'BIC statistics']
+    """
+    # Try extracting X and Y around ' and ', ' vs ', ' versus ', ' or '
+    split_matches = re.split(r"\b(?:and|vs\.?|versus|or|compared to)\b", query, flags=re.IGNORECASE)
+    if len(split_matches) >= 2:
+        clean_parts = []
+        for part in split_matches[:2]:  # Focus on the 2 main compared entities
+            # Strip out generic comparative boilerplate
+            cleaned = re.sub(r"(?i)\b(compare|how do|how does|what is the relationship between|what is the difference between|explain|when to use|differ in|the mathematical penalties of|one over the other|which is better|in how they combine weak learners|in statistics|in machine learning)\b", "", part).strip()
+            cleaned = re.sub(r"[?,.:;]", "", cleaned).strip()
+            if len(cleaned) > 2 and len(cleaned) < 50:
+                clean_parts.append(cleaned)
+        if len(clean_parts) == 2:
+            return [query, f"{clean_parts[0]} statistics", f"{clean_parts[1]} statistics"]
+    return [query]
+
+
+def decompose_query(query: str, llm_service: Optional[LLMService] = None) -> List[str]:
+    """
+    Decomposes a comparative or multi-hop query into targeted sub-queries.
+    Always includes the original query as the primary anchor.
+    """
+    if not is_comparison_query(query):
+        return [query]
+
+    # Attempt fast LLM decomposition if client is initialized
+    if llm_service and llm_service.client:
+        try:
+            prompt = (
+                f"You are a search query optimizer for a statistics & machine learning knowledge base.\n"
+                f"Break this comparative question into 2 distinct, focused search queries targeting each concept individually.\n"
+                f"Question: \"{query}\"\n"
+                f"Output exactly 2 search queries, one per line. No explanations, numbering, or preamble."
+            )
+            resp = llm_service.client.invoke([HumanMessage(content=prompt)])
+            lines = [l.strip().lstrip("123456789.- *") for l in resp.content.strip().split("\n") if l.strip()]
+            valid_subqueries = [l for l in lines if len(l) > 3 and l.lower() != query.lower()]
+            if valid_subqueries:
+                return [query] + valid_subqueries[:2]
+        except Exception as e:
+            logger.warning(f"LLM decomposition failed: {e}. Falling back to heuristic.")
+
+    return decompose_query_heuristic(query)
