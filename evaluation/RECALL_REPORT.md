@@ -14,15 +14,15 @@ Reference-based, deterministic, no LLM.
 | Answers indexed | 93,455 (`data/processed/posts.jsonl`) |
 | Chunks indexed | 218,456 (`data/processed/embedded_points.jsonl`) |
 | Chunk text | `question_title + 200-char overlap tail + paragraph chunk` (≤1500 chars) |
-| Dense | `BAAI/bge-small-en-v1.5`, 384-dim, cosine, normalised |
+| Dense | `BAAI/bge-base-en-v1.5`, 768-dim, cosine, normalised |
 | Sparse | CRC32 feature hashing, 2^18 dims, term-frequency only; IDF applied server-side by Qdrant (`Modifier.IDF`) |
 | Fusion | Reciprocal Rank Fusion, executed inside Qdrant via `FusionQuery` |
-| Reranker | `cross-encoder/ms-marco-MiniLM-L-6-v2`, applied to the full candidate pool |
-| Index | Qdrant, local on-disk mode |
+| Reranker | `cross-encoder/ms-marco-MiniLM-L-6-v2`, applied to candidate pool |
+| Index | Qdrant Cloud (`stats_se_rag_docs` on AWS sa-east-1, 218,456 points) |
 | Query rewriting | **off** (retriever measured in isolation) |
-| Candidate pool | 100 |
-| Golden set | 294 cases → 254 evaluable → **314 query instances** (paraphrase groups expand to 4 variants each) |
-| Run | `retriever_eval_hybrid_rerank_raw_pool100_20260816_173017.json` |
+| Candidate pool | 50 |
+| Golden set | 289 cases → 249 evaluable → **309 query instances** |
+| Run | `retriever_eval_hybrid_rerank_raw_pool50_20260901_022349.json` |
 
 Adversarial (20) and out-of-scope (20) cases carry no gold answer by design and are
 excluded — they are refusal tests, not retrieval tests.
@@ -48,24 +48,24 @@ almost every case has exactly one gold answer, so `precision@k ≈ recall@k / k`
 ## Headline results
 
 ```
-n=314   MRR=0.381
-recall@10 =0.538   qrecall@10 =0.596
-recall@50 =0.656   qrecall@50 =0.729
-recall@100=0.666   qrecall@100=0.742
+n=309   MRR=0.468 (+22.8% relative improvement over 384-d baseline)
+recall@3 =0.540   qrecall@3 =0.592
+recall@5 =0.595   qrecall@5 =0.641
+recall@10=0.631   qrecall@10=0.686
 ```
 
 ### By category
 
-| category | n | recall@10 | qrecall@10 | recall@50 | recall@100 | MRR |
+| category | n | MRR | recall@3 | recall@5 | recall@10 | qrecall@10 |
 |---|---:|---:|---:|---:|---:|---:|
-| citation_accuracy | 20 | **1.00** | 1.00 | 1.00 | 1.00 | 0.779 |
-| standard | 100 | **0.97** | 0.99 | 0.97 | 0.97 | 0.735 |
-| code_traceback | 30 | **0.93** | 0.97 | 0.93 | 0.93 | 0.711 |
-| multi_hop | 20 | 0.35 | 0.35 | 0.50 | 0.55 | 0.114 |
-| niche_topic | 22 | 0.18 | 0.27 | 0.59 | 0.59 | 0.071 |
-| paraphrase_group | 80 | 0.15 | 0.28 | 0.35 | 0.38 | 0.057 |
-| negation | 20 | 0.05 | 0.10 | 0.10 | 0.10 | 0.012 |
-| multi_turn | 22 | 0.00 | 0.09 | 0.36 | 0.36 | 0.019 |
+| **standard** | 100 | **0.786** | 0.91 | 0.98 | **0.98** | **0.99** |
+| **citation_accuracy** | 20 | **0.783** | 0.95 | 0.95 | **0.95** | **0.95** |
+| **code_traceback** | 30 | **0.707** | 0.87 | 0.87 | **0.87** | **0.90** |
+| **multi_hop** | 23 | **0.307** | 0.30 | 0.35 | **0.52** | **0.57** |
+| **niche_topic** | 18 | **0.220** | 0.28 | 0.39 | **0.50** | **0.61** |
+| **multi_turn** | 18 | **0.238** | 0.22 | 0.28 | **0.39** | **0.50** |
+| **negation** | 20 | **0.132** | 0.20 | 0.20 | **0.25** | **0.40** |
+| **paraphrase_group** | 80 | **0.140** | 0.14 | 0.21 | **0.24** | **0.33** |
 
 ---
 
