@@ -34,7 +34,7 @@ except ImportError:
             if total > 0 and (i + 1) % 5000 == 0:
                 print(f"  {desc}: {i + 1}/{total} completed...")
 
-INPUT_PATH = PROJECT_ROOT / "data" / "processed" / "embedded_points.jsonl"
+INPUT_PATH = PROJECT_ROOT / "data" / "processed" / "embedded_points_768.jsonl"
 
 
 def to_point_struct(record: dict) -> models.PointStruct:
@@ -51,7 +51,7 @@ def to_point_struct(record: dict) -> models.PointStruct:
     )
 
 
-def upload(input_path: Path, batch_size: int = 500):
+def upload(input_path: Path, batch_size: int = 200):
     if not input_path.exists():
         print(f"Error: {input_path.resolve()} not found. Run embed_corpus.py first.")
         return 1
@@ -79,6 +79,7 @@ def upload(input_path: Path, batch_size: int = 500):
                 else:
                     failed_batches += 1
                 batch = []
+                time.sleep(0.5)  # brief pause to avoid CPU throttling on free-tier
 
         if batch:
             if _upsert_with_retry(db_manager, collection_name, batch):
@@ -111,14 +112,14 @@ def upload(input_path: Path, batch_size: int = 500):
     return 0 if failed_batches == 0 else 1
 
 
-def _upsert_with_retry(db_manager: VectorDBManager, collection_name: str, points, max_attempts=3) -> bool:
+def _upsert_with_retry(db_manager: VectorDBManager, collection_name: str, points, max_attempts=5) -> bool:
     for attempt in range(1, max_attempts + 1):
         try:
             db_manager.client.upsert(collection_name=collection_name, points=points)
             return True
         except Exception as e:
             if attempt < max_attempts:
-                wait = 2 ** attempt
+                wait = 2 ** attempt + 2  # 6s, 10s, 18s, 34s
                 print(f"  Batch upload attempt {attempt}/{max_attempts} failed ({e}); retrying in {wait}s...")
                 time.sleep(wait)
             else:
