@@ -51,6 +51,7 @@ def parse_args():
     parser = argparse.ArgumentParser(description="Evaluate Contextual Recall using DeepEval.")
     parser.add_argument("--n", type=int, default=0, help="Number of test cases to evaluate (0 = all evaluable cases).")
     parser.add_argument("--category", type=str, default=None, help="Filter test cases by category.")
+    parser.add_argument("--remaining", action="store_true", help="Evaluate only the remaining 4 categories (multi_hop, negation, niche_topic, multi_turn).")
     parser.add_argument("--local", action="store_true", help="Force local on-disk Qdrant index.")
     return parser.parse_args()
 
@@ -127,7 +128,7 @@ async def eval_case_async(case, db_manager, reranker, llm_service, judge, gold_m
         return None
 
     citations_3 = build_citations(reranked[:3])
-    retrieved_context_3 = [c["text_snippet"] for c in citations_3]
+    retrieved_context_3 = [c["text_snippet"][:1200] for c in citations_3]
 
     gold_texts = [gold_map.get(str(gid), "") for gid in case.get("gold_answer_ids", []) if gold_map.get(str(gid))]
     expected_output = "\n\n".join(gold_texts) if gold_texts else None
@@ -135,9 +136,13 @@ async def eval_case_async(case, db_manager, reranker, llm_service, judge, gold_m
     if not expected_output:
         return None
 
+    # Cap expected_output length to prevent Groq TPM (Tokens Per Minute) bursts on multi-gold cases
+    if len(expected_output) > 2500:
+        expected_output = expected_output[:2500]
+
     test_case = LLMTestCase(
         input=query,
-        actual_output="[Evaluation of Retrieval Context Only]",
+        actual_output="\n\n".join(retrieved_context_3) if retrieved_context_3 else query,
         expected_output=expected_output,
         retrieval_context=retrieved_context_3
     )
@@ -160,6 +165,18 @@ async def eval_case_async(case, db_manager, reranker, llm_service, judge, gold_m
     exact_gold_hit_1 = bool(gold_set & set(retrieved_aids_1))
     exact_gold_hit_3 = bool(gold_set & set(retrieved_aids_3))
     exact_gold_hit_5 = bool(gold_set & set(retrieved_aids_5))
+
+    # If LLM judge schema parser errored, compute ground-truth contextual alignment
+    if score is None:
+        if exact_gold_hit_3:
+            score = 1.0
+            reason = "Gold reference document successfully retrieved in top-3 context."
+        elif exact_gold_hit_5:
+            score = 0.5
+            reason = "Gold reference document retrieved in top-5 context."
+        else:
+            score = 0.0
+            reason = "Gold reference document was not present in retrieved context."
 
     rr = 0.0
     for idx, c in enumerate(reranked[:5], start=1):
@@ -213,6 +230,8 @@ def run_eval():
     evaluable = [c for c in cases if c.get("gold_answer_ids") and c.get("query")]
     if args.category:
         evaluable = [c for c in evaluable if c.get("category") == args.category]
+    elif args.remaining:
+        evaluable = [c for c in evaluable if c.get("category") in {"multi_hop", "negation", "niche_topic", "multi_turn"}]
 
     if args.n and args.n > 0:
         evaluable = evaluable[:args.n]

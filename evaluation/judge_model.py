@@ -44,7 +44,7 @@ sys.path.insert(0, str(PROJECT_ROOT))
 from dotenv import load_dotenv
 from deepeval.models.base_model import DeepEvalBaseLLM
 
-load_dotenv(PROJECT_ROOT / ".env")
+load_dotenv(PROJECT_ROOT / ".env", override=True)
 
 DEFAULT_MODEL_PATH = PROJECT_ROOT / "data" / "models" / "qwen2.5-7b-instruct-q4_k_m.gguf"
 MODEL_PATH = Path(os.getenv("LOCAL_JUDGE_MODEL_PATH", str(DEFAULT_MODEL_PATH)))
@@ -59,16 +59,30 @@ MAX_TOKENS = 1024  # DeepEval's verdict/claim-extraction outputs are
 def clean_json_response(text: str) -> str:
     cleaned = text.strip()
     import re
+    import json
     # Remove <think>...</think> tags and everything inside them
     cleaned = re.sub(r"<think>.*?</think>", "", cleaned, flags=re.DOTALL).strip()
     
     # Remove markdown code block wrappers (e.g. ```json ... ```)
-    if cleaned.startswith("```json"):
-        cleaned = cleaned[7:]
-    elif cleaned.startswith("```"):
-        cleaned = cleaned[3:]
-    if cleaned.endswith("```"):
-        cleaned = cleaned[:-3]
+    if "```json" in cleaned:
+        cleaned = cleaned.split("```json")[-1].split("```")[0].strip()
+    elif "```" in cleaned:
+        cleaned = cleaned.split("```")[1].strip() if len(cleaned.split("```")) > 1 else cleaned
+    
+    # Use JSONDecoder.raw_decode to extract precisely one valid JSON structure and drop all trailing text!
+    try:
+        start_idx = -1
+        for i, ch in enumerate(cleaned):
+            if ch in ('{', '['):
+                start_idx = i
+                break
+        if start_idx != -1:
+            decoder = json.JSONDecoder()
+            obj, end_idx = decoder.raw_decode(cleaned[start_idx:])
+            return json.dumps(obj)
+    except Exception:
+        pass
+
     return cleaned.strip()
 
 
@@ -146,8 +160,8 @@ class LocalGGUFJudge(DeepEvalBaseLLM):
 
 class GroqJudge(DeepEvalBaseLLM):
     def __init__(self, model_name: str = None):
-        # Default to the active reasoning model (openai/gpt-oss-20b)
-        self.model_name = model_name or os.getenv("GROQ_JUDGE_MODEL", "openai/gpt-oss-20b")
+        # Default to the highly accurate qwen/qwen3.6-27b on Groq
+        self.model_name = model_name or os.getenv("GROQ_JUDGE_MODEL", "qwen/qwen3.6-27b")
         self.client = None
         super().__init__(self.model_name)
 
@@ -175,7 +189,7 @@ class GroqJudge(DeepEvalBaseLLM):
         client = self.load_model()
         from langchain_core.messages import HumanMessage
         response = await client.ainvoke([HumanMessage(content=prompt)])
-        return response.content
+        return clean_json_response(response.content)
 
     def get_model_name(self) -> str:
         return self.model_name

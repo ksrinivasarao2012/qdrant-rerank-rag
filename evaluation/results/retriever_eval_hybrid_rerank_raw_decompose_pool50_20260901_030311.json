@@ -1,0 +1,1083 @@
+[
+  {
+    "query_id": "mturn_04",
+    "sub_label": null,
+    "category": "multi_hop",
+    "query": "Between AIC and BIC, which one penalizes variables more strictly?",
+    "search_query": "What is AIC? AIC (Akaike Information Criterion) is a metric for model selection that estimates the quality of each model relative to others, penalizing parameters. Between AIC and BIC, which one penalizes variables more strictly?",
+    "mrr": 0.0,
+    "hit_at": {
+      "3": false,
+      "5": false,
+      "10": false
+    },
+    "hit_q_at": {
+      "3": true,
+      "5": true,
+      "10": true
+    },
+    "precision_at": {
+      "3": 0.0,
+      "5": 0.0,
+      "10": 0.0
+    },
+    "ranked_top10": [
+      "454756",
+      "15643",
+      "549374",
+      "493214",
+      "10568",
+      "448616",
+      "319054",
+      "559597",
+      "278576",
+      "474056"
+    ],
+    "ranked_top10_qids": [
+      "577",
+      "577",
+      "237625",
+      "493131",
+      "10543",
+      "448539",
+      "318957",
+      "577",
+      "278570",
+      "474053"
+    ]
+  },
+  {
+    "query_id": "mturn_11",
+    "sub_label": null,
+    "category": "multi_hop",
+    "query": "Why do deep networks prefer ReLU over sigmoid?",
+    "search_query": "What is a neural network activation function? An activation function defines the output of a node given an input or set of inputs, introducing non-linearity to the network. Why do deep networks prefer ReLU over sigmoid?",
+    "mrr": 0.5,
+    "hit_at": {
+      "3": true,
+      "5": true,
+      "10": true
+    },
+    "hit_q_at": {
+      "3": true,
+      "5": true,
+      "10": true
+    },
+    "precision_at": {
+      "3": 0.3333333333333333,
+      "5": 0.2,
+      "10": 0.1
+    },
+    "ranked_top10": [
+      "443582",
+      "211359",
+      "483766",
+      "578427",
+      "354658",
+      "340932",
+      "271812",
+      "271813",
+      "158565",
+      "184915"
+    ],
+    "ranked_top10_qids": [
+      "126238",
+      "126238",
+      "483764",
+      "126238",
+      "225748",
+      "340893",
+      "271703",
+      "271703",
+      "158549",
+      "182734"
+    ]
+  },
+  {
+    "query_id": "mturn_17",
+    "sub_label": null,
+    "category": "multi_hop",
+    "query": "How does it compare to t-SNE for preserving global structure?",
+    "search_query": "What is UMAP? UMAP (Uniform Manifold Approximation and Projection) is a non-linear dimension reduction technique based on Riemannian geometry. How does it compare to t-SNE for preserving global structure?",
+    "mrr": 1.0,
+    "hit_at": {
+      "3": true,
+      "5": true,
+      "10": true
+    },
+    "hit_q_at": {
+      "3": true,
+      "5": true,
+      "10": true
+    },
+    "precision_at": {
+      "3": 0.3333333333333333,
+      "5": 0.2,
+      "10": 0.1
+    },
+    "ranked_top10": [
+      "402676",
+      "364255",
+      "393219",
+      "402756",
+      "558395",
+      "502428",
+      "410405",
+      "566023",
+      "247151",
+      "340275"
+    ],
+    "ranked_top10_qids": [
+      "402668",
+      "270391",
+      "393208",
+      "402668",
+      "554945",
+      "502396",
+      "400995",
+      "566008",
+      "222912",
+      "340175"
+    ]
+  },
+  {
+    "query_id": "mturn_19",
+    "sub_label": null,
+    "category": "multi_hop",
+    "query": "When should we use a random intercept vs random slope?",
+    "search_query": "What is a mixed effects model? A mixed effects model contains both fixed effects (population parameters) and random effects (group-specific variations). When should we use a random intercept vs random slope?",
+    "mrr": 0.0,
+    "hit_at": {
+      "3": false,
+      "5": false,
+      "10": false
+    },
+    "hit_q_at": {
+      "3": false,
+      "5": false,
+      "10": false
+    },
+    "precision_at": {
+      "3": 0.0,
+      "5": 0.0,
+      "10": 0.0
+    },
+    "ranked_top10": [
+      "210617",
+      "108176",
+      "623290",
+      "500425",
+      "501545",
+      "485218",
+      "399151",
+      "576150",
+      "137837",
+      "311157"
+    ],
+    "ranked_top10_qids": [
+      "210520",
+      "108159",
+      "623264",
+      "500114",
+      "501520",
+      "485195",
+      "399049",
+      "574018",
+      "120964",
+      "311140"
+    ]
+  },
+  {
+    "query_id": "hop_01",
+    "sub_label": null,
+    "category": "multi_hop",
+    "query": "Compare the mathematical penalties of AIC and BIC, and explain when to use one over the other.",
+    "search_query": "Compare the mathematical penalties of AIC and BIC, and explain when to use one over the other.",
+    "mrr": 1.0,
+    "hit_at": {
+      "3": true,
+      "5": true,
+      "10": true
+    },
+    "hit_q_at": {
+      "3": true,
+      "5": true,
+      "10": true
+    },
+    "precision_at": {
+      "3": 0.3333333333333333,
+      "5": 0.4,
+      "10": 0.5
+    },
+    "ranked_top10": [
+      "582",
+      "81431",
+      "10763",
+      "15643",
+      "604568",
+      "454756",
+      "583",
+      "57149",
+      "414620",
+      "767"
+    ],
+    "ranked_top10_qids": [
+      "577",
+      "81427",
+      "577",
+      "577",
+      "604535",
+      "577",
+      "577",
+      "57133",
+      "577",
+      "577"
+    ]
+  },
+  {
+    "query_id": "hop_02",
+    "sub_label": null,
+    "category": "multi_hop",
+    "query": "How do bagging and boosting differ in how they combine weak learners?",
+    "search_query": "How do bagging and boosting differ in how they combine weak learners?",
+    "mrr": 0.05,
+    "hit_at": {
+      "3": false,
+      "5": false,
+      "10": false
+    },
+    "hit_q_at": {
+      "3": false,
+      "5": false,
+      "10": false
+    },
+    "precision_at": {
+      "3": 0.0,
+      "5": 0.0,
+      "10": 0.0
+    },
+    "ranked_top10": [
+      "124661",
+      "171937",
+      "171296",
+      "552385",
+      "13601",
+      "282429",
+      "535619",
+      "407036",
+      "23389",
+      "266274"
+    ],
+    "ranked_top10_qids": [
+      "124628",
+      "150995",
+      "150995",
+      "552356",
+      "13597",
+      "282413",
+      "535618",
+      "406990",
+      "23388",
+      "266249"
+    ]
+  },
+  {
+    "query_id": "hop_03",
+    "sub_label": null,
+    "category": "multi_hop",
+    "query": "What's the relationship between Type I error, Type II error, and statistical power?",
+    "search_query": "What's the relationship between Type I error, Type II error, and statistical power?",
+    "mrr": 0.058823529411764705,
+    "hit_at": {
+      "3": false,
+      "5": false,
+      "10": false
+    },
+    "hit_q_at": {
+      "3": false,
+      "5": false,
+      "10": false
+    },
+    "precision_at": {
+      "3": 0.0,
+      "5": 0.0,
+      "10": 0.0
+    },
+    "ranked_top10": [
+      "501452",
+      "379424",
+      "61664",
+      "49858",
+      "206326",
+      "296343",
+      "202237",
+      "59218",
+      "440296",
+      "279212"
+    ],
+    "ranked_top10_qids": [
+      "501446",
+      "379423",
+      "61638",
+      "49824",
+      "206325",
+      "2516",
+      "202146",
+      "59202",
+      "440288",
+      "277740"
+    ]
+  },
+  {
+    "query_id": "hop_04",
+    "sub_label": null,
+    "category": "multi_hop",
+    "query": "How do precision and recall trade off, and how does the F1 score summarize that trade-off?",
+    "search_query": "How do precision and recall trade off, and how does the F1 score summarize that trade-off?",
+    "mrr": 0.0,
+    "hit_at": {
+      "3": false,
+      "5": false,
+      "10": false
+    },
+    "hit_q_at": {
+      "3": false,
+      "5": false,
+      "10": false
+    },
+    "precision_at": {
+      "3": 0.0,
+      "5": 0.0,
+      "10": 0.0
+    },
+    "ranked_top10": [
+      "183510",
+      "598278",
+      "192188",
+      "49921",
+      "559754",
+      "485116",
+      "597890",
+      "62626",
+      "138511",
+      "123314"
+    ],
+    "ranked_top10_qids": [
+      "183507",
+      "598276",
+      "191645",
+      "49915",
+      "559736",
+      "158443",
+      "597886",
+      "62621",
+      "137917",
+      "123036"
+    ]
+  },
+  {
+    "query_id": "hop_05",
+    "sub_label": null,
+    "category": "multi_hop",
+    "query": "Compare Lasso and Ridge regression penalties and how they behave with highly correlated features.",
+    "search_query": "Compare Lasso and Ridge regression penalties and how they behave with highly correlated features.",
+    "mrr": 0.25,
+    "hit_at": {
+      "3": false,
+      "5": true,
+      "10": true
+    },
+    "hit_q_at": {
+      "3": false,
+      "5": true,
+      "10": true
+    },
+    "precision_at": {
+      "3": 0.0,
+      "5": 0.2,
+      "10": 0.1
+    },
+    "ranked_top10": [
+      "264118",
+      "240221",
+      "367176",
+      "4274",
+      "358521",
+      "130031",
+      "874",
+      "564282",
+      "446369",
+      "348469"
+    ],
+    "ranked_top10_qids": [
+      "264016",
+      "93181",
+      "367155",
+      "4272",
+      "358520",
+      "130017",
+      "866",
+      "564239",
+      "446367",
+      "348286"
+    ]
+  },
+  {
+    "query_id": "hop_06",
+    "sub_label": null,
+    "category": "multi_hop",
+    "query": "Explain the difference in how PCA and Factor Analysis handle observed variance.",
+    "search_query": "Explain the difference in how PCA and Factor Analysis handle observed variance.",
+    "mrr": 1.0,
+    "hit_at": {
+      "3": true,
+      "5": true,
+      "10": true
+    },
+    "hit_q_at": {
+      "3": true,
+      "5": true,
+      "10": true
+    },
+    "precision_at": {
+      "3": 0.3333333333333333,
+      "5": 0.4,
+      "10": 0.3
+    },
+    "ranked_top10": [
+      "94601",
+      "95106",
+      "133732",
+      "288646",
+      "1577",
+      "555900",
+      "444830",
+      "1584",
+      "359247",
+      "183570"
+    ],
+    "ranked_top10_qids": [
+      "1576",
+      "95038",
+      "95038",
+      "1576",
+      "1576",
+      "1576",
+      "444821",
+      "1576",
+      "359244",
+      "183559"
+    ]
+  },
+  {
+    "query_id": "hop_07",
+    "sub_label": null,
+    "category": "multi_hop",
+    "query": "Compare the convergence behaviors and learning rates of SGD vs Adam optimization.",
+    "search_query": "Compare the convergence behaviors and learning rates of SGD vs Adam optimization.",
+    "mrr": 0.09090909090909091,
+    "hit_at": {
+      "3": false,
+      "5": false,
+      "10": false
+    },
+    "hit_q_at": {
+      "3": false,
+      "5": false,
+      "10": false
+    },
+    "precision_at": {
+      "3": 0.0,
+      "5": 0.0,
+      "10": 0.0
+    },
+    "ranked_top10": [
+      "289271",
+      "362771",
+      "485438",
+      "312977",
+      "501166",
+      "158031",
+      "301596",
+      "331428",
+      "561052",
+      "394108"
+    ],
+    "ranked_top10_qids": [
+      "286723",
+      "319581",
+      "315626",
+      "298211",
+      "29130",
+      "157944",
+      "301408",
+      "331411",
+      "561049",
+      "394083"
+    ]
+  },
+  {
+    "query_id": "hop_08",
+    "sub_label": null,
+    "category": "multi_hop",
+    "query": "What is the difference between confidence intervals and credible intervals?",
+    "search_query": "What is the difference between confidence intervals and credible intervals?",
+    "mrr": 1.0,
+    "hit_at": {
+      "3": true,
+      "5": true,
+      "10": true
+    },
+    "hit_q_at": {
+      "3": true,
+      "5": true,
+      "10": true
+    },
+    "precision_at": {
+      "3": 0.3333333333333333,
+      "5": 0.4,
+      "10": 0.4
+    },
+    "ranked_top10": [
+      "2373",
+      "11904",
+      "558162",
+      "404277",
+      "2372",
+      "543549",
+      "23031",
+      "169999",
+      "2281",
+      "466673"
+    ],
+    "ranked_top10_qids": [
+      "2272",
+      "2272",
+      "2272",
+      "404209",
+      "2272",
+      "543538",
+      "6652",
+      "2272",
+      "2272",
+      "466114"
+    ]
+  },
+  {
+    "query_id": "hop_09",
+    "sub_label": null,
+    "category": "multi_hop",
+    "query": "Compare Random Forests and Gradient Boosted Trees in terms of parallel training and variance reduction.",
+    "search_query": "Compare Random Forests and Gradient Boosted Trees in terms of parallel training and variance reduction.",
+    "mrr": 0.2,
+    "hit_at": {
+      "3": false,
+      "5": true,
+      "10": true
+    },
+    "hit_q_at": {
+      "3": true,
+      "5": true,
+      "10": true
+    },
+    "precision_at": {
+      "3": 0.0,
+      "5": 0.2,
+      "10": 0.1
+    },
+    "ranked_top10": [
+      "242041",
+      "52260",
+      "407036",
+      "603551",
+      "77025",
+      "88020",
+      "192281",
+      "25141",
+      "465645",
+      "400603"
+    ],
+    "ranked_top10_qids": [
+      "77018",
+      "52259",
+      "406990",
+      "603464",
+      "77018",
+      "83993",
+      "192100",
+      "25121",
+      "465639",
+      "399757"
+    ]
+  },
+  {
+    "query_id": "hop_10",
+    "sub_label": null,
+    "category": "multi_hop",
+    "query": "How does the Wald test compare to the Likelihood Ratio test for parameter significance?",
+    "search_query": "How does the Wald test compare to the Likelihood Ratio test for parameter significance?",
+    "mrr": 0.08333333333333333,
+    "hit_at": {
+      "3": false,
+      "5": false,
+      "10": false
+    },
+    "hit_q_at": {
+      "3": false,
+      "5": false,
+      "10": false
+    },
+    "precision_at": {
+      "3": 0.0,
+      "5": 0.0,
+      "10": 0.0
+    },
+    "ranked_top10": [
+      "637205",
+      "59886",
+      "477990",
+      "555632",
+      "193688",
+      "48693",
+      "48683",
+      "120945",
+      "59553",
+      "81379"
+    ],
+    "ranked_top10_qids": [
+      "193643",
+      "59879",
+      "477984",
+      "555330",
+      "193643",
+      "48206",
+      "48206",
+      "120768",
+      "59509",
+      "81368"
+    ]
+  },
+  {
+    "query_id": "hop_11",
+    "sub_label": null,
+    "category": "multi_hop",
+    "query": "Explain the relationship between KL divergence and cross-entropy.",
+    "search_query": "Explain the relationship between KL divergence and cross-entropy.",
+    "mrr": 1.0,
+    "hit_at": {
+      "3": true,
+      "5": true,
+      "10": true
+    },
+    "hit_q_at": {
+      "3": true,
+      "5": true,
+      "10": true
+    },
+    "precision_at": {
+      "3": 0.6666666666666666,
+      "5": 0.4,
+      "10": 0.2
+    },
+    "ranked_top10": [
+      "409271",
+      "357974",
+      "265989",
+      "411116",
+      "581361",
+      "465307",
+      "269442",
+      "481354",
+      "459378",
+      "242148"
+    ],
+    "ranked_top10_qids": [
+      "357963",
+      "357963",
+      "265966",
+      "411105",
+      "581097",
+      "357963",
+      "269357",
+      "481343",
+      "459367",
+      "242134"
+    ]
+  },
+  {
+    "query_id": "hop_12",
+    "sub_label": null,
+    "category": "multi_hop",
+    "query": "Compare the prediction accuracy of bagging versus random forests.",
+    "search_query": "Compare the prediction accuracy of bagging versus random forests.",
+    "mrr": 0.0,
+    "hit_at": {
+      "3": false,
+      "5": false,
+      "10": false
+    },
+    "hit_q_at": {
+      "3": false,
+      "5": false,
+      "10": false
+    },
+    "precision_at": {
+      "3": 0.0,
+      "5": 0.0,
+      "10": 0.0
+    },
+    "ranked_top10": [
+      "238238",
+      "454758",
+      "384317",
+      "67788",
+      "449461",
+      "318771",
+      "260041",
+      "324382",
+      "407036",
+      "25141"
+    ],
+    "ranked_top10_qids": [
+      "197827",
+      "454722",
+      "384186",
+      "67755",
+      "77018",
+      "318770",
+      "89036",
+      "324370",
+      "406990",
+      "25121"
+    ]
+  },
+  {
+    "query_id": "hop_13",
+    "sub_label": null,
+    "category": "multi_hop",
+    "query": "Compare DBSCAN and K-means in handling non-convex cluster shapes.",
+    "search_query": "Compare DBSCAN and K-means in handling non-convex cluster shapes.",
+    "mrr": 0.0,
+    "hit_at": {
+      "3": false,
+      "5": false,
+      "10": false
+    },
+    "hit_q_at": {
+      "3": false,
+      "5": false,
+      "10": false
+    },
+    "precision_at": {
+      "3": 0.0,
+      "5": 0.0,
+      "10": 0.0
+    },
+    "ranked_top10": [
+      "336973",
+      "307988",
+      "191628",
+      "189046",
+      "317498",
+      "88845",
+      "39029",
+      "373408",
+      "94677",
+      "136344"
+    ],
+    "ranked_top10_qids": [
+      "336969",
+      "307914",
+      "191459",
+      "189012",
+      "317493",
+      "14955",
+      "39013",
+      "373404",
+      "94648",
+      "136309"
+    ]
+  },
+  {
+    "query_id": "hop_14",
+    "sub_label": null,
+    "category": "multi_hop",
+    "query": "Explain how t-SNE and UMAP differ in preserving global structure.",
+    "search_query": "Explain how t-SNE and UMAP differ in preserving global structure.",
+    "mrr": 1.0,
+    "hit_at": {
+      "3": true,
+      "5": true,
+      "10": true
+    },
+    "hit_q_at": {
+      "3": true,
+      "5": true,
+      "10": true
+    },
+    "precision_at": {
+      "3": 0.3333333333333333,
+      "5": 0.4,
+      "10": 0.2
+    },
+    "ranked_top10": [
+      "402676",
+      "402756",
+      "393219",
+      "364255",
+      "502392",
+      "502428",
+      "341373",
+      "410405",
+      "566023",
+      "398806"
+    ],
+    "ranked_top10_qids": [
+      "402668",
+      "402668",
+      "393208",
+      "270391",
+      "502388",
+      "502396",
+      "340175",
+      "400995",
+      "566008",
+      "398734"
+    ]
+  },
+  {
+    "query_id": "hop_15",
+    "sub_label": null,
+    "category": "multi_hop",
+    "query": "Compare Gelman-Rubin diagnostic (R-hat) and MCMC autocorrelation time.",
+    "search_query": "Compare Gelman-Rubin diagnostic (R-hat) and MCMC autocorrelation time.",
+    "mrr": 0.16666666666666666,
+    "hit_at": {
+      "3": false,
+      "5": false,
+      "10": true
+    },
+    "hit_q_at": {
+      "3": false,
+      "5": false,
+      "10": true
+    },
+    "precision_at": {
+      "3": 0.0,
+      "5": 0.0,
+      "10": 0.1
+    },
+    "ranked_top10": [
+      "526191",
+      "4317",
+      "120108",
+      "350727",
+      "110273",
+      "99388",
+      "457275",
+      "82505",
+      "588743",
+      "66703"
+    ],
+    "ranked_top10_qids": [
+      "526057",
+      "4258",
+      "119879",
+      "348984",
+      "110268",
+      "99375",
+      "264881",
+      "66496",
+      "588625",
+      "66664"
+    ]
+  },
+  {
+    "query_id": "hop_16",
+    "sub_label": null,
+    "category": "multi_hop",
+    "query": "Compare random intercept and random slope models in hierarchical regression.",
+    "search_query": "Compare random intercept and random slope models in hierarchical regression.",
+    "mrr": 0.0,
+    "hit_at": {
+      "3": false,
+      "5": false,
+      "10": false
+    },
+    "hit_q_at": {
+      "3": false,
+      "5": false,
+      "10": false
+    },
+    "precision_at": {
+      "3": 0.0,
+      "5": 0.0,
+      "10": 0.0
+    },
+    "ranked_top10": [
+      "362003",
+      "221667",
+      "79768",
+      "181272",
+      "79239",
+      "364635",
+      "623290",
+      "210617",
+      "370003",
+      "352299"
+    ],
+    "ranked_top10_qids": [
+      "361681",
+      "221516",
+      "78539",
+      "180894",
+      "79004",
+      "262482",
+      "623264",
+      "210520",
+      "369952",
+      "352285"
+    ]
+  },
+  {
+    "query_id": "hop_17",
+    "sub_label": null,
+    "category": "multi_hop",
+    "query": "Compare RNNs and Transformers in handling long-range dependencies.",
+    "search_query": "Compare RNNs and Transformers in handling long-range dependencies.",
+    "mrr": 0.125,
+    "hit_at": {
+      "3": false,
+      "5": false,
+      "10": true
+    },
+    "hit_q_at": {
+      "3": false,
+      "5": false,
+      "10": true
+    },
+    "precision_at": {
+      "3": 0.0,
+      "5": 0.0,
+      "10": 0.1
+    },
+    "ranked_top10": [
+      "530556",
+      "317790",
+      "262222",
+      "326224",
+      "446373",
+      "459145",
+      "7680",
+      "472920",
+      "221142",
+      "369361"
+    ],
+    "ranked_top10_qids": [
+      "522116",
+      "160070",
+      "262220",
+      "326222",
+      "446365",
+      "458841",
+      "2213",
+      "472822",
+      "220907",
+      "369322"
+    ]
+  },
+  {
+    "query_id": "hop_18",
+    "sub_label": null,
+    "category": "multi_hop",
+    "query": "Explain how kernel trick and support vector classifiers are related.",
+    "search_query": "Explain how kernel trick and support vector classifiers are related.",
+    "mrr": 0.0625,
+    "hit_at": {
+      "3": false,
+      "5": false,
+      "10": false
+    },
+    "hit_q_at": {
+      "3": false,
+      "5": false,
+      "10": false
+    },
+    "precision_at": {
+      "3": 0.0,
+      "5": 0.0,
+      "10": 0.0
+    },
+    "ranked_top10": [
+      "87699",
+      "9084",
+      "420245",
+      "254658",
+      "2168",
+      "16640",
+      "73945",
+      "352656",
+      "110316",
+      "146318"
+    ],
+    "ranked_top10_qids": [
+      "87698",
+      "9064",
+      "412977",
+      "23391",
+      "2167",
+      "16635",
+      "73944",
+      "352647",
+      "110291",
+      "146309"
+    ]
+  },
+  {
+    "query_id": "hop_19",
+    "sub_label": null,
+    "category": "multi_hop",
+    "query": "Compare target encoding and one-hot encoding for high-cardinality features.",
+    "search_query": "Compare target encoding and one-hot encoding for high-cardinality features.",
+    "mrr": 0.5,
+    "hit_at": {
+      "3": true,
+      "5": true,
+      "10": true
+    },
+    "hit_q_at": {
+      "3": true,
+      "5": true,
+      "10": true
+    },
+    "precision_at": {
+      "3": 0.3333333333333333,
+      "5": 0.2,
+      "10": 0.1
+    },
+    "ranked_top10": [
+      "405299",
+      "550708",
+      "547361",
+      "428039",
+      "619809",
+      "577742",
+      "534686",
+      "550756",
+      "352040",
+      "367807"
+    ],
+    "ranked_top10_qids": [
+      "405268",
+      "411767",
+      "547344",
+      "428035",
+      "411767",
+      "577574",
+      "534680",
+      "411767",
+      "352029",
+      "367793"
+    ]
+  }
+]

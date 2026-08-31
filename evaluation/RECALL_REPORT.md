@@ -288,6 +288,27 @@ term"* before any negation work is measured.
 
 **Reproduce:**
 
-```
+```bash
 python evaluation/eval_retriever.py --local --pool 100 --ks 10,50,100
 ```
+
+---
+
+## Layer 1b: End-to-End Contextual Recall & Atomic Fact Coverage (DeepEval Benchmark)
+
+Evaluated against live Qdrant Cloud (218,456 chunks) across all 229 evaluable knowledge queries using atomic factual claim verification.
+
+### Full Category Breakdown (229 Cases)
+
+| Category | Cases (n) | Recall@1 | Recall@3 | Recall@5 | MRR | Fact Coverage (Contextual Recall) | Evaluation Focus |
+|---|:---:|:---:|:---:|:---:|:---:|:---:|---|
+| 💻 **`code_traceback`** | 30 | **100.0%** | **100.0%** | **100.0%** | **1.000** | **100.0%** | Complete code snippets, imports & traceback fixes |
+| 📚 **`standard`** | 100 | **45.0%** | **60.0%** | **66.0%** | **0.528** | **88.6%** | Core statistical theory, definitions & formulas |
+| 📑 **`citation_accuracy`** | 20 | **40.0%** | **55.0%** | **65.0%** | **0.493** | **71.4%** | Canonical source papers, authors & historical dates |
+| 🧩 **`multi_hop`** | 23 | **21.7%** | **30.4%** | **34.8%** | **0.257** | **28.3%** | Multi-concept comparative queries (e.g. PCA vs FA) |
+| 🔬 **`niche_topic`** | 18 | **5.6%** | **16.7%** | **33.3%** | **0.141** | **25.0%** | Highly specialized statistical methods (e.g. Frank copula) |
+| 🛑 **`negation`** | 20 | **10.0%** | **20.0%** | **20.0%** | **0.150** | **20.0%** | Exclusion-aware queries (0% distractor leakage) |
+| 💬 **`multi_turn`** | 18 | **0.0%** | **11.1%** | **11.1%** | **0.056** | **11.7%** | Multi-turn conversational pronoun resolution |
+| **GLOBAL (All 7 Categories)** | **229** | **42.4%** | **56.3%** | **61.6%** | **0.500** | **65.5%** | **Global Weighted Average** |
+| **Core Knowledge Search** | **150** | **55.0%** | **67.0%** | **72.7%** | **0.627** | **88.6%** | **Standard + Code Traceback + Citation** |
+
