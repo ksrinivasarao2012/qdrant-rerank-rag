@@ -66,7 +66,7 @@ user question
      │                              - Pronoun follow-up → Groq fast rewriter (<300ms)
      ▼
 ┌─────────────────── Qdrant, parallel execution ──────────────┐
-│  dense: BAAI/bge-small-en-v1.5 (384-d, cosine)               │
+│  dense: BAAI/bge-base-en-v1.5 (768-d, cosine)                │
 │  sparse: CRC32 feature hashing (2^18), TF; IDF applied       │
 │          server-side via Modifier.IDF                        │
 │  dense + sparse generated concurrently via ThreadPool        │
@@ -74,11 +74,12 @@ user question
 └──────────────────────────────┬───────────────────────────────┘
                                │ 10 candidate chunks
                                ▼
-            Jina Reranker API (HTTP Session Keep-Alive)
-            fallback: cross-encoder/ms-marco-MiniLM-L-6-v2
+            Neural Re-Ranking: cross-encoder/ms-marco-MiniLM-L-6-v2
+            (fallback: Jina Reranker API)
                                │ top 3
                                ▼
-            Groq · llama-3.3-70b-versatile · 50ms UI batch streaming
+            Groq · openai/gpt-oss-20b · 50ms UI batch streaming
+            (fallbacks: deepseek-r1-distill-llama-70b, gemma2-9b-it)
                                │
                                ▼
      answer + citations (thread title, vote count, ✓ accepted, link)
@@ -326,7 +327,8 @@ Reproducing the evaluation:
 
 ```bash
 python backend/scripts/build_golden_dataset.py
-python evaluation/eval_retriever.py --local --pool 100 --ks 10,50,100
+python evaluation/eval_retriever.py --pool 100 --ks 10,50,100
+# or against local on-disk Qdrant: python evaluation/eval_retriever.py --local --pool 100 --ks 10,50,100
 ```
 
 ---
