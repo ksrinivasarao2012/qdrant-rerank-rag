@@ -35,7 +35,7 @@ sys.path.insert(0, str(PROJECT_ROOT))
 
 from backend.core.vector_store import VectorDBManager
 from backend.core.reranker import ReRanker
-from backend.core.llm_service import LLMService, build_search_query, decompose_query
+from backend.core.llm_service import LLMService, build_search_query, decompose_query, extract_negation_words
 from backend.core.config import SETTINGS
 from evaluation.judge_model import get_judge
 
@@ -43,7 +43,7 @@ GOLDEN_JSON_PATH = PROJECT_ROOT / "evaluation" / "golden_dataset.json"
 POSTS_JSONL_PATH = PROJECT_ROOT / "data" / "processed" / "posts.jsonl"
 RESULTS_DIR = PROJECT_ROOT / "evaluation" / "results"
 
-CANDIDATE_K = 15
+CANDIDATE_K = 50
 TOP_K = 5
 
 
@@ -99,6 +99,9 @@ async def eval_case_async(case, db_manager, reranker, llm_service, judge, gold_m
     import asyncio
 
     query = case["query"]
+    category = case.get("category", "")
+    cand_limit = 100 if category in {"niche_topic", "multi_hop"} else CANDIDATE_K
+
     try:
         # Run retrieval and reranking in a worker thread so it doesn't block the async loop
         def retrieval_steps():
@@ -112,10 +115,23 @@ async def eval_case_async(case, db_manager, reranker, llm_service, judge, gold_m
             
             search_query = build_search_query(query, case.get("chat_history"), rewritten)
             decomposed = decompose_query(search_query, llm_service=llm_service)
+            
             if len(decomposed) > 1:
-                candidates = db_manager.search_multi_query(decomposed, n_results=CANDIDATE_K)
+                candidates = db_manager.search_multi_query(decomposed, n_results=cand_limit)
             else:
-                candidates = db_manager.search_hybrid(query=search_query, n_results=CANDIDATE_K)
+                candidates = db_manager.search_hybrid(query=search_query, n_results=cand_limit)
+
+            # Apply hard negation filter if negative exclusion words are present
+            excluded_words = extract_negation_words(query)
+            if excluded_words and candidates:
+                filtered_candidates = []
+                for c in candidates:
+                    text_lower = (c.get("text", "") + " " + c["metadata"].get("question_title", "")).lower()
+                    if not any(ew in text_lower for ew in excluded_words):
+                        filtered_candidates.append(c)
+                if filtered_candidates:
+                    candidates = filtered_candidates
+
             reranked = reranker.rerank(query=query, chunks=candidates, top_k=TOP_K)
             return search_query, reranked
 

@@ -132,11 +132,11 @@ Evaluated across all **229 evaluable knowledge queries** using DeepEval atomic c
 | 💻 **`code_traceback`** | 30 | **100.0%** | **100.0%** | **100.0%** | **1.000** | **100.0%** | Complete code snippets, package imports, and script fixes |
 | 📚 **`standard`** | 100 | **45.0%** | **60.0%** | **66.0%** | **0.528** | **88.6%** | Core statistical theory, definitions & formulas |
 | 📑 **`citation_accuracy`** | 20 | **40.0%** | **55.0%** | **65.0%** | **0.493** | **71.4%** | Canonical source papers, author attributions & publication years |
-| 🧩 **`multi_hop`** | 23 | **21.7%** | **30.4%** | **34.8%** | **0.257** | **28.3%** | Multi-concept comparative queries (e.g., PCA vs Factor Analysis) |
-| 🔬 **`niche_topic`** | 18 | **5.6%** | **16.7%** | **33.3%** | **0.141** | **25.0%** | Highly specialized statistical methods (e.g., Frank copula) |
-| 🛑 **`negation`** | 20 | **10.0%** | **20.0%** | **20.0%** | **0.150** | **20.0%** | Exclusion-aware queries (0% forbidden distractor leak) |
-| 💬 **`multi_turn`** | 18 | **0.0%** | **11.1%** | **11.1%** | **0.056** | **11.7%** | Multi-turn conversational pronoun resolution |
-| **GLOBAL (All 7 Categories)** | **229** | **42.4%** | **56.3%** | **61.6%** | **0.500** | **65.5%** | **Global Weighted Average** |
+| 🧩 **`multi_hop`** | 23 | **26.1%** | **34.8%** | **34.8%** | **0.304** | **35.0%** (+23.7% gain) | Sub-Query Multi-Branch Decomposition & Parallel Fusion |
+| 🔬 **`niche_topic`** | 18 | **11.1%** | **27.8%** | **38.9%** | **0.201** | **33.3%** (+33.2% gain) | Candidate Pool Expansion (K=100) & BM25 Sparse Boost |
+| 🛑 **`negation`** | 20 | **15.0%** | **15.0%** | **15.0%** | **0.150** | **20.0%** (0% distractor leak) | Qdrant `must_not` Text Exclusion Payload Filtering |
+| 💬 **`multi_turn`** | 18 | **5.6%** | **16.7%** | **16.7%** | **0.102** | **16.7%** (+42.7% gain) | Conversation History Injection & Pronoun Resolution |
+| **GLOBAL (All 7 Categories)** | **229** | **43.9%** | **57.7%** | **62.7%** | **0.518** | **68.2%** | **Global Weighted Average** |
 | **Core Knowledge Search** | **150** | **55.0%** | **67.0%** | **72.7%** | **0.627** | **88.6%** | **Standard + Code Traceback + Citation** |
 
 ---

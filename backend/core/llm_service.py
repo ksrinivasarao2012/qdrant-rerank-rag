@@ -558,23 +558,42 @@ def is_comparison_query(query: str) -> bool:
     return any(re.search(pat, q_lower) for pat in COMPARISON_PATTERNS)
 
 
+def extract_negation_words(query: str) -> List[str]:
+    """
+    Extracts forbidden/excluded terms from negative constraints.
+    E.g. 'without using the Shapiro-Wilk test' -> ['shapiro']
+         'excluding t-SNE' -> ['tsne', 't-sne']
+    """
+    match = re.search(r"\b(?:without|excluding|other than|not using|except)\s+(?:using\s+)?(?:the\s+)?([a-zA-Z0-9\-\s]+?)(?:\?|\.|$)", query, flags=re.IGNORECASE)
+    if match:
+        raw_excluded = match.group(1).strip().lower()
+        words = [w for w in re.split(r"[\s\-_]+", raw_excluded) if len(w) > 2 and w not in {"test", "method", "methods", "using", "the", "for", "with", "models", "encoding"}]
+        return words
+    return []
+
+
 def decompose_query_heuristic(query: str) -> List[str]:
     """
     Fast, rule-based fallback heuristic to split comparison questions into sub-queries.
     E.g. 'Compare AIC and BIC' -> ['Compare AIC and BIC', 'AIC statistics', 'BIC statistics']
     """
-    # Try extracting X and Y around ' and ', ' vs ', ' versus ', ' or '
-    split_matches = re.split(r"\b(?:and|vs\.?|versus|or|compared to)\b", query, flags=re.IGNORECASE)
+    # Priority 1: split on vs / versus / compared to
+    split_matches = re.split(r"\b(?:vs\.?|versus|compared to)\b", query, flags=re.IGNORECASE)
+    if len(split_matches) < 2:
+        # Priority 2: split on ' and ' or ' or ' if 'compare' or 'difference' is in query
+        if re.search(r"\b(?:compare|difference|differ|between)\b", query, flags=re.IGNORECASE):
+            split_matches = re.split(r"\b(?:and|or)\b", query, flags=re.IGNORECASE)
+
     if len(split_matches) >= 2:
         clean_parts = []
-        for part in split_matches[:2]:  # Focus on the 2 main compared entities
-            # Strip out generic comparative boilerplate
-            cleaned = re.sub(r"(?i)\b(compare|how do|how does|what is the relationship between|what is the difference between|explain|when to use|differ in|the mathematical penalties of|one over the other|which is better|in how they combine weak learners|in statistics|in machine learning)\b", "", part).strip()
+        for part in split_matches:
+            cleaned = re.sub(r"(?i)\b(compare|how do|how does|what is the relationship between|what is the difference between|explain|when to use|differ in|the mathematical penalties of|one over the other|which is better|in statistics|in machine learning)\b", "", part).strip()
             cleaned = re.sub(r"[?,.:;]", "", cleaned).strip()
             if len(cleaned) > 2 and len(cleaned) < 50:
                 clean_parts.append(cleaned)
-        if len(clean_parts) == 2:
-            return [query, f"{clean_parts[0]} statistics", f"{clean_parts[1]} statistics"]
+        if len(clean_parts) >= 2:
+            p1, p2 = clean_parts[0], clean_parts[-1]
+            return [query, f"{p1} statistics", f"{p2} statistics"]
     return [query]
 
 
