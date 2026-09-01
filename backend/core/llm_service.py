@@ -549,8 +549,21 @@ COMPARISON_PATTERNS = [
     r"\badvantages? of .* over\b",
     r"\bwhen to use .* (?:instead of|over)\b",
     r"\bwhich is better\b",
-    r"\bcontrast(?:ing)?\b"
+    r"\bcontrast(?:ing)?\b",
+    r"\bhow do .* (?:and|,) .* (?:relate|interact|differ|compare)\b",
+    r"\brelationship (?:between|among)\b"
 ]
+
+# Stopwords stripped before extracting concept tokens from comparison queries
+_DECOMP_STOPWORDS = {
+    "compare", "comparison", "comparing", "difference", "differences", "different",
+    "between", "among", "versus", "vs", "and", "or", "the", "how", "does", "do",
+    "what", "is", "are", "in", "of", "a", "an", "to", "which", "when", "why",
+    "explain", "relationship", "relate", "relates", "differ", "differs", "handling",
+    "terms", "way", "ways", "approach", "approaches", "use", "used", "using",
+    "statistical", "statistics", "machine", "learning", "data", "analysis",
+    "one", "other", "both", "each", "their", "with", "for", "over", "under"
+}
 
 def is_comparison_query(query: str) -> bool:
     """Detects whether a query is asking for a comparison between two or more statistical concepts."""
@@ -574,51 +587,118 @@ def extract_negation_words(query: str) -> List[str]:
 
 def decompose_query_heuristic(query: str) -> List[str]:
     """
-    Fast, rule-based fallback heuristic to split comparison questions into sub-queries.
-    E.g. 'Compare AIC and BIC' -> ['Compare AIC and BIC', 'AIC statistics', 'BIC statistics']
-    """
-    # Priority 1: split on vs / versus / compared to
-    split_matches = re.split(r"\b(?:vs\.?|versus|compared to)\b", query, flags=re.IGNORECASE)
-    if len(split_matches) < 2:
-        # Priority 2: split on ' and ' or ' or ' if 'compare' or 'difference' is in query
-        if re.search(r"\b(?:compare|difference|differ|between)\b", query, flags=re.IGNORECASE):
-            split_matches = re.split(r"\b(?:and|or)\b", query, flags=re.IGNORECASE)
+    Pillar 2 n-branch heuristic: extracts ALL comparison concepts from a query
+    and returns one focused sub-query per concept plus the original query anchor.
 
-    if len(split_matches) >= 2:
-        clean_parts = []
-        for part in split_matches:
-            cleaned = re.sub(r"(?i)\b(compare|how do|how does|what is the relationship between|what is the difference between|explain|when to use|differ in|the mathematical penalties of|one over the other|which is better|in statistics|in machine learning)\b", "", part).strip()
-            cleaned = re.sub(r"[?,.:;]", "", cleaned).strip()
-            if len(cleaned) > 2 and len(cleaned) < 50:
-                clean_parts.append(cleaned)
-        if len(clean_parts) >= 2:
-            p1, p2 = clean_parts[0], clean_parts[-1]
-            return [query, f"{p1} statistics", f"{p2} statistics"]
+    E.g. 'Type I error, Type II error, and statistical power'
+         -> ['<original>', 'Type I error statistics', 'Type II error statistics', 'statistical power statistics']
+    E.g. 'Compare AIC and BIC'
+         -> ['<original>', 'AIC model selection statistics', 'BIC model selection statistics']
+    """
+    # Step 1: Split on hard comparison connectors (vs / versus / compared to)
+    split_on_vs = re.split(r"\b(?:vs\.?|versus|compared to)\b", query, flags=re.IGNORECASE)
+
+    if len(split_on_vs) >= 2:
+        raw_parts = split_on_vs
+    else:
+        # Step 2: For queries with compare/difference/between, split on comma + and/or
+        if re.search(r"\b(?:compare|difference|differ|between|relationship|trade.?off)\b", query, flags=re.IGNORECASE):
+            raw_parts = re.split(r"[,]|\b(?:and|or)\b", query, flags=re.IGNORECASE)
+        else:
+            return [query]
+
+    # Step 3: Clean & filter each part into a meaningful concept token
+    concept_tokens = []
+    for part in raw_parts:
+        # Remove leading interrogative / verb boilerplate
+        cleaned = re.sub(
+            r"(?i)^\s*(?:compare|how do|how does|what is the|explain|the|discuss|describe|\b(?:difference|relationship|trade.?off)\b)\s*",
+            "", part
+        ).strip()
+        cleaned = re.sub(r"[?,.:;()]", "", cleaned).strip()
+        # Strip trailing prepositions
+        cleaned = re.sub(r"\s+\b(?:in|of|for|with|and|or|the|a|an|to|between|among)\b\s*$", "", cleaned, flags=re.IGNORECASE).strip()
+        # Keep tokens that have meaningful content words (not just stopwords)
+        words = [w for w in cleaned.lower().split() if w not in _DECOMP_STOPWORDS]
+        if words and 3 <= len(cleaned) <= 70:
+            concept_tokens.append(cleaned)
+
+    # Deduplicate while preserving order
+    seen = set()
+    unique_concepts = []
+    for c in concept_tokens:
+        key = c.lower()
+        if key not in seen:
+            seen.add(key)
+            unique_concepts.append(c)
+
+    if len(unique_concepts) >= 2:
+        sub_queries = [f"{concept} statistics" for concept in unique_concepts]
+        return [query] + sub_queries
+
+    return [query]
+
+
+def generate_semantic_variants(query: str, llm_service: Optional["LLMService"] = None) -> List[str]:
+    """
+    Pillar 2 Semantic Expansion: Generates synonym/rephrasing variants of a query
+    for niche statistical terms with sparse corpus coverage.
+    Returns [original_query, variant_1, variant_2] or just [original_query] on failure.
+    """
+    if not llm_service or not llm_service.client:
+        return [query]
+    try:
+        prompt = (
+            f"Generate 2 alternative search phrasings for this statistics/ML question.\n"
+            f"Each rephrasing should use different terminology but ask the same thing.\n"
+            f"Question: \"{query}\"\n"
+            f"Output exactly 2 alternative phrasings, one per line. No numbering, no explanations."
+        )
+        resp = llm_service.client.invoke([HumanMessage(content=prompt)])
+        lines = [l.strip().lstrip("123456789.- *") for l in resp.content.strip().split("\n") if l.strip()]
+        variants = [l for l in lines if len(l) > 5 and l.lower() != query.lower()]
+        if variants:
+            return [query] + variants[:2]
+    except Exception as e:
+        logger.warning(f"Semantic variant generation failed: {e}")
     return [query]
 
 
 def decompose_query(query: str, llm_service: Optional[LLMService] = None) -> List[str]:
     """
-    Decomposes a comparative or multi-hop query into targeted sub-queries.
-    Always includes the original query as the primary anchor.
+    Pillar 2 Decomposition: Breaks a comparative/multi-hop query into n targeted
+    sub-queries (one per comparison entity), always anchored with the original query.
+
+    Upgrade over previous 2-branch version:
+    - Handles 3+ concept queries: 'Type I error, Type II error and statistical power'
+    - LLM prompt requests exactly n sub-queries based on detected concepts
+    - Falls back to upgraded n-branch heuristic if LLM rate-limits
     """
     if not is_comparison_query(query):
         return [query]
 
-    # Attempt fast LLM decomposition if client is initialized
+    # Estimate number of concepts in query for LLM guidance
+    # Count comma-separated items + vs splits as a rough concept count
+    raw_splits = re.split(r"[,]|\b(?:vs\.?|versus|compared to|and|or)\b", query, flags=re.IGNORECASE)
+    concept_count = max(2, min(len([p for p in raw_splits if len(p.strip()) > 3]), 5))
+
+    # Attempt LLM n-branch decomposition
     if llm_service and llm_service.client:
         try:
             prompt = (
                 f"You are a search query optimizer for a statistics & machine learning knowledge base.\n"
-                f"Break this comparative question into 2 distinct, focused search queries targeting each concept individually.\n"
+                f"This comparative question involves approximately {concept_count} distinct concepts.\n"
+                f"Break it into exactly {concept_count} focused search queries, one per concept.\n"
+                f"Each sub-query should directly target one concept (e.g. 'AIC model selection', 'BIC penalization').\n"
                 f"Question: \"{query}\"\n"
-                f"Output exactly 2 search queries, one per line. No explanations, numbering, or preamble."
+                f"Output exactly {concept_count} search queries, one per line. No numbering, no explanations."
             )
             resp = llm_service.client.invoke([HumanMessage(content=prompt)])
             lines = [l.strip().lstrip("123456789.- *") for l in resp.content.strip().split("\n") if l.strip()]
             valid_subqueries = [l for l in lines if len(l) > 3 and l.lower() != query.lower()]
-            if valid_subqueries:
-                return [query] + valid_subqueries[:2]
+            if len(valid_subqueries) >= 2:
+                logger.info(f"[decompose_query] LLM produced {len(valid_subqueries)} sub-queries for: {query!r}")
+                return [query] + valid_subqueries[:concept_count]
         except Exception as e:
             logger.warning(f"LLM decomposition failed: {e}. Falling back to heuristic.")
 

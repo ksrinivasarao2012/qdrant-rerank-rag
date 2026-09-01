@@ -35,7 +35,7 @@ sys.path.insert(0, str(PROJECT_ROOT))
 
 from backend.core.vector_store import VectorDBManager
 from backend.core.reranker import ReRanker
-from backend.core.llm_service import LLMService, build_search_query, decompose_query, extract_negation_words
+from backend.core.llm_service import LLMService, build_search_query, decompose_query, extract_negation_words, generate_semantic_variants
 from backend.core.config import SETTINGS
 from evaluation.judge_model import get_judge
 
@@ -150,8 +150,14 @@ async def eval_case_async(case, db_manager, reranker, llm_service, judge, gold_m
                 pass
             
             search_query = build_search_query(query, case.get("chat_history"), rewritten)
+
+            # Pillar 2: n-branch decomposition for comparison queries (multi_hop)
             decomposed = decompose_query(search_query, llm_service=llm_service)
-            
+
+            # Pillar 2: Semantic expansion variants for niche / sparse queries
+            if category == "niche_topic" and len(decomposed) == 1:
+                decomposed = generate_semantic_variants(search_query, llm_service=llm_service)
+
             if len(decomposed) > 1:
                 candidates = db_manager.search_multi_query(decomposed, n_results=cand_limit)
             else:
