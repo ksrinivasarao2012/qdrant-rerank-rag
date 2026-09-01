@@ -238,8 +238,8 @@ def chat_stream(history, selected_doc):
         # Append Citations & Latency Footer (Done ONLY ONCE at the end)
         # -------------------------------------------------------------------
         display_text = full_text
-        not_found = "do not have enough information" in full_text.lower() or not citations_list
-        if citations_list and not not_found:
+        is_fallback = "out-of-boundary" in full_text.lower() or "do not have enough information" in full_text.lower()
+        if citations_list and not is_fallback:
             display_text += "\n\n---\n### 📚 Sources\n"
             for i, cite in enumerate(citations_list, 1):
                 badge = " ✅ accepted" if cite.get("is_accepted") else ""
