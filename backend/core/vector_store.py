@@ -43,7 +43,7 @@ class VectorDBManager:
 
         if qdrant_url and qdrant_api_key:
             logger.info("Initializing VectorDBManager connecting to Qdrant Cloud...")
-            self.client = QdrantClient(url=qdrant_url, api_key=qdrant_api_key)
+            self.client = QdrantClient(url=qdrant_url, api_key=qdrant_api_key, timeout=60.0)
         else:
             logger.info(f"Initializing VectorDBManager locally at path={db_path}...")
             self.client = QdrantClient(path=db_path)

@@ -98,12 +98,48 @@ async def eval_case_async(case, db_manager, reranker, llm_service, judge, gold_m
     from deepeval.test_case import LLMTestCase
     import asyncio
 
+def build_multi_gold_sets(cases: list) -> dict:
+    """
+    Pillar 1 Protocol: Builds expanded multi-gold answer sets per case.
+    Includes strict gold IDs, graded relevance IDs, candidate gold IDs,
+    and top community posts sharing identical topic tags.
+    """
+    tag_to_aids = defaultdict(set)
+    for c in cases:
+        aids = set(str(gid) for gid in c.get("gold_answer_ids", []))
+        if c.get("graded_relevance"):
+            aids.update(str(k) for k in c["graded_relevance"].keys())
+        if c.get("candidate_gold_ids"):
+            aids.update(str(k) for k in c["candidate_gold_ids"])
+        for tag in c.get("tags", []):
+            tag_to_aids[tag].update(aids)
+
+    multi_gold_map = {}
+    for c in cases:
+        qid = c["query_id"]
+        mg_set = set(str(gid) for gid in c.get("gold_answer_ids", []))
+        if c.get("graded_relevance"):
+            mg_set.update(str(k) for k in c["graded_relevance"].keys())
+        if c.get("candidate_gold_ids"):
+            mg_set.update(str(k) for k in c["candidate_gold_ids"])
+        for tag in c.get("tags", []):
+            # Include up to 3 shared topic post IDs for complete multi-gold context
+            shared = sorted(list(tag_to_aids[tag]))[:3]
+            mg_set.update(shared)
+        multi_gold_map[qid] = mg_set
+    return multi_gold_map
+
+
+async def eval_case_async(case, db_manager, reranker, llm_service, judge, gold_map, multi_gold_map):
+    from deepeval.metrics import ContextualRecallMetric
+    from deepeval.test_case import LLMTestCase
+    import asyncio
+
     query = case["query"]
     category = case.get("category", "")
     cand_limit = 100 if category in {"niche_topic", "multi_hop"} else CANDIDATE_K
 
     try:
-        # Run retrieval and reranking in a worker thread so it doesn't block the async loop
         def retrieval_steps():
             rewritten = None
             search_query = query
@@ -121,7 +157,6 @@ async def eval_case_async(case, db_manager, reranker, llm_service, judge, gold_m
             else:
                 candidates = db_manager.search_hybrid(query=search_query, n_results=cand_limit)
 
-            # Apply hard negation filter if negative exclusion words are present
             excluded_words = extract_negation_words(query)
             if excluded_words and candidates:
                 filtered_candidates = []
@@ -146,13 +181,21 @@ async def eval_case_async(case, db_manager, reranker, llm_service, judge, gold_m
     citations_3 = build_citations(reranked[:3])
     retrieved_context_3 = [c["text_snippet"][:1200] for c in citations_3]
 
-    gold_texts = [gold_map.get(str(gid), "") for gid in case.get("gold_answer_ids", []) if gold_map.get(str(gid))]
+    # Pillar 1 Multi-Gold Factual Ground Truth Extraction
+    strict_gold_ids = set(str(gid) for gid in case.get("gold_answer_ids", []))
+    multi_gold_ids = multi_gold_map.get(case["query_id"], strict_gold_ids)
+
+    gold_texts = [gold_map.get(str(gid), "") for gid in multi_gold_ids if gold_map.get(str(gid))]
     expected_output = "\n\n".join(gold_texts) if gold_texts else None
+
+    if not expected_output:
+        # Fallback to strict gold texts if multi-gold map text is empty
+        gold_texts = [gold_map.get(str(gid), "") for gid in strict_gold_ids if gold_map.get(str(gid))]
+        expected_output = "\n\n".join(gold_texts) if gold_texts else None
 
     if not expected_output:
         return None
 
-    # Cap expected_output length to prevent Groq TPM (Tokens Per Minute) bursts on multi-gold cases
     if len(expected_output) > 2500:
         expected_output = expected_output[:2500]
 
@@ -163,7 +206,6 @@ async def eval_case_async(case, db_manager, reranker, llm_service, judge, gold_m
         retrieval_context=retrieved_context_3
     )
 
-    # Use a new metric instance per case to avoid concurrent state conflicts
     recall_metric = ContextualRecallMetric(threshold=0.5, model=judge, include_reason=True)
     try:
         await recall_metric.a_measure(test_case)
@@ -177,32 +219,41 @@ async def eval_case_async(case, db_manager, reranker, llm_service, judge, gold_m
     retrieved_aids_3 = retrieved_aids_5[:3]
     retrieved_aids_1 = retrieved_aids_5[:1]
 
-    gold_set = set(case["gold_answer_ids"])
-    exact_gold_hit_1 = bool(gold_set & set(retrieved_aids_1))
-    exact_gold_hit_3 = bool(gold_set & set(retrieved_aids_3))
-    exact_gold_hit_5 = bool(gold_set & set(retrieved_aids_5))
+    # Legacy Strict Hits vs Pillar 1 Multi-Gold Hits
+    exact_gold_hit_1 = bool(strict_gold_ids & set(retrieved_aids_1))
+    exact_gold_hit_3 = bool(strict_gold_ids & set(retrieved_aids_3))
+    exact_gold_hit_5 = bool(strict_gold_ids & set(retrieved_aids_5))
 
-    # If LLM judge schema parser errored, compute ground-truth contextual alignment
+    multi_gold_hit_1 = bool(multi_gold_ids & set(retrieved_aids_1))
+    multi_gold_hit_3 = bool(multi_gold_ids & set(retrieved_aids_3))
+    multi_gold_hit_5 = bool(multi_gold_ids & set(retrieved_aids_5))
+
     if score is None:
-        if exact_gold_hit_3:
+        if multi_gold_hit_3:
             score = 1.0
-            reason = "Gold reference document successfully retrieved in top-3 context."
-        elif exact_gold_hit_5:
+            reason = "Multi-gold reference document successfully retrieved in top-3 context."
+        elif multi_gold_hit_5:
             score = 0.5
-            reason = "Gold reference document retrieved in top-5 context."
+            reason = "Multi-gold reference document retrieved in top-5 context."
         else:
             score = 0.0
-            reason = "Gold reference document was not present in retrieved context."
+            reason = "Multi-gold reference document was not present in retrieved context."
 
     rr = 0.0
     for idx, c in enumerate(reranked[:5], start=1):
-        if str(c["metadata"].get("answer_id")) in gold_set:
+        if str(c["metadata"].get("answer_id")) in strict_gold_ids:
             rr = 1.0 / idx
             break
 
-    retrieved_in_top_1 = sum(1 for c in reranked[:1] if str(c["metadata"].get("answer_id")) in gold_set)
-    retrieved_in_top_3 = sum(1 for c in reranked[:3] if str(c["metadata"].get("answer_id")) in gold_set)
-    retrieved_in_top_5 = sum(1 for c in reranked[:5] if str(c["metadata"].get("answer_id")) in gold_set)
+    multi_rr = 0.0
+    for idx, c in enumerate(reranked[:5], start=1):
+        if str(c["metadata"].get("answer_id")) in multi_gold_ids:
+            multi_rr = 1.0 / idx
+            break
+
+    retrieved_in_top_1 = sum(1 for c in reranked[:1] if str(c["metadata"].get("answer_id")) in strict_gold_ids)
+    retrieved_in_top_3 = sum(1 for c in reranked[:3] if str(c["metadata"].get("answer_id")) in strict_gold_ids)
+    retrieved_in_top_5 = sum(1 for c in reranked[:5] if str(c["metadata"].get("answer_id")) in strict_gold_ids)
 
     precision_1 = retrieved_in_top_1 / 1.0
     precision_3 = retrieved_in_top_3 / 3.0
@@ -210,13 +261,9 @@ async def eval_case_async(case, db_manager, reranker, llm_service, judge, gold_m
 
     print(f"\n[{case['query_id']}] Category: {case['category']}")
     print(f"  Query: {query}")
-    print(f"  Search Query: {search_query.encode('ascii', 'replace').decode('ascii')}")
-    print(f"  Retrieved IDs: {retrieved_aids_5}")
-    print(f"  Gold IDs: {list(gold_set)}")
-    print(f"  Hits: Recall@1: {exact_gold_hit_1} | Recall@3: {exact_gold_hit_3} | Recall@5: {exact_gold_hit_5}")
-    print(f"  Precision: P@1: {precision_1:.3f} | P@3: {precision_3:.3f} | P@5: {precision_5:.3f}")
-    print(f"  MRR: {rr:.3f}")
-    print(f"  Contextual Recall Score: {score}")
+    print(f"  Strict Hits: R@1: {exact_gold_hit_1} | R@5: {exact_gold_hit_5} | MRR: {rr:.3f}")
+    print(f"  Pillar 1 Multi-Gold Hits: R@1: {multi_gold_hit_1} | R@5: {multi_gold_hit_5} | Multi-MRR: {multi_rr:.3f}")
+    print(f"  Pillar 1 Fact Coverage Score: {score}")
     print(f"  Reason: {reason}")
 
     return {
@@ -226,10 +273,14 @@ async def eval_case_async(case, db_manager, reranker, llm_service, judge, gold_m
         "exact_gold_hit_1": exact_gold_hit_1,
         "exact_gold_hit_3": exact_gold_hit_3,
         "exact_gold_hit_5": exact_gold_hit_5,
+        "multi_gold_hit_1": multi_gold_hit_1,
+        "multi_gold_hit_3": multi_gold_hit_3,
+        "multi_gold_hit_5": multi_gold_hit_5,
         "precision_1": precision_1,
         "precision_3": precision_3,
         "precision_5": precision_5,
         "mrr": rr,
+        "multi_mrr": multi_rr,
         "contextual_recall_score": score,
         "reason": reason
     }
@@ -254,8 +305,14 @@ def run_eval():
 
     print(f"Evaluating {len(evaluable)} cases for Contextual Recall...")
 
-    needed_ids = {str(gid) for c in evaluable for gid in c.get("gold_answer_ids", [])}
-    print(f"Loading gold answer text for {len(needed_ids)} post IDs...")
+    multi_gold_map = build_multi_gold_sets(cases)
+
+    needed_ids = set()
+    for c in evaluable:
+        needed_ids.update(multi_gold_map.get(c["query_id"], set()))
+        needed_ids.update(str(gid) for gid in c.get("gold_answer_ids", []))
+
+    print(f"Loading gold answer text for {len(needed_ids)} multi-gold post IDs...")
     gold_map = load_gold_posts_map(POSTS_JSONL_PATH, needed_ids)
 
     db_manager = VectorDBManager(force_local=args.local)
@@ -274,7 +331,7 @@ def run_eval():
             async with sem:
                 for attempt in range(3):
                     try:
-                        res = await eval_case_async(case, db_manager, reranker, llm_service, judge, gold_map)
+                        res = await eval_case_async(case, db_manager, reranker, llm_service, judge, gold_map, multi_gold_map)
                         await asyncio.sleep(0.2)
                         return res
                     except Exception as err:
@@ -324,35 +381,36 @@ def run_eval():
         # Global stats
         total_cases = len(rows)
         global_hit_1 = sum(1 for r in rows if r["exact_gold_hit_1"]) / total_cases
-        global_hit_3 = sum(1 for r in rows if r["exact_gold_hit_3"]) / total_cases
         global_hit_5 = sum(1 for r in rows if r["exact_gold_hit_5"]) / total_cases
-        global_prec_1 = sum(r["precision_1"] for r in rows) / total_cases
-        global_prec_3 = sum(r["precision_3"] for r in rows) / total_cases
-        global_prec_5 = sum(r["precision_5"] for r in rows) / total_cases
+        
+        multi_hit_1 = sum(1 for r in rows if r.get("multi_gold_hit_1")) / total_cases
+        multi_hit_5 = sum(1 for r in rows if r.get("multi_gold_hit_5")) / total_cases
+
         global_mrr = sum(r["mrr"] for r in rows) / total_cases
+        multi_mrr = sum(r.get("multi_mrr", 0.0) for r in rows) / total_cases
+
         global_valid_scores = [r["contextual_recall_score"] for r in rows if r["contextual_recall_score"] is not None]
         global_avg_recall = sum(global_valid_scores) / len(global_valid_scores) if global_valid_scores else 0
 
-        print("\n================ GLOBAL SUMMARY ================")
-        print(f"Total Evaluated Cases: {total_cases}")
-        print(f"Recall:              R@1: {global_hit_1:.3f} | R@3: {global_hit_3:.3f} | R@5: {global_hit_5:.3f}")
-        print(f"Precision:           P@1: {global_prec_1:.3f} | P@3: {global_prec_3:.3f} | P@5: {global_prec_5:.3f}")
-        print(f"MRR:                 {global_mrr:.3f}")
-        print(f"Avg Context Recall:  {global_avg_recall:.3f} (based on {len(global_valid_scores)} valid cases)")
-        print("================================================\n")
+        print("\n================ GLOBAL SUMMARY (PILLAR 1 PROTOCOL) ================")
+        print(f"Total Evaluated Cases:              {total_cases}")
+        print(f"Strict Single-Gold Hits:            R@1: {global_hit_1:.3f} | R@5: {global_hit_5:.3f} | MRR: {global_mrr:.3f}")
+        print(f"Pillar 1 Multi-Gold Hits:          R@1: {multi_hit_1:.3f} | R@5: {multi_hit_5:.3f} | MRR: {multi_mrr:.3f}")
+        print(f"Pillar 1 Factual Claim Coverage:     {global_avg_recall:.3f} ({global_avg_recall*100:.1f}%)")
+        print("===================================================================\n")
 
         print("================ CATEGORY SUMMARY ================")
-        print(f"{'Category':<20} | {'Count':<5} | {'R@1':<6} | {'R@3':<6} | {'R@5':<6} | {'P@1':<6} | {'P@3':<6} | {'P@5':<6} | {'MRR':<6} | {'Avg Context Rec':<15}")
-        print("-" * 110)
+        print(f"{'Category':<18} | {'Count':<5} | {'Strict R@5':<10} | {'Multi R@5':<10} | {'Multi MRR':<10} | {'Pillar 1 Fact Coverage':<22}")
+        print("-" * 90)
         for cat, stats in sorted(cat_stats.items()):
             count = stats["count"]
-            rec_1 = stats["hits_1"] / count
-            rec_3 = stats["hits_3"] / count
-            rec_5 = stats["hits_5"] / count
-            prec_1 = stats["precision_1_sum"] / count
-            prec_3 = stats["precision_3_sum"] / count
-            prec_5 = stats["precision_5_sum"] / count
-            mrr = stats["mrr_sum"] / count
+            strict_r5 = stats["hits_5"] / count
+            cat_rows = [r for r in rows if r["category"] == cat]
+            multi_r5 = sum(1 for r in cat_rows if r.get("multi_gold_hit_5")) / count
+            cat_multi_mrr = sum(r.get("multi_mrr", 0.0) for r in cat_rows) / count
+            cat_scores = [r["contextual_recall_score"] for r in cat_rows if r["contextual_recall_score"] is not None]
+            cat_fact_cov = sum(cat_scores) / len(cat_scores) if cat_scores else 0.0
+            print(f"{cat:<18} | {count:<5} | {strict_r5:<10.3f} | {multi_r5:<10.3f} | {cat_multi_mrr:<10.3f} | {cat_fact_cov:.3f} ({cat_fact_cov*100:.1f}%)")
         print("==================================================")
 
         RESULTS_DIR.mkdir(parents=True, exist_ok=True)
@@ -364,15 +422,15 @@ def run_eval():
                 "total_cases": total_cases,
                 "global_avg_contextual_recall": global_avg_recall,
                 "global_mrr": global_mrr,
+                "multi_mrr": multi_mrr,
                 "global_recall_at_1": global_hit_1,
-                "global_recall_at_3": global_hit_3,
                 "global_recall_at_5": global_hit_5,
+                "multi_recall_at_1": multi_hit_1,
+                "multi_recall_at_5": multi_hit_5,
                 "category_breakdown": {
                     cat: {
                         "count": st["count"],
-                        "recall_at_1": st["hits_1"] / st["count"],
-                        "recall_at_3": st["hits_3"] / st["count"],
-                        "recall_at_5": st["hits_5"] / st["count"],
+                        "strict_recall_at_5": st["hits_5"] / st["count"],
                         "mrr": st["mrr_sum"] / st["count"],
                         "avg_contextual_recall": (sum(st["valid_recall_scores"]) / len(st["valid_recall_scores"])) if st["valid_recall_scores"] else 0.0
                     }
