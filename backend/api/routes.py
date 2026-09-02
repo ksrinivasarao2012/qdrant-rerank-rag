@@ -72,13 +72,9 @@ logger = logging.getLogger(__name__)
 
 @router.get('/topics')
 async def list_topics():
-    """Returns the distinct tags present in the indexed corpus."""
-    chunks = await run_in_threadpool(vector_db.get_all_chunks)
-    tags = set()
-    for chunk in chunks:
-        for tag in (chunk.get("metadata", {}).get("tags") or []):
-            tags.add(tag)
-    return {"topics": sorted(tags)}
+    """Returns the distinct tags present in the indexed corpus (O(1) precomputed read)."""
+    topics = await run_in_threadpool(vector_db.get_topics)
+    return {"topics": topics}
 
 @router.post('/query')
 async def query_rag(payload: QueryRequest, request: Request, api_key: str = Depends(require_api_key)):

@@ -1,7 +1,9 @@
 import os
 import time
 import uuid
+import json
 import logging
+from pathlib import Path
 from dotenv import load_dotenv
 from typing import List, Any, Dict
 from qdrant_client import QdrantClient
@@ -412,3 +414,37 @@ class VectorDBManager:
         except Exception as e:
             logger.exception("Failed to retrieve all chunks from Qdrant.")
             return []
+
+    def get_topics(self) -> List[str]:
+        """
+        O(1) pre-computed read of topics.json.
+        Falls back to payload-only scroll if topics.json does not exist.
+        """
+        try:
+            topics_path = Path(__file__).resolve().parents[2] / "data" / "processed" / "topics.json"
+            if topics_path.exists():
+                with open(topics_path, "r", encoding="utf-8") as f:
+                    return json.load(f).get("topics", [])
+        except Exception as e:
+            logger.warning(f"Could not read precomputed topics.json ({e}); falling back to payload-only scroll.")
+
+        # Fallback: payload-only scroll over Qdrant (with_payload=["tags"], limit=10_000)
+        try:
+            tags, offset = set(), None
+            while True:
+                records, offset = self.client.scroll(
+                    collection_name=self.collection,
+                    limit=10_000,
+                    with_payload=["tags"],
+                    with_vectors=False,
+                    offset=offset
+                )
+                for r in records:
+                    tags.update((r.payload or {}).get("tags") or [])
+                if offset is None:
+                    break
+            return sorted(tags)
+        except Exception as e:
+            logger.exception("Failed to fetch topics via payload scroll.")
+            return []
+

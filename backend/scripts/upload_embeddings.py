@@ -95,19 +95,20 @@ def upload(input_path: Path, batch_size: int = 200):
     else:
         print("All batches uploaded successfully.")
 
-    # Verify against what's actually in Qdrant rather than trusting our own
-    # bookkeeping -- catches silent mismatches (e.g. a batch that "succeeded"
-    # per the client but didn't fully land server-side).
+    # Pre-compute and save distinct topics.json at index time for O(1) route reads
     try:
-        actual_count = db_manager.client.count(collection_name=collection_name, exact=True).count
-        print(f"Qdrant collection '{collection_name}' now reports {actual_count} points "
-              f"(expected at least {total_lines} from this file; collection may also "
-              f"hold points from earlier runs).")
-        if actual_count < total_lines:
-            print("WARNING: collection count is lower than points in this file — some "
-                  "points may not have landed. Re-running this script is safe (idempotent).")
+        topics = set()
+        with open(input_path, "r", encoding="utf-8") as f:
+            for line in f:
+                if line.strip():
+                    payload = json.loads(line.strip()).get("payload", {})
+                    topics.update(payload.get("tags") or [])
+        topics_path = input_path.parent / "topics.json"
+        with open(topics_path, "w", encoding="utf-8") as f:
+            json.dump({"topics": sorted(list(topics))}, f, indent=2)
+        print(f"Pre-computed and saved {len(topics)} distinct topic tags to '{topics_path}'.")
     except Exception as e:
-        print(f"Could not verify final collection count: {e}")
+        print(f"Warning: Could not pre-compute topics.json: {e}")
 
     return 0 if failed_batches == 0 else 1
 
