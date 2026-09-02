@@ -1,0 +1,25 @@
+{
+  "run_at": "2026-09-02T16:22:06",
+  "collection": "stats_se_rag_docs_v2",
+  "collection_points": 116350,
+  "golden_set": "golden_dataset.json",
+  "n_cases": 289,
+  "n_evaluable": 249,
+  "n_query_instances": 309,
+  "category_filter": null,
+  "method": "hybrid",
+  "rerank": true,
+  "reranker_model": "cross-encoder/ms-marco-MiniLM-L-6-v2",
+  "rewrite": false,
+  "decompose": false,
+  "pool": 50,
+  "top_ks": [
+    3,
+    5,
+    10
+  ],
+  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "sparse_generator": "SparseVectorGenerator",
+  "local_index": false,
+  "results_file": "retriever_eval_hybrid_rerank_raw_pool50_20260902_162206.json"
+}

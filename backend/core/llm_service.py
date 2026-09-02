@@ -70,6 +70,17 @@ class LLMService:
             self.client = None
             logger.warning("GROQ_API_KEY missing in SETTINGS. LLMService disabled.")
 
+        cerebras_key = SETTINGS.CEREBRAS_API_KEY
+        if cerebras_key and ChatOpenAI:
+            self.cerebras_client = ChatOpenAI(
+                openai_api_key=cerebras_key,
+                openai_api_base="https://api.cerebras.ai/v1",
+                model_name=os.getenv("CEREBRAS_MODEL", "gpt-oss-120b"),
+                temperature=rewrite_cfg["temperature"]
+            )
+        else:
+            self.cerebras_client = None
+
         openrouter_key = SETTINGS.OPENROUTER_API_KEY
         if openrouter_key and ChatOpenAI:
             self.openrouter_client = ChatOpenAI(
@@ -86,10 +97,16 @@ class LLMService:
             self.openrouter_client = None
 
         gemini_key = SETTINGS.GEMINI_API_KEY
-        if gemini_key and gemini_key.startswith("AIzaSy") and ChatGoogleGenerativeAI:
+        # NOTE: previously gated on `gemini_key.startswith("AIzaSy")`, which
+        # assumed the classic Generative Language API key format. That check
+        # silently disabled this whole fallback for any other valid key shape
+        # (e.g. this project's key starts "AQ."), so it's dropped -- an
+        # invalid key now fails loudly at call time instead of silently at
+        # init time, which is the failure mode we actually want to see.
+        if gemini_key and ChatGoogleGenerativeAI:
             self.gemini_client = ChatGoogleGenerativeAI(
                 api_key=gemini_key,
-                model="gemini-1.5-flash",
+                model="gemini-3.5-flash-lite",
                 temperature=rewrite_cfg["temperature"]
             )
         else:
@@ -111,11 +128,16 @@ class LLMService:
 
         hf_token = SETTINGS.HF_TOKEN
         if hf_token and ChatOpenAI:
-            # Hugging Face Serverless Inference API (OpenAI compatible wrapper)
+            # HF deprecated the old api-inference.huggingface.co serverless
+            # endpoint (migrated to "Inference Providers" ~Nov 2025). Router
+            # base URL confirmed against HF's current docs as of this fix;
+            # model availability on the new router is NOT verified here --
+            # smoke_test.py's "Hugging Face client" check is the source of
+            # truth for whether this specific model is actually hosted.
             self.hf_client = ChatOpenAI(
                 openai_api_key=hf_token,
-                openai_api_base="https://api-inference.huggingface.co/v1/",
-                model_name="Qwen/Qwen2.5-7B-Instruct",
+                openai_api_base="https://router.huggingface.co/v1",
+                model_name=os.getenv("HF_MODEL", "Qwen/Qwen2.5-7B-Instruct"),
                 temperature=rewrite_cfg["temperature"]
             )
         else:
@@ -123,7 +145,12 @@ class LLMService:
 
         # Local rewriter model (only for dev/eval, avoids API limits completely)
         from pathlib import Path
-        import os
+        # NOTE: `os` is already imported at module level (top of this file).
+        # A redundant local `import os` used to live here -- harmless on its
+        # own, but Python treats any `import os` inside a function as making
+        # `os` local to the WHOLE function, so it silently shadowed the
+        # module-level `os` for every earlier line in __init__. That's what
+        # broke the hf_client os.getenv() call above with UnboundLocalError.
         local_model_path = Path(__file__).resolve().parents[2] / "data" / "models" / "qwen2.5-7b-instruct-q4_k_m.gguf"
         if not local_model_path.exists():
             local_model_path = Path(__file__).resolve().parents[2] / "data" / "models" / "qwen2.5-1.5b-instruct-q4_k_m.gguf"
@@ -293,7 +320,23 @@ class LLMService:
                 except Exception as e:
                     logger.warning(f"Groq model {g_model} query rewrite failed: {e}. Trying next model...")
 
-        # 2. Fall back to Gemini Flash first (with 3s timeout)
+        # 2. Cerebras (OpenAI-compatible, separate 1M-token/day quota pool
+        # from Groq -- specifically added so a Groq daily-limit outage like
+        # 2026-09-01's doesn't also take down query rewriting/decomposition).
+        if self.cerebras_client is not None:
+            try:
+                response = self.cerebras_client.invoke([HumanMessage(content=prompt)], config={"timeout": 5.0})
+                rewritten = response.content.strip()
+                rewritten = re.sub(r'<think>.*?</think>', '', rewritten, flags=re.DOTALL).strip()
+                if "STANDALONE QUERY:" in rewritten:
+                    rewritten = rewritten.split("STANDALONE QUERY:")[-1].strip()
+                if rewritten:
+                    logger.info(f"Cerebras query analysis for '{query}' returned: '{rewritten}'")
+                    return rewritten
+            except Exception as e:
+                logger.warning(f"Failed to analyze query with Cerebras: {e}. Falling back to Gemini/HF/Local/GitHub.")
+
+        # 3. Fall back to Gemini Flash (with 3s timeout)
         if self.gemini_client is not None:
             try:
                 response = self.gemini_client.invoke([HumanMessage(content=prompt)], config={"timeout": 3.0})
@@ -377,8 +420,6 @@ class LLMService:
 
         return query
 
-        return query
-
     async def stream_answer(
         self,
         query: str,
@@ -428,11 +469,25 @@ class LLMService:
 
         messages = self._build_messages(query, citations, chat_history)
 
+        # Tracks whether any token has already reached the user. If the stream
+        # dies partway through, the ONLY safe recovery is to stop cleanly --
+        # starting a fallback model here would generate a second, complete
+        # answer that gets glued onto the partial one already on screen, which
+        # reads as one garbled, duplicated response. The fallback cascade is
+        # therefore only attempted when nothing has been shown yet.
+        yielded_any = False
+
         try:
             for chunk in self.client.stream(messages):
                 if chunk.content:
+                    yielded_any = True
                     yield chunk.content
         except Exception as e:
+            if yielded_any:
+                logger.error(f"Primary model stream error after partial output: {e}. Not retrying -- would duplicate the answer already shown.")
+                yield "\n\n[Connection interrupted -- please try again.]"
+                return
+
             logger.warning(f"Primary model stream error: {e}. Attempting fallback Groq models...")
             fallback_models = ["openai/gpt-oss-20b", "openai/gpt-oss-120b", "deepseek-r1-distill-llama-70b", "meta-llama/llama-4-scout-17b-16e-instruct", "gemma2-9b-it"]
             succeeded = False
@@ -446,10 +501,15 @@ class LLMService:
                     )
                     for chunk in fallback_client.stream(messages):
                         if chunk.content:
+                            yielded_any = True
                             yield chunk.content
                     succeeded = True
                     break
                 except Exception as fb_err:
+                    if yielded_any:
+                        logger.error(f"Fallback model {fb_model} failed after partial output: {fb_err}. Stopping -- would duplicate the answer already shown.")
+                        yield "\n\n[Connection interrupted -- please try again.]"
+                        return
                     logger.warning(f"Fallback model {fb_model} failed: {fb_err}")
                     continue
             
@@ -645,22 +705,27 @@ def generate_semantic_variants(query: str, llm_service: Optional["LLMService"] =
     for niche statistical terms with sparse corpus coverage.
     Returns [original_query, variant_1, variant_2] or just [original_query] on failure.
     """
-    if not llm_service or not llm_service.client:
+    if not llm_service or not (llm_service.client or llm_service.cerebras_client):
         return [query]
-    try:
-        prompt = (
-            f"Generate 2 alternative search phrasings for this statistics/ML question.\n"
-            f"Each rephrasing should use different terminology but ask the same thing.\n"
-            f"Question: \"{query}\"\n"
-            f"Output exactly 2 alternative phrasings, one per line. No numbering, no explanations."
-        )
-        resp = llm_service.client.invoke([HumanMessage(content=prompt)])
-        lines = [l.strip().lstrip("123456789.- *") for l in resp.content.strip().split("\n") if l.strip()]
-        variants = [l for l in lines if len(l) > 5 and l.lower() != query.lower()]
-        if variants:
-            return [query] + variants[:2]
-    except Exception as e:
-        logger.warning(f"Semantic variant generation failed: {e}")
+    prompt = (
+        f"Generate 2 alternative search phrasings for this statistics/ML question.\n"
+        f"Each rephrasing should use different terminology but ask the same thing.\n"
+        f"Question: \"{query}\"\n"
+        f"Output exactly 2 alternative phrasings, one per line. No numbering, no explanations."
+    )
+    # Try Groq first (fastest), then Cerebras -- a separate quota pool so a
+    # Groq daily-limit outage doesn't also kill Pillar 2 semantic expansion.
+    for client_name, client in (("Groq", llm_service.client), ("Cerebras", llm_service.cerebras_client)):
+        if client is None:
+            continue
+        try:
+            resp = client.invoke([HumanMessage(content=prompt)])
+            lines = [l.strip().lstrip("123456789.- *") for l in resp.content.strip().split("\n") if l.strip()]
+            variants = [l for l in lines if len(l) > 5 and l.lower() != query.lower()]
+            if variants:
+                return [query] + variants[:2]
+        except Exception as e:
+            logger.warning(f"Semantic variant generation via {client_name} failed: {e}")
     return [query]
 
 
@@ -682,24 +747,28 @@ def decompose_query(query: str, llm_service: Optional[LLMService] = None) -> Lis
     raw_splits = re.split(r"[,]|\b(?:vs\.?|versus|compared to|and|or)\b", query, flags=re.IGNORECASE)
     concept_count = max(2, min(len([p for p in raw_splits if len(p.strip()) > 3]), 5))
 
-    # Attempt LLM n-branch decomposition
-    if llm_service and llm_service.client:
-        try:
-            prompt = (
-                f"You are a search query optimizer for a statistics & machine learning knowledge base.\n"
-                f"This comparative question involves approximately {concept_count} distinct concepts.\n"
-                f"Break it into exactly {concept_count} focused search queries, one per concept.\n"
-                f"Each sub-query should directly target one concept (e.g. 'AIC model selection', 'BIC penalization').\n"
-                f"Question: \"{query}\"\n"
-                f"Output exactly {concept_count} search queries, one per line. No numbering, no explanations."
-            )
-            resp = llm_service.client.invoke([HumanMessage(content=prompt)])
-            lines = [l.strip().lstrip("123456789.- *") for l in resp.content.strip().split("\n") if l.strip()]
-            valid_subqueries = [l for l in lines if len(l) > 3 and l.lower() != query.lower()]
-            if len(valid_subqueries) >= 2:
-                logger.info(f"[decompose_query] LLM produced {len(valid_subqueries)} sub-queries for: {query!r}")
-                return [query] + valid_subqueries[:concept_count]
-        except Exception as e:
-            logger.warning(f"LLM decomposition failed: {e}. Falling back to heuristic.")
+    # Attempt LLM n-branch decomposition -- Groq first, then Cerebras (separate
+    # quota pool; same rationale as generate_semantic_variants above).
+    if llm_service and (llm_service.client or llm_service.cerebras_client):
+        prompt = (
+            f"You are a search query optimizer for a statistics & machine learning knowledge base.\n"
+            f"This comparative question involves approximately {concept_count} distinct concepts.\n"
+            f"Break it into exactly {concept_count} focused search queries, one per concept.\n"
+            f"Each sub-query should directly target one concept (e.g. 'AIC model selection', 'BIC penalization').\n"
+            f"Question: \"{query}\"\n"
+            f"Output exactly {concept_count} search queries, one per line. No numbering, no explanations."
+        )
+        for client_name, client in (("Groq", llm_service.client), ("Cerebras", llm_service.cerebras_client)):
+            if client is None:
+                continue
+            try:
+                resp = client.invoke([HumanMessage(content=prompt)])
+                lines = [l.strip().lstrip("123456789.- *") for l in resp.content.strip().split("\n") if l.strip()]
+                valid_subqueries = [l for l in lines if len(l) > 3 and l.lower() != query.lower()]
+                if len(valid_subqueries) >= 2:
+                    logger.info(f"[decompose_query] {client_name} produced {len(valid_subqueries)} sub-queries for: {query!r}")
+                    return [query] + valid_subqueries[:concept_count]
+            except Exception as e:
+                logger.warning(f"LLM decomposition via {client_name} failed: {e}. Trying next.")
 
     return decompose_query_heuristic(query)

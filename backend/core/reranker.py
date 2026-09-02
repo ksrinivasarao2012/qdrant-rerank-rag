@@ -5,6 +5,18 @@ from typing import List, Dict, Any
 logger = logging.getLogger(__name__)
 
 class ReRanker:
+    """Cross-encoder reranking over hybrid-search candidates.
+
+    Input is truncated to 600 chars per chunk. This was briefly raised to 2000
+    on the theory that CrossEncoder(max_length=512) was being starved -- a
+    bake-off (evaluation/reranker_bakeoff.py) showed identical recall@5 at both
+    windows, marginally better MRR/recall@1 at 600, and 2x the runtime at 2000,
+    so 600 stands. That same bake-off also found BAAI/bge-reranker-base to be
+    materially WORSE here (R@5 20% vs 28%) at 12x the cost, and every
+    cross-encoder tested clustered around the same recall -- so reranker choice
+    is not the bottleneck on this corpus. Re-run the bake-off before changing
+    either the model or the window.
+    """
     def __init__(self, model_name: str = "cross-encoder/ms-marco-MiniLM-L-6-v2"):
         self.model_name = model_name
         self._encoder = None
@@ -57,6 +69,12 @@ class ReRanker:
                         original_idx = item["index"]
                         chunk = chunks[original_idx]
                         chunk["rerank_score"] = float(item["relevance_score"])
+                        # Jina returns a true 0-1 relevance score. The local
+                        # cross-encoder below returns raw LOGITS instead, so the
+                        # backend has to be recorded or a single relevance
+                        # threshold would mean two different things depending on
+                        # which path ran. See guardrails.normalize_rerank_score.
+                        chunk["rerank_source"] = "jina"
                         reranked_chunks.append(chunk)
                     
                     logger.info("Jina API re-ranking complete.")
@@ -77,13 +95,17 @@ class ReRanker:
         # 1. Format pairs for the Cross-Encoder: [(query, text1), (query, text2), ...]
         sentence_pairs = [[query, chunk["text"][:600]] for chunk in chunks]
 
-        # 2. Predict relevance scores (0.0 to 1.0)
+        # 2. Predict relevance scores.
+        # NOTE: these are raw LOGITS (roughly -11..+11), NOT 0-1 as an earlier
+        # version of this comment claimed. guardrails.normalize_rerank_score
+        # squashes them so the relevance floor is comparable across backends.
         logger.debug(f"Scoring {len(chunks)} chunks with local Cross-Encoder...")
         scores = encoder.predict(sentence_pairs)
 
         # 3. Attach scores to the chunks
         for idx, chunk in enumerate(chunks):
             chunk["rerank_score"] = float(scores[idx])
+            chunk["rerank_source"] = "local"
 
         # 4. Sort chunks by score in descending order (highest score first)
         reranked_chunks = sorted(chunks, key=lambda x: x["rerank_score"], reverse=True)

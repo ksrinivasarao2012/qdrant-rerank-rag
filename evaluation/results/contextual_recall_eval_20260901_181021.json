@@ -1,0 +1,2884 @@
+{
+  "timestamp": "20260901_181021",
+  "total_cases": 79,
+  "global_avg_contextual_recall": 0.30235702521201246,
+  "global_mrr": 0.2453586497890295,
+  "multi_mrr": 0.2453586497890295,
+  "global_recall_at_1": 0.16455696202531644,
+  "global_recall_at_5": 0.379746835443038,
+  "multi_recall_at_1": 0.16455696202531644,
+  "multi_recall_at_5": 0.379746835443038,
+  "category_breakdown": {
+    "negation": {
+      "count": 20,
+      "strict_recall_at_5": 0.3,
+      "mrr": 0.21000000000000002,
+      "avg_contextual_recall": 0.2157325177841482
+    },
+    "multi_turn": {
+      "count": 18,
+      "strict_recall_at_5": 0.3888888888888889,
+      "mrr": 0.22407407407407406,
+      "avg_contextual_recall": 0.36332594420829717
+    },
+    "multi_hop": {
+      "count": 23,
+      "strict_recall_at_5": 0.4782608695652174,
+      "mrr": 0.3659420289855073,
+      "avg_contextual_recall": 0.37426154257150046
+    },
+    "niche_topic": {
+      "count": 18,
+      "strict_recall_at_5": 0.3333333333333333,
+      "mrr": 0.15185185185185185,
+      "avg_contextual_recall": 0.24575956450956454
+    }
+  },
+  "rows": [
+    {
+      "query_id": "neg_01",
+      "category": "negation",
+      "query": "How to test normality without using the Shapiro-Wilk test?",
+      "exact_gold_hit_1": false,
+      "exact_gold_hit_3": false,
+      "exact_gold_hit_5": true,
+      "multi_gold_hit_1": false,
+      "multi_gold_hit_3": false,
+      "multi_gold_hit_5": true,
+      "precision_1": 0.0,
+      "precision_3": 0.0,
+      "precision_5": 0.2,
+      "mrr": 0.2,
+      "multi_mrr": 0.2,
+      "contextual_recall_score": 0.4202898550724638,
+      "reason": "Mean of 3 per-gold-document score(s): [0.0, 0.26, 1.0]. Best-covered gold 74954 (1.00): The score is 1.00 because all statements in the expected output are fully supported by the 5th node in the retrieval context, reflecting a complete and accurate retrieval!",
+      "used_fallback_heuristic": false,
+      "judge_error": null,
+      "per_gold_scores": [
+        0.0,
+        0.2608695652173913,
+        1.0
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "1648",
+          "score": 0.0,
+          "reason": "The score is 0.00 because none of the sentences in the expected output can be attributed to the nodes in retrieval context, as the context fails to provide any information regarding the fBasics package, normality tests, R code examples, or comparative references."
+        },
+        {
+          "gold_id": "52297",
+          "score": 0.2608695652173913,
+          "reason": "The score is 0.26 because sentences 5, 9, 11, 13, 15, and 23 of the expected output can be attributed to node(s) in retrieval context 1, 3, 4, and 5, while the remaining majority of the sentences lack corresponding information in the retrieval context."
+        },
+        {
+          "gold_id": "74954",
+          "score": 1.0,
+          "reason": "The score is 1.00 because all statements in the expected output are fully supported by the 5th node in the retrieval context, reflecting a complete and accurate retrieval!"
+        }
+      ],
+      "n_gold_scored": 3
+    },
+    {
+      "query_id": "neg_02",
+      "category": "negation",
+      "query": "How do I handle missing data without deleting rows?",
+      "exact_gold_hit_1": false,
+      "exact_gold_hit_3": false,
+      "exact_gold_hit_5": false,
+      "multi_gold_hit_1": false,
+      "multi_gold_hit_3": false,
+      "multi_gold_hit_5": false,
+      "precision_1": 0.0,
+      "precision_3": 0.0,
+      "precision_5": 0.0,
+      "mrr": 0.0,
+      "multi_mrr": 0.0,
+      "contextual_recall_score": 0.2857142857142857,
+      "reason": "Mean of 1 per-gold-document score(s): [0.29]. Best-covered gold 10352 (0.29): The score is 0.29 because the 1st node in the retrieval context only supports the first part of the expected output regarding multiple imputation (sentence 1), while sentences 2 through 7 lack any supporting information in the retrieval context.",
+      "used_fallback_heuristic": false,
+      "judge_error": null,
+      "per_gold_scores": [
+        0.2857142857142857
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "10352",
+          "score": 0.2857142857142857,
+          "reason": "The score is 0.29 because the 1st node in the retrieval context only supports the first part of the expected output regarding multiple imputation (sentence 1), while sentences 2 through 7 lack any supporting information in the retrieval context."
+        }
+      ],
+      "n_gold_scored": 1
+    },
+    {
+      "query_id": "neg_03",
+      "category": "negation",
+      "query": "How to compare group means without assuming normal distribution?",
+      "exact_gold_hit_1": false,
+      "exact_gold_hit_3": false,
+      "exact_gold_hit_5": false,
+      "multi_gold_hit_1": false,
+      "multi_gold_hit_3": false,
+      "multi_gold_hit_5": false,
+      "precision_1": 0.0,
+      "precision_3": 0.0,
+      "precision_5": 0.0,
+      "mrr": 0.0,
+      "multi_mrr": 0.0,
+      "contextual_recall_score": 0.0,
+      "reason": "Mean of 1 per-gold-document score(s): [0.0]. Best-covered gold 8849 (0.00): The score is 0.00 because sentence 1, which states that homoscedasticity need not be checked based on Kruskal and Wallis's original paper, cannot be attributed to the nodes in the retrieval context (such as the 3rd and 4th nodes which discuss assumptions differently). Furthermore, sentence 2 regarding the use of bootstrap is not supported by any information in the retrieval context.",
+      "used_fallback_heuristic": false,
+      "judge_error": null,
+      "per_gold_scores": [
+        0.0
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "8849",
+          "score": 0.0,
+          "reason": "The score is 0.00 because sentence 1, which states that homoscedasticity need not be checked based on Kruskal and Wallis's original paper, cannot be attributed to the nodes in the retrieval context (such as the 3rd and 4th nodes which discuss assumptions differently). Furthermore, sentence 2 regarding the use of bootstrap is not supported by any information in the retrieval context."
+        }
+      ],
+      "n_gold_scored": 1
+    },
+    {
+      "query_id": "neg_04",
+      "category": "negation",
+      "query": "How to perform nonlinear dimensionality reduction as an alternative to PCA?",
+      "exact_gold_hit_1": false,
+      "exact_gold_hit_3": false,
+      "exact_gold_hit_5": false,
+      "multi_gold_hit_1": false,
+      "multi_gold_hit_3": false,
+      "multi_gold_hit_5": false,
+      "precision_1": 0.0,
+      "precision_3": 0.0,
+      "precision_5": 0.0,
+      "mrr": 0.0,
+      "multi_mrr": 0.0,
+      "contextual_recall_score": 0.3,
+      "reason": "Mean of 2 per-gold-document score(s): [0.6, 0.0]. Best-covered gold 124545 (0.60): The score is 0.60 because sentences such as 'A picture is worth a thousand words:' and 'Here we are looking for 1-dimensional structure in 2D.' cannot be attributed to any information in the node(s) in retrieval context, whereas the remaining details about PCA and non-linear manifolds are successfully supported by the 4th node.",
+      "used_fallback_heuristic": false,
+      "judge_error": null,
+      "per_gold_scores": [
+        0.6,
+        0.0
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "124545",
+          "score": 0.6,
+          "reason": "The score is 0.60 because sentences such as 'A picture is worth a thousand words:' and 'Here we are looking for 1-dimensional structure in 2D.' cannot be attributed to any information in the node(s) in retrieval context, whereas the remaining details about PCA and non-linear manifolds are successfully supported by the 4th node."
+        },
+        {
+          "gold_id": "142987",
+          "score": 0.0,
+          "reason": "The score is 0.00 because all sentences in the expected output (sentences 1 to 9) cannot be attributed to any node(s) in retrieval context."
+        }
+      ],
+      "n_gold_scored": 2
+    },
+    {
+      "query_id": "neg_05",
+      "category": "negation",
+      "query": "How to select model features without stepwise regression?",
+      "exact_gold_hit_1": false,
+      "exact_gold_hit_3": false,
+      "exact_gold_hit_5": false,
+      "multi_gold_hit_1": false,
+      "multi_gold_hit_3": false,
+      "multi_gold_hit_5": false,
+      "precision_1": 0.0,
+      "precision_3": 0.0,
+      "precision_5": 0.0,
+      "mrr": 0.0,
+      "multi_mrr": 0.0,
+      "contextual_recall_score": 0.15,
+      "reason": "Mean of 2 per-gold-document score(s): [0.3, 0.0]. Best-covered gold 13698 (0.30): The score is 0.30 because while some alternatives like LASSO and expert opinion are mentioned in node(s) in retrieval context 3, several key details such as Partial Least Squares Regression, associated URLs, and specific mentions of Random Forests are missing from the retrieval contexts.",
+      "used_fallback_heuristic": false,
+      "judge_error": null,
+      "per_gold_scores": [
+        0.3,
+        0.0
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "13698",
+          "score": 0.3,
+          "reason": "The score is 0.30 because while some alternatives like LASSO and expert opinion are mentioned in node(s) in retrieval context 3, several key details such as Partial Least Squares Regression, associated URLs, and specific mentions of Random Forests are missing from the retrieval contexts."
+        },
+        {
+          "gold_id": "27310",
+          "score": 0.0,
+          "reason": "The score is 0.00 because none of the sentences in the expected output can be attributed to the nodes in retrieval context, as all information regarding PCA feature selection, its limitations, and alternative methods is completely absent from the retrieved text."
+        }
+      ],
+      "n_gold_scored": 2
+    },
+    {
+      "query_id": "neg_06",
+      "category": "negation",
+      "query": "How to forecast time series data without using ARIMA models?",
+      "exact_gold_hit_1": false,
+      "exact_gold_hit_3": false,
+      "exact_gold_hit_5": false,
+      "multi_gold_hit_1": false,
+      "multi_gold_hit_3": false,
+      "multi_gold_hit_5": false,
+      "precision_1": 0.0,
+      "precision_3": 0.0,
+      "precision_5": 0.0,
+      "mrr": 0.0,
+      "multi_mrr": 0.0,
+      "contextual_recall_score": 0.059027777777777776,
+      "reason": "Mean of 2 per-gold-document score(s): [0.06, 0.06]. Best-covered gold 125016 (0.06): The score is 0.06 because only a single sentence regarding simple models outperforming complex ones could be attributed to node(s) in retrieval context 3, while the vast majority of the expected output\u2014including the author's background, book and website recommendations, specific M2 and M3 competition details, and specific paper quotes\u2014had no corresponding information in any of the retrieval nodes.",
+      "used_fallback_heuristic": false,
+      "judge_error": null,
+      "per_gold_scores": [
+        0.0625,
+        0.05555555555555555
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "125016",
+          "score": 0.0625,
+          "reason": "The score is 0.06 because only a single sentence regarding simple models outperforming complex ones could be attributed to node(s) in retrieval context 3, while the vast majority of the expected output\u2014including the author's background, book and website recommendations, specific M2 and M3 competition details, and specific paper quotes\u2014had no corresponding information in any of the retrieval nodes."
+        },
+        {
+          "gold_id": "157379",
+          "score": 0.05555555555555555,
+          "reason": "The score is 0.06 because only a single sentence regarding 'Forecasting Principles and Practice by Hyndman and Athanasopoulos' is supported by node 5 in retrieval context, while the vast majority of the expected output, including recommendations for books by Shumway and Stoffer, Cryer and Chan, Cowpertwait and Metcalfe, Makridakis et al., Box, Jenkins and Reinsel, Pankratz, and Armstrong, as well as their detailed comparisons and contrasting features, cannot be attributed to any of the nodes in retrieval context."
+        }
+      ],
+      "n_gold_scored": 2
+    },
+    {
+      "query_id": "neg_07",
+      "category": "negation",
+      "query": "Clustering methods that do not require specifying the number of clusters k?",
+      "exact_gold_hit_1": false,
+      "exact_gold_hit_3": true,
+      "exact_gold_hit_5": true,
+      "multi_gold_hit_1": false,
+      "multi_gold_hit_3": true,
+      "multi_gold_hit_5": true,
+      "precision_1": 0.0,
+      "precision_3": 0.6666666666666666,
+      "precision_5": 0.4,
+      "mrr": 0.5,
+      "multi_mrr": 0.5,
+      "contextual_recall_score": 0.5,
+      "reason": "Mean of 2 per-gold-document score(s): [1.0, 0.0]. Best-covered gold 241389 (1.00): The score is 1.00 because all sentences in the expected output are successfully retrieved and attributed to node(s) in retrieval context, specifically the 2nd and 3rd nodes!",
+      "used_fallback_heuristic": false,
+      "judge_error": null,
+      "per_gold_scores": [
+        1.0,
+        0.0
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "241389",
+          "score": 1.0,
+          "reason": "The score is 1.00 because all sentences in the expected output are successfully retrieved and attributed to node(s) in retrieval context, specifically the 2nd and 3rd nodes!"
+        },
+        {
+          "gold_id": "88891",
+          "score": 0.0,
+          "reason": "The score is 0.00 because none of the sentences in the expected output (sentences 1 through 5) can be attributed to any node in the retrieval context."
+        }
+      ],
+      "n_gold_scored": 2
+    },
+    {
+      "query_id": "neg_08",
+      "category": "negation",
+      "query": "Goodness of fit tests excluding Kolmogorov-Smirnov?",
+      "exact_gold_hit_1": false,
+      "exact_gold_hit_3": false,
+      "exact_gold_hit_5": false,
+      "multi_gold_hit_1": false,
+      "multi_gold_hit_3": false,
+      "multi_gold_hit_5": false,
+      "precision_1": 0.0,
+      "precision_3": 0.0,
+      "precision_5": 0.0,
+      "mrr": 0.0,
+      "multi_mrr": 0.0,
+      "contextual_recall_score": 0.0,
+      "reason": "Mean of 2 per-gold-document score(s): [0.0, 0.0]. Best-covered gold 207512 (0.00): The score is 0.00 because none of the sentences in the expected output, from the introductory statement down to the concluding philosophy on flexible models, can be attributed to any node(s) in retrieval context.",
+      "used_fallback_heuristic": false,
+      "judge_error": null,
+      "per_gold_scores": [
+        0.0,
+        0.0
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "207512",
+          "score": 0.0,
+          "reason": "The score is 0.00 because none of the sentences in the expected output, from the introductory statement down to the concluding philosophy on flexible models, can be attributed to any node(s) in retrieval context."
+        },
+        {
+          "gold_id": "70208",
+          "score": 0.0,
+          "reason": "The score is 0.00 because all sentences in the expected output (such as the mention of Bayesian Data Analysis in sentence 1, parameter notations in sentences 2-3, and posterior predictive p-values in sentences 4-8) cannot be attributed to any node(s) in retrieval context."
+        }
+      ],
+      "n_gold_scored": 2
+    },
+    {
+      "query_id": "neg_09",
+      "category": "negation",
+      "query": "How is parameter uncertainty estimated without bootstrapping?",
+      "exact_gold_hit_1": false,
+      "exact_gold_hit_3": false,
+      "exact_gold_hit_5": false,
+      "multi_gold_hit_1": false,
+      "multi_gold_hit_3": false,
+      "multi_gold_hit_5": false,
+      "precision_1": 0.0,
+      "precision_3": 0.0,
+      "precision_5": 0.0,
+      "mrr": 0.0,
+      "multi_mrr": 0.0,
+      "contextual_recall_score": 0.0,
+      "reason": "Mean of 1 per-gold-document score(s): [0.0]. Best-covered gold 21888 (0.00): The score is 0.00 because all sentences in the expected output, from the affirmation of using the delta method in sentence 1 to the simulation suggestion in sentence 11, cannot be attributed to any node(s) in retrieval context (nodes 1 to 5).",
+      "used_fallback_heuristic": false,
+      "judge_error": null,
+      "per_gold_scores": [
+        0.0
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "21888",
+          "score": 0.0,
+          "reason": "The score is 0.00 because all sentences in the expected output, from the affirmation of using the delta method in sentence 1 to the simulation suggestion in sentence 11, cannot be attributed to any node(s) in retrieval context (nodes 1 to 5)."
+        }
+      ],
+      "n_gold_scored": 1
+    },
+    {
+      "query_id": "neg_10",
+      "category": "negation",
+      "query": "Nonparametric correlation coefficients other than Pearson correlation?",
+      "exact_gold_hit_1": false,
+      "exact_gold_hit_3": true,
+      "exact_gold_hit_5": true,
+      "multi_gold_hit_1": false,
+      "multi_gold_hit_3": true,
+      "multi_gold_hit_5": true,
+      "precision_1": 0.0,
+      "precision_3": 0.3333333333333333,
+      "precision_5": 0.2,
+      "mrr": 0.5,
+      "multi_mrr": 0.5,
+      "contextual_recall_score": 0.5277777777777778,
+      "reason": "Mean of 3 per-gold-document score(s): [0.33, 1.0, 0.25]. Best-covered gold 3744 (1.00): The score is 1.00 because all sentences in the expected output are fully supported by the respective text in node(s) in retrieval context.",
+      "used_fallback_heuristic": false,
+      "judge_error": null,
+      "per_gold_scores": [
+        0.3333333333333333,
+        1.0,
+        0.25
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "3733",
+          "score": 0.3333333333333333,
+          "reason": "The score is 0.33 because the retrieval context lacks information regarding the definition, assumptions, and bivariate normal description of Pearson's correlation (sentences 1-3), as well as details on the distribution of correlation coefficients and the central limit theorem (sentence 7). However, sentence 5 is partially supported by the 4th and 5th nodes in retrieval context regarding ordinal data and outlier robustness, and sentence 4 is supported by the 4th node regarding Spearman's correlation for ranks."
+        },
+        {
+          "gold_id": "3744",
+          "score": 1.0,
+          "reason": "The score is 1.00 because all sentences in the expected output are fully supported by the respective text in node(s) in retrieval context."
+        },
+        {
+          "gold_id": "3946",
+          "score": 0.25,
+          "reason": "The score is 0.25 because while the 5th sentence is supported by the 5th node in the retrieval context, the details regarding Spearman correlation, Kendall's tau, Larry Winner's article, and the references to Somers' D and rank-sum tests in the other sentences cannot be found in the retrieval context."
+        }
+      ],
+      "n_gold_scored": 3
+    },
+    {
+      "query_id": "neg_11",
+      "category": "negation",
+      "query": "Information theory metric for correlation without using mutual information?",
+      "exact_gold_hit_1": false,
+      "exact_gold_hit_3": false,
+      "exact_gold_hit_5": false,
+      "multi_gold_hit_1": false,
+      "multi_gold_hit_3": false,
+      "multi_gold_hit_5": false,
+      "precision_1": 0.0,
+      "precision_3": 0.0,
+      "precision_5": 0.0,
+      "mrr": 0.0,
+      "multi_mrr": 0.0,
+      "contextual_recall_score": 0.0,
+      "reason": "Mean of 3 per-gold-document score(s): [0.0, 0.0, 0.0]. Best-covered gold 394490 (0.00): The score is 0.00 because none of the sentences from the expected output can be attributed to any of the nodes in retrieval context, as the mentions of distance correlation tests, related links, and the R implementation are completely absent.",
+      "used_fallback_heuristic": false,
+      "judge_error": null,
+      "per_gold_scores": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "394490",
+          "score": 0.0,
+          "reason": "The score is 0.00 because none of the sentences from the expected output can be attributed to any of the nodes in retrieval context, as the mentions of distance correlation tests, related links, and the R implementation are completely absent."
+        },
+        {
+          "gold_id": "50680",
+          "score": 0.0,
+          "reason": "The score is 0.00 because none of the sentences in the expected output can be attributed to any of the node(s) in retrieval context."
+        },
+        {
+          "gold_id": "77016",
+          "score": 0.0,
+          "reason": "The score is 0.00 because none of the sentences from the expected output, including the definition of the maximal information coefficient (sentence 2), its mention as a method (sentence 1), the paper citation (sentence 3), and the Wikipedia URL (sentence 4), can be attributed to any node(s) in retrieval context."
+        }
+      ],
+      "n_gold_scored": 3
+    },
+    {
+      "query_id": "neg_12",
+      "category": "negation",
+      "query": "Ensemble methods like bagging and boosting explained?",
+      "exact_gold_hit_1": false,
+      "exact_gold_hit_3": false,
+      "exact_gold_hit_5": false,
+      "multi_gold_hit_1": false,
+      "multi_gold_hit_3": false,
+      "multi_gold_hit_5": false,
+      "precision_1": 0.0,
+      "precision_3": 0.0,
+      "precision_5": 0.0,
+      "mrr": 0.0,
+      "multi_mrr": 0.0,
+      "contextual_recall_score": 0.125,
+      "reason": "Mean of 2 per-gold-document score(s): [0.25, 0.0]. Best-covered gold 15267 (0.25): The score is 0.25 because sentences 3 and 4 in the expected output are supported by the 2nd and 5th nodes in retrieval context, while sentences 1, 2, and 5 through 15 cannot be attributed to any node in retrieval context due to missing details such as Breiman's webpage, OOB sample proportions, CART pruning, and variable randomization.",
+      "used_fallback_heuristic": false,
+      "judge_error": null,
+      "per_gold_scores": [
+        0.25,
+        0.0
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "15267",
+          "score": 0.25,
+          "reason": "The score is 0.25 because sentences 3 and 4 in the expected output are supported by the 2nd and 5th nodes in retrieval context, while sentences 1, 2, and 5 through 15 cannot be attributed to any node in retrieval context due to missing details such as Breiman's webpage, OOB sample proportions, CART pruning, and variable randomization."
+        },
+        {
+          "gold_id": "372975",
+          "score": 0.0,
+          "reason": "The score is 0.00 because none of the sentences in the expected output can be attributed to any information found in the node(s) in retrieval context."
+        }
+      ],
+      "n_gold_scored": 2
+    },
+    {
+      "query_id": "neg_13",
+      "category": "negation",
+      "query": "Outlier detection method that doesn't use Isolation Forests?",
+      "exact_gold_hit_1": false,
+      "exact_gold_hit_3": false,
+      "exact_gold_hit_5": false,
+      "multi_gold_hit_1": false,
+      "multi_gold_hit_3": false,
+      "multi_gold_hit_5": false,
+      "precision_1": 0.0,
+      "precision_3": 0.0,
+      "precision_5": 0.0,
+      "mrr": 0.0,
+      "multi_mrr": 0.0,
+      "contextual_recall_score": 0.03571428571428571,
+      "reason": "Mean of 2 per-gold-document score(s): [0.0, 0.07]. Best-covered gold 27804 (0.07): The score is 0.07 because only a single sentence in the expected output regarding the Mahalanobis distance is supported by the 5th node in retrieval context, while the vast majority of the expected output's key details\u2014such as influence functions, Hampel, and Gnanadesikan\u2014are completely missing from the retrieval context.",
+      "used_fallback_heuristic": false,
+      "judge_error": null,
+      "per_gold_scores": [
+        0.0,
+        0.07142857142857142
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "2042",
+          "score": 0.0,
+          "reason": "The score is 0.00 because the sentence recommending the 'mvoutlier package' and '@drknexus' cannot be attributed to any information present in nodes 1 to 5 in the retrieval context."
+        },
+        {
+          "gold_id": "27804",
+          "score": 0.07142857142857142,
+          "reason": "The score is 0.07 because only a single sentence in the expected output regarding the Mahalanobis distance is supported by the 5th node in retrieval context, while the vast majority of the expected output's key details\u2014such as influence functions, Hampel, and Gnanadesikan\u2014are completely missing from the retrieval context."
+        }
+      ],
+      "n_gold_scored": 2
+    },
+    {
+      "query_id": "neg_14",
+      "category": "negation",
+      "query": "Non-linear dimensionality reduction excluding t-SNE?",
+      "exact_gold_hit_1": false,
+      "exact_gold_hit_3": false,
+      "exact_gold_hit_5": false,
+      "multi_gold_hit_1": false,
+      "multi_gold_hit_3": false,
+      "multi_gold_hit_5": false,
+      "precision_1": 0.0,
+      "precision_3": 0.0,
+      "precision_5": 0.0,
+      "mrr": 0.0,
+      "multi_mrr": 0.0,
+      "contextual_recall_score": 0.1,
+      "reason": "Mean of 2 per-gold-document score(s): [0.2, 0.0]. Best-covered gold 124545 (0.20): The score is 0.20 because only one sentence from the expected output regarding PCA is supported by node(s) in retrieval context, while the remaining sentences, including the opening idiom and details about Isomap and the S-shaped curve, lack corresponding information in the retrieval context.",
+      "used_fallback_heuristic": false,
+      "judge_error": null,
+      "per_gold_scores": [
+        0.2,
+        0.0
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "124545",
+          "score": 0.2,
+          "reason": "The score is 0.20 because only one sentence from the expected output regarding PCA is supported by node(s) in retrieval context, while the remaining sentences, including the opening idiom and details about Isomap and the S-shaped curve, lack corresponding information in the retrieval context."
+        },
+        {
+          "gold_id": "364255",
+          "score": 0.0,
+          "reason": "The score is 0.00 because none of the sentences in the expected output can be attributed to any information present in the node(s) in retrieval context."
+        }
+      ],
+      "n_gold_scored": 2
+    },
+    {
+      "query_id": "neg_15",
+      "category": "negation",
+      "query": "What are the best methods for checking convergence in MCMC?",
+      "exact_gold_hit_1": true,
+      "exact_gold_hit_3": true,
+      "exact_gold_hit_5": true,
+      "multi_gold_hit_1": true,
+      "multi_gold_hit_3": true,
+      "multi_gold_hit_5": true,
+      "precision_1": 1.0,
+      "precision_3": 0.3333333333333333,
+      "precision_5": 0.2,
+      "mrr": 1.0,
+      "multi_mrr": 1.0,
+      "contextual_recall_score": 0.5,
+      "reason": "Mean of 2 per-gold-document score(s): [1.0, 0.0]. Best-covered gold 560 (1.00): The score is 1.00 because all sentences in the expected output are fully supported by the 1st node in retrieval context, perfectly capturing the required diagnostic methods and packages!",
+      "used_fallback_heuristic": false,
+      "judge_error": null,
+      "per_gold_scores": [
+        1.0,
+        0.0
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "560",
+          "score": 1.0,
+          "reason": "The score is 1.00 because all sentences in the expected output are fully supported by the 1st node in retrieval context, perfectly capturing the required diagnostic methods and packages!"
+        },
+        {
+          "gold_id": "99388",
+          "score": 0.0,
+          "reason": "The score is 0.00 because none of the sentences from the expected output, including recommendations to compute PSRF separately for scalar components and details on multivariate extensions, can be attributed to any node(s) in retrieval context."
+        }
+      ],
+      "n_gold_scored": 2
+    },
+    {
+      "query_id": "neg_16",
+      "category": "negation",
+      "query": "Fitting hierarchical models without random slopes?",
+      "exact_gold_hit_1": false,
+      "exact_gold_hit_3": false,
+      "exact_gold_hit_5": false,
+      "multi_gold_hit_1": false,
+      "multi_gold_hit_3": false,
+      "multi_gold_hit_5": false,
+      "precision_1": 0.0,
+      "precision_3": 0.0,
+      "precision_5": 0.0,
+      "mrr": 0.0,
+      "multi_mrr": 0.0,
+      "contextual_recall_score": 0.0,
+      "reason": "Mean of 2 per-gold-document score(s): [0.0, 0.0]. Best-covered gold 243225 (0.00): The score is 0.00 because none of the sentences in the expected output regarding optimizers and code examples can be attributed to any node(s) in retrieval context.",
+      "used_fallback_heuristic": false,
+      "judge_error": null,
+      "per_gold_scores": [
+        0.0,
+        0.0
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "243225",
+          "score": 0.0,
+          "reason": "The score is 0.00 because none of the sentences in the expected output regarding optimizers and code examples can be attributed to any node(s) in retrieval context."
+        },
+        {
+          "gold_id": "32421",
+          "score": 0.0,
+          "reason": "The score is 0.00 because none of the sentences from the expected output can be attributed to any of the nodes in retrieval context, as all required information regarding generalized linear models, non-independence, and GLMMs is entirely missing from the provided context."
+        }
+      ],
+      "n_gold_scored": 2
+    },
+    {
+      "query_id": "neg_17",
+      "category": "negation",
+      "query": "Deep learning sequence modeling without using LSTMs?",
+      "exact_gold_hit_1": false,
+      "exact_gold_hit_3": false,
+      "exact_gold_hit_5": false,
+      "multi_gold_hit_1": false,
+      "multi_gold_hit_3": false,
+      "multi_gold_hit_5": false,
+      "precision_1": 0.0,
+      "precision_3": 0.0,
+      "precision_5": 0.0,
+      "mrr": 0.0,
+      "multi_mrr": 0.0,
+      "contextual_recall_score": 0.0,
+      "reason": "Mean of 3 per-gold-document score(s): [0.0, 0.0, 0.0]. Best-covered gold 222587 (0.00): The score is 0.00 because none of the sentences in the expected output, from the 1st to the 12th, can be attributed to any information present in the node(s) in retrieval context.",
+      "used_fallback_heuristic": false,
+      "judge_error": null,
+      "per_gold_scores": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "222587",
+          "score": 0.0,
+          "reason": "The score is 0.00 because none of the sentences in the expected output, from the 1st to the 12th, can be attributed to any information present in the node(s) in retrieval context."
+        },
+        {
+          "gold_id": "472920",
+          "score": 0.0,
+          "reason": "The score is 0.00 because all sentences in the expected output cannot be attributed to any node(s) in retrieval context."
+        },
+        {
+          "gold_id": "531971",
+          "score": 0.0,
+          "reason": "The score is 0.00 because none of the sentences in the expected output can be attributed to the nodes in retrieval context, as the context exclusively discusses LSTMs, RNNs, and CNNs instead of Transformer graph networks."
+        }
+      ],
+      "n_gold_scored": 3
+    },
+    {
+      "query_id": "neg_18",
+      "category": "negation",
+      "query": "What is a kernel in kernel density estimation and what are some common choices?",
+      "exact_gold_hit_1": true,
+      "exact_gold_hit_3": true,
+      "exact_gold_hit_5": true,
+      "multi_gold_hit_1": true,
+      "multi_gold_hit_3": true,
+      "multi_gold_hit_5": true,
+      "precision_1": 1.0,
+      "precision_3": 0.3333333333333333,
+      "precision_5": 0.2,
+      "mrr": 1.0,
+      "multi_mrr": 1.0,
+      "contextual_recall_score": 0.7307692307692308,
+      "reason": "Mean of 2 per-gold-document score(s): [0.46, 1.0]. Best-covered gold 487708 (1.00): The score is 1.00 because all statements in the expected output are fully supported by the 1st node in the retrieval context. Fantastic job!",
+      "used_fallback_heuristic": false,
+      "judge_error": null,
+      "per_gold_scores": [
+        0.46153846153846156,
+        1.0
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "244023",
+          "score": 0.46153846153846156,
+          "reason": "The score is 0.46 because while sentences such as kernel requirements and popular kernels are well-supported by node(s) in retrieval context 2, and non-parametric estimation by nodes 3 and 4, several key details regarding Parzen window equivalence, empirical distributions, histograms, mathematical formulas, and plot illustrations are absent from the retrieval contexts."
+        },
+        {
+          "gold_id": "487708",
+          "score": 1.0,
+          "reason": "The score is 1.00 because all statements in the expected output are fully supported by the 1st node in the retrieval context. Fantastic job!"
+        }
+      ],
+      "n_gold_scored": 2
+    },
+    {
+      "query_id": "neg_19",
+      "category": "negation",
+      "query": "Feature engineering category mapping without one-hot encoding?",
+      "exact_gold_hit_1": false,
+      "exact_gold_hit_3": false,
+      "exact_gold_hit_5": false,
+      "multi_gold_hit_1": false,
+      "multi_gold_hit_3": false,
+      "multi_gold_hit_5": false,
+      "precision_1": 0.0,
+      "precision_3": 0.0,
+      "precision_5": 0.0,
+      "mrr": 0.0,
+      "multi_mrr": 0.0,
+      "contextual_recall_score": 0.14285714285714285,
+      "reason": "Mean of 1 per-gold-document score(s): [0.14]. Best-covered gold 411775 (0.14): The score is 0.14 because only sentence 4 in the expected output is supported by the 4th node in the retrieval context discussing feature hashing, while sentences 1, 2, 3, 5, 6, and 7 lack attribution due to missing information on conversational filler, label-encoding, distributed representations, word embeddings, and account numbers.",
+      "used_fallback_heuristic": false,
+      "judge_error": "ValueError: Evaluation LLM outputted an invalid JSON. Please use a better evaluation model.",
+      "per_gold_scores": [
+        0.14285714285714285
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "411775",
+          "score": 0.14285714285714285,
+          "reason": "The score is 0.14 because only sentence 4 in the expected output is supported by the 4th node in the retrieval context discussing feature hashing, while sentences 1, 2, 3, 5, 6, and 7 lack attribution due to missing information on conversational filler, label-encoding, distributed representations, word embeddings, and account numbers."
+        }
+      ],
+      "n_gold_scored": 1
+    },
+    {
+      "query_id": "neg_20",
+      "category": "negation",
+      "query": "How to build a recommender system using association rules or market basket analysis?",
+      "exact_gold_hit_1": true,
+      "exact_gold_hit_3": true,
+      "exact_gold_hit_5": true,
+      "multi_gold_hit_1": true,
+      "multi_gold_hit_3": true,
+      "multi_gold_hit_5": true,
+      "precision_1": 1.0,
+      "precision_3": 1.0,
+      "precision_5": 0.8,
+      "mrr": 1.0,
+      "multi_mrr": 1.0,
+      "contextual_recall_score": 0.4375,
+      "reason": "Mean of 2 per-gold-document score(s): [0.0, 0.88]. Best-covered gold 391727 (0.88): The score is 0.88 because most sentences in the expected output are well-supported by the 1st, 2nd, 3rd, and 5th nodes in retrieval context, with only the figure caption sentences lacking direct textual attribution.",
+      "used_fallback_heuristic": false,
+      "judge_error": null,
+      "per_gold_scores": [
+        0.0,
+        0.875
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "183667",
+          "score": 0.0,
+          "reason": "The score is 0.00 because sentences 1 through 11 in the expected output cannot be attributed to any information in the node(s) in retrieval context."
+        },
+        {
+          "gold_id": "391727",
+          "score": 0.875,
+          "reason": "The score is 0.88 because most sentences in the expected output are well-supported by the 1st, 2nd, 3rd, and 5th nodes in retrieval context, with only the figure caption sentences lacking direct textual attribution."
+        }
+      ],
+      "n_gold_scored": 2
+    },
+    {
+      "query_id": "mturn_01",
+      "category": "multi_turn",
+      "query": "How do I use cross-validation to detect and prevent it?",
+      "exact_gold_hit_1": false,
+      "exact_gold_hit_3": false,
+      "exact_gold_hit_5": false,
+      "multi_gold_hit_1": false,
+      "multi_gold_hit_3": false,
+      "multi_gold_hit_5": false,
+      "precision_1": 0.0,
+      "precision_3": 0.0,
+      "precision_5": 0.0,
+      "mrr": 0.0,
+      "multi_mrr": 0.0,
+      "contextual_recall_score": 0.0,
+      "reason": "Mean of 3 per-gold-document score(s): [0.0, 0.0, 0.0]. Best-covered gold 9055 (0.00): The score is 0.00 because all sentences in the expected output (such as the limitations of cross-validation on small datasets and the comparison between k-fold and leave-one-out cross-validation) fail to find any matching information across the nodes in the retrieval context.",
+      "used_fallback_heuristic": false,
+      "judge_error": null,
+      "per_gold_scores": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "9055",
+          "score": 0.0,
+          "reason": "The score is 0.00 because all sentences in the expected output (such as the limitations of cross-validation on small datasets and the comparison between k-fold and leave-one-out cross-validation) fail to find any matching information across the nodes in the retrieval context."
+        },
+        {
+          "gold_id": "193719",
+          "score": 0.0,
+          "reason": "The score is 0.00 because none of the sentences in the expected output can be attributed to any of the nodes in the retrieval context, as the contexts fail to mention cross-validation as a technique to minimize overfitting, its limitations with unrepresentative data, or the specific flawed situations involving past-to-future predictions and data bias."
+        },
+        {
+          "gold_id": "9059",
+          "score": 0.0,
+          "reason": "The score is 0.00 because none of the sentences from the expected output, including the introductory remark (sentence 1), the explanation of overfitting (sentence 2), the discussion on cross-validation (sentence 3), the mention of AIC, BIC, and linear models (sentence 4), and the generalization perspective (sentence 5), can be attributed to any of the nodes in retrieval context."
+        }
+      ],
+      "n_gold_scored": 3
+    },
+    {
+      "query_id": "mturn_02",
+      "category": "multi_turn",
+      "query": "Which regularization method handles multicollinearity better?",
+      "exact_gold_hit_1": true,
+      "exact_gold_hit_3": true,
+      "exact_gold_hit_5": true,
+      "multi_gold_hit_1": true,
+      "multi_gold_hit_3": true,
+      "multi_gold_hit_5": true,
+      "precision_1": 1.0,
+      "precision_3": 0.6666666666666666,
+      "precision_5": 0.4,
+      "mrr": 1.0,
+      "multi_mrr": 1.0,
+      "contextual_recall_score": 0.875,
+      "reason": "Mean of 1 per-gold-document score(s): [0.88]. Best-covered gold 184023 (0.88): The score is 0.88 because sentences 1 through 7 of the expected output are successfully attributed to node(s) in retrieval context 1, while the final sentence is cut off and lacks corresponding context.",
+      "used_fallback_heuristic": false,
+      "judge_error": null,
+      "per_gold_scores": [
+        0.875
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "184023",
+          "score": 0.875,
+          "reason": "The score is 0.88 because sentences 1 through 7 of the expected output are successfully attributed to node(s) in retrieval context 1, while the final sentence is cut off and lacks corresponding context."
+        }
+      ],
+      "n_gold_scored": 1
+    },
+    {
+      "query_id": "mturn_03",
+      "category": "multi_turn",
+      "query": "How does that differ from a prediction interval?",
+      "exact_gold_hit_1": false,
+      "exact_gold_hit_3": true,
+      "exact_gold_hit_5": true,
+      "multi_gold_hit_1": false,
+      "multi_gold_hit_3": true,
+      "multi_gold_hit_5": true,
+      "precision_1": 0.0,
+      "precision_3": 0.3333333333333333,
+      "precision_5": 0.6,
+      "mrr": 0.5,
+      "multi_mrr": 0.5,
+      "contextual_recall_score": 0.9215686274509803,
+      "reason": "Mean of 3 per-gold-document score(s): [1.0, 1.0, 0.76]. Best-covered gold 16496 (1.00): The score is 1.00 because all sentences in the expected output are fully supported by the 2nd node in the retrieval context, ensuring a complete and accurate recall!",
+      "used_fallback_heuristic": false,
+      "judge_error": null,
+      "per_gold_scores": [
+        1.0,
+        1.0,
+        0.7647058823529411
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "16496",
+          "score": 1.0,
+          "reason": "The score is 1.00 because all sentences in the expected output are fully supported by the 2nd node in the retrieval context, ensuring a complete and accurate recall!"
+        },
+        {
+          "gold_id": "16498",
+          "score": 1.0,
+          "reason": "The score is 1.00 because all sentences in the expected output are successfully attributed to the 5th node in the retrieval context! Excellent retrieval accuracy."
+        },
+        {
+          "gold_id": "271232",
+          "score": 0.7647058823529411,
+          "reason": "The score is 0.76 because sentences 1 through 13 of the expected output are successfully attributed to the 4th node in the retrieval context, while the remaining sentences cannot be found in the provided context."
+        }
+      ],
+      "n_gold_scored": 3
+    },
+    {
+      "query_id": "mturn_04",
+      "category": "multi_hop",
+      "query": "Between AIC and BIC, which one penalizes variables more strictly?",
+      "exact_gold_hit_1": false,
+      "exact_gold_hit_3": false,
+      "exact_gold_hit_5": false,
+      "multi_gold_hit_1": false,
+      "multi_gold_hit_3": false,
+      "multi_gold_hit_5": false,
+      "precision_1": 0.0,
+      "precision_3": 0.0,
+      "precision_5": 0.0,
+      "mrr": 0.0,
+      "multi_mrr": 0.0,
+      "contextual_recall_score": 0.9230769230769231,
+      "reason": "Mean of 1 per-gold-document score(s): [0.92]. Best-covered gold 583 (0.92): The score is 0.92 because most sentences in the expected output are well-supported by the 1st, 2nd, 3rd, 4th, and 5th nodes in retrieval context, except for the specific detail regarding K-L divergence and convergence in probability.",
+      "used_fallback_heuristic": false,
+      "judge_error": null,
+      "per_gold_scores": [
+        0.9230769230769231
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "583",
+          "score": 0.9230769230769231,
+          "reason": "The score is 0.92 because most sentences in the expected output are well-supported by the 1st, 2nd, 3rd, 4th, and 5th nodes in retrieval context, except for the specific detail regarding K-L divergence and convergence in probability."
+        }
+      ],
+      "n_gold_scored": 1
+    },
+    {
+      "query_id": "mturn_05",
+      "category": "multi_turn",
+      "query": "What assumption does it make about the mean and variance?",
+      "exact_gold_hit_1": false,
+      "exact_gold_hit_3": false,
+      "exact_gold_hit_5": false,
+      "multi_gold_hit_1": false,
+      "multi_gold_hit_3": false,
+      "multi_gold_hit_5": false,
+      "precision_1": 0.0,
+      "precision_3": 0.0,
+      "precision_5": 0.0,
+      "mrr": 0.0,
+      "multi_mrr": 0.0,
+      "contextual_recall_score": 0.0,
+      "reason": "Mean of 1 per-gold-document score(s): [0.0]. Best-covered gold 18666 (0.00): The score is 0.00 because none of the sentences in the expected output can be attributed to any node(s) in retrieval context.",
+      "used_fallback_heuristic": false,
+      "judge_error": null,
+      "per_gold_scores": [
+        0.0
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "18666",
+          "score": 0.0,
+          "reason": "The score is 0.00 because none of the sentences in the expected output can be attributed to any node(s) in retrieval context."
+        }
+      ],
+      "n_gold_scored": 1
+    },
+    {
+      "query_id": "mturn_06",
+      "category": "multi_turn",
+      "query": "Does increasing the number of trees cause it to overfit?",
+      "exact_gold_hit_1": false,
+      "exact_gold_hit_3": true,
+      "exact_gold_hit_5": true,
+      "multi_gold_hit_1": false,
+      "multi_gold_hit_3": true,
+      "multi_gold_hit_5": true,
+      "precision_1": 0.0,
+      "precision_3": 0.3333333333333333,
+      "precision_5": 0.4,
+      "mrr": 0.5,
+      "multi_mrr": 0.5,
+      "contextual_recall_score": 0.375,
+      "reason": "Mean of 1 per-gold-document score(s): [0.38]. Best-covered gold 346984 (0.38): The score is 0.38 because sentences 1 and 2 of the expected output are partially supported by node(s) in retrieval context 1, 2, and 4, while sentences 3 through 8 lack support in the retrieval context regarding specific parameter recommendations, hyperparameter tuning discussions, and external paper links.",
+      "used_fallback_heuristic": false,
+      "judge_error": "ValueError: Evaluation LLM outputted an invalid JSON. Please use a better evaluation model.",
+      "per_gold_scores": [
+        0.375
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "346984",
+          "score": 0.375,
+          "reason": "The score is 0.38 because sentences 1 and 2 of the expected output are partially supported by node(s) in retrieval context 1, 2, and 4, while sentences 3 through 8 lack support in the retrieval context regarding specific parameter recommendations, hyperparameter tuning discussions, and external paper links."
+        }
+      ],
+      "n_gold_scored": 1
+    },
+    {
+      "query_id": "mturn_07",
+      "category": "multi_turn",
+      "query": "Is the MLE estimator always unbiased?",
+      "exact_gold_hit_1": false,
+      "exact_gold_hit_3": true,
+      "exact_gold_hit_5": true,
+      "multi_gold_hit_1": false,
+      "multi_gold_hit_3": true,
+      "multi_gold_hit_5": true,
+      "precision_1": 0.0,
+      "precision_3": 0.3333333333333333,
+      "precision_5": 0.2,
+      "mrr": 0.3333333333333333,
+      "multi_mrr": 0.3333333333333333,
+      "contextual_recall_score": 1.0,
+      "reason": "Mean of 1 per-gold-document score(s): [1.0]. Best-covered gold 183062 (1.00): The score is 1.00 because all sentences in the expected output are fully supported by the 3rd node in retrieval context!",
+      "used_fallback_heuristic": false,
+      "judge_error": null,
+      "per_gold_scores": [
+        1.0
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "183062",
+          "score": 1.0,
+          "reason": "The score is 1.00 because all sentences in the expected output are fully supported by the 3rd node in retrieval context!"
+        }
+      ],
+      "n_gold_scored": 1
+    },
+    {
+      "query_id": "mturn_08",
+      "category": "multi_turn",
+      "query": "How do we test for it?",
+      "exact_gold_hit_1": false,
+      "exact_gold_hit_3": false,
+      "exact_gold_hit_5": false,
+      "multi_gold_hit_1": false,
+      "multi_gold_hit_3": false,
+      "multi_gold_hit_5": false,
+      "precision_1": 0.0,
+      "precision_3": 0.0,
+      "precision_5": 0.0,
+      "mrr": 0.0,
+      "multi_mrr": 0.0,
+      "contextual_recall_score": 0.0,
+      "reason": "Mean of 3 per-gold-document score(s): [0.0, 0.0, 0.0]. Best-covered gold 131244 (0.00): The score is 0.00 because none of the sentences in the expected output can be attributed to any information across the nodes in retrieval context, as the context completely lacks details regarding the Wikipedia ADF test equation, R's tseries package adf.test() function, and the associated source code implementation.",
+      "used_fallback_heuristic": false,
+      "judge_error": null,
+      "per_gold_scores": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "131244",
+          "score": 0.0,
+          "reason": "The score is 0.00 because none of the sentences in the expected output can be attributed to any information across the nodes in retrieval context, as the context completely lacks details regarding the Wikipedia ADF test equation, R's tseries package adf.test() function, and the associated source code implementation."
+        },
+        {
+          "gold_id": "137615",
+          "score": 0.0,
+          "reason": "The score is 0.00 because none of the sentences in the expected output can be attributed to any node(s) in retrieval context."
+        },
+        {
+          "gold_id": "235916",
+          "score": 0.0,
+          "reason": "The score is 0.00 because none of the sentences in the expected output can be attributed to any node in retrieval context."
+        }
+      ],
+      "n_gold_scored": 3
+    },
+    {
+      "query_id": "mturn_09",
+      "category": "multi_turn",
+      "query": "Do we need to scale features before running it?",
+      "exact_gold_hit_1": false,
+      "exact_gold_hit_3": false,
+      "exact_gold_hit_5": false,
+      "multi_gold_hit_1": false,
+      "multi_gold_hit_3": false,
+      "multi_gold_hit_5": false,
+      "precision_1": 0.0,
+      "precision_3": 0.0,
+      "precision_5": 0.0,
+      "mrr": 0.0,
+      "multi_mrr": 0.0,
+      "contextual_recall_score": 0.0,
+      "reason": "Mean of 1 per-gold-document score(s): [0.0]. Best-covered gold 78 (0.00): The score is 0.00 because none of the sentences in the expected output, such as the advice on using covariance versus correlation matrices for different variable scales (sentence 1), the standardization details (sentence 2), or the R heptathlon data set examples and outputs (sentences 3 through 8), can be attributed to any node in retrieval context.",
+      "used_fallback_heuristic": false,
+      "judge_error": null,
+      "per_gold_scores": [
+        0.0
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "78",
+          "score": 0.0,
+          "reason": "The score is 0.00 because none of the sentences in the expected output, such as the advice on using covariance versus correlation matrices for different variable scales (sentence 1), the standardization details (sentence 2), or the R heptathlon data set examples and outputs (sentences 3 through 8), can be attributed to any node in retrieval context."
+        }
+      ],
+      "n_gold_scored": 1
+    },
+    {
+      "query_id": "mturn_10",
+      "category": "multi_turn",
+      "query": "What does the author suggest to do with a U\u2011statistic calculation, and how does the author specifically define a non\u2011parametric test?",
+      "exact_gold_hit_1": false,
+      "exact_gold_hit_3": true,
+      "exact_gold_hit_5": true,
+      "multi_gold_hit_1": false,
+      "multi_gold_hit_3": true,
+      "multi_gold_hit_5": true,
+      "precision_1": 0.0,
+      "precision_3": 0.3333333333333333,
+      "precision_5": 0.2,
+      "mrr": 0.5,
+      "multi_mrr": 0.5,
+      "contextual_recall_score": 0.8888888888888888,
+      "reason": "Mean of 1 per-gold-document score(s): [0.89]. Best-covered gold 67210 (0.89): The score is 0.89 because sentences 1 through 8 are successfully attributed to node(s) in retrieval context 2, while sentence 9 is missing from the context as it introduces an unmentioned thought about research and test results.",
+      "used_fallback_heuristic": false,
+      "judge_error": null,
+      "per_gold_scores": [
+        0.8888888888888888
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "67210",
+          "score": 0.8888888888888888,
+          "reason": "The score is 0.89 because sentences 1 through 8 are successfully attributed to node(s) in retrieval context 2, while sentence 9 is missing from the context as it introduces an unmentioned thought about research and test results."
+        }
+      ],
+      "n_gold_scored": 1
+    },
+    {
+      "query_id": "mturn_11",
+      "category": "multi_hop",
+      "query": "Why do deep networks prefer ReLU over sigmoid?",
+      "exact_gold_hit_1": false,
+      "exact_gold_hit_3": false,
+      "exact_gold_hit_5": false,
+      "multi_gold_hit_1": false,
+      "multi_gold_hit_3": false,
+      "multi_gold_hit_5": false,
+      "precision_1": 0.0,
+      "precision_3": 0.0,
+      "precision_5": 0.0,
+      "mrr": 0.0,
+      "multi_mrr": 0.0,
+      "contextual_recall_score": 0.7222222222222222,
+      "reason": "Mean of 3 per-gold-document score(s): [0.5, 1.0, 0.67]. Best-covered gold 211359 (1.00): The score is 1.00 because all sentences in the expected output are fully supported by information found across the 1st, 3rd, and 5th node(s) in retrieval context.",
+      "used_fallback_heuristic": false,
+      "judge_error": null,
+      "per_gold_scores": [
+        0.5,
+        1.0,
+        0.6666666666666666
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "126362",
+          "score": 0.5,
+          "reason": "The score is 0.50 because sentences 1, 2, and 3 of the expected output are well-supported by node(s) in retrieval context 2 and 3 regarding vanishing gradients and sparsity, whereas the remaining sentences detailing formulas and comparisons with sigmoids lack corresponding context."
+        },
+        {
+          "gold_id": "211359",
+          "score": 1.0,
+          "reason": "The score is 1.00 because all sentences in the expected output are fully supported by information found across the 1st, 3rd, and 5th node(s) in retrieval context."
+        },
+        {
+          "gold_id": "298793",
+          "score": 0.6666666666666666,
+          "reason": "The score is 0.67 because sentences regarding the ReLU function and vanishing gradients are successfully attributed to node(s) in retrieval context 3 and node 1, while introductory remarks, headers, and the specific claim about the sigmoid derivative being at most 0.25 lack corresponding information in the retrieval context."
+        }
+      ],
+      "n_gold_scored": 3
+    },
+    {
+      "query_id": "mturn_12",
+      "category": "multi_turn",
+      "query": "How do we construct confidence intervals using these samples?",
+      "exact_gold_hit_1": false,
+      "exact_gold_hit_3": false,
+      "exact_gold_hit_5": false,
+      "multi_gold_hit_1": false,
+      "multi_gold_hit_3": false,
+      "multi_gold_hit_5": false,
+      "precision_1": 0.0,
+      "precision_3": 0.0,
+      "precision_5": 0.0,
+      "mrr": 0.0,
+      "multi_mrr": 0.0,
+      "contextual_recall_score": 0.0,
+      "reason": "Mean of 1 per-gold-document score(s): [0.0]. Best-covered gold 104746 (0.00): The score is 0.00 because all sentences in the expected output, ranging from the general discussion of resampling methods to the definition of bootstrapping, R code examples, and case resampling details, cannot be attributed to any node(s) in retrieval context.",
+      "used_fallback_heuristic": false,
+      "judge_error": null,
+      "per_gold_scores": [
+        0.0
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "104746",
+          "score": 0.0,
+          "reason": "The score is 0.00 because all sentences in the expected output, ranging from the general discussion of resampling methods to the definition of bootstrapping, R code examples, and case resampling details, cannot be attributed to any node(s) in retrieval context."
+        }
+      ],
+      "n_gold_scored": 1
+    },
+    {
+      "query_id": "mturn_13",
+      "category": "multi_turn",
+      "query": "What happens if the instrument is weak?",
+      "exact_gold_hit_1": false,
+      "exact_gold_hit_3": false,
+      "exact_gold_hit_5": false,
+      "multi_gold_hit_1": false,
+      "multi_gold_hit_3": false,
+      "multi_gold_hit_5": false,
+      "precision_1": 0.0,
+      "precision_3": 0.0,
+      "precision_5": 0.0,
+      "mrr": 0.0,
+      "multi_mrr": 0.0,
+      "contextual_recall_score": 0.0,
+      "reason": "Mean of 1 per-gold-document score(s): [0.0]. Best-covered gold 107931 (0.00): The score is 0.00 because all sentences in the expected output, ranging from the first regarding IV and OLS estimator bias to the final sentence about weak instrument regressions, cannot be attributed to any information found in the nodes in retrieval context.",
+      "used_fallback_heuristic": false,
+      "judge_error": null,
+      "per_gold_scores": [
+        0.0
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "107931",
+          "score": 0.0,
+          "reason": "The score is 0.00 because all sentences in the expected output, ranging from the first regarding IV and OLS estimator bias to the final sentence about weak instrument regressions, cannot be attributed to any information found in the nodes in retrieval context."
+        }
+      ],
+      "n_gold_scored": 1
+    },
+    {
+      "query_id": "mturn_15",
+      "category": "multi_turn",
+      "query": "Does a decay schedule help optimization convergence?",
+      "exact_gold_hit_1": false,
+      "exact_gold_hit_3": false,
+      "exact_gold_hit_5": false,
+      "multi_gold_hit_1": false,
+      "multi_gold_hit_3": false,
+      "multi_gold_hit_5": false,
+      "precision_1": 0.0,
+      "precision_3": 0.0,
+      "precision_5": 0.0,
+      "mrr": 0.0,
+      "multi_mrr": 0.0,
+      "contextual_recall_score": 0.0,
+      "reason": "Mean of 2 per-gold-document score(s): [0.0, 0.0]. Best-covered gold 235052 (0.00): The score is 0.00 because sentence 1 of the expected output regarding the learning rate changing after a certain number of iterations cannot be attributed to any node in the retrieval context, nor can the reference URL and subsequent detailed explanations.",
+      "used_fallback_heuristic": false,
+      "judge_error": null,
+      "per_gold_scores": [
+        0.0,
+        0.0
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "235052",
+          "score": 0.0,
+          "reason": "The score is 0.00 because sentence 1 of the expected output regarding the learning rate changing after a certain number of iterations cannot be attributed to any node in the retrieval context, nor can the reference URL and subsequent detailed explanations."
+        },
+        {
+          "gold_id": "384202",
+          "score": 0.0,
+          "reason": "The score is 0.00 because all sentences in the expected output, from sentence 1 discussing the confusion of stability meanings to sentence 5 explaining step sizes with batch size $B$, cannot be attributed to any of the nodes in retrieval context."
+        }
+      ],
+      "n_gold_scored": 2
+    },
+    {
+      "query_id": "mturn_16",
+      "category": "multi_turn",
+      "query": "Why is this generally not recommended?",
+      "exact_gold_hit_1": true,
+      "exact_gold_hit_3": true,
+      "exact_gold_hit_5": true,
+      "multi_gold_hit_1": true,
+      "multi_gold_hit_3": true,
+      "multi_gold_hit_5": true,
+      "precision_1": 1.0,
+      "precision_3": 0.3333333333333333,
+      "precision_5": 0.2,
+      "mrr": 1.0,
+      "multi_mrr": 1.0,
+      "contextual_recall_score": 0.4444444444444444,
+      "reason": "Mean of 3 per-gold-document score(s): [0.0, 1.0, 0.33]. Best-covered gold 45868 (1.00): The score is 1.00 because all sentences in the expected output are fully supported by the 1st node in the retrieval context, demonstrating perfect information retrieval!",
+      "used_fallback_heuristic": false,
+      "judge_error": null,
+      "per_gold_scores": [
+        0.0,
+        1.0,
+        0.3333333333333333
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "11197",
+          "score": 0.0,
+          "reason": "The score is 0.00 because sentences 1 to 12 in the expected output cannot be attributed to any node(s) in retrieval context."
+        },
+        {
+          "gold_id": "45868",
+          "score": 1.0,
+          "reason": "The score is 1.00 because all sentences in the expected output are fully supported by the 1st node in the retrieval context, demonstrating perfect information retrieval!"
+        },
+        {
+          "gold_id": "509026",
+          "score": 0.3333333333333333,
+          "reason": "The score is 0.33 because sentence 1 of the expected output is supported by the 1st node in the retrieval context regarding mean or median imputation, but sentences 2 through 7 cannot be attributed to any information in the node(s) in retrieval context."
+        }
+      ],
+      "n_gold_scored": 3
+    },
+    {
+      "query_id": "mturn_17",
+      "category": "multi_hop",
+      "query": "How does it compare to t-SNE for preserving global structure?",
+      "exact_gold_hit_1": true,
+      "exact_gold_hit_3": true,
+      "exact_gold_hit_5": true,
+      "multi_gold_hit_1": true,
+      "multi_gold_hit_3": true,
+      "multi_gold_hit_5": true,
+      "precision_1": 1.0,
+      "precision_3": 0.3333333333333333,
+      "precision_5": 0.2,
+      "mrr": 1.0,
+      "multi_mrr": 1.0,
+      "contextual_recall_score": 1.0,
+      "reason": "Mean of 1 per-gold-document score(s): [1.0]. Best-covered gold 402676 (1.00): The score is 1.00 because all sentences in the expected output are successfully supported by the 1st node in the retrieval context, reflecting a flawless retrieval performance!",
+      "used_fallback_heuristic": false,
+      "judge_error": null,
+      "per_gold_scores": [
+        1.0
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "402676",
+          "score": 1.0,
+          "reason": "The score is 1.00 because all sentences in the expected output are successfully supported by the 1st node in the retrieval context, reflecting a flawless retrieval performance!"
+        }
+      ],
+      "n_gold_scored": 1
+    },
+    {
+      "query_id": "mturn_18",
+      "category": "multi_turn",
+      "query": "How does class imbalance affect it compared to Precision-Recall curves?",
+      "exact_gold_hit_1": false,
+      "exact_gold_hit_3": false,
+      "exact_gold_hit_5": true,
+      "multi_gold_hit_1": false,
+      "multi_gold_hit_3": false,
+      "multi_gold_hit_5": true,
+      "precision_1": 0.0,
+      "precision_3": 0.0,
+      "precision_5": 0.2,
+      "mrr": 0.2,
+      "multi_mrr": 0.2,
+      "contextual_recall_score": 1.0,
+      "reason": "Mean of 2 per-gold-document score(s): [1.0, 1.0]. Best-covered gold 90781 (1.00): The score is 1.00 because all sentences in the expected output are fully supported by the 3rd and 5th node(s) in retrieval context, making this a stellar retrieval!",
+      "used_fallback_heuristic": false,
+      "judge_error": null,
+      "per_gold_scores": [
+        1.0,
+        1.0
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "90781",
+          "score": 1.0,
+          "reason": "The score is 1.00 because all sentences in the expected output are fully supported by the 3rd and 5th node(s) in retrieval context, making this a stellar retrieval!"
+        },
+        {
+          "gold_id": "90783",
+          "score": 1.0,
+          "reason": "The score is 1.00 because every sentence in the expected output is fully supported by the 5th node in the retrieval context."
+        }
+      ],
+      "n_gold_scored": 2
+    },
+    {
+      "query_id": "mturn_19",
+      "category": "multi_hop",
+      "query": "When should we use a random intercept vs random slope?",
+      "exact_gold_hit_1": false,
+      "exact_gold_hit_3": false,
+      "exact_gold_hit_5": false,
+      "multi_gold_hit_1": false,
+      "multi_gold_hit_3": false,
+      "multi_gold_hit_5": false,
+      "precision_1": 0.0,
+      "precision_3": 0.0,
+      "precision_5": 0.0,
+      "mrr": 0.0,
+      "multi_mrr": 0.0,
+      "contextual_recall_score": 0.0,
+      "reason": "Mean of 1 per-gold-document score(s): [0.0]. Best-covered gold 66895 (0.00): The score is 0.00 because none of the sentences from the expected output can be attributed to any node(s) in retrieval context.",
+      "used_fallback_heuristic": false,
+      "judge_error": null,
+      "per_gold_scores": [
+        0.0
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "66895",
+          "score": 0.0,
+          "reason": "The score is 0.00 because none of the sentences from the expected output can be attributed to any node(s) in retrieval context."
+        }
+      ],
+      "n_gold_scored": 1
+    },
+    {
+      "query_id": "mturn_20",
+      "category": "multi_turn",
+      "query": "When should we prefer it over accuracy?",
+      "exact_gold_hit_1": false,
+      "exact_gold_hit_3": false,
+      "exact_gold_hit_5": false,
+      "multi_gold_hit_1": false,
+      "multi_gold_hit_3": false,
+      "multi_gold_hit_5": false,
+      "precision_1": 0.0,
+      "precision_3": 0.0,
+      "precision_5": 0.0,
+      "mrr": 0.0,
+      "multi_mrr": 0.0,
+      "contextual_recall_score": 0.0,
+      "reason": "Mean of 1 per-gold-document score(s): [0.0]. Best-covered gold 55605 (0.00): The score is 0.00 because none of the sentences in the expected output, including the definitions of b_acc and f1, their performance under class imbalances, and metric selection advice, can be attributed to any of the nodes in the retrieval context.",
+      "used_fallback_heuristic": false,
+      "judge_error": null,
+      "per_gold_scores": [
+        0.0
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "55605",
+          "score": 0.0,
+          "reason": "The score is 0.00 because none of the sentences in the expected output, including the definitions of b_acc and f1, their performance under class imbalances, and metric selection advice, can be attributed to any of the nodes in the retrieval context."
+        }
+      ],
+      "n_gold_scored": 1
+    },
+    {
+      "query_id": "mturn_21",
+      "category": "multi_turn",
+      "query": "How does right-censoring affect the Kaplan-Meier estimate?",
+      "exact_gold_hit_1": false,
+      "exact_gold_hit_3": false,
+      "exact_gold_hit_5": false,
+      "multi_gold_hit_1": false,
+      "multi_gold_hit_3": false,
+      "multi_gold_hit_5": false,
+      "precision_1": 0.0,
+      "precision_3": 0.0,
+      "precision_5": 0.0,
+      "mrr": 0.0,
+      "multi_mrr": 0.0,
+      "contextual_recall_score": 0.0,
+      "reason": "Mean of 2 per-gold-document score(s): [0.0, 0.0]. Best-covered gold 198481 (0.00): The score is 0.00 because none of the sentences in the expected output can be attributed to any node(s) in retrieval context.",
+      "used_fallback_heuristic": false,
+      "judge_error": null,
+      "per_gold_scores": [
+        0.0,
+        0.0
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "198481",
+          "score": 0.0,
+          "reason": "The score is 0.00 because none of the sentences in the expected output can be attributed to any node(s) in retrieval context."
+        },
+        {
+          "gold_id": "636153",
+          "score": 0.0,
+          "reason": "The score is 0.00 because none of the sentences in the expected output can be attributed to any node(s) in retrieval context, as the context lacks any information regarding nonparametric bounds, survival function estimates, or the associated Python code."
+        }
+      ],
+      "n_gold_scored": 2
+    },
+    {
+      "query_id": "mturn_22",
+      "category": "multi_turn",
+      "query": "How does running multiple A/B tests at once affect the false positive rate?",
+      "exact_gold_hit_1": false,
+      "exact_gold_hit_3": false,
+      "exact_gold_hit_5": false,
+      "multi_gold_hit_1": false,
+      "multi_gold_hit_3": false,
+      "multi_gold_hit_5": false,
+      "precision_1": 0.0,
+      "precision_3": 0.0,
+      "precision_5": 0.0,
+      "mrr": 0.0,
+      "multi_mrr": 0.0,
+      "contextual_recall_score": 0.3076923076923077,
+      "reason": "Mean of 1 per-gold-document score(s): [0.31]. Best-covered gold 64486 (0.31): The score is 0.31 because sentences like the mention of the Bonferroni adjustment and optional stopping are successfully attributed to node(s) in retrieval context 4 and 2 respectively, while a significant portion of the expected output regarding general statistical principles and specific nuances lacks direct support in the retrieval context.",
+      "used_fallback_heuristic": false,
+      "judge_error": null,
+      "per_gold_scores": [
+        0.3076923076923077
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "64486",
+          "score": 0.3076923076923077,
+          "reason": "The score is 0.31 because sentences like the mention of the Bonferroni adjustment and optional stopping are successfully attributed to node(s) in retrieval context 4 and 2 respectively, while a significant portion of the expected output regarding general statistical principles and specific nuances lacks direct support in the retrieval context."
+        }
+      ],
+      "n_gold_scored": 1
+    },
+    {
+      "query_id": "mturn_23",
+      "category": "multi_turn",
+      "query": "How does that differ from bagging methods like Random Forest?",
+      "exact_gold_hit_1": false,
+      "exact_gold_hit_3": false,
+      "exact_gold_hit_5": false,
+      "multi_gold_hit_1": false,
+      "multi_gold_hit_3": false,
+      "multi_gold_hit_5": false,
+      "precision_1": 0.0,
+      "precision_3": 0.0,
+      "precision_5": 0.0,
+      "mrr": 0.0,
+      "multi_mrr": 0.0,
+      "contextual_recall_score": 0.7272727272727273,
+      "reason": "Mean of 1 per-gold-document score(s): [0.73]. Best-covered gold 88020 (0.73): The score is 0.73 because most of the expected output is successfully attributed to node(s) in retrieval context 2 and 4, covering key concepts on bias-variance, random forests, bagging, and boosting, though some headers and specific details like CART trees in the second question lack direct support.",
+      "used_fallback_heuristic": false,
+      "judge_error": null,
+      "per_gold_scores": [
+        0.7272727272727273
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "88020",
+          "score": 0.7272727272727273,
+          "reason": "The score is 0.73 because most of the expected output is successfully attributed to node(s) in retrieval context 2 and 4, covering key concepts on bias-variance, random forests, bagging, and boosting, though some headers and specific details like CART trees in the second question lack direct support."
+        }
+      ],
+      "n_gold_scored": 1
+    },
+    {
+      "query_id": "hop_01",
+      "category": "multi_hop",
+      "query": "Compare the mathematical penalties of AIC and BIC, and explain when to use one over the other.",
+      "exact_gold_hit_1": true,
+      "exact_gold_hit_3": true,
+      "exact_gold_hit_5": true,
+      "multi_gold_hit_1": true,
+      "multi_gold_hit_3": true,
+      "multi_gold_hit_5": true,
+      "precision_1": 1.0,
+      "precision_3": 0.3333333333333333,
+      "precision_5": 0.2,
+      "mrr": 1.0,
+      "multi_mrr": 1.0,
+      "contextual_recall_score": 0.05555555555555555,
+      "reason": "Mean of 3 per-gold-document score(s): [0.0, 0.17, 0.0]. Best-covered gold 579 (0.17): The score is 0.17 because only a small portion of the expected output, specifically regarding BIC taking the number of samples into account, can be attributed to the 1st and 2nd nodes in retrieval context, while the majority of the text discussing personal opinions, assumptions, and cross-validation is entirely unsupported.",
+      "used_fallback_heuristic": false,
+      "judge_error": null,
+      "per_gold_scores": [
+        0.0,
+        0.16666666666666666,
+        0.0
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "494",
+          "score": 0.0,
+          "reason": "The score is 0.00 because sentences 1 and 2 of the expected output regarding the sign of AIC/AICc and its validity cannot be attributed to any node(s) in retrieval context."
+        },
+        {
+          "gold_id": "579",
+          "score": 0.16666666666666666,
+          "reason": "The score is 0.17 because only a small portion of the expected output, specifically regarding BIC taking the number of samples into account, can be attributed to the 1st and 2nd nodes in retrieval context, while the majority of the text discussing personal opinions, assumptions, and cross-validation is entirely unsupported."
+        },
+        {
+          "gold_id": "10165",
+          "score": 0.0,
+          "reason": "The score is 0.00 because all sentences in the expected output regarding Brian Ripley's derivation, assumptions, and specific mathematical details of AIC and BIC cannot be attributed to any information present in the 1st through 5th nodes in retrieval context."
+        }
+      ],
+      "n_gold_scored": 3
+    },
+    {
+      "query_id": "hop_02",
+      "category": "multi_hop",
+      "query": "How do bagging and boosting differ in how they combine weak learners?",
+      "exact_gold_hit_1": false,
+      "exact_gold_hit_3": false,
+      "exact_gold_hit_5": false,
+      "multi_gold_hit_1": false,
+      "multi_gold_hit_3": false,
+      "multi_gold_hit_5": false,
+      "precision_1": 0.0,
+      "precision_3": 0.0,
+      "precision_5": 0.0,
+      "mrr": 0.0,
+      "multi_mrr": 0.0,
+      "contextual_recall_score": 0.016129032258064516,
+      "reason": "Mean of 2 per-gold-document score(s): [0.0, 0.03]. Best-covered gold 372975 (0.03): The score is 0.03 because while the mention of the 'no free lunch theorem' is successfully attributed to node(s) in retrieval context 3, almost all other sentences regarding bagging, boosting pseudo code, and specific algorithm comparisons cannot be found in the retrieval context.",
+      "used_fallback_heuristic": false,
+      "judge_error": null,
+      "per_gold_scores": [
+        0.0,
+        0.03225806451612903
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "152698",
+          "score": 0.0,
+          "reason": "The score is 0.00 because none of the sentences in the expected output could be attributed to any node(s) in retrieval context. Specifically, sentences 1 through 6 lack corresponding evidence in the retrieved nodes regarding the comparative overfitting risks, the impact of mislabeled cases, the specific performance expectations of boosting, the conditions for ensemble model usefulness, the dual causes of variance uncertainty, and the testing requirements for boosting versus bagging."
+        },
+        {
+          "gold_id": "372975",
+          "score": 0.03225806451612903,
+          "reason": "The score is 0.03 because while the mention of the 'no free lunch theorem' is successfully attributed to node(s) in retrieval context 3, almost all other sentences regarding bagging, boosting pseudo code, and specific algorithm comparisons cannot be found in the retrieval context."
+        }
+      ],
+      "n_gold_scored": 2
+    },
+    {
+      "query_id": "hop_03",
+      "category": "multi_hop",
+      "query": "What's the relationship between Type I error, Type II error, and statistical power?",
+      "exact_gold_hit_1": false,
+      "exact_gold_hit_3": false,
+      "exact_gold_hit_5": false,
+      "multi_gold_hit_1": false,
+      "multi_gold_hit_3": false,
+      "multi_gold_hit_5": false,
+      "precision_1": 0.0,
+      "precision_3": 0.0,
+      "precision_5": 0.0,
+      "mrr": 0.0,
+      "multi_mrr": 0.0,
+      "contextual_recall_score": 0.0,
+      "reason": "Mean of 1 per-gold-document score(s): [0.0]. Best-covered gold 176390 (0.00): The score is 0.00 because all sentences in the expected output, from the first sentence regarding sample size and error types to the final conclusion, cannot be attributed to any node(s) in retrieval context.",
+      "used_fallback_heuristic": false,
+      "judge_error": "ValueError: Evaluation LLM outputted an invalid JSON. Please use a better evaluation model.",
+      "per_gold_scores": [
+        0.0
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "176390",
+          "score": 0.0,
+          "reason": "The score is 0.00 because all sentences in the expected output, from the first sentence regarding sample size and error types to the final conclusion, cannot be attributed to any node(s) in retrieval context."
+        }
+      ],
+      "n_gold_scored": 1
+    },
+    {
+      "query_id": "hop_04",
+      "category": "multi_hop",
+      "query": "How do precision and recall trade off, and how does the F1 score summarize that trade-off?",
+      "exact_gold_hit_1": false,
+      "exact_gold_hit_3": false,
+      "exact_gold_hit_5": false,
+      "multi_gold_hit_1": false,
+      "multi_gold_hit_3": false,
+      "multi_gold_hit_5": false,
+      "precision_1": 0.0,
+      "precision_3": 0.0,
+      "precision_5": 0.0,
+      "mrr": 0.0,
+      "multi_mrr": 0.0,
+      "contextual_recall_score": 0.0,
+      "reason": "Mean of 2 per-gold-document score(s): [0.0, 0.0]. Best-covered gold 253992 (0.00): The score is 0.00 because none of the sentences in the expected output can be attributed to any of the nodes in the retrieval context, as the context completely fails to provide information regarding the Dice coefficient, F1 score, accuracy, formulas, or related evaluation metrics.",
+      "used_fallback_heuristic": false,
+      "judge_error": null,
+      "per_gold_scores": [
+        0.0,
+        0.0
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "253992",
+          "score": 0.0,
+          "reason": "The score is 0.00 because none of the sentences in the expected output can be attributed to any of the nodes in the retrieval context, as the context completely fails to provide information regarding the Dice coefficient, F1 score, accuracy, formulas, or related evaluation metrics."
+        },
+        {
+          "gold_id": "55605",
+          "score": 0.0,
+          "reason": "The score is 0.00 because none of the sentences from the expected output can be attributed to the nodes in retrieval context, as information regarding b_acc and metric selection is entirely missing."
+        }
+      ],
+      "n_gold_scored": 2
+    },
+    {
+      "query_id": "hop_05",
+      "category": "multi_hop",
+      "query": "Compare Lasso and Ridge regression penalties and how they behave with highly correlated features.",
+      "exact_gold_hit_1": false,
+      "exact_gold_hit_3": true,
+      "exact_gold_hit_5": true,
+      "multi_gold_hit_1": false,
+      "multi_gold_hit_3": true,
+      "multi_gold_hit_5": true,
+      "precision_1": 0.0,
+      "precision_3": 0.3333333333333333,
+      "precision_5": 0.2,
+      "mrr": 0.3333333333333333,
+      "multi_mrr": 0.3333333333333333,
+      "contextual_recall_score": 0.6071428571428572,
+      "reason": "Mean of 2 per-gold-document score(s): [0.93, 0.29]. Best-covered gold 4274 (0.93): The score is 0.93 because most sentences in the expected output are successfully attributed to the 3rd node in the retrieval context, except for the final details regarding specific algorithms, R packages, and Python toolkits.",
+      "used_fallback_heuristic": false,
+      "judge_error": null,
+      "per_gold_scores": [
+        0.9285714285714286,
+        0.2857142857142857
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "4274",
+          "score": 0.9285714285714286,
+          "reason": "The score is 0.93 because most sentences in the expected output are successfully attributed to the 3rd node in the retrieval context, except for the final details regarding specific algorithms, R packages, and Python toolkits."
+        },
+        {
+          "gold_id": "876",
+          "score": 0.2857142857142857,
+          "reason": "The score is 0.29 because sentences like the first through fourth sentences of the expected output are successfully attributed to node(s) in retrieval context 1, 2, 3, and 5, but a significant portion of the expected output regarding the Non-Negative Garotte, software implementations, and specific references cannot be attributed to any retrieval context."
+        }
+      ],
+      "n_gold_scored": 2
+    },
+    {
+      "query_id": "hop_06",
+      "category": "multi_hop",
+      "query": "Explain the difference in how PCA and Factor Analysis handle observed variance.",
+      "exact_gold_hit_1": true,
+      "exact_gold_hit_3": true,
+      "exact_gold_hit_5": true,
+      "multi_gold_hit_1": true,
+      "multi_gold_hit_3": true,
+      "multi_gold_hit_5": true,
+      "precision_1": 1.0,
+      "precision_3": 0.3333333333333333,
+      "precision_5": 0.4,
+      "mrr": 1.0,
+      "multi_mrr": 1.0,
+      "contextual_recall_score": 0.19444444444444445,
+      "reason": "Mean of 3 per-gold-document score(s): [0.0, 0.0, 0.58]. Best-covered gold 133806 (0.58): The score is 0.58 because sentences 1 through 7 of the expected output are successfully supported by information in node(s) in retrieval context 1, 3, 4, and 5 regarding the conceptual definitions and mathematical similarities between PCA and FA, whereas sentences 8 through 12 lack support as the retrieval context omits specific details regarding the wine dataset analysis, biplots, and loading visualizations.",
+      "used_fallback_heuristic": false,
+      "judge_error": null,
+      "per_gold_scores": [
+        0.0,
+        0.0,
+        0.5833333333333334
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "1577",
+          "score": 0.0,
+          "reason": "The score is 0.00 because all sentences in the expected output, including the introductory web definition and the detailed explanations of Principal Component Analysis and Factor Analysis, cannot be attributed to any of the nodes in retrieval context."
+        },
+        {
+          "gold_id": "78",
+          "score": 0.0,
+          "reason": "The score is 0.00 because none of the sentences from the expected output can be attributed to any node(s) in retrieval context."
+        },
+        {
+          "gold_id": "133806",
+          "score": 0.5833333333333334,
+          "reason": "The score is 0.58 because sentences 1 through 7 of the expected output are successfully supported by information in node(s) in retrieval context 1, 3, 4, and 5 regarding the conceptual definitions and mathematical similarities between PCA and FA, whereas sentences 8 through 12 lack support as the retrieval context omits specific details regarding the wine dataset analysis, biplots, and loading visualizations."
+        }
+      ],
+      "n_gold_scored": 3
+    },
+    {
+      "query_id": "hop_07",
+      "category": "multi_hop",
+      "query": "Compare the convergence behaviors and learning rates of SGD vs Adam optimization.",
+      "exact_gold_hit_1": false,
+      "exact_gold_hit_3": true,
+      "exact_gold_hit_5": true,
+      "multi_gold_hit_1": false,
+      "multi_gold_hit_3": true,
+      "multi_gold_hit_5": true,
+      "precision_1": 0.0,
+      "precision_3": 0.3333333333333333,
+      "precision_5": 0.2,
+      "mrr": 0.3333333333333333,
+      "multi_mrr": 0.3333333333333333,
+      "contextual_recall_score": 1.0,
+      "reason": "Mean of 1 per-gold-document score(s): [1.0]. Best-covered gold 220563 (1.00): The score is 1.00 because all sentences in the expected output are successfully attributed to the 1st and 3rd nodes in the retrieval context. Great job!",
+      "used_fallback_heuristic": false,
+      "judge_error": "ValueError: Evaluation LLM outputted an invalid JSON. Please use a better evaluation model.",
+      "per_gold_scores": [
+        1.0
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "220563",
+          "score": 1.0,
+          "reason": "The score is 1.00 because all sentences in the expected output are successfully attributed to the 1st and 3rd nodes in the retrieval context. Great job!"
+        }
+      ],
+      "n_gold_scored": 1
+    },
+    {
+      "query_id": "hop_08",
+      "category": "multi_hop",
+      "query": "What is the difference between confidence intervals and credible intervals?",
+      "exact_gold_hit_1": true,
+      "exact_gold_hit_3": true,
+      "exact_gold_hit_5": true,
+      "multi_gold_hit_1": true,
+      "multi_gold_hit_3": true,
+      "multi_gold_hit_5": true,
+      "precision_1": 1.0,
+      "precision_3": 0.3333333333333333,
+      "precision_5": 0.4,
+      "mrr": 1.0,
+      "multi_mrr": 1.0,
+      "contextual_recall_score": 0.5555555555555556,
+      "reason": "Mean of 2 per-gold-document score(s): [0.11, 1.0]. Best-covered gold 169999 (1.00): The score is 1.00 because all sentences in the expected output are fully supported by the 5th node in retrieval context, achieving perfect recall!",
+      "used_fallback_heuristic": false,
+      "judge_error": "ValidationError: 1 validation error for ContextualRecallVerdict\nverdict\n  Field required [type=missing, input_value={'reason': 'The sentence ...ribed in the sentence.'}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/missing",
+      "per_gold_scores": [
+        0.1111111111111111,
+        1.0
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "2281",
+          "score": 0.1111111111111111,
+          "reason": "The score is 0.11 because sentences 1, 3, 5, 6, 8, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, and 29 in the expected output cannot be attributed to any information in the retrieval context, while only a couple of sentences are supported by the 2nd node in retrieval context."
+        },
+        {
+          "gold_id": "169999",
+          "score": 1.0,
+          "reason": "The score is 1.00 because all sentences in the expected output are fully supported by the 5th node in retrieval context, achieving perfect recall!"
+        }
+      ],
+      "n_gold_scored": 2
+    },
+    {
+      "query_id": "hop_09",
+      "category": "multi_hop",
+      "query": "Compare Random Forests and Gradient Boosted Trees in terms of parallel training and variance reduction.",
+      "exact_gold_hit_1": false,
+      "exact_gold_hit_3": false,
+      "exact_gold_hit_5": true,
+      "multi_gold_hit_1": false,
+      "multi_gold_hit_3": false,
+      "multi_gold_hit_5": true,
+      "precision_1": 0.0,
+      "precision_3": 0.0,
+      "precision_5": 0.2,
+      "mrr": 0.25,
+      "multi_mrr": 0.25,
+      "contextual_recall_score": 0.5,
+      "reason": "Mean of 2 per-gold-document score(s): [0.0, 1.0]. Best-covered gold 77025 (1.00): The score is 1.00 because all sentences in the expected output are fully supported by the 4th node in the retrieval context, demonstrating a complete and accurate retrieval of information!",
+      "used_fallback_heuristic": false,
+      "judge_error": null,
+      "per_gold_scores": [
+        0.0,
+        1.0
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "148060",
+          "score": 0.0,
+          "reason": "The score is 0.00 because sentence 1 in the expected output regarding parametrical models and data distribution assumptions cannot be attributed to any node in the retrieval context."
+        },
+        {
+          "gold_id": "77025",
+          "score": 1.0,
+          "reason": "The score is 1.00 because all sentences in the expected output are fully supported by the 4th node in the retrieval context, demonstrating a complete and accurate retrieval of information!"
+        }
+      ],
+      "n_gold_scored": 2
+    },
+    {
+      "query_id": "hop_10",
+      "category": "multi_hop",
+      "query": "How does the Wald test compare to the Likelihood Ratio test for parameter significance?",
+      "exact_gold_hit_1": false,
+      "exact_gold_hit_3": false,
+      "exact_gold_hit_5": false,
+      "multi_gold_hit_1": false,
+      "multi_gold_hit_3": false,
+      "multi_gold_hit_5": false,
+      "precision_1": 0.0,
+      "precision_3": 0.0,
+      "precision_5": 0.0,
+      "mrr": 0.0,
+      "multi_mrr": 0.0,
+      "contextual_recall_score": 0.0625,
+      "reason": "Mean of 2 per-gold-document score(s): [0.0, 0.12]. Best-covered gold 3593 (0.12): The score is 0.12 because only a single sentence regarding the preference of the likelihood ratio test is supported by node 5 in the retrieval context, while all the R code snippets, formula explanations, and paper references are completely missing from the retrieval contexts.",
+      "used_fallback_heuristic": false,
+      "judge_error": "ValueError: Evaluation LLM outputted an invalid JSON. Please use a better evaluation model.",
+      "per_gold_scores": [
+        0.0,
+        0.125
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "6511",
+          "score": 0.0,
+          "reason": "The score is 0.00 because none of the sentences in the expected output, including the specific R code examples, deviance explanations, and instructions on viewing source code, can be attributed to any of the nodes in retrieval context."
+        },
+        {
+          "gold_id": "3593",
+          "score": 0.125,
+          "reason": "The score is 0.12 because only a single sentence regarding the preference of the likelihood ratio test is supported by node 5 in the retrieval context, while all the R code snippets, formula explanations, and paper references are completely missing from the retrieval contexts."
+        }
+      ],
+      "n_gold_scored": 2
+    },
+    {
+      "query_id": "hop_11",
+      "category": "multi_hop",
+      "query": "Explain the relationship between KL divergence and cross-entropy.",
+      "exact_gold_hit_1": true,
+      "exact_gold_hit_3": true,
+      "exact_gold_hit_5": true,
+      "multi_gold_hit_1": true,
+      "multi_gold_hit_3": true,
+      "multi_gold_hit_5": true,
+      "precision_1": 1.0,
+      "precision_3": 0.6666666666666666,
+      "precision_5": 0.4,
+      "mrr": 1.0,
+      "multi_mrr": 1.0,
+      "contextual_recall_score": 0.8888888888888888,
+      "reason": "Mean of 2 per-gold-document score(s): [0.78, 1.0]. Best-covered gold 409271 (1.00): The score is 1.00 because all sentences in the expected output are successfully attributed to the 1st node in the retrieval context. Fantastic job!",
+      "used_fallback_heuristic": false,
+      "judge_error": null,
+      "per_gold_scores": [
+        0.7777777777777778,
+        1.0
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "357974",
+          "score": 0.7777777777777778,
+          "reason": "The score is 0.78 because sentences introducing the cross entropy equation, entropy relation, and the final discussion on dataset constants are missing from the node(s) in retrieval context, while the foundational concepts and earlier equations are successfully attributed to the 2nd node."
+        },
+        {
+          "gold_id": "409271",
+          "score": 1.0,
+          "reason": "The score is 1.00 because all sentences in the expected output are successfully attributed to the 1st node in the retrieval context. Fantastic job!"
+        }
+      ],
+      "n_gold_scored": 2
+    },
+    {
+      "query_id": "hop_12",
+      "category": "multi_hop",
+      "query": "Compare the prediction accuracy of bagging versus random forests.",
+      "exact_gold_hit_1": false,
+      "exact_gold_hit_3": false,
+      "exact_gold_hit_5": false,
+      "multi_gold_hit_1": false,
+      "multi_gold_hit_3": false,
+      "multi_gold_hit_5": false,
+      "precision_1": 0.0,
+      "precision_3": 0.0,
+      "precision_5": 0.0,
+      "mrr": 0.0,
+      "multi_mrr": 0.0,
+      "contextual_recall_score": 0.0,
+      "reason": "Mean of 2 per-gold-document score(s): [0.0, 0.0]. Best-covered gold 214315 (0.00): The score is 0.00 because none of the sentences in the expected output can be attributed to any node(s) in retrieval context.",
+      "used_fallback_heuristic": false,
+      "judge_error": null,
+      "per_gold_scores": [
+        0.0,
+        0.0
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "214315",
+          "score": 0.0,
+          "reason": "The score is 0.00 because none of the sentences in the expected output can be attributed to any node(s) in retrieval context."
+        },
+        {
+          "gold_id": "66294",
+          "score": 0.0,
+          "reason": "The score is 0.00 because none of the sentences in the expected output, from the first sentence regarding ensemble methods down to the final sentence discussing correlated errors, can be attributed to any information present in the node(s) in retrieval context."
+        }
+      ],
+      "n_gold_scored": 2
+    },
+    {
+      "query_id": "hop_13",
+      "category": "multi_hop",
+      "query": "Compare DBSCAN and K-means in handling non-convex cluster shapes.",
+      "exact_gold_hit_1": true,
+      "exact_gold_hit_3": true,
+      "exact_gold_hit_5": true,
+      "multi_gold_hit_1": true,
+      "multi_gold_hit_3": true,
+      "multi_gold_hit_5": true,
+      "precision_1": 1.0,
+      "precision_3": 0.3333333333333333,
+      "precision_5": 0.2,
+      "mrr": 1.0,
+      "multi_mrr": 1.0,
+      "contextual_recall_score": 0.5,
+      "reason": "Mean of 2 per-gold-document score(s): [0.0, 1.0]. Best-covered gold 79554 (1.00): The score is 1.00 because all sentences in the expected output are fully supported by the 1st node in the retrieval context, demonstrating perfect information retrieval!",
+      "used_fallback_heuristic": false,
+      "judge_error": null,
+      "per_gold_scores": [
+        0.0,
+        1.0
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "4931",
+          "score": 0.0,
+          "reason": "The score is 0.00 because none of the sentences (1 through 7) in the expected output can be attributed to any node(s) in retrieval context."
+        },
+        {
+          "gold_id": "79554",
+          "score": 1.0,
+          "reason": "The score is 1.00 because all sentences in the expected output are fully supported by the 1st node in the retrieval context, demonstrating perfect information retrieval!"
+        }
+      ],
+      "n_gold_scored": 2
+    },
+    {
+      "query_id": "hop_14",
+      "category": "multi_hop",
+      "query": "Explain how t-SNE and UMAP differ in preserving global structure.",
+      "exact_gold_hit_1": true,
+      "exact_gold_hit_3": true,
+      "exact_gold_hit_5": true,
+      "multi_gold_hit_1": true,
+      "multi_gold_hit_3": true,
+      "multi_gold_hit_5": true,
+      "precision_1": 1.0,
+      "precision_3": 0.6666666666666666,
+      "precision_5": 0.4,
+      "mrr": 1.0,
+      "multi_mrr": 1.0,
+      "contextual_recall_score": 1.0,
+      "reason": "Mean of 2 per-gold-document score(s): [1.0, 1.0]. Best-covered gold 364255 (1.00): The score is 1.00 because every sentence in the expected output is successfully attributed to the 2nd node in retrieval context, demonstrating stellar retrieval precision!",
+      "used_fallback_heuristic": false,
+      "judge_error": null,
+      "per_gold_scores": [
+        1.0,
+        1.0
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "364255",
+          "score": 1.0,
+          "reason": "The score is 1.00 because every sentence in the expected output is successfully attributed to the 2nd node in retrieval context, demonstrating stellar retrieval precision!"
+        },
+        {
+          "gold_id": "402676",
+          "score": 1.0,
+          "reason": "The score is 1.00 because all sentences in the expected output are fully supported by the 1st node in retrieval context, demonstrating perfect recall!"
+        }
+      ],
+      "n_gold_scored": 2
+    },
+    {
+      "query_id": "hop_15",
+      "category": "multi_hop",
+      "query": "Compare Gelman-Rubin diagnostic (R-hat) and MCMC autocorrelation time.",
+      "exact_gold_hit_1": false,
+      "exact_gold_hit_3": false,
+      "exact_gold_hit_5": false,
+      "multi_gold_hit_1": false,
+      "multi_gold_hit_3": false,
+      "multi_gold_hit_5": false,
+      "precision_1": 0.0,
+      "precision_3": 0.0,
+      "precision_5": 0.0,
+      "mrr": 0.0,
+      "multi_mrr": 0.0,
+      "contextual_recall_score": 0.0,
+      "reason": "Mean of 2 per-gold-document score(s): [0.0, 0.0]. Best-covered gold 73145 (0.00): The score is 0.00 because all sentences in the expected output, ranging from the definition of effective sample size to the discussion on negative correlation and variance reduction, completely lack attribution to any node(s) in retrieval context.",
+      "used_fallback_heuristic": false,
+      "judge_error": null,
+      "per_gold_scores": [
+        0.0,
+        0.0
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "73145",
+          "score": 0.0,
+          "reason": "The score is 0.00 because all sentences in the expected output, ranging from the definition of effective sample size to the discussion on negative correlation and variance reduction, completely lack attribution to any node(s) in retrieval context."
+        },
+        {
+          "gold_id": "99388",
+          "score": 0.0,
+          "reason": "The score is 0.00 because none of the sentences in the expected output can be attributed to any of the nodes in retrieval context, as the context completely lacks information regarding computing the PSRF separately for each scalar component or the associated references."
+        }
+      ],
+      "n_gold_scored": 2
+    },
+    {
+      "query_id": "hop_16",
+      "category": "multi_hop",
+      "query": "Compare random intercept and random slope models in hierarchical regression.",
+      "exact_gold_hit_1": false,
+      "exact_gold_hit_3": false,
+      "exact_gold_hit_5": false,
+      "multi_gold_hit_1": false,
+      "multi_gold_hit_3": false,
+      "multi_gold_hit_5": false,
+      "precision_1": 0.0,
+      "precision_3": 0.0,
+      "precision_5": 0.0,
+      "mrr": 0.0,
+      "multi_mrr": 0.0,
+      "contextual_recall_score": 0.02,
+      "reason": "Mean of 2 per-gold-document score(s): [0.04, 0.0]. Best-covered gold 27870 (0.04): The score is 0.04 because the expected output is mostly missing from the retrieval context, with only the final note about the standard deviation column being attributable to the 2nd node in retrieval context, while all the R code, model formulas, simulation examples, and output summaries cannot be found in the nodes.",
+      "used_fallback_heuristic": false,
+      "judge_error": null,
+      "per_gold_scores": [
+        0.04,
+        0.0
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "27870",
+          "score": 0.04,
+          "reason": "The score is 0.04 because the expected output is mostly missing from the retrieval context, with only the final note about the standard deviation column being attributable to the 2nd node in retrieval context, while all the R code, model formulas, simulation examples, and output summaries cannot be found in the nodes."
+        },
+        {
+          "gold_id": "341566",
+          "score": 0.0,
+          "reason": "The score is 0.00 because none of the sentences in the expected output, such as the discussion on treatment coding and intercept/slope correlation in sentence 1 or the reference to dataset shifts in subsequent sentences, can be attributed to any node(s) in retrieval context."
+        }
+      ],
+      "n_gold_scored": 2
+    },
+    {
+      "query_id": "hop_17",
+      "category": "multi_hop",
+      "query": "Compare RNNs and Transformers in handling long-range dependencies.",
+      "exact_gold_hit_1": false,
+      "exact_gold_hit_3": false,
+      "exact_gold_hit_5": false,
+      "multi_gold_hit_1": false,
+      "multi_gold_hit_3": false,
+      "multi_gold_hit_5": false,
+      "precision_1": 0.0,
+      "precision_3": 0.0,
+      "precision_5": 0.0,
+      "mrr": 0.0,
+      "multi_mrr": 0.0,
+      "contextual_recall_score": 0.0,
+      "reason": "Mean of 2 per-gold-document score(s): [0.0, 0.0]. Best-covered gold 472920 (0.00): The score is 0.00 because all sentences in the expected output cannot be attributed to any node(s) in retrieval context.",
+      "used_fallback_heuristic": false,
+      "judge_error": null,
+      "per_gold_scores": [
+        0.0,
+        0.0
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "472920",
+          "score": 0.0,
+          "reason": "The score is 0.00 because all sentences in the expected output cannot be attributed to any node(s) in retrieval context."
+        },
+        {
+          "gold_id": "531971",
+          "score": 0.0,
+          "reason": "The score is 0.00 because none of the sentences in the expected output can be attributed to any node(s) in retrieval context."
+        }
+      ],
+      "n_gold_scored": 2
+    },
+    {
+      "query_id": "hop_18",
+      "category": "multi_hop",
+      "query": "Explain how kernel trick and support vector classifiers are related.",
+      "exact_gold_hit_1": false,
+      "exact_gold_hit_3": false,
+      "exact_gold_hit_5": false,
+      "multi_gold_hit_1": false,
+      "multi_gold_hit_3": false,
+      "multi_gold_hit_5": false,
+      "precision_1": 0.0,
+      "precision_3": 0.0,
+      "precision_5": 0.0,
+      "mrr": 0.0,
+      "multi_mrr": 0.0,
+      "contextual_recall_score": 0.125,
+      "reason": "Mean of 2 per-gold-document score(s): [0.0, 0.25]. Best-covered gold 3954 (0.25): The score is 0.25 because while sentences 1 and 4 of the expected output are supported by information in the 1st and 2nd node(s) in retrieval context, respectively, the remaining sentences lack corresponding context regarding outliers, the parameter C, kernel functions, multi-class handling, and random forests.",
+      "used_fallback_heuristic": false,
+      "judge_error": null,
+      "per_gold_scores": [
+        0.0,
+        0.25
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "19209",
+          "score": 0.0,
+          "reason": "The score is 0.00 because none of the sentences in the expected output, from the introductory acknowledgment down to the specific details on solving primal and dual problems, support vectors, and the kernel trick, can be attributed to any node(s) in retrieval context."
+        },
+        {
+          "gold_id": "3954",
+          "score": 0.25,
+          "reason": "The score is 0.25 because while sentences 1 and 4 of the expected output are supported by information in the 1st and 2nd node(s) in retrieval context, respectively, the remaining sentences lack corresponding context regarding outliers, the parameter C, kernel functions, multi-class handling, and random forests."
+        }
+      ],
+      "n_gold_scored": 2
+    },
+    {
+      "query_id": "hop_19",
+      "category": "multi_hop",
+      "query": "Compare target encoding and one-hot encoding for high-cardinality features.",
+      "exact_gold_hit_1": false,
+      "exact_gold_hit_3": true,
+      "exact_gold_hit_5": true,
+      "multi_gold_hit_1": false,
+      "multi_gold_hit_3": true,
+      "multi_gold_hit_5": true,
+      "precision_1": 0.0,
+      "precision_3": 0.6666666666666666,
+      "precision_5": 0.4,
+      "mrr": 0.5,
+      "multi_mrr": 0.5,
+      "contextual_recall_score": 0.4375,
+      "reason": "Mean of 2 per-gold-document score(s): [0.88, 0.0]. Best-covered gold 550708 (0.88): The score is 0.88 because most sentences from the expected output are successfully attributed to node(s) in retrieval context (specifically node 2), while sentences 14 and 15 cannot be fully attributed due to missing content or absent references.",
+      "used_fallback_heuristic": false,
+      "judge_error": null,
+      "per_gold_scores": [
+        0.875,
+        0.0
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "550708",
+          "score": 0.875,
+          "reason": "The score is 0.88 because most sentences from the expected output are successfully attributed to node(s) in retrieval context (specifically node 2), while sentences 14 and 15 cannot be fully attributed due to missing content or absent references."
+        },
+        {
+          "gold_id": "614855",
+          "score": 0.0,
+          "reason": "The score is 0.00 because none of the sentences from the expected output can be attributed to the node(s) in retrieval context, as details regarding integer category assignments, advanced target encoding with Beta priors, and specific Kaggle resources are entirely missing."
+        }
+      ],
+      "n_gold_scored": 2
+    },
+    {
+      "query_id": "niche_02",
+      "category": "niche_topic",
+      "query": "How does the Benjamini-Hochberg procedure control the false discovery rate?",
+      "exact_gold_hit_1": false,
+      "exact_gold_hit_3": false,
+      "exact_gold_hit_5": false,
+      "multi_gold_hit_1": false,
+      "multi_gold_hit_3": false,
+      "multi_gold_hit_5": false,
+      "precision_1": 0.0,
+      "precision_3": 0.0,
+      "precision_5": 0.0,
+      "mrr": 0.0,
+      "multi_mrr": 0.0,
+      "contextual_recall_score": 0.125,
+      "reason": "Mean of 2 per-gold-document score(s): [0.25, 0.0]. Best-covered gold 21225 (0.25): The score is 0.25 because sentence 3 is supported by node(s) in retrieval context 3 regarding the False discovery rate, while sentences 1, 2, and 4 lack attribution due to missing details about the 18,000 variables, Bonferroni FWER specifics, and comparison scaling in the retrieval context.",
+      "used_fallback_heuristic": false,
+      "judge_error": null,
+      "per_gold_scores": [
+        0.25,
+        0.0
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "21225",
+          "score": 0.25,
+          "reason": "The score is 0.25 because sentence 3 is supported by node(s) in retrieval context 3 regarding the False discovery rate, while sentences 1, 2, and 4 lack attribution due to missing details about the 18,000 variables, Bonferroni FWER specifics, and comparison scaling in the retrieval context."
+        },
+        {
+          "gold_id": "63497",
+          "score": 0.0,
+          "reason": "The score is 0.00 because sentences 1 through 20 of the expected output cannot be attributed to any node(s) in retrieval context, as they lack matching information regarding the historical development of false discovery rate procedures, specific citations, and methodological discussions."
+        }
+      ],
+      "n_gold_scored": 2
+    },
+    {
+      "query_id": "niche_03",
+      "category": "niche_topic",
+      "query": "What is the intuition behind copulas for modeling joint distributions?",
+      "exact_gold_hit_1": false,
+      "exact_gold_hit_3": false,
+      "exact_gold_hit_5": false,
+      "multi_gold_hit_1": false,
+      "multi_gold_hit_3": false,
+      "multi_gold_hit_5": false,
+      "precision_1": 0.0,
+      "precision_3": 0.0,
+      "precision_5": 0.0,
+      "mrr": 0.0,
+      "multi_mrr": 0.0,
+      "contextual_recall_score": 0.0,
+      "reason": "Mean of 1 per-gold-document score(s): [0.0]. Best-covered gold 573589 (0.00): The score is 0.00 because all sentences in the expected output lack sufficient attribution to the node(s) in retrieval context.",
+      "used_fallback_heuristic": false,
+      "judge_error": "ValueError: Evaluation LLM outputted an invalid JSON. Please use a better evaluation model.",
+      "per_gold_scores": [
+        0.0
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "573589",
+          "score": 0.0,
+          "reason": "The score is 0.00 because all sentences in the expected output lack sufficient attribution to the node(s) in retrieval context."
+        }
+      ],
+      "n_gold_scored": 1
+    },
+    {
+      "query_id": "niche_04",
+      "category": "niche_topic",
+      "query": "How does the Hosmer-Lemeshow test assess logistic regression calibration?",
+      "exact_gold_hit_1": false,
+      "exact_gold_hit_3": true,
+      "exact_gold_hit_5": true,
+      "multi_gold_hit_1": false,
+      "multi_gold_hit_3": true,
+      "multi_gold_hit_5": true,
+      "precision_1": 0.0,
+      "precision_3": 0.3333333333333333,
+      "precision_5": 0.2,
+      "mrr": 0.3333333333333333,
+      "multi_mrr": 0.3333333333333333,
+      "contextual_recall_score": 0.5833333333333334,
+      "reason": "Mean of 2 per-gold-document score(s): [0.17, 1.0]. Best-covered gold 18772 (1.00): The score is 1.00 because all sentences in the expected output are fully attributed to node(s) in retrieval context, specifically the 3rd node.",
+      "used_fallback_heuristic": false,
+      "judge_error": null,
+      "per_gold_scores": [
+        0.16666666666666666,
+        1.0
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "118227",
+          "score": 0.16666666666666666,
+          "reason": "The score is 0.17 because only one sentence regarding model formulation is supported by node(s) in retrieval context 4, while the remaining sentences concerning simulation studies, univariate screening, stepwise selection, P-values, and beta changes lack support."
+        },
+        {
+          "gold_id": "18772",
+          "score": 1.0,
+          "reason": "The score is 1.00 because all sentences in the expected output are fully attributed to node(s) in retrieval context, specifically the 3rd node."
+        }
+      ],
+      "n_gold_scored": 2
+    },
+    {
+      "query_id": "niche_05",
+      "category": "niche_topic",
+      "query": "Explain Jackknife estimation of parameter bias and how it compares to Bootstrap.",
+      "exact_gold_hit_1": false,
+      "exact_gold_hit_3": false,
+      "exact_gold_hit_5": false,
+      "multi_gold_hit_1": false,
+      "multi_gold_hit_3": false,
+      "multi_gold_hit_5": false,
+      "precision_1": 0.0,
+      "precision_3": 0.0,
+      "precision_5": 0.0,
+      "mrr": 0.0,
+      "multi_mrr": 0.0,
+      "contextual_recall_score": 0.0,
+      "reason": "Mean of 1 per-gold-document score(s): [0.0]. Best-covered gold 21027 (0.00): The score is 0.00 because none of the sentences in the expected output can be attributed to any information found within the nodes in retrieval context.",
+      "used_fallback_heuristic": false,
+      "judge_error": null,
+      "per_gold_scores": [
+        0.0
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "21027",
+          "score": 0.0,
+          "reason": "The score is 0.00 because none of the sentences in the expected output can be attributed to any information found within the nodes in retrieval context."
+        }
+      ],
+      "n_gold_scored": 1
+    },
+    {
+      "query_id": "niche_06",
+      "category": "niche_topic",
+      "query": "What are the core assumptions needed to assert causal identification using Instrumental Variables?",
+      "exact_gold_hit_1": false,
+      "exact_gold_hit_3": false,
+      "exact_gold_hit_5": true,
+      "multi_gold_hit_1": false,
+      "multi_gold_hit_3": false,
+      "multi_gold_hit_5": true,
+      "precision_1": 0.0,
+      "precision_3": 0.0,
+      "precision_5": 0.2,
+      "mrr": 0.2,
+      "multi_mrr": 0.2,
+      "contextual_recall_score": 0.4166666666666667,
+      "reason": "Mean of 3 per-gold-document score(s): [0.0, 1.0, 0.25]. Best-covered gold 152987 (1.00): The score is 1.00 because all sentences in the expected output are fully supported by the 5th node in the retrieval context.",
+      "used_fallback_heuristic": false,
+      "judge_error": null,
+      "per_gold_scores": [
+        0.0,
+        1.0,
+        0.25
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "152985",
+          "score": 0.0,
+          "reason": "The score is 0.00 because none of the sentences in the expected output can be attributed to the nodes in retrieval context. Specifically, the 1st through 5th nodes fail to mention the corrected assumption regarding the independence of I and Y given X, the definition of the exclusion restriction in this phrasing, the dependence of Y on I when ignoring covariates, or the meta-commentary about jabberwocky."
+        },
+        {
+          "gold_id": "152987",
+          "score": 1.0,
+          "reason": "The score is 1.00 because all sentences in the expected output are fully supported by the 5th node in the retrieval context."
+        },
+        {
+          "gold_id": "152990",
+          "score": 0.25,
+          "reason": "The score is 0.25 because sentences 1 through 5, which cover the regression equation, instrumental variable conditions, the linear constant effects model, and the exclusion restriction graph, lack support in the retrieval context, whereas sentences 6 and 7 regarding the untestable nature of the exclusion restriction and the need for theoretical foundations are supported by node(s) in retrieval context 5."
+        }
+      ],
+      "n_gold_scored": 3
+    },
+    {
+      "query_id": "niche_07",
+      "category": "niche_topic",
+      "query": "Describe the mathematical concept and applications of Mahalanobis distance.",
+      "exact_gold_hit_1": false,
+      "exact_gold_hit_3": false,
+      "exact_gold_hit_5": true,
+      "multi_gold_hit_1": false,
+      "multi_gold_hit_3": false,
+      "multi_gold_hit_5": true,
+      "precision_1": 0.0,
+      "precision_3": 0.0,
+      "precision_5": 0.2,
+      "mrr": 0.2,
+      "multi_mrr": 0.2,
+      "contextual_recall_score": 0.4230769230769231,
+      "reason": "Mean of 2 per-gold-document score(s): [0.0, 0.85]. Best-covered gold 62147 (0.85): The score is 0.85 because most sentences in the expected output are successfully attributed to the 5th node in the retrieval context, while a couple of sentences are missing from the context.",
+      "used_fallback_heuristic": false,
+      "judge_error": null,
+      "per_gold_scores": [
+        0.0,
+        0.8461538461538461
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "20549",
+          "score": 0.0,
+          "reason": "The score is 0.00 because all sentences in the expected output\u2014including the recommendation for Gaussian Mixture Modeling in node(s) in retrieval context, the page and column references, the proofs provided, the scaled beta distribution, and the offers for further assistance\u2014cannot be attributed to any information found in the retrieval contexts."
+        },
+        {
+          "gold_id": "62147",
+          "score": 0.8461538461538461,
+          "reason": "The score is 0.85 because most sentences in the expected output are successfully attributed to the 5th node in the retrieval context, while a couple of sentences are missing from the context."
+        }
+      ],
+      "n_gold_scored": 2
+    },
+    {
+      "query_id": "niche_08",
+      "category": "niche_topic",
+      "query": "Explain how the Nelder-Mead simplex algorithm optimizes non-differentiable functions.",
+      "exact_gold_hit_1": false,
+      "exact_gold_hit_3": false,
+      "exact_gold_hit_5": false,
+      "multi_gold_hit_1": false,
+      "multi_gold_hit_3": false,
+      "multi_gold_hit_5": false,
+      "precision_1": 0.0,
+      "precision_3": 0.0,
+      "precision_5": 0.0,
+      "mrr": 0.0,
+      "multi_mrr": 0.0,
+      "contextual_recall_score": 0.0,
+      "reason": "Mean of 1 per-gold-document score(s): [0.0]. Best-covered gold 306000 (0.00): The score is 0.00 because none of the sentences from the expected output can be attributed to the node(s) in retrieval context, as details regarding John C. Nash's book, mathematical formulas, source code snippets, and convergence discussions are completely missing.",
+      "used_fallback_heuristic": false,
+      "judge_error": null,
+      "per_gold_scores": [
+        0.0
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "306000",
+          "score": 0.0,
+          "reason": "The score is 0.00 because none of the sentences from the expected output can be attributed to the node(s) in retrieval context, as details regarding John C. Nash's book, mathematical formulas, source code snippets, and convergence discussions are completely missing."
+        }
+      ],
+      "n_gold_scored": 1
+    },
+    {
+      "query_id": "niche_10",
+      "category": "niche_topic",
+      "query": "How does EMR (expectation maximization) handle parameter estimation with missing data?",
+      "exact_gold_hit_1": false,
+      "exact_gold_hit_3": false,
+      "exact_gold_hit_5": false,
+      "multi_gold_hit_1": false,
+      "multi_gold_hit_3": false,
+      "multi_gold_hit_5": false,
+      "precision_1": 0.0,
+      "precision_3": 0.0,
+      "precision_5": 0.0,
+      "mrr": 0.0,
+      "multi_mrr": 0.0,
+      "contextual_recall_score": 0.3333333333333333,
+      "reason": "Mean of 2 per-gold-document score(s): [0.67, 0.0]. Best-covered gold 236104 (0.67): The score is 0.67 because sentence 1 and parts of sentence 3 in the expected output are well-supported by node 2 and node 4 in the retrieval context, but sentence 2 lacks support as the retrieval contexts do not discuss using the EM algorithm for latent variables without missing data.",
+      "used_fallback_heuristic": false,
+      "judge_error": null,
+      "per_gold_scores": [
+        0.6666666666666666,
+        0.0
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "236104",
+          "score": 0.6666666666666666,
+          "reason": "The score is 0.67 because sentence 1 and parts of sentence 3 in the expected output are well-supported by node 2 and node 4 in the retrieval context, but sentence 2 lacks support as the retrieval contexts do not discuss using the EM algorithm for latent variables without missing data."
+        },
+        {
+          "gold_id": "504927",
+          "score": 0.0,
+          "reason": "The score is 0.00 because none of the mathematical equations, expressions, and derivations for the expected output can be attributed to any node(s) in retrieval context."
+        }
+      ],
+      "n_gold_scored": 2
+    },
+    {
+      "query_id": "niche_11",
+      "category": "niche_topic",
+      "query": "Explain the concept of Gibbs sampling and how it differs from Metropolis-Hastings.",
+      "exact_gold_hit_1": false,
+      "exact_gold_hit_3": true,
+      "exact_gold_hit_5": true,
+      "multi_gold_hit_1": false,
+      "multi_gold_hit_3": true,
+      "multi_gold_hit_5": true,
+      "precision_1": 0.0,
+      "precision_3": 0.6666666666666666,
+      "precision_5": 0.4,
+      "mrr": 0.5,
+      "multi_mrr": 0.5,
+      "contextual_recall_score": 0.6785714285714286,
+      "reason": "Mean of 2 per-gold-document score(s): [0.5, 0.86]. Best-covered gold 244902 (0.86): The score is 0.86 because sentences 1 through 12 in the expected output are successfully attributed to node(s) 2 and 3 in the retrieval context, while the final two sentences could not be found.",
+      "used_fallback_heuristic": false,
+      "judge_error": null,
+      "per_gold_scores": [
+        0.5,
+        0.8571428571428571
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "104817",
+          "score": 0.5,
+          "reason": "The score is 0.50 because sentence 1 regarding the Metropolis-algorithm being usable when the posterior is unknown lacks support from the retrieval context, whereas sentence 2 about Gibbs-sampling requiring known posterior distributions is successfully supported by node 1 in retrieval context."
+        },
+        {
+          "gold_id": "244902",
+          "score": 0.8571428571428571,
+          "reason": "The score is 0.86 because sentences 1 through 12 in the expected output are successfully attributed to node(s) 2 and 3 in the retrieval context, while the final two sentences could not be found."
+        }
+      ],
+      "n_gold_scored": 2
+    },
+    {
+      "query_id": "niche_12",
+      "category": "niche_topic",
+      "query": "What is the Hausman specification test used for in panel data?",
+      "exact_gold_hit_1": false,
+      "exact_gold_hit_3": true,
+      "exact_gold_hit_5": true,
+      "multi_gold_hit_1": false,
+      "multi_gold_hit_3": true,
+      "multi_gold_hit_5": true,
+      "precision_1": 0.0,
+      "precision_3": 0.3333333333333333,
+      "precision_5": 0.2,
+      "mrr": 0.5,
+      "multi_mrr": 0.5,
+      "contextual_recall_score": 0.6,
+      "reason": "Mean of 2 per-gold-document score(s): [0.2, 1.0]. Best-covered gold 65657 (1.00): The score is 1.00 because every sentence in the expected output is successfully supported by the 2nd node in the retrieval context. Fantastic job!",
+      "used_fallback_heuristic": false,
+      "judge_error": null,
+      "per_gold_scores": [
+        0.2,
+        1.0
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "126661",
+          "score": 0.2,
+          "reason": "The score is 0.20 because while sentences 3 and 5 are supported by node(s) in retrieval context 3 and 5 regarding the Hausman test comparison, the introductory critique, the specific male and female regression setup, the test statistic formula, and the discussion on omitted gender-specific variables lack corresponding information in the retrieval context."
+        },
+        {
+          "gold_id": "65657",
+          "score": 1.0,
+          "reason": "The score is 1.00 because every sentence in the expected output is successfully supported by the 2nd node in the retrieval context. Fantastic job!"
+        }
+      ],
+      "n_gold_scored": 2
+    },
+    {
+      "query_id": "niche_13",
+      "category": "niche_topic",
+      "query": "Explain Tweedie distributions and their link functions in GLM modeling.",
+      "exact_gold_hit_1": false,
+      "exact_gold_hit_3": false,
+      "exact_gold_hit_5": false,
+      "multi_gold_hit_1": false,
+      "multi_gold_hit_3": false,
+      "multi_gold_hit_5": false,
+      "precision_1": 0.0,
+      "precision_3": 0.0,
+      "precision_5": 0.0,
+      "mrr": 0.0,
+      "multi_mrr": 0.0,
+      "contextual_recall_score": 0.1,
+      "reason": "Mean of 1 per-gold-document score(s): [0.1]. Best-covered gold 174144 (0.10): The score is 0.10 because sentence 1 cannot be attributed to any part of the retrieval contexts, whereas sentence 5 is successfully supported by the 4th node in the retrieval context, but the remaining sentences also lack any matching information.",
+      "used_fallback_heuristic": false,
+      "judge_error": "ValueError: Evaluation LLM outputted an invalid JSON. Please use a better evaluation model.",
+      "per_gold_scores": [
+        0.1
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "174144",
+          "score": 0.1,
+          "reason": "The score is 0.10 because sentence 1 cannot be attributed to any part of the retrieval contexts, whereas sentence 5 is successfully supported by the 4th node in the retrieval context, but the remaining sentences also lack any matching information."
+        }
+      ],
+      "n_gold_scored": 1
+    },
+    {
+      "query_id": "niche_14",
+      "category": "niche_topic",
+      "query": "How does the Heckman correction adjust for sample selection bias?",
+      "exact_gold_hit_1": false,
+      "exact_gold_hit_3": false,
+      "exact_gold_hit_5": false,
+      "multi_gold_hit_1": false,
+      "multi_gold_hit_3": false,
+      "multi_gold_hit_5": false,
+      "precision_1": 0.0,
+      "precision_3": 0.0,
+      "precision_5": 0.0,
+      "mrr": 0.0,
+      "multi_mrr": 0.0,
+      "contextual_recall_score": 0.0,
+      "reason": "Mean of 1 per-gold-document score(s): [0.0]. Best-covered gold 38947 (0.00): The score is 0.00 because none of the sentences from the expected output can be attributed to any node(s) in retrieval context.",
+      "used_fallback_heuristic": false,
+      "judge_error": null,
+      "per_gold_scores": [
+        0.0
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "38947",
+          "score": 0.0,
+          "reason": "The score is 0.00 because none of the sentences from the expected output can be attributed to any node(s) in retrieval context."
+        }
+      ],
+      "n_gold_scored": 1
+    },
+    {
+      "query_id": "niche_15",
+      "category": "niche_topic",
+      "query": "Explain the concept of local linear regression in nonparametric smoothing.",
+      "exact_gold_hit_1": false,
+      "exact_gold_hit_3": false,
+      "exact_gold_hit_5": false,
+      "multi_gold_hit_1": false,
+      "multi_gold_hit_3": false,
+      "multi_gold_hit_5": false,
+      "precision_1": 0.0,
+      "precision_3": 0.0,
+      "precision_5": 0.0,
+      "mrr": 0.0,
+      "multi_mrr": 0.0,
+      "contextual_recall_score": 0.0,
+      "reason": "Mean of 2 per-gold-document score(s): [0.0, 0.0]. Best-covered gold 161080 (0.00): The score is 0.00 because none of the sentences in the expected output, from the distinction between methods and software implementations down to the final conclusions, can be attributed to any node(s) in retrieval context.",
+      "used_fallback_heuristic": false,
+      "judge_error": null,
+      "per_gold_scores": [
+        0.0,
+        0.0
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "161080",
+          "score": 0.0,
+          "reason": "The score is 0.00 because none of the sentences in the expected output, from the distinction between methods and software implementations down to the final conclusions, can be attributed to any node(s) in retrieval context."
+        },
+        {
+          "gold_id": "226123",
+          "score": 0.0,
+          "reason": "The score is 0.00 because sentences 1 through 7 of the expected output cannot be attributed to any node(s) in retrieval context, as details regarding lowess, polynomial behaviors, splines, forecasting models, and Kalman or particle filters are entirely missing from the context."
+        }
+      ],
+      "n_gold_scored": 2
+    },
+    {
+      "query_id": "niche_17",
+      "category": "niche_topic",
+      "query": "How does the Ljung-Box test evaluate residuals for autocorrelation?",
+      "exact_gold_hit_1": false,
+      "exact_gold_hit_3": false,
+      "exact_gold_hit_5": false,
+      "multi_gold_hit_1": false,
+      "multi_gold_hit_3": false,
+      "multi_gold_hit_5": false,
+      "precision_1": 0.0,
+      "precision_3": 0.0,
+      "precision_5": 0.0,
+      "mrr": 0.0,
+      "multi_mrr": 0.0,
+      "contextual_recall_score": 0.0,
+      "reason": "Mean of 2 per-gold-document score(s): [0.0, 0.0]. Best-covered gold 148290 (0.00): The score is 0.00 because none of the sentences in the expected output can be attributed to the nodes in retrieval context, as they lack all the detailed references to Maddala (2001), Hayashi (2000), specific mathematical formulations, and theoretical conditions.",
+      "used_fallback_heuristic": false,
+      "judge_error": null,
+      "per_gold_scores": [
+        0.0,
+        0.0
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "148290",
+          "score": 0.0,
+          "reason": "The score is 0.00 because none of the sentences in the expected output can be attributed to the nodes in retrieval context, as they lack all the detailed references to Maddala (2001), Hayashi (2000), specific mathematical formulations, and theoretical conditions."
+        },
+        {
+          "gold_id": "192165",
+          "score": 0.0,
+          "reason": "The score is 0.00 because none of the sentences in the expected output can be attributed to any node(s) in the retrieval context, as the retrieval context focuses on Ljung-Box and Breusch-Godfrey tests rather than the steps for building a VAR model."
+        }
+      ],
+      "n_gold_scored": 2
+    },
+    {
+      "query_id": "niche_22",
+      "category": "niche_topic",
+      "query": "What does Moran's I measure in spatial autocorrelation analysis?",
+      "exact_gold_hit_1": true,
+      "exact_gold_hit_3": true,
+      "exact_gold_hit_5": true,
+      "multi_gold_hit_1": true,
+      "multi_gold_hit_3": true,
+      "multi_gold_hit_5": true,
+      "precision_1": 1.0,
+      "precision_3": 0.6666666666666666,
+      "precision_5": 0.4,
+      "mrr": 1.0,
+      "multi_mrr": 1.0,
+      "contextual_recall_score": 1.0,
+      "reason": "Mean of 2 per-gold-document score(s): [1.0, 1.0]. Best-covered gold 36146 (1.00): The score is 1.00 because all sentences in the expected output are fully supported by the 1st node in retrieval context. Fantastic job!",
+      "used_fallback_heuristic": false,
+      "judge_error": null,
+      "per_gold_scores": [
+        1.0,
+        1.0
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "36146",
+          "score": 1.0,
+          "reason": "The score is 1.00 because all sentences in the expected output are fully supported by the 1st node in retrieval context. Fantastic job!"
+        },
+        {
+          "gold_id": "74127",
+          "score": 1.0,
+          "reason": "The score is 1.00 because all sentences in the expected output are successfully attributed to the 3rd node in the retrieval context. Fantastic job!"
+        }
+      ],
+      "n_gold_scored": 2
+    },
+    {
+      "query_id": "niche_23",
+      "category": "niche_topic",
+      "query": "How do Bayes factors compare competing models in Bayesian statistics?",
+      "exact_gold_hit_1": false,
+      "exact_gold_hit_3": false,
+      "exact_gold_hit_5": false,
+      "multi_gold_hit_1": false,
+      "multi_gold_hit_3": false,
+      "multi_gold_hit_5": false,
+      "precision_1": 0.0,
+      "precision_3": 0.0,
+      "precision_5": 0.0,
+      "mrr": 0.0,
+      "multi_mrr": 0.0,
+      "contextual_recall_score": 0.14285714285714285,
+      "reason": "Mean of 2 per-gold-document score(s): [0.0, 0.29]. Best-covered gold 27374 (0.29): The score is 0.29 because while sentences 1 and 2 of the expected output find partial support regarding marginal likelihood integrals and computation in node 3 of the retrieval context, the majority of the expected output\u2014including the details on likelihood models, posterior odds formulas, MLE comparisons, and specific Monte Carlo or MCMC methods\u2014cannot be attributed to any information in the retrieval context.",
+      "used_fallback_heuristic": false,
+      "judge_error": null,
+      "per_gold_scores": [
+        0.0,
+        0.2857142857142857
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "204334",
+          "score": 0.0,
+          "reason": "The score is 0.00 because none of the sentences in the expected output can be attributed to the nodes in retrieval context, as introductory conversational remarks, discussions on traditional textbooks and author perspectives, and the cited text and reference are entirely missing from the retrieval context."
+        },
+        {
+          "gold_id": "27374",
+          "score": 0.2857142857142857,
+          "reason": "The score is 0.29 because while sentences 1 and 2 of the expected output find partial support regarding marginal likelihood integrals and computation in node 3 of the retrieval context, the majority of the expected output\u2014including the details on likelihood models, posterior odds formulas, MLE comparisons, and specific Monte Carlo or MCMC methods\u2014cannot be attributed to any information in the retrieval context."
+        }
+      ],
+      "n_gold_scored": 2
+    },
+    {
+      "query_id": "niche_24",
+      "category": "niche_topic",
+      "query": "What is the difference between path analysis and structural equation modeling?",
+      "exact_gold_hit_1": false,
+      "exact_gold_hit_3": false,
+      "exact_gold_hit_5": false,
+      "multi_gold_hit_1": false,
+      "multi_gold_hit_3": false,
+      "multi_gold_hit_5": false,
+      "precision_1": 0.0,
+      "precision_3": 0.0,
+      "precision_5": 0.0,
+      "mrr": 0.0,
+      "multi_mrr": 0.0,
+      "contextual_recall_score": 0.0,
+      "reason": "Mean of 2 per-gold-document score(s): [0.0, 0.0]. Best-covered gold 21507 (0.00): The score is 0.00 because none of the sentences from the expected output, including recommendations for papers by M\u00fathen and M\u00fathen, Lei (2009), J\u00f6reskog (1994), and Rabe-Hesketh et al. (2004b), can be attributed to any node in the retrieval context.",
+      "used_fallback_heuristic": false,
+      "judge_error": null,
+      "per_gold_scores": [
+        0.0,
+        0.0
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "21507",
+          "score": 0.0,
+          "reason": "The score is 0.00 because none of the sentences from the expected output, including recommendations for papers by M\u00fathen and M\u00fathen, Lei (2009), J\u00f6reskog (1994), and Rabe-Hesketh et al. (2004b), can be attributed to any node in the retrieval context."
+        },
+        {
+          "gold_id": "63418",
+          "score": 0.0,
+          "reason": "The score is 0.00 because none of the sentences in the expected output, including the definitions of simultaneous equation models, mathematical examples, and discussions on structural equation modeling, can be attributed to any node(s) in retrieval context."
+        }
+      ],
+      "n_gold_scored": 2
+    },
+    {
+      "query_id": "niche_25",
+      "category": "niche_topic",
+      "query": "How do you calculate required sample size using power analysis?",
+      "exact_gold_hit_1": false,
+      "exact_gold_hit_3": false,
+      "exact_gold_hit_5": false,
+      "multi_gold_hit_1": false,
+      "multi_gold_hit_3": false,
+      "multi_gold_hit_5": false,
+      "precision_1": 0.0,
+      "precision_3": 0.0,
+      "precision_5": 0.0,
+      "mrr": 0.0,
+      "multi_mrr": 0.0,
+      "contextual_recall_score": 0.020833333333333332,
+      "reason": "Mean of 2 per-gold-document score(s): [0.0, 0.04]. Best-covered gold 142112 (0.04): The score is 0.04 because sentences 1 through 21 and 23 of the expected output cannot be attributed to any node in retrieval context, whereas sentence 22 is only partially supported by node 5 mentioning free software.",
+      "used_fallback_heuristic": false,
+      "judge_error": null,
+      "per_gold_scores": [
+        0.0,
+        0.041666666666666664
+      ],
+      "per_gold_detail": [
+        {
+          "gold_id": "142083",
+          "score": 0.0,
+          "reason": "The score is 0.00 because sentence 1's reference to Cohen (1988) and sentences 2-3's z-test inequality formula cannot be found across any of the nodes in retrieval context (nodes 1 to 5)."
+        },
+        {
+          "gold_id": "142112",
+          "score": 0.041666666666666664,
+          "reason": "The score is 0.04 because sentences 1 through 21 and 23 of the expected output cannot be attributed to any node in retrieval context, whereas sentence 22 is only partially supported by node 5 mentioning free software."
+        }
+      ],
+      "n_gold_scored": 2
+    }
+  ]
+}

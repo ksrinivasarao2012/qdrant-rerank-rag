@@ -18,6 +18,9 @@ sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 from backend.core.vector_store import VectorDBManager
 from backend.core.llm_service import LLMService, build_search_query, decompose_query
 from backend.core.reranker import ReRanker
+from backend.core import guardrails
+from backend.core.rate_limiter import SlidingWindowRateLimiter, RateLimitExceeded
+import os as _os
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(name)s: %(message)s")
@@ -28,9 +31,16 @@ logger = logging.getLogger(__name__)
 # native sparse vector, so there is no in-process BM25 index to build at startup.
 # The old version pulled the entire corpus into RAM on every boot to do that.
 logger.info("Initializing core RAG components...")
+from backend.core.config import SETTINGS
+SETTINGS.validate()  # bug #16: loud warning for missing GROQ_API_KEY, not a confusing failure on first request
 vector_db = VectorDBManager()
 llm_service = LLMService()
 reranker = ReRanker()
+
+# Bug #12: the deployed surface (this Gradio app) had NO rate limiting at all --
+# only routes.py (backend/api/routes.py), which HF Spaces does not run, did.
+# Same shared limiter class the FastAPI backend uses.
+rate_limiter = SlidingWindowRateLimiter(requests_per_minute=int(_os.getenv("RATE_LIMIT_RPM", "20")))
 
 # Force the lazy embedding/reranker singletons to actually load now, not on
 # whichever request happens to arrive first. Gradio Spaces have no separate
@@ -140,19 +150,38 @@ def needs_query_rewrite(query: str, chat_history: list) -> bool:
 
 
 @spaces.GPU
-def chat_stream(history, selected_doc):
+def chat_stream(history, selected_doc, request: gr.Request = None):
     """Processes the last message in history through RAG and streams the answer."""
     import time
     start_time = time.time()
-    
+
     if not history:
         yield history
+        return
+
+    # Bug #12: rate limit by client IP. Gradio auto-injects `request` when a
+    # handler declares a gr.Request parameter, whether or not it is Groq's
+    # authenticated API -- this is the public-facing surface with no API key,
+    # so IP is the only identity available.
+    client_ip = "unknown"
+    if request is not None and getattr(request, "client", None):
+        client_ip = request.client.host
+    try:
+        rate_limiter.check(client_ip)
+    except RateLimitExceeded as e:
+        history = history + [{"role": "assistant", "content": str(e)}] if (history and isinstance(history[0], dict)) else history + [[None, str(e)]]
+        yield list(history)
         return
 
     # Get the last user message from history
     is_dict_format = hasattr(gr, "ChatMessage")
     role, user_message_raw = get_message_role_and_content(history[-1])
     user_message = get_text_content(user_message_raw)
+
+    # Guardrail 1: check the RAW query before anything else touches it -- in
+    # particular before the LLM query-rewriter, which should not be the first
+    # component to see hostile text.
+    blocked = guardrails.check_input(user_message)
 
     # Convert Gradio chat history format (excluding the last user message) to standard dictionary list
     chat_history_dicts = []
@@ -175,9 +204,17 @@ def chat_stream(history, selected_doc):
             
     yield list(history)
 
+    if blocked:
+        history[-1] = set_message_content(history[-1], blocked)
+        yield list(history)
+        return
+
     # Step 1: Rewrite Query ONLY if history exists and query contains referential pronouns or is ultra-short
     if needs_query_rewrite(user_message, chat_history_dicts):
-        rewritten_query = llm_service.rewrite_query(user_message, chat_history_dicts)
+        # guardrails.safe_rewrite_query puts a deadline on the up-to-7-provider
+        # cascade (bug #9) and rejects a nonsensical result before it reaches
+        # retrieval (bug #10) -- both otherwise silent failure modes.
+        rewritten_query = guardrails.safe_rewrite_query(llm_service, user_message, chat_history_dicts)
     else:
         # Standalone questions skip external LLM rewriter calls to eliminate latency
         rewritten_query = user_message
@@ -202,6 +239,21 @@ def chat_stream(history, selected_doc):
     # typed, not the history-padded search string -- the padding is there to
     # find candidates, and it would otherwise skew relevance toward the old turn.
     reranked_results = reranker.rerank(query=user_message, chunks=fused_candidates, top_k=3)
+
+    # Guardrail 2: relevance floor. This is the enforcement layer -- the system
+    # prompt ASKS the model to refuse when context is insufficient, this MAKES
+    # it, by never calling the model at all. Nothing to hallucinate with.
+    reranked_results = guardrails.filter_by_score(reranked_results)
+
+    # Guardrail 3: nothing cleared the floor. Decide whether that is small talk
+    # (reply normally) or a genuinely unanswerable question (refuse). This runs
+    # only AFTER retrieval failed, so it can never be an injection bypass.
+    if not reranked_results:
+        message, _ = guardrails.empty_result_response(user_message)
+        latency = time.time() - start_time
+        history[-1] = set_message_content(history[-1], message + f"\n\n*(⏱️ {latency:.1f}s)*")
+        yield list(history)
+        return
 
     # Format citations. Stack Exchange answers have no page numbers, so a citation
     # is the question title plus the vote score and accepted flag.
@@ -237,9 +289,13 @@ def chat_stream(history, selected_doc):
         # -------------------------------------------------------------------
         # Append Citations & Latency Footer (Done ONLY ONCE at the end)
         # -------------------------------------------------------------------
+        # Guardrail 4: citations are a privilege the answer has to earn.
+        # Attaching sources to an answer that ignored them launders a
+        # general-knowledge answer as a sourced one -- worse than no sources.
+        # Also strips any leaked system-prompt text.
+        full_text, show_citations = guardrails.check_output(full_text, citations_list)
         display_text = full_text
-        is_fallback = "out-of-boundary" in full_text.lower() or "do not have enough information" in full_text.lower()
-        if citations_list and not is_fallback:
+        if citations_list and show_citations:
             display_text += "\n\n---\n### 📚 Sources\n"
             for i, cite in enumerate(citations_list, 1):
                 badge = " ✅ accepted" if cite.get("is_accepted") else ""
@@ -288,10 +344,10 @@ custom_css = """
 }
 """
 
-with gr.Blocks(title="⚡ Portfolio RAG Assistant", css=custom_css, theme=gr.themes.Soft(primary_hue="indigo", secondary_hue="blue")) as demo:
+with gr.Blocks(title="⚡ QdrantRERANK", css=custom_css, theme=gr.themes.Soft(primary_hue="indigo", secondary_hue="blue")) as demo:
     gr.HTML("""
         <div class="header-box">
-            <h1>⚡ Qdrant Rerank RAG Assistant <span class="badge">Hybrid RAG + Cross-Encoder</span></h1>
+            <h1>⚡ QdrantRERANK <span class="badge">Dual-Stage Hybrid RAG with Enforced Grounding</span></h1>
             <p>Dual-Stage Vector & Sparse Search with Re-Ranking and Multi-Turn Conversational Memory</p>
         </div>
     """)

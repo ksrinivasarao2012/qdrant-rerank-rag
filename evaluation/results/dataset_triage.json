@@ -1,0 +1,1733 @@
+[
+  {
+    "query_id": "neg_03",
+    "category": "negation",
+    "query": "How to compare group means without assuming normal distribution?",
+    "gold_ids": [
+      "8849"
+    ],
+    "gold_titles": [
+      "Kruskal-Wallis test data considerations"
+    ],
+    "gold_scores": [
+      0
+    ],
+    "flags": [
+      "WEAK_POST",
+      "NO_OVERLAP",
+      "UNREACHABLE",
+      "STUB",
+      "UNVERIFIED"
+    ],
+    "n_serious": 4
+  },
+  {
+    "query_id": "mturn_09",
+    "category": "multi_turn",
+    "query": "Do we need to scale features before running it?",
+    "gold_ids": [
+      "78"
+    ],
+    "gold_titles": [
+      "PCA on correlation or covariance?"
+    ],
+    "gold_scores": [
+      175
+    ],
+    "flags": [
+      "NO_OVERLAP",
+      "UNREACHABLE",
+      "SHARED_GOLD",
+      "UNVERIFIED"
+    ],
+    "n_serious": 3
+  },
+  {
+    "query_id": "hop_17",
+    "category": "multi_hop",
+    "query": "Compare RNNs and Transformers in handling long-range dependencies.",
+    "gold_ids": [
+      "531971",
+      "472920"
+    ],
+    "gold_titles": [
+      "What exactly are keys, queries, and values in attention mechanisms?",
+      "Is LSTM (Long Short-Term Memory) dead?"
+    ],
+    "gold_scores": [
+      64,
+      40
+    ],
+    "flags": [
+      "NO_OVERLAP",
+      "SHARED_GOLD",
+      "UNVERIFIED"
+    ],
+    "n_serious": 2
+  },
+  {
+    "query_id": "mturn_07",
+    "category": "multi_turn",
+    "query": "Is the MLE estimator always unbiased?",
+    "gold_ids": [
+      "183062"
+    ],
+    "gold_titles": [
+      "Maximum Likelihood Estimation -- why it is used despite being biased in many cases"
+    ],
+    "gold_scores": [
+      24
+    ],
+    "flags": [
+      "NO_OVERLAP",
+      "UNREACHABLE",
+      "UNVERIFIED"
+    ],
+    "n_serious": 2
+  },
+  {
+    "query_id": "neg_09",
+    "category": "negation",
+    "query": "How is parameter uncertainty estimated without bootstrapping?",
+    "gold_ids": [
+      "21888"
+    ],
+    "gold_titles": [
+      "Delta method and correlated variables"
+    ],
+    "gold_scores": [
+      9
+    ],
+    "flags": [
+      "NO_OVERLAP",
+      "UNREACHABLE",
+      "UNVERIFIED"
+    ],
+    "n_serious": 2
+  },
+  {
+    "query_id": "neg_13",
+    "category": "negation",
+    "query": "Outlier detection method that doesn't use Isolation Forests?",
+    "gold_ids": [
+      "2042",
+      "27804"
+    ],
+    "gold_titles": [
+      "What is the best way to identify outliers in multivariate data?",
+      "What is the best way to identify outliers in multivariate data?"
+    ],
+    "gold_scores": [
+      32,
+      21
+    ],
+    "flags": [
+      "NO_OVERLAP",
+      "UNREACHABLE",
+      "UNVERIFIED"
+    ],
+    "n_serious": 2
+  },
+  {
+    "query_id": "neg_17",
+    "category": "negation",
+    "query": "Deep learning sequence modeling without using LSTMs?",
+    "gold_ids": [
+      "531971",
+      "472920",
+      "222587"
+    ],
+    "gold_titles": [
+      "What exactly are keys, queries, and values in attention mechanisms?",
+      "Is LSTM (Long Short-Term Memory) dead?",
+      "Difference between feedback RNN and LSTM/GRU"
+    ],
+    "gold_scores": [
+      64,
+      40,
+      58
+    ],
+    "flags": [
+      "NO_OVERLAP",
+      "SHARED_GOLD",
+      "UNVERIFIED"
+    ],
+    "n_serious": 2
+  },
+  {
+    "query_id": "niche_15",
+    "category": "niche_topic",
+    "query": "Explain the concept of local linear regression in nonparametric smoothing.",
+    "gold_ids": [
+      "161080",
+      "226123"
+    ],
+    "gold_titles": [
+      "Difference between LOESS and LOWESS",
+      "Explanation of what Nate Silver said about loess"
+    ],
+    "gold_scores": [
+      33,
+      30
+    ],
+    "flags": [
+      "NO_OVERLAP",
+      "UNREACHABLE"
+    ],
+    "n_serious": 2
+  },
+  {
+    "query_id": "hop_01",
+    "category": "multi_hop",
+    "query": "Compare the mathematical penalties of AIC and BIC, and explain when to use one over the other.",
+    "gold_ids": [
+      "494",
+      "579",
+      "582",
+      "583",
+      "587",
+      "767",
+      "10165",
+      "15643",
+      "414620"
+    ],
+    "gold_titles": [
+      "Negative values for AICc (corrected Akaike Information Criterion)",
+      "Is there any reason to prefer the AIC or BIC over the other?",
+      "Is there any reason to prefer the AIC or BIC over the other?",
+      "Is there any reason to prefer the AIC or BIC over the other?",
+      "Is there any reason to prefer the AIC or BIC over the other?",
+      "Is there any reason to prefer the AIC or BIC over the other?",
+      "Is there any reason to prefer the AIC or BIC over the other?",
+      "Is there any reason to prefer the AIC or BIC over the other?",
+      "Is there any reason to prefer the AIC or BIC over the other?"
+    ],
+    "gold_scores": [
+      14,
+      10,
+      7,
+      105,
+      92,
+      242,
+      19,
+      6,
+      5
+    ],
+    "flags": [
+      "SHARED_GOLD",
+      "UNVERIFIED"
+    ],
+    "n_serious": 1
+  },
+  {
+    "query_id": "hop_02",
+    "category": "multi_hop",
+    "query": "How do bagging and boosting differ in how they combine weak learners?",
+    "gold_ids": [
+      "372975",
+      "152698"
+    ],
+    "gold_titles": [
+      "Boosting AND Bagging Trees (XGBoost, LightGBM)",
+      "Where must we use Bagging or Boosting?"
+    ],
+    "gold_scores": [
+      21,
+      7
+    ],
+    "flags": [
+      "SHARED_GOLD",
+      "UNVERIFIED"
+    ],
+    "n_serious": 1
+  },
+  {
+    "query_id": "hop_04",
+    "category": "multi_hop",
+    "query": "How do precision and recall trade off, and how does the F1 score summarize that trade-off?",
+    "gold_ids": [
+      "55605",
+      "253992"
+    ],
+    "gold_titles": [
+      "Balanced accuracy vs F-1 score",
+      "Is the Dice coefficient the same as accuracy?"
+    ],
+    "gold_scores": [
+      30,
+      34
+    ],
+    "flags": [
+      "SHARED_GOLD",
+      "UNVERIFIED"
+    ],
+    "n_serious": 1
+  },
+  {
+    "query_id": "hop_06",
+    "category": "multi_hop",
+    "query": "Explain the difference in how PCA and Factor Analysis handle observed variance.",
+    "gold_ids": [
+      "78",
+      "1577",
+      "1579",
+      "1584",
+      "3371",
+      "44453",
+      "83599",
+      "94601",
+      "133806"
+    ],
+    "gold_titles": [
+      "PCA on correlation or covariance?",
+      "What are the differences between Factor Analysis and Principal Component Analysis?",
+      "What are the differences between Factor Analysis and Principal Component Analysis?",
+      "What are the differences between Factor Analysis and Principal Component Analysis?",
+      "What are the differences between Factor Analysis and Principal Component Analysis?",
+      "What are the differences between Factor Analysis and Principal Component Analysis?",
+      "What are the differences between Factor Analysis and Principal Component Analysis?",
+      "What are the differences between Factor Analysis and Principal Component Analysis?",
+      "What are the differences between Factor Analysis and Principal Component Analysis?"
+    ],
+    "gold_scores": [
+      175,
+      35,
+      184,
+      24,
+      33,
+      11,
+      11,
+      12,
+      38
+    ],
+    "flags": [
+      "SHARED_GOLD",
+      "UNVERIFIED"
+    ],
+    "n_serious": 1
+  },
+  {
+    "query_id": "hop_12",
+    "category": "multi_hop",
+    "query": "Compare the prediction accuracy of bagging versus random forests.",
+    "gold_ids": [
+      "66294",
+      "214315"
+    ],
+    "gold_titles": [
+      "Motivation behind random forest algorithm steps",
+      "On the importance of the i.i.d. assumption in statistical learning"
+    ],
+    "gold_scores": [
+      9,
+      81
+    ],
+    "flags": [
+      "UNREACHABLE",
+      "UNVERIFIED"
+    ],
+    "n_serious": 1
+  },
+  {
+    "query_id": "hop_14",
+    "category": "multi_hop",
+    "query": "Explain how t-SNE and UMAP differ in preserving global structure.",
+    "gold_ids": [
+      "402676",
+      "364255"
+    ],
+    "gold_titles": [
+      "Intuitive explanation of how UMAP works, compared to t-SNE",
+      "Should dimensionality reduction for visualization be considered a \"closed\" problem, solved by t-SNE?"
+    ],
+    "gold_scores": [
+      26,
+      18
+    ],
+    "flags": [
+      "SHARED_GOLD",
+      "UNVERIFIED"
+    ],
+    "n_serious": 1
+  },
+  {
+    "query_id": "hop_15",
+    "category": "multi_hop",
+    "query": "Compare Gelman-Rubin diagnostic (R-hat) and MCMC autocorrelation time.",
+    "gold_ids": [
+      "99388",
+      "73145"
+    ],
+    "gold_titles": [
+      "Gelman and Rubin convergence diagnostic, how to generalise to work with vectors?",
+      "Definition of autocorrelation time (for effective sample size)"
+    ],
+    "gold_scores": [
+      20,
+      23
+    ],
+    "flags": [
+      "SHARED_GOLD",
+      "UNVERIFIED"
+    ],
+    "n_serious": 1
+  },
+  {
+    "query_id": "hop_16",
+    "category": "multi_hop",
+    "query": "Compare random intercept and random slope models in hierarchical regression.",
+    "gold_ids": [
+      "341566",
+      "27870"
+    ],
+    "gold_titles": [
+      "Why does treatment coding result in a correlation between random slope and intercept?",
+      "Fitting a Poisson GLM mixed model with a random slope and intercept"
+    ],
+    "gold_scores": [
+      27,
+      20
+    ],
+    "flags": [
+      "UNREACHABLE",
+      "UNVERIFIED"
+    ],
+    "n_serious": 1
+  },
+  {
+    "query_id": "mturn_04",
+    "category": "multi_hop",
+    "query": "Between AIC and BIC, which one penalizes variables more strictly?",
+    "gold_ids": [
+      "583"
+    ],
+    "gold_titles": [
+      "Is there any reason to prefer the AIC or BIC over the other?"
+    ],
+    "gold_scores": [
+      105
+    ],
+    "flags": [
+      "SHARED_GOLD",
+      "UNVERIFIED"
+    ],
+    "n_serious": 1
+  },
+  {
+    "query_id": "mturn_05",
+    "category": "multi_turn",
+    "query": "What assumption does it make about the mean and variance?",
+    "gold_ids": [
+      "18666"
+    ],
+    "gold_titles": [
+      "Mean and variance of a zero-inflated Poisson distribution"
+    ],
+    "gold_scores": [
+      31
+    ],
+    "flags": [
+      "UNREACHABLE",
+      "UNVERIFIED"
+    ],
+    "n_serious": 1
+  },
+  {
+    "query_id": "mturn_08",
+    "category": "multi_turn",
+    "query": "How do we test for it?",
+    "gold_ids": [
+      "235916",
+      "131244",
+      "137615"
+    ],
+    "gold_titles": [
+      "What is the difference between a stationary test and a unit root test?",
+      "The difference between the three Augmented Dickey\u2013Fuller test (none,drift, trend)",
+      "Interpreting R's ur.df (Dickey-Fuller unit root test) results"
+    ],
+    "gold_scores": [
+      31,
+      19,
+      28
+    ],
+    "flags": [
+      "UNREACHABLE",
+      "UNVERIFIED"
+    ],
+    "n_serious": 1
+  },
+  {
+    "query_id": "mturn_12",
+    "category": "multi_turn",
+    "query": "How do we construct confidence intervals using these samples?",
+    "gold_ids": [
+      "104746"
+    ],
+    "gold_titles": [
+      "Resampling / simulation methods: monte carlo, bootstrapping, jackknifing, cross-validation, randomization tests, and permutation tests"
+    ],
+    "gold_scores": [
+      143
+    ],
+    "flags": [
+      "NO_OVERLAP",
+      "UNVERIFIED"
+    ],
+    "n_serious": 1
+  },
+  {
+    "query_id": "mturn_13",
+    "category": "multi_turn",
+    "query": "What happens if the instrument is weak?",
+    "gold_ids": [
+      "107931"
+    ],
+    "gold_titles": [
+      "Interpreting significance of Cragg-Donald F-Statistic for weak instruments"
+    ],
+    "gold_scores": [
+      8
+    ],
+    "flags": [
+      "UNREACHABLE",
+      "UNVERIFIED"
+    ],
+    "n_serious": 1
+  },
+  {
+    "query_id": "mturn_15",
+    "category": "multi_turn",
+    "query": "Does a decay schedule help optimization convergence?",
+    "gold_ids": [
+      "235052",
+      "384202"
+    ],
+    "gold_titles": [
+      "Defining the learning rate in Neural Network / MLP",
+      "Why increasing the batch size has the same effect as decaying the learning rate?"
+    ],
+    "gold_scores": [
+      6,
+      6
+    ],
+    "flags": [
+      "NO_OVERLAP",
+      "UNVERIFIED"
+    ],
+    "n_serious": 1
+  },
+  {
+    "query_id": "mturn_16",
+    "category": "multi_turn",
+    "query": "Why is this generally not recommended?",
+    "gold_ids": [
+      "45868",
+      "509026",
+      "11197"
+    ],
+    "gold_titles": [
+      "Effects of replacing missing data with mean or median?",
+      "Median imputation method",
+      "Appropriateness of calculating scale means based on available non-missing responses (i.e., person-mean imputation)"
+    ],
+    "gold_scores": [
+      7,
+      4,
+      6
+    ],
+    "flags": [
+      "NO_OVERLAP",
+      "UNVERIFIED"
+    ],
+    "n_serious": 1
+  },
+  {
+    "query_id": "mturn_17",
+    "category": "multi_hop",
+    "query": "How does it compare to t-SNE for preserving global structure?",
+    "gold_ids": [
+      "402676"
+    ],
+    "gold_titles": [
+      "Intuitive explanation of how UMAP works, compared to t-SNE"
+    ],
+    "gold_scores": [
+      26
+    ],
+    "flags": [
+      "SHARED_GOLD",
+      "UNVERIFIED"
+    ],
+    "n_serious": 1
+  },
+  {
+    "query_id": "mturn_18",
+    "category": "multi_turn",
+    "query": "How does class imbalance affect it compared to Precision-Recall curves?",
+    "gold_ids": [
+      "90781",
+      "90783"
+    ],
+    "gold_titles": [
+      "Area under the ROC curve or area under the PR curve for imbalanced data?",
+      "Area under the ROC curve or area under the PR curve for imbalanced data?"
+    ],
+    "gold_scores": [
+      6,
+      35
+    ],
+    "flags": [
+      "NO_OVERLAP",
+      "UNVERIFIED"
+    ],
+    "n_serious": 1
+  },
+  {
+    "query_id": "mturn_19",
+    "category": "multi_hop",
+    "query": "When should we use a random intercept vs random slope?",
+    "gold_ids": [
+      "66895"
+    ],
+    "gold_titles": [
+      "Big disagreement in the slope estimate when groups are treated as random vs. fixed in a mixed model"
+    ],
+    "gold_scores": [
+      36
+    ],
+    "flags": [
+      "UNREACHABLE",
+      "UNVERIFIED"
+    ],
+    "n_serious": 1
+  },
+  {
+    "query_id": "mturn_20",
+    "category": "multi_turn",
+    "query": "When should we prefer it over accuracy?",
+    "gold_ids": [
+      "55605"
+    ],
+    "gold_titles": [
+      "Balanced accuracy vs F-1 score"
+    ],
+    "gold_scores": [
+      30
+    ],
+    "flags": [
+      "SHARED_GOLD",
+      "UNVERIFIED"
+    ],
+    "n_serious": 1
+  },
+  {
+    "query_id": "mturn_21",
+    "category": "multi_turn",
+    "query": "How does right-censoring affect the Kaplan-Meier estimate?",
+    "gold_ids": [
+      "198481",
+      "636153"
+    ],
+    "gold_titles": [
+      "Layman's explanation of censoring in survival analysis",
+      "Why is large amounts of censoring bad in survival analysis?"
+    ],
+    "gold_scores": [
+      20,
+      15
+    ],
+    "flags": [
+      "NO_OVERLAP",
+      "UNVERIFIED"
+    ],
+    "n_serious": 1
+  },
+  {
+    "query_id": "mturn_22",
+    "category": "multi_turn",
+    "query": "How does running multiple A/B tests at once affect the false positive rate?",
+    "gold_ids": [
+      "64486"
+    ],
+    "gold_titles": [
+      "What do we call multiple testing?"
+    ],
+    "gold_scores": [
+      8
+    ],
+    "flags": [
+      "UNREACHABLE",
+      "UNVERIFIED"
+    ],
+    "n_serious": 1
+  },
+  {
+    "query_id": "neg_02",
+    "category": "negation",
+    "query": "How do I handle missing data without deleting rows?",
+    "gold_ids": [
+      "10352"
+    ],
+    "gold_titles": [
+      "Advice on missing value imputation"
+    ],
+    "gold_scores": [
+      7
+    ],
+    "flags": [
+      "UNREACHABLE",
+      "UNVERIFIED"
+    ],
+    "n_serious": 1
+  },
+  {
+    "query_id": "neg_04",
+    "category": "negation",
+    "query": "How to perform nonlinear dimensionality reduction as an alternative to PCA?",
+    "gold_ids": [
+      "124545",
+      "142987"
+    ],
+    "gold_titles": [
+      "How to understand \"nonlinear\" as in \"nonlinear dimensionality reduction\"?",
+      "Two broad categories of dimensionality reduction: with and without an explicit mapping function"
+    ],
+    "gold_scores": [
+      56,
+      8
+    ],
+    "flags": [
+      "SHARED_GOLD",
+      "UNVERIFIED"
+    ],
+    "n_serious": 1
+  },
+  {
+    "query_id": "neg_05",
+    "category": "negation",
+    "query": "How to select model features without stepwise regression?",
+    "gold_ids": [
+      "13698",
+      "27310"
+    ],
+    "gold_titles": [
+      "What are modern, easily used alternatives to stepwise regression?",
+      "Using principal component analysis (PCA) for feature selection"
+    ],
+    "gold_scores": [
+      61,
+      111
+    ],
+    "flags": [
+      "UNREACHABLE",
+      "UNVERIFIED"
+    ],
+    "n_serious": 1
+  },
+  {
+    "query_id": "neg_06",
+    "category": "negation",
+    "query": "How to forecast time series data without using ARIMA models?",
+    "gold_ids": [
+      "125016",
+      "157379"
+    ],
+    "gold_titles": [
+      "Is it unusual for the MEAN to outperform ARIMA?",
+      "Books for self-studying time series analysis?"
+    ],
+    "gold_scores": [
+      54,
+      46
+    ],
+    "flags": [
+      "UNREACHABLE",
+      "UNVERIFIED"
+    ],
+    "n_serious": 1
+  },
+  {
+    "query_id": "neg_12",
+    "category": "negation",
+    "query": "Ensemble methods like bagging and boosting explained?",
+    "gold_ids": [
+      "372975",
+      "15267"
+    ],
+    "gold_titles": [
+      "Boosting AND Bagging Trees (XGBoost, LightGBM)",
+      "Determining the variables when training a/classifying with a random forest"
+    ],
+    "gold_scores": [
+      21,
+      8
+    ],
+    "flags": [
+      "SHARED_GOLD",
+      "UNVERIFIED"
+    ],
+    "n_serious": 1
+  },
+  {
+    "query_id": "neg_14",
+    "category": "negation",
+    "query": "Non-linear dimensionality reduction excluding t-SNE?",
+    "gold_ids": [
+      "124545",
+      "364255"
+    ],
+    "gold_titles": [
+      "How to understand \"nonlinear\" as in \"nonlinear dimensionality reduction\"?",
+      "Should dimensionality reduction for visualization be considered a \"closed\" problem, solved by t-SNE?"
+    ],
+    "gold_scores": [
+      56,
+      18
+    ],
+    "flags": [
+      "SHARED_GOLD",
+      "UNVERIFIED"
+    ],
+    "n_serious": 1
+  },
+  {
+    "query_id": "neg_15",
+    "category": "negation",
+    "query": "What are the best methods for checking convergence in MCMC?",
+    "gold_ids": [
+      "560",
+      "99388"
+    ],
+    "gold_titles": [
+      "What is the best method for checking convergence in MCMC?",
+      "Gelman and Rubin convergence diagnostic, how to generalise to work with vectors?"
+    ],
+    "gold_scores": [
+      22,
+      20
+    ],
+    "flags": [
+      "SHARED_GOLD",
+      "UNVERIFIED"
+    ],
+    "n_serious": 1
+  },
+  {
+    "query_id": "neg_16",
+    "category": "negation",
+    "query": "Fitting hierarchical models without random slopes?",
+    "gold_ids": [
+      "243225",
+      "32421"
+    ],
+    "gold_titles": [
+      "\"Model failed to converge\" warning in lmer()",
+      "Difference between generalized linear models & generalized linear mixed models"
+    ],
+    "gold_scores": [
+      95,
+      74
+    ],
+    "flags": [
+      "UNREACHABLE",
+      "UNVERIFIED"
+    ],
+    "n_serious": 1
+  },
+  {
+    "query_id": "niche_08",
+    "category": "niche_topic",
+    "query": "Explain how the Nelder-Mead simplex algorithm optimizes non-differentiable functions.",
+    "gold_ids": [
+      "306000"
+    ],
+    "gold_titles": [
+      "Stopping criterion for Nelder Mead"
+    ],
+    "gold_scores": [
+      10
+    ],
+    "flags": [
+      "NO_OVERLAP",
+      "UNVERIFIED"
+    ],
+    "n_serious": 1
+  },
+  {
+    "query_id": "niche_14",
+    "category": "niche_topic",
+    "query": "How does the Heckman correction adjust for sample selection bias?",
+    "gold_ids": [
+      "38947"
+    ],
+    "gold_titles": [
+      "Heckman selection model with difference-in-differences specification"
+    ],
+    "gold_scores": [
+      2
+    ],
+    "flags": [
+      "WEAK_POST",
+      "UNVERIFIED"
+    ],
+    "n_serious": 1
+  },
+  {
+    "query_id": "hop_03",
+    "category": "multi_hop",
+    "query": "What's the relationship between Type I error, Type II error, and statistical power?",
+    "gold_ids": [
+      "176390",
+      "7404"
+    ],
+    "gold_titles": [
+      "Do underpowered studies have increased likelihood of false positives?",
+      "How do I find the probability of a type II error?"
+    ],
+    "gold_scores": [
+      40,
+      33
+    ],
+    "flags": [],
+    "n_serious": 0
+  },
+  {
+    "query_id": "hop_05",
+    "category": "multi_hop",
+    "query": "Compare Lasso and Ridge regression penalties and how they behave with highly correlated features.",
+    "gold_ids": [
+      "876",
+      "4274"
+    ],
+    "gold_titles": [
+      "When should I use lasso vs ridge?",
+      "When to use regularization methods for regression?"
+    ],
+    "gold_scores": [
+      131,
+      87
+    ],
+    "flags": [
+      "UNVERIFIED"
+    ],
+    "n_serious": 0
+  },
+  {
+    "query_id": "hop_07",
+    "category": "multi_hop",
+    "query": "Compare the convergence behaviors and learning rates of SGD vs Adam optimization.",
+    "gold_ids": [
+      "184497",
+      "220563"
+    ],
+    "gold_titles": [
+      "Difference between GradientDescentOptimizer and AdamOptimizer (TensorFlow)?",
+      "How does the Adam method of stochastic gradient descent work?"
+    ],
+    "gold_scores": [
+      85,
+      49
+    ],
+    "flags": [
+      "UNVERIFIED"
+    ],
+    "n_serious": 0
+  },
+  {
+    "query_id": "hop_08",
+    "category": "multi_hop",
+    "query": "What is the difference between confidence intervals and credible intervals?",
+    "gold_ids": [
+      "1041",
+      "2281",
+      "2287",
+      "2372",
+      "2373",
+      "2713",
+      "63193",
+      "169999"
+    ],
+    "gold_titles": [
+      "What is the interpretation/meaning of confidence intervals in misspecified models?",
+      "What's the difference between a confidence interval and a credible interval?",
+      "What's the difference between a confidence interval and a credible interval?",
+      "What's the difference between a confidence interval and a credible interval?",
+      "What's the difference between a confidence interval and a credible interval?",
+      "What's the difference between a confidence interval and a credible interval?",
+      "What's the difference between a confidence interval and a credible interval?",
+      "What's the difference between a confidence interval and a credible interval?"
+    ],
+    "gold_scores": [
+      3,
+      51,
+      437,
+      21,
+      7,
+      18,
+      6,
+      4
+    ],
+    "flags": [
+      "UNVERIFIED"
+    ],
+    "n_serious": 0
+  },
+  {
+    "query_id": "hop_09",
+    "category": "multi_hop",
+    "query": "Compare Random Forests and Gradient Boosted Trees in terms of parallel training and variance reduction.",
+    "gold_ids": [
+      "77025",
+      "148060"
+    ],
+    "gold_titles": [
+      "Is random forest a boosting algorithm?",
+      "Are Random Forest and Boosting parametric or non-parametric?"
+    ],
+    "gold_scores": [
+      105,
+      19
+    ],
+    "flags": [
+      "UNVERIFIED"
+    ],
+    "n_serious": 0
+  },
+  {
+    "query_id": "hop_10",
+    "category": "multi_hop",
+    "query": "How does the Wald test compare to the Likelihood Ratio test for parameter significance?",
+    "gold_ids": [
+      "3587",
+      "6511",
+      "3593"
+    ],
+    "gold_titles": [
+      "Inconsistency between Chi-sq and CI Estimation using Wald test",
+      "Likelihood ratio test in R",
+      "Inconsistency between Chi-sq and CI Estimation using Wald test"
+    ],
+    "gold_scores": [
+      1,
+      31,
+      4
+    ],
+    "flags": [
+      "UNVERIFIED"
+    ],
+    "n_serious": 0
+  },
+  {
+    "query_id": "hop_11",
+    "category": "multi_hop",
+    "query": "Explain the relationship between KL divergence and cross-entropy.",
+    "gold_ids": [
+      "357974",
+      "409271"
+    ],
+    "gold_titles": [
+      "What is the difference between Cross-entropy and KL divergence?",
+      "What is the difference between Cross-entropy and KL divergence?"
+    ],
+    "gold_scores": [
+      115,
+      37
+    ],
+    "flags": [
+      "UNVERIFIED"
+    ],
+    "n_serious": 0
+  },
+  {
+    "query_id": "hop_13",
+    "category": "multi_hop",
+    "query": "Compare DBSCAN and K-means in handling non-convex cluster shapes.",
+    "gold_ids": [
+      "79554",
+      "4931"
+    ],
+    "gold_titles": [
+      "How to compare dbscan clusters / choose epsilon parameter",
+      "How do you test an implementation of k-means?"
+    ],
+    "gold_scores": [
+      9,
+      10
+    ],
+    "flags": [
+      "UNVERIFIED"
+    ],
+    "n_serious": 0
+  },
+  {
+    "query_id": "hop_18",
+    "category": "multi_hop",
+    "query": "Explain how kernel trick and support vector classifiers are related.",
+    "gold_ids": [
+      "3954",
+      "19209"
+    ],
+    "gold_titles": [
+      "Help me understand Support Vector Machines",
+      "Why bother with the dual problem when fitting SVM?"
+    ],
+    "gold_scores": [
+      111,
+      60
+    ],
+    "flags": [],
+    "n_serious": 0
+  },
+  {
+    "query_id": "hop_19",
+    "category": "multi_hop",
+    "query": "Compare target encoding and one-hot encoding for high-cardinality features.",
+    "gold_ids": [
+      "550708",
+      "614855"
+    ],
+    "gold_titles": [
+      "Encoding of categorical variables with high cardinality",
+      "How to use categorical features in lightGBM?"
+    ],
+    "gold_scores": [
+      3,
+      5
+    ],
+    "flags": [
+      "UNVERIFIED"
+    ],
+    "n_serious": 0
+  },
+  {
+    "query_id": "mturn_01",
+    "category": "multi_turn",
+    "query": "How do I use cross-validation to detect and prevent it?",
+    "gold_ids": [
+      "9055",
+      "9059",
+      "193719"
+    ],
+    "gold_titles": [
+      "How does cross-validation overcome the overfitting problem?",
+      "How does cross-validation overcome the overfitting problem?",
+      "How does cross-validation overcome the overfitting problem?"
+    ],
+    "gold_scores": [
+      35,
+      18,
+      10
+    ],
+    "flags": [
+      "UNVERIFIED"
+    ],
+    "n_serious": 0
+  },
+  {
+    "query_id": "mturn_02",
+    "category": "multi_turn",
+    "query": "Which regularization method handles multicollinearity better?",
+    "gold_ids": [
+      "184023"
+    ],
+    "gold_titles": [
+      "When will L1 regularization work better than L2 and vice versa?"
+    ],
+    "gold_scores": [
+      48
+    ],
+    "flags": [
+      "UNVERIFIED"
+    ],
+    "n_serious": 0
+  },
+  {
+    "query_id": "mturn_03",
+    "category": "multi_turn",
+    "query": "How does that differ from a prediction interval?",
+    "gold_ids": [
+      "16498",
+      "271232",
+      "16496"
+    ],
+    "gold_titles": [
+      "Difference between confidence intervals and prediction intervals",
+      "Difference between confidence intervals and prediction intervals",
+      "Difference between confidence intervals and prediction intervals"
+    ],
+    "gold_scores": [
+      138,
+      98,
+      63
+    ],
+    "flags": [
+      "UNVERIFIED"
+    ],
+    "n_serious": 0
+  },
+  {
+    "query_id": "mturn_06",
+    "category": "multi_turn",
+    "query": "Does increasing the number of trees cause it to overfit?",
+    "gold_ids": [
+      "348246",
+      "346984"
+    ],
+    "gold_titles": [
+      "Do we have to tune the number of trees in a random forest?",
+      "How to tune hyperparameters in a random forest"
+    ],
+    "gold_scores": [
+      92,
+      20
+    ],
+    "flags": [
+      "UNVERIFIED"
+    ],
+    "n_serious": 0
+  },
+  {
+    "query_id": "mturn_10",
+    "category": "multi_turn",
+    "query": "What does the author suggest to do with a U\u2011statistic calculation, and how does the author specifically define a non\u2011parametric test?",
+    "gold_ids": [
+      "67210"
+    ],
+    "gold_titles": [
+      "What exactly does a non-parametric test accomplish & What do you do with the results?"
+    ],
+    "gold_scores": [
+      50
+    ],
+    "flags": [
+      "UNVERIFIED"
+    ],
+    "n_serious": 0
+  },
+  {
+    "query_id": "mturn_11",
+    "category": "multi_hop",
+    "query": "Why do deep networks prefer ReLU over sigmoid?",
+    "gold_ids": [
+      "126362",
+      "211359",
+      "298793"
+    ],
+    "gold_titles": [
+      "What are the advantages of ReLU over sigmoid function in deep neural networks?",
+      "What are the advantages of ReLU over sigmoid function in deep neural networks?",
+      "What are the advantages of ReLU over sigmoid function in deep neural networks?"
+    ],
+    "gold_scores": [
+      202,
+      104,
+      82
+    ],
+    "flags": [
+      "UNVERIFIED"
+    ],
+    "n_serious": 0
+  },
+  {
+    "query_id": "mturn_23",
+    "category": "multi_turn",
+    "query": "How does that differ from bagging methods like Random Forest?",
+    "gold_ids": [
+      "88020"
+    ],
+    "gold_titles": [
+      "Difference between Random Forest and MART"
+    ],
+    "gold_scores": [
+      6
+    ],
+    "flags": [
+      "UNVERIFIED"
+    ],
+    "n_serious": 0
+  },
+  {
+    "query_id": "neg_01",
+    "category": "negation",
+    "query": "How to test normality without using the Shapiro-Wilk test?",
+    "gold_ids": [
+      "1648",
+      "74954",
+      "52297"
+    ],
+    "gold_titles": [
+      "Appropriate normality tests for small samples",
+      "What is the difference between the Shapiro\u2013Wilk test of normality and the Kolmogorov\u2013Smirnov test of normality?",
+      "R - QQPlot: how to see whether data are normally distributed"
+    ],
+    "gold_scores": [
+      26,
+      33,
+      25
+    ],
+    "flags": [
+      "UNVERIFIED"
+    ],
+    "n_serious": 0
+  },
+  {
+    "query_id": "neg_07",
+    "category": "negation",
+    "query": "Clustering methods that do not require specifying the number of clusters k?",
+    "gold_ids": [
+      "241389",
+      "88891"
+    ],
+    "gold_titles": [
+      "Clustering methods that do not require pre-specifying the number of clusters",
+      "A routine to choose eps and minPts for DBSCAN"
+    ],
+    "gold_scores": [
+      46,
+      21
+    ],
+    "flags": [
+      "UNVERIFIED"
+    ],
+    "n_serious": 0
+  },
+  {
+    "query_id": "neg_08",
+    "category": "negation",
+    "query": "Goodness of fit tests excluding Kolmogorov-Smirnov?",
+    "gold_ids": [
+      "207512",
+      "70208"
+    ],
+    "gold_titles": [
+      "Evaluating logistic regression and interpretation of Hosmer-Lemeshow Goodness of Fit",
+      "What's the Bayesian equivalent of a general goodness of fit test?"
+    ],
+    "gold_scores": [
+      30,
+      28
+    ],
+    "flags": [
+      "UNVERIFIED"
+    ],
+    "n_serious": 0
+  },
+  {
+    "query_id": "neg_10",
+    "category": "negation",
+    "query": "Nonparametric correlation coefficients other than Pearson correlation?",
+    "gold_ids": [
+      "3733",
+      "3744",
+      "3946"
+    ],
+    "gold_titles": [
+      "Pearson's or Spearman's correlation with non-normal data",
+      "Pearson's or Spearman's correlation with non-normal data",
+      "Kendall Tau or Spearman's rho?"
+    ],
+    "gold_scores": [
+      114,
+      65,
+      53
+    ],
+    "flags": [
+      "UNVERIFIED"
+    ],
+    "n_serious": 0
+  },
+  {
+    "query_id": "neg_11",
+    "category": "negation",
+    "query": "Information theory metric for correlation without using mutual information?",
+    "gold_ids": [
+      "394490",
+      "77016",
+      "50680"
+    ],
+    "gold_titles": [
+      "How do I test a nonlinear association?",
+      "How to detect discernible structure in scatter plots?",
+      "What can I do beyond Pearson correlation?"
+    ],
+    "gold_scores": [
+      10,
+      6,
+      3
+    ],
+    "flags": [
+      "UNVERIFIED"
+    ],
+    "n_serious": 0
+  },
+  {
+    "query_id": "neg_18",
+    "category": "negation",
+    "query": "What is a kernel in kernel density estimation and what are some common choices?",
+    "gold_ids": [
+      "244023",
+      "487708"
+    ],
+    "gold_titles": [
+      "Can you explain Parzen window (kernel) density estimation in layman's terms?",
+      "Kernel density estimation - different choice of kernel"
+    ],
+    "gold_scores": [
+      76,
+      1
+    ],
+    "flags": [
+      "UNVERIFIED"
+    ],
+    "n_serious": 0
+  },
+  {
+    "query_id": "neg_19",
+    "category": "negation",
+    "query": "Feature engineering category mapping without one-hot encoding?",
+    "gold_ids": [
+      "411775",
+      "298951"
+    ],
+    "gold_titles": [
+      "Encoding of categorical variables with high cardinality",
+      "Principled way of collapsing categorical variables with many levels?"
+    ],
+    "gold_scores": [
+      14,
+      10
+    ],
+    "flags": [
+      "UNVERIFIED"
+    ],
+    "n_serious": 0
+  },
+  {
+    "query_id": "neg_20",
+    "category": "negation",
+    "query": "How to build a recommender system using association rules or market basket analysis?",
+    "gold_ids": [
+      "391727",
+      "183667"
+    ],
+    "gold_titles": [
+      "Item-Item Collaborative Filtering vs Market Basket Analysis",
+      "Apriori versus Jaccard Coeff for recommender-system"
+    ],
+    "gold_scores": [
+      16,
+      2
+    ],
+    "flags": [
+      "UNVERIFIED"
+    ],
+    "n_serious": 0
+  },
+  {
+    "query_id": "niche_02",
+    "category": "niche_topic",
+    "query": "How does the Benjamini-Hochberg procedure control the false discovery rate?",
+    "gold_ids": [
+      "63497",
+      "21225"
+    ],
+    "gold_titles": [
+      "What are the practical differences between the Benjamini & Hochberg (1995) and the Benjamini & Yekutieli (2001) false discovery rate procedures?",
+      "Is Benjamini-Hochberg correction more conservative as the number of comparisons increases?"
+    ],
+    "gold_scores": [
+      28,
+      35
+    ],
+    "flags": [
+      "UNVERIFIED"
+    ],
+    "n_serious": 0
+  },
+  {
+    "query_id": "niche_03",
+    "category": "niche_topic",
+    "query": "What is the intuition behind copulas for modeling joint distributions?",
+    "gold_ids": [
+      "30205",
+      "573589"
+    ],
+    "gold_titles": [
+      "Is it possible to have a pair of Gaussian random variables for which the joint distribution is not Gaussian?",
+      "What important ideas came since Nelder and McCullagh's book Generalized Linear Models (a 40 year old book)?"
+    ],
+    "gold_scores": [
+      197,
+      38
+    ],
+    "flags": [
+      "UNVERIFIED"
+    ],
+    "n_serious": 0
+  },
+  {
+    "query_id": "niche_04",
+    "category": "niche_topic",
+    "query": "How does the Hosmer-Lemeshow test assess logistic regression calibration?",
+    "gold_ids": [
+      "118227",
+      "18772"
+    ],
+    "gold_titles": [
+      "Model building and selection using Hosmer et al. 2013. Applied Logistic Regression in R",
+      "Hosmer-Lemeshow vs AIC for logistic regression"
+    ],
+    "gold_scores": [
+      25,
+      20
+    ],
+    "flags": [],
+    "n_serious": 0
+  },
+  {
+    "query_id": "niche_05",
+    "category": "niche_topic",
+    "query": "Explain Jackknife estimation of parameter bias and how it compares to Bootstrap.",
+    "gold_ids": [
+      "21027"
+    ],
+    "gold_titles": [
+      "Bootstrap vs. jackknife"
+    ],
+    "gold_scores": [
+      46
+    ],
+    "flags": [
+      "UNVERIFIED"
+    ],
+    "n_serious": 0
+  },
+  {
+    "query_id": "niche_06",
+    "category": "niche_topic",
+    "query": "What are the core assumptions needed to assert causal identification using Instrumental Variables?",
+    "gold_ids": [
+      "152985",
+      "152987",
+      "152990",
+      "421753"
+    ],
+    "gold_titles": [
+      "Is the key assumption for instrumental variables not testable?",
+      "Is the key assumption for instrumental variables not testable?",
+      "Is the key assumption for instrumental variables not testable?",
+      "Is the key assumption for instrumental variables not testable?"
+    ],
+    "gold_scores": [
+      4,
+      4,
+      5,
+      5
+    ],
+    "flags": [
+      "UNVERIFIED"
+    ],
+    "n_serious": 0
+  },
+  {
+    "query_id": "niche_07",
+    "category": "niche_topic",
+    "query": "Describe the mathematical concept and applications of Mahalanobis distance.",
+    "gold_ids": [
+      "62147",
+      "20549"
+    ],
+    "gold_titles": [
+      "Bottom to top explanation of the Mahalanobis distance?",
+      "Distribution of an observation-level Mahalanobis distance"
+    ],
+    "gold_scores": [
+      255,
+      23
+    ],
+    "flags": [],
+    "n_serious": 0
+  },
+  {
+    "query_id": "niche_10",
+    "category": "niche_topic",
+    "query": "How does EMR (expectation maximization) handle parameter estimation with missing data?",
+    "gold_ids": [
+      "236104",
+      "504927"
+    ],
+    "gold_titles": [
+      "EM-algorithm and missing data",
+      "EM algorithm for MLE from a bivariate normal sample with missing data: Stuck on M-step"
+    ],
+    "gold_scores": [
+      5,
+      6
+    ],
+    "flags": [],
+    "n_serious": 0
+  },
+  {
+    "query_id": "niche_11",
+    "category": "niche_topic",
+    "query": "Explain the concept of Gibbs sampling and how it differs from Metropolis-Hastings.",
+    "gold_ids": [
+      "244902",
+      "104817"
+    ],
+    "gold_titles": [
+      "When would one use Gibbs sampling instead of Metropolis-Hastings?",
+      "Gibbs sampling versus general MH-MCMC"
+    ],
+    "gold_scores": [
+      39,
+      15
+    ],
+    "flags": [],
+    "n_serious": 0
+  },
+  {
+    "query_id": "niche_12",
+    "category": "niche_topic",
+    "query": "What is the Hausman specification test used for in panel data?",
+    "gold_ids": [
+      "126661",
+      "65657"
+    ],
+    "gold_titles": [
+      "How to use the Hausman test for gender discrimination?",
+      "Hausman test for panel data, fe and re. Error in the estimation, what to do? Stata"
+    ],
+    "gold_scores": [
+      11,
+      7
+    ],
+    "flags": [],
+    "n_serious": 0
+  },
+  {
+    "query_id": "niche_13",
+    "category": "niche_topic",
+    "query": "Explain Tweedie distributions and their link functions in GLM modeling.",
+    "gold_ids": [
+      "174144",
+      "176929"
+    ],
+    "gold_titles": [
+      "Can a model for non-negative data with clumping at zeros (Tweedie GLM, zero-inflated GLM, etc.) predict exact zeros?",
+      "Identical coefficients estimated in Poisson vs Quasi-Poisson model"
+    ],
+    "gold_scores": [
+      23,
+      27
+    ],
+    "flags": [
+      "UNVERIFIED"
+    ],
+    "n_serious": 0
+  },
+  {
+    "query_id": "niche_17",
+    "category": "niche_topic",
+    "query": "How does the Ljung-Box test evaluate residuals for autocorrelation?",
+    "gold_ids": [
+      "148290",
+      "192165"
+    ],
+    "gold_titles": [
+      "Testing for autocorrelation: Ljung-Box versus Breusch-Godfrey",
+      "VAR forecasting methodology"
+    ],
+    "gold_scores": [
+      52,
+      31
+    ],
+    "flags": [
+      "UNVERIFIED"
+    ],
+    "n_serious": 0
+  },
+  {
+    "query_id": "niche_22",
+    "category": "niche_topic",
+    "query": "What does Moran's I measure in spatial autocorrelation analysis?",
+    "gold_ids": [
+      "74127",
+      "36146"
+    ],
+    "gold_titles": [
+      "Why is Mantel's test preferred over Moran's I?",
+      "Linear Regression and Spatial-Autocorrelation"
+    ],
+    "gold_scores": [
+      22,
+      15
+    ],
+    "flags": [
+      "UNVERIFIED"
+    ],
+    "n_serious": 0
+  },
+  {
+    "query_id": "niche_23",
+    "category": "niche_topic",
+    "query": "How do Bayes factors compare competing models in Bayesian statistics?",
+    "gold_ids": [
+      "27374",
+      "204334"
+    ],
+    "gold_titles": [
+      "Likelihood ratio vs Bayes Factor",
+      "Can I make a decision using a Bayes factor?"
+    ],
+    "gold_scores": [
+      49,
+      10
+    ],
+    "flags": [
+      "UNVERIFIED"
+    ],
+    "n_serious": 0
+  },
+  {
+    "query_id": "niche_24",
+    "category": "niche_topic",
+    "query": "What is the difference between path analysis and structural equation modeling?",
+    "gold_ids": [
+      "21507",
+      "63418"
+    ],
+    "gold_titles": [
+      "Introduction to structural equation modeling",
+      "Difference Between Simultaneous Equation Model and Structural Equation Model"
+    ],
+    "gold_scores": [
+      22,
+      16
+    ],
+    "flags": [],
+    "n_serious": 0
+  },
+  {
+    "query_id": "niche_25",
+    "category": "niche_topic",
+    "query": "How do you calculate required sample size using power analysis?",
+    "gold_ids": [
+      "142083",
+      "142112"
+    ],
+    "gold_titles": [
+      "A priori power analysis: calculating sample size based on percentages",
+      "A priori power analysis: calculating sample size based on percentages"
+    ],
+    "gold_scores": [
+      1,
+      3
+    ],
+    "flags": [
+      "UNVERIFIED"
+    ],
+    "n_serious": 0
+  }
+]

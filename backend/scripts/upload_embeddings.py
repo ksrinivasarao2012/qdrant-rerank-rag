@@ -51,15 +51,15 @@ def to_point_struct(record: dict) -> models.PointStruct:
     )
 
 
-def upload(input_path: Path, batch_size: int = 200):
+def upload(input_path: Path, target_collection: str = "stats_se_rag_docs", batch_size: int = 200):
     if not input_path.exists():
-        print(f"Error: {input_path.resolve()} not found. Run embed_corpus.py first.")
+        print(f"Error: {input_path.resolve()} not found.")
         return 1
 
     print("Connecting to Qdrant...")
-    db_manager = VectorDBManager()
+    db_manager = VectorDBManager(collection_name=target_collection)
     collection_name = db_manager.collection  # triggers one-time collection setup
-    print(f"Using collection: '{collection_name}'")
+    print(f"Using collection: '{collection_name}' (Target: {target_collection})")
 
     total_lines = sum(1 for _ in open(input_path, "r", encoding="utf-8"))
     print(f"Found {total_lines} embedded points to upload.")
@@ -128,8 +128,83 @@ def _upsert_with_retry(db_manager: VectorDBManager, collection_name: str, points
     return False
 
 
+import argparse
+
 def main():
-    return upload(INPUT_PATH)
+    parser = argparse.ArgumentParser(description="Upload embedded points to Qdrant Cloud.")
+    parser.add_argument("--input", type=str, default=None, help="Path to jsonl file with embedded points")
+    parser.add_argument("--collection", type=str, default=None, help="Target Qdrant collection name")
+    args = parser.parse_args()
+
+    v2_path = PROJECT_ROOT / "data" / "processed" / "embedded_points_v2.jsonl"
+    v1_path = PROJECT_ROOT / "data" / "processed" / "embedded_points_768.jsonl"
+
+    if args.input:
+        input_path = Path(args.input)
+    elif v2_path.exists():
+        input_path = v2_path
+    else:
+        input_path = v1_path
+
+    target_collection = args.collection or ("stats_se_rag_docs_v2" if "v2" in input_path.name else "stats_se_rag_docs")
+
+    return upload(input_path, target_collection=target_collection)
+
+
+def upload(input_path: Path, target_collection: str = "stats_se_rag_docs", batch_size: int = 200):
+    if not input_path.exists():
+        print(f"Error: {input_path.resolve()} not found.")
+        return 1
+
+    print("Connecting to Qdrant...")
+    db_manager = VectorDBManager(collection_name=target_collection)
+    collection_name = db_manager.collection
+    print(f"Using collection: '{collection_name}' (Target: {target_collection})")
+
+    total_lines = sum(1 for _ in open(input_path, "r", encoding="utf-8"))
+    print(f"Found {total_lines} embedded points to upload.")
+
+    batch = []
+    uploaded = 0
+    failed_batches = 0
+
+    with open(input_path, "r", encoding="utf-8") as f:
+        for line in tqdm(f, total=total_lines, desc="Uploading to Qdrant"):
+            record = json.loads(line.strip())
+            batch.append(to_point_struct(record))
+
+            if len(batch) >= batch_size:
+                if _upsert_with_retry(db_manager, collection_name, batch):
+                    uploaded += len(batch)
+                else:
+                    failed_batches += 1
+                batch = []
+                time.sleep(0.5)
+
+        if batch:
+            if _upsert_with_retry(db_manager, collection_name, batch):
+                uploaded += len(batch)
+            else:
+                failed_batches += 1
+
+    print("\n=== UPLOAD SUMMARY ===")
+    print(f"Uploaded {uploaded}/{total_lines} points.")
+
+    try:
+        topics = set()
+        with open(input_path, "r", encoding="utf-8") as f:
+            for line in f:
+                if line.strip():
+                    payload = json.loads(line.strip()).get("payload", {})
+                    topics.update(payload.get("tags") or [])
+        topics_path = input_path.parent / "topics.json"
+        with open(topics_path, "w", encoding="utf-8") as f:
+            json.dump({"topics": sorted(list(topics))}, f, indent=2)
+        print(f"Pre-computed and saved {len(topics)} distinct topic tags to '{topics_path}'.")
+    except Exception as e:
+        print(f"Warning: Could not pre-compute topics.json: {e}")
+
+    return 0 if failed_batches == 0 else 1
 
 
 if __name__ == "__main__":

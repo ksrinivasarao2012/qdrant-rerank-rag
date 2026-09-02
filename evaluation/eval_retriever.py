@@ -60,6 +60,16 @@ GOLDEN_JSON_PATH = PROJECT_ROOT / "evaluation" / "golden_dataset.json"
 POSTS_JSONL_PATH = PROJECT_ROOT / "data" / "processed" / "posts.jsonl"
 RESULTS_DIR = PROJECT_ROOT / "evaluation" / "results"
 
+from backend.core.embeddings import MODEL_NAME as EMBEDDING_MODEL_NAME
+from backend.core.vector_store import sparse_generator as _sparse_generator
+
+
+def sparse_generator_for_meta():
+    """Records WHICH sparse implementation produced the query vectors. A silent
+    swap here (hashed TF vs BM25) changes results without changing any config."""
+    return _sparse_generator
+
+
 DEFAULT_TOP_KS = [3, 5, 10]
 DEFAULT_RERANKER_MODEL = "cross-encoder/ms-marco-MiniLM-L-6-v2"
 
@@ -84,6 +94,14 @@ def parse_args():
                               "in the shell -- that trick doesn't reliably work on Windows (PowerShell's "
                               "$env:VAR=\"\" deletes the variable rather than blanking it, so .env silently "
                               "refills it). Requires evaluation/load_local_qdrant.py to have been run first.")
+    parser.add_argument("--collection", type=str, default=None,
+                        help="Qdrant collection to evaluate. Overrides $QDRANT_COLLECTION, "
+                             "which in turn overrides the app default. Recorded in the "
+                             "results sidecar so a run can always be traced to its index.")
+    parser.add_argument("--golden", type=str, default=None,
+                        help="Golden dataset JSON. Defaults to golden_dataset.json (v1). "
+                             "v2 labels are retrieval-derived and inflate scores -- see "
+                             "DIAGNOSIS.md before using them.")
     parser.add_argument("--category", type=str, default=None,
                          help="Filter evaluation cases to a specific category (e.g. multi_turn).")
     parser.add_argument("--decompose", action="store_true",
@@ -211,7 +229,10 @@ def evaluate():
     pool = args.pool or max(top_ks) * 5
     tag = config_tag(args, top_ks, pool)
 
-    cases = load_cases(GOLDEN_JSON_PATH)
+    golden_path = Path(args.golden) if args.golden else GOLDEN_JSON_PATH
+    if not golden_path.is_absolute():
+        golden_path = PROJECT_ROOT / golden_path
+    cases = load_cases(golden_path)
     if cases is None:
         return 1
 
@@ -222,6 +243,7 @@ def evaluate():
     print(f"Config: method={args.method} rerank={not args.no_rerank} "
           f"rewrite={args.rewrite} pool={pool} ks={top_ks}"
           + (f" reranker_model={args.reranker_model}" if not args.no_rerank else ""))
+    print(f"Golden set: {golden_path.name}")
     print(f"Loaded {len(cases)} cases ({len(evaluable)} evaluable, "
           f"{skipped} skipped -- no gold_answer_ids, e.g. adversarial/out_of_scope).")
 
@@ -229,8 +251,24 @@ def evaluate():
     gold_qid_lookup = gold_question_ids(evaluable)
 
     print(f"Connecting to Qdrant ({'local' if args.local else 'cloud/.env'})...")
-    db_manager = VectorDBManager(force_local=args.local)
+    db_manager = VectorDBManager(force_local=args.local,
+                                 collection_name=args.collection)
     db_manager.collection  # one-time init
+
+    # Fail loudly here rather than producing a clean-looking run against the wrong
+    # or empty index. Three separate bad numbers in this project's history came
+    # from a run that completed normally while measuring something other than
+    # what the operator believed (fake judge, contaminated labels, ignored
+    # $QDRANT_COLLECTION) -- so state the index and its size before doing work.
+    try:
+        point_count = db_manager.client.count(db_manager.collection_name).count
+    except Exception as e:
+        print(f"FATAL: cannot read collection '{db_manager.collection_name}': {e}")
+        return 1
+    if point_count == 0:
+        print(f"FATAL: collection '{db_manager.collection_name}' is empty.")
+        return 1
+    print(f"Index: {db_manager.collection_name}  ({point_count:,} points)")
 
     reranker = None
     if not args.no_rerank:
@@ -245,6 +283,17 @@ def evaluate():
 
     # Per-query-instance results, tagged with category for breakdown.
     rows = []
+
+    # Retrieval-failure tracking. vector_store catches transport errors and
+    # returns [], so a dropped network connection silently scores every affected
+    # query as a miss and the run still prints a clean summary. That has now
+    # produced a plausible-but-wrong number three times in this project (fallback
+    # judge, ignored $QDRANT_COLLECTION, mid-run socket failure), so a run that
+    # cannot reach the index must die rather than report.
+    MAX_CONSECUTIVE_FAILURES = 10
+    MAX_FAILURE_RATE = 0.02
+    retrieval_failures = 0
+    consecutive_failures = 0
 
     # Flatten cases into single query instances for accurate progress tracking
     query_instances = []
@@ -283,6 +332,29 @@ def evaluate():
             db_manager, reranker, args.method, search_query, pool, not args.no_rerank,
             use_decompose=args.decompose, original_query=query_text
         )
+
+        # An empty result against a 100k+ point index means the search did not
+        # run, not that nothing matched.
+        if not ranked:
+            retrieval_failures += 1
+            consecutive_failures += 1
+            if consecutive_failures == 1:
+                print(f"\n  WARNING: retrieval returned nothing for "
+                      f"[{case['query_id']}] '{query_text[:60]}' -- check the "
+                      f"connection to {db_manager.collection_name}.")
+            if consecutive_failures >= MAX_CONSECUTIVE_FAILURES:
+                print(f"\nABORTING: {consecutive_failures} consecutive retrieval "
+                      f"failures. The index is unreachable; any summary printed now "
+                      f"would score these as misses and be wrong. Nothing saved.")
+                return 1
+            if retrieval_failures > max(5, MAX_FAILURE_RATE * len(query_instances)):
+                print(f"\nABORTING: {retrieval_failures} retrieval failures out of "
+                      f"{len(query_instances)} query instances (> "
+                      f"{MAX_FAILURE_RATE:.0%}). Results would be contaminated. "
+                      f"Nothing saved.")
+                return 1
+        else:
+            consecutive_failures = 0
         row = {
             "query_id": case["query_id"],
             "sub_label": sub_label,
@@ -313,8 +385,35 @@ def evaluate():
         print("No evaluable query instances produced results -- nothing to report.")
         return 1
 
+    if retrieval_failures:
+        print(f"\n!! {retrieval_failures} of {len(query_instances)} query instances "
+              f"returned nothing and were scored as misses. Treat every number below "
+              f"as a LOWER BOUND, and see retrieval_failures in the .meta.json.")
+
+    meta = {
+        "run_at": time.strftime("%Y-%m-%dT%H:%M:%S"),
+        "retrieval_failures": retrieval_failures,
+        "clean_run": retrieval_failures == 0,
+        "collection": db_manager.collection_name,
+        "collection_points": point_count,
+        "golden_set": golden_path.name,
+        "n_cases": len(cases),
+        "n_evaluable": len(evaluable),
+        "n_query_instances": len(rows),
+        "category_filter": args.category,
+        "method": args.method,
+        "rerank": not args.no_rerank,
+        "reranker_model": None if args.no_rerank else args.reranker_model,
+        "rewrite": args.rewrite,
+        "decompose": bool(getattr(args, "decompose", False)),
+        "pool": pool,
+        "top_ks": top_ks,
+        "embedding_model": EMBEDDING_MODEL_NAME,
+        "sparse_generator": type(sparse_generator_for_meta()).__name__,
+        "local_index": bool(args.local),
+    }
     print_summary(rows, top_ks, tag)
-    save_results(rows, tag)
+    save_results(rows, tag, meta)
     return 0
 
 
@@ -357,12 +456,24 @@ def print_summary(rows, top_ks, tag):
             print(f"    distractor present in top_{k}: {rate:.2f} ({len(negation_rows)} cases)")
 
 
-def save_results(rows, tag):
+def save_results(rows, tag, meta=None):
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
     timestamp = time.strftime("%Y%m%d_%H%M%S")
     out_path = RESULTS_DIR / f"retriever_eval_{tag}_{timestamp}.json"
     with open(out_path, "w", encoding="utf-8") as f:
         json.dump(rows, f, indent=2)
+    # Provenance goes in a sidecar rather than wrapping the rows in a dict, so
+    # every existing consumer (rescore_pooled, build_judgment_pool, generate_report,
+    # dataset_triage) keeps reading a plain list. Sidecar name mirrors the results
+    # file, so the pair never separates.
+    if meta is not None:
+        meta_path = out_path.with_suffix(".meta.json")
+        meta = {**meta, "results_file": out_path.name}
+        with open(meta_path, "w", encoding="utf-8") as f:
+            json.dump(meta, f, indent=2)
+        print(f"Saved run provenance to {meta_path.name}")
+        print(f"  index={meta['collection']} ({meta['collection_points']:,} points)  "
+              f"golden={meta['golden_set']}  pool={meta['pool']}")
     print(f"\nSaved per-query results to {out_path.resolve()}")
     print("(Filename is tagged with this run's config -- compare across ablation runs by "
           "diffing the recall@k/MRR summaries printed above, or load multiple result files "

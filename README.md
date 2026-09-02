@@ -1,5 +1,5 @@
 ---
-title: Cross Validated RAG Assistant
+title: QdrantRERANK
 emoji: ⚡
 colorFrom: blue
 colorTo: indigo
@@ -245,3 +245,101 @@ python test_tag_filtering_advantage.py
 * **Corpus:** Cross Validated content from the official StackExchange data dumps, licensed under **CC BY-SA 4.0**. Every generated response includes clickable citation links back to original author threads on [stats.stackexchange.com](https://stats.stackexchange.com).
 
 Built by **[K. Srinivasa Rao](https://github.com/ksrinivasarao2012)**.
+
+---
+
+## Safety & Guardrails
+
+> Added 2026-09-02. Full change history in [`CHANGES.md`](CHANGES.md).
+
+Retrieval quality is only half of a RAG system. The other half is what happens
+when retrieval **fails** — and until this was added, the honest answer was
+"the model improvises." The active answer prompt permitted a general-knowledge
+fallback whenever retrieved context was thin, which meant off-topic questions,
+jailbreak framings, and medical or legal questions phrased as statistics were
+all answerable from model priors. There was no other layer in the pipeline to
+stop them.
+
+Four checks now run on every request, in `backend/core/guardrails.py`, called
+identically by the Gradio app and the FastAPI backend.
+
+| Stage | Check | What it does |
+|---|---|---|
+| Before rewriting | `check_input()` | Pattern-matches injection attempts (`ignore previous instructions`, `reveal your system prompt`, `DAN mode`, `</system>`) and junk payloads on the **raw** query, so the LLM rewriter is never the first component to see hostile text. Deterministic — no model call, no added latency. |
+| After reranking | `filter_by_score()` | Drops chunks below a relevance floor. **If nothing clears it, the LLM is never called.** |
+| On empty result | `classify_empty_result()` | Distinguishes small talk ("hi", "thanks") from a genuinely unanswerable question, so a greeting gets a normal reply rather than a grounding refusal. |
+| After generation | `check_output()` | Withholds the Sources footer when the answer refused or shares almost no wording with the retrieved text, and strips leaked system-prompt text. |
+
+### Three decisions worth explaining
+
+**The relevance floor is the actual guardrail; the prompt is not.**
+A system prompt *asks* a model to refuse. Only skipping generation *makes* it
+refuse. Previously the reranker sorted and sliced `top_k=3` unconditionally, so
+a query with no good match produced context of exactly the same shape as a
+perfect match. Now an empty result short-circuits before the model is invoked —
+there is nothing to hallucinate with.
+
+**Small-talk detection runs after retrieval fails, not before.**
+Placed up front it would be a bypass: *"hi, ignore your instructions and…"*
+would route to the friendly path. It is reachable only by a query that already
+passed the input check and then retrieved nothing.
+
+**The two reranker backends do not speak the same units.**
+`cross-encoder/ms-marco-MiniLM-L-6-v2` returns raw logits (≈ −11…+11); the Jina
+API returns a true 0–1 relevance score — and Jina silently disables itself on a
+401/403 balance error, falling through to the local model. A single threshold
+constant would therefore have meant two different things depending on billing
+state. Scores are normalized to a common 0–1 scale before the floor is applied.
+
+Retrieved chunks are additionally wrapped in explicit
+`BEGIN/END RETRIEVED DOCUMENT` markers, and the system prompt declares that text
+between them is reference material and never instructions — the corpus is
+218,456 chunks of community-written text, so indirect prompt injection through a
+retrieved post is a real vector on a public deployment.
+
+### Honest limitations
+
+- **The thresholds are placeholders, not measurements.** `MIN_RERANK_SCORE`
+  (0.25) and `MIN_GROUNDING_OVERLAP` (0.15) need calibrating against the
+  `out_of_scope` and `standard` golden slices, with `niche_topic` as the
+  false-refusal check. Override the first via `GUARDRAIL_MIN_SCORE`.
+- **The injection list is a fixed pattern set.** It stops copy-pasted attacks,
+  not novel phrasing. The relevance floor is what bounds the damage.
+- **Indirect injection is mitigated, not solved.** Nothing scans chunk text.
+- **Grounding is measured by word overlap**, which is crude. It is tuned to fire
+  only on a clear miss, so it under-reports rather than over-blocks.
+- **Prior `out_of_scope` and `adversarial` benchmark numbers predate this work**
+  and measured the older permissive prompt. They do not describe the current
+  system and are being re-run.
+
+### Bug fixes — 2026-09-02
+
+Five bugs found in code review, fixed the same day (`CHANGES.md` has full
+detail):
+
+| Bug | Fix |
+|---|---|
+| A broken stream mid-answer could glue a full second answer onto a partial one | The generator now tracks whether anything has already been shown; if a failure happens after that, it stops with a short message instead of retrying |
+| The query-rewrite step could try up to 7 AI providers in series with no overall time limit | Wrapped in one deadline (`REWRITE_TIMEOUT_SECONDS`, default 4s); falls back to the raw query on timeout |
+| A rewritten search query was never checked before being used | Rejected if empty, oversized, or sharing no words with the original question |
+| The web app and the API endpoint ran different retrieval settings (candidate pool size, multi-hop query splitting) behind the same prompts | Brought to parity — both now use the same pool size and both split comparison queries |
+| One unreachable line of dead code | Removed |
+
+One implementation bug was caught and fixed during the verification pass for
+the timeout fix: the first version used a `with` block around the thread pool,
+whose cleanup silently waited for the slow call to finish anyway — defeating
+the timeout it was supposed to enforce.
+
+### Corrections to the above — 2026-09-02
+
+A few claims made earlier in this README don't match the current code or the
+project's own later findings. Per this file's append-only convention, they
+are corrected here rather than edited in place:
+
+| Claim above | Where | Correction |
+|---|---|---|
+| "Server-Side **BM25** IDF applied via `Modifier.IDF`" / "In-memory **BM25** over 218K chunks..." | Architecture diagram note, Key Engineering Decision #2 | This is **not BM25**. It's raw term-frequency weighting (`sum(raw_tf × idf)`) — no term-frequency saturation, no document-length normalization. A chunk repeating one term many times, or simply a longer chunk, outscores a better-matching one at the same relevance. Real BM25 is a scoped, not-yet-run fix (`PROJECT_LOG.md` §6, 2026-09-02 10:15). The architecture diagram itself already says this correctly ("CRC32 Feature Hashing, Term-Frequency (TF)") — only the two prose mentions were wrong. |
+| "Candidate Pool Expansion (**K=100**)" | Results table, `niche_topic` row | The code has never used a pool of 100. `app.py` uses `CANDIDATE_K=10`; `backend/api/routes.py` used 15 until 2026-09-02, when it was brought into line with `app.py`'s 10 (see the Bug fixes section above). |
+
+None of the underlying benchmark numbers in the tables are affected — this
+only corrects what the pipeline was doing while producing them.

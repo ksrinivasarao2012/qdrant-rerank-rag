@@ -1,0 +1,218 @@
+{
+  "neg_03": {
+    "action": "REPLACE",
+    "original_gold": [
+      "8849"
+    ],
+    "gold_answer_ids": [
+      "15694"
+    ],
+    "review_note": "Gold [8849] (score 0, 2 sentences) is about Kruskal-Wallis homoscedasticity, not comparing group means. [15694] \"How to test for differences between two group means when the data is not normally distributed?\" restates the query.",
+    "reviewed_by": "K S (approved)",
+    "method": "llm_proposed_human_approved",
+    "reviewed_at": "2026-09-01T16:20:10",
+    "corpus_version": "posts.jsonl@2026-08-14"
+  },
+  "hop_12": {
+    "action": "REPLACE",
+    "original_gold": [
+      "66294",
+      "214315"
+    ],
+    "gold_answer_ids": [
+      "454758"
+    ],
+    "review_note": "Golds were \"Motivation behind random forest steps\" and \"importance of the i.i.d. assumption\" - the latter is unrelated. [454758] \"Decision tree-based Bagging and Random Forest - extremely similar approaches to modelling\" is the direct comparison.",
+    "reviewed_by": "K S (approved)",
+    "method": "llm_proposed_human_approved",
+    "reviewed_at": "2026-09-01T16:20:10",
+    "corpus_version": "posts.jsonl@2026-08-14"
+  },
+  "niche_15": {
+    "action": "REPLACE",
+    "original_gold": [
+      "161080",
+      "226123"
+    ],
+    "gold_answer_ids": [
+      "408346"
+    ],
+    "review_note": "Golds covered LOESS-vs-LOWESS naming and Nate Silver polynomial tails, neither explains the concept. [408346] \"What is the difference between Local Linear Regression (LLR) and LOESS?\" explains local polynomial regression.",
+    "reviewed_by": "K S (approved)",
+    "method": "llm_proposed_human_approved",
+    "reviewed_at": "2026-09-01T16:20:10",
+    "corpus_version": "posts.jsonl@2026-08-14"
+  },
+  "neg_16": {
+    "action": "REPLACE",
+    "original_gold": [
+      "243225",
+      "32421"
+    ],
+    "gold_answer_ids": [
+      "485093"
+    ],
+    "review_note": "Gold [243225] is about lmer convergence warnings, not random slopes. [485093] \"Is it a must to include a random slope in a mixed model?\" directly addresses fitting without them.",
+    "reviewed_by": "K S (approved)",
+    "method": "llm_proposed_human_approved",
+    "reviewed_at": "2026-09-01T16:20:10",
+    "corpus_version": "posts.jsonl@2026-08-14"
+  },
+  "hop_02": {
+    "action": "ADD",
+    "original_gold": [
+      "372975",
+      "152698"
+    ],
+    "gold_answer_ids": [
+      "372975",
+      "152698",
+      "171296"
+    ],
+    "review_note": "[171296] \"How to combine weak classifiers to get a strong one?\" matches \"how they combine weak learners\" precisely.",
+    "reviewed_by": "K S (approved)",
+    "method": "llm_proposed_human_approved",
+    "reviewed_at": "2026-09-01T16:20:10",
+    "corpus_version": "posts.jsonl@2026-08-14"
+  },
+  "hop_04": {
+    "action": "ADD",
+    "original_gold": [
+      "55605",
+      "253992"
+    ],
+    "gold_answer_ids": [
+      "55605",
+      "253992",
+      "183510"
+    ],
+    "review_note": "[183510] \"How to control trade-off between precision and recall? ... Fbeta score\" covers both halves of the query.",
+    "reviewed_by": "K S (approved)",
+    "method": "llm_proposed_human_approved",
+    "reviewed_at": "2026-09-01T16:20:10",
+    "corpus_version": "posts.jsonl@2026-08-14"
+  },
+  "hop_06": {
+    "action": "ADD",
+    "original_gold": [
+      "78",
+      "1577",
+      "1579",
+      "1584",
+      "3371",
+      "44453",
+      "83599",
+      "94601",
+      "133806"
+    ],
+    "gold_answer_ids": [
+      "78",
+      "1577",
+      "1579",
+      "1584",
+      "3371",
+      "44453",
+      "83599",
+      "94601",
+      "133806",
+      "95106"
+    ],
+    "review_note": "[95106] \"How does Factor Analysis explain the covariance while PCA explains the variance?\" is exactly the variance-handling question.",
+    "reviewed_by": "K S (approved)",
+    "method": "llm_proposed_human_approved",
+    "reviewed_at": "2026-09-01T16:20:10",
+    "corpus_version": "posts.jsonl@2026-08-14"
+  },
+  "mturn_12": {
+    "action": "ADD",
+    "original_gold": [
+      "104746"
+    ],
+    "gold_answer_ids": [
+      "104746",
+      "17104"
+    ],
+    "review_note": "[17104] \"Estimate confidence interval of mean by bootstrap t method or simply by bootstrap?\" is the specific CI-construction answer.",
+    "reviewed_by": "K S (approved)",
+    "method": "llm_proposed_human_approved",
+    "reviewed_at": "2026-09-01T16:20:10",
+    "corpus_version": "posts.jsonl@2026-08-14"
+  },
+  "mturn_19": {
+    "action": "ADD",
+    "original_gold": [
+      "66895"
+    ],
+    "gold_answer_ids": [
+      "66895",
+      "485218"
+    ],
+    "review_note": "[485218] \"fixed effects vs random effects vs random intercept model\" - closest available; corpus coverage of intercept-vs-slope is genuinely thin.",
+    "reviewed_by": "K S (approved)",
+    "method": "llm_proposed_human_approved",
+    "reviewed_at": "2026-09-01T16:20:10",
+    "corpus_version": "posts.jsonl@2026-08-14"
+  },
+  "neg_02": {
+    "action": "ADD",
+    "original_gold": [
+      "10352"
+    ],
+    "gold_answer_ids": [
+      "10352",
+      "1404"
+    ],
+    "review_note": "[1404] \"Techniques for Handling Incomplete/Missing Data\" is the canonical answer; gold [10352] is a reply to one user situation.",
+    "reviewed_by": "K S (approved)",
+    "method": "llm_proposed_human_approved",
+    "reviewed_at": "2026-09-01T16:20:10",
+    "corpus_version": "posts.jsonl@2026-08-14"
+  },
+  "neg_06": {
+    "action": "ADD",
+    "original_gold": [
+      "125016",
+      "157379"
+    ],
+    "gold_answer_ids": [
+      "125016",
+      "157379",
+      "312407"
+    ],
+    "review_note": "[312407] \"Alternatives to Using ARIMA for forecasting\" is an exact match; gold [157379] is a book list.",
+    "reviewed_by": "K S (approved)",
+    "method": "llm_proposed_human_approved",
+    "reviewed_at": "2026-09-01T16:20:10",
+    "corpus_version": "posts.jsonl@2026-08-14"
+  },
+  "niche_08": {
+    "action": "ADD",
+    "original_gold": [
+      "306000"
+    ],
+    "gold_answer_ids": [
+      "306000",
+      "306892"
+    ],
+    "review_note": "[306892] describes the downhill simplex algorithm itself; gold covers only stopping criteria.",
+    "reviewed_by": "K S (approved)",
+    "method": "llm_proposed_human_approved",
+    "reviewed_at": "2026-09-01T16:20:10",
+    "corpus_version": "posts.jsonl@2026-08-14"
+  },
+  "niche_14": {
+    "action": "ADD",
+    "original_gold": [
+      "38947"
+    ],
+    "gold_answer_ids": [
+      "38947",
+      "402241"
+    ],
+    "review_note": "[402241] on Heckman correction and selection bias is stronger than gold [38947] (score 2, DiD-specific).",
+    "reviewed_by": "K S (approved)",
+    "method": "llm_proposed_human_approved",
+    "reviewed_at": "2026-09-01T16:20:10",
+    "corpus_version": "posts.jsonl@2026-08-14"
+  }
+}

@@ -20,7 +20,9 @@ logger = logging.getLogger(__name__)
 sparse_generator = SparseVectorGenerator()
 
 class VectorDBManager:
-    def __init__(self, db_path: str = "./data/qdrant_db", collection_name: str = "stats_se_rag_docs",
+    DEFAULT_COLLECTION = "stats_se_rag_docs"
+
+    def __init__(self, db_path: str = "./data/qdrant_db", collection_name: str = None,
                  force_local: bool = False):
         """
         Initializes persistent Qdrant connection with lazy-loaded embeddings and sparse indexing.
@@ -38,7 +40,18 @@ class VectorDBManager:
         """
         os.makedirs(db_path, exist_ok=True)
         self.db_path = db_path
-        self.collection_name = collection_name
+        # Collection resolution order: explicit argument > QDRANT_COLLECTION env
+        # var > default. The env var exists because every eval/diagnostic script
+        # constructs this class with no collection_name, so before this there was
+        # no way to point a whole run at an alternate index (e.g. a v2 rebuild)
+        # short of editing the default here. Setting $env:QDRANT_COLLECTION and
+        # running an eval silently evaluated the OLD collection instead -- no
+        # error, just wrong numbers attributed to the wrong index.
+        self.collection_name = (
+            collection_name
+            or os.getenv("QDRANT_COLLECTION")
+            or self.DEFAULT_COLLECTION
+        )
 
         qdrant_url = None if force_local else os.getenv("QDRANT_URL")
         qdrant_api_key = None if force_local else os.getenv("QDRANT_API_KEY")
@@ -316,13 +329,39 @@ class VectorDBManager:
                     fusion=models.Fusion.RRF
                 ),
                 query_filter=self._combine_filters(source_file, qdrant_filter),
-                limit=n_results
+                limit=n_results * 3  # Fetch expanded pool for answer-level deduplication
             )
         except Exception as e:
             logger.exception(f"Hybrid query execution failed for query: '{query}'")
             return []
         
-        return self._format_results(results)
+        return self._format_results(results)[:n_results]
+
+    def _format_results(self, results, deduplicate_by_answer: bool = True) -> List[Dict[str, Any]]:
+        """
+        Helper to format Qdrant hits into standard RAG dictionary chunks.
+        Deduplicates by answer_id to return unique post hits rather than multiple
+        fragmented chunks of the same post cluttering the candidate pool.
+        """
+        clean_results = []
+        seen_answer_ids = set()
+        for hit in results.points:
+            payload = hit.payload or {}
+            text = payload.get("text", "")
+            meta = {k: v for k, v in payload.items() if k != "text"}
+            answer_id = meta.get("answer_id")
+            
+            if deduplicate_by_answer and answer_id:
+                if answer_id in seen_answer_ids:
+                    continue
+                seen_answer_ids.add(answer_id)
+                
+            clean_results.append({
+                "id": str(hit.id),
+                "text": text,
+                "metadata": meta
+            })
+        return clean_results
 
     def search_multi_query(
         self,

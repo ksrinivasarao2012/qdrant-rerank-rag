@@ -196,7 +196,11 @@ class GroqJudge(DeepEvalBaseLLM):
 
 
 class GeminiJudge(DeepEvalBaseLLM):
-    def __init__(self, model_name: str = "gemini-flash-latest"):
+    def __init__(self, model_name: str = None):
+        # Free-tier quota is 500 requests/DAY *per model*, so switching models
+        # gives a fresh budget when one is exhausted. Override via .env:
+        #   GEMINI_JUDGE_MODEL = "gemini-3.5-flash"
+        model_name = model_name or os.getenv("GEMINI_JUDGE_MODEL", "gemini-3.5-flash-lite")
         self.model_name = model_name
         self.api_key = os.getenv("GEMINI_API_KEY")
         super().__init__(self.model_name)

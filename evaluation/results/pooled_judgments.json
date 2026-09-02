@@ -1,0 +1,529 @@
+{
+ "_meta": {
+  "created": "2026-09-02T02:39:28",
+  "run": "/sessions/rcw-01r4ugmihcrd5mvip9xzrvgv/mnt/Rag-Portfolio/evaluation/results/retriever_eval_hybrid_rerank_raw_pool50_20260901_022349.json",
+  "golden": "evaluation/golden_dataset.json"
+ },
+ "neg_01": {
+  "144242": {
+   "grade": 0,
+   "title": "\"Reversed\" Shapiro–Wilk",
+   "source": "rerank",
+   "rank": 1,
+   "question_id": "144236",
+   "annotator": "K S",
+   "at": "2026-09-02T02:43:34",
+   "method": "human_manual"
+  },
+  "610422": {
+   "grade": 1,
+   "title": "Normality test after rounding",
+   "source": "rerank",
+   "rank": 2,
+   "question_id": "610417",
+   "annotator": "K S",
+   "at": "2026-09-02T02:44:07",
+   "method": "human_manual"
+  },
+  "114164": {
+   "grade": 1,
+   "title": "Using chi goodness of fit to test if data comes from normal distribution",
+   "source": "rerank",
+   "rank": 3,
+   "question_id": "114146",
+   "annotator": "K S",
+   "at": "2026-09-02T02:44:33",
+   "method": "human_manual"
+  },
+  "144241": {
+   "grade": 1,
+   "title": "\"Reversed\" Shapiro–Wilk",
+   "source": "rerank",
+   "rank": 4,
+   "question_id": "144236",
+   "annotator": "K S",
+   "at": "2026-09-02T02:44:51",
+   "method": "human_manual"
+  },
+  "73035": {
+   "grade": 1,
+   "title": "How can the Kolmogorov-Smirnov test be used/interpreted?",
+   "source": "rerank",
+   "rank": 5,
+   "question_id": "73030",
+   "annotator": "K S",
+   "at": "2026-09-02T02:45:23",
+   "method": "human_manual"
+  },
+  "362865": {
+   "grade": 1,
+   "title": "Non-parametric alternative to simple t-test",
+   "source": "rrf",
+   "rank": 2,
+   "question_id": "362861",
+   "annotator": "K S",
+   "at": "2026-09-02T02:45:41",
+   "method": "human_manual"
+  },
+  "642601": {
+   "grade": 1,
+   "title": "Fitting data: \"most normal residuals\" vs maximum-likelihood",
+   "source": "rrf",
+   "rank": 3,
+   "question_id": "642348",
+   "annotator": "K S",
+   "at": "2026-09-02T02:45:54",
+   "method": "human_manual"
+  },
+  "129954": {
+   "grade": 2,
+   "title": "Is Shapiro–Wilk the best normality test? Why might it be better than other tests like Anderson-Darling?",
+   "source": "rrf",
+   "rank": 4,
+   "question_id": "90697",
+   "annotator": "K S",
+   "at": "2026-09-02T02:46:20",
+   "method": "human_manual"
+  },
+  "459057": {
+   "grade": 0,
+   "title": "Expected Counts in Chi-Squared Goodness-of-Fit Tests of Normality",
+   "source": "rrf",
+   "rank": 5,
+   "question_id": "459044",
+   "annotator": "K S",
+   "at": "2026-09-02T02:46:33",
+   "method": "human_manual"
+  }
+ },
+ "neg_02": {
+  "1404": {
+   "grade": 1,
+   "title": "Techniques for Handling Incomplete/Missing Data",
+   "source": "rerank",
+   "rank": 1,
+   "question_id": "1385",
+   "annotator": "K S",
+   "at": "2026-09-02T02:46:56",
+   "method": "human_manual"
+  },
+  "96243": {
+   "grade": 2,
+   "title": "Missing data - best way to resolve?",
+   "source": "rerank",
+   "rank": 2,
+   "question_id": "96238",
+   "annotator": "K S",
+   "at": "2026-09-02T02:47:16",
+   "method": "human_manual"
+  },
+  "305314": {
+   "grade": 2,
+   "title": "Methods to work around the problem of missing data in machine learning",
+   "source": "rerank",
+   "rank": 3,
+   "question_id": "303722",
+   "annotator": "K S",
+   "at": "2026-09-02T02:47:32",
+   "method": "human_manual"
+  },
+  "166573": {
+   "grade": 1,
+   "title": "How to handle data with 2 variables that have same missingness pattern?",
+   "source": "rerank",
+   "rank": 4,
+   "question_id": "162716",
+   "annotator": "K S",
+   "at": "2026-09-02T02:47:51",
+   "method": "human_manual"
+  },
+  "47390": {
+   "grade": 0,
+   "title": "Missing values replacement?",
+   "source": "rerank",
+   "rank": 5,
+   "question_id": "47354",
+   "annotator": "K S",
+   "at": "2026-09-02T02:48:09",
+   "method": "human_manual"
+  },
+  "429179": {
+   "grade": 0,
+   "title": "Analysis with complex data, anything different?",
+   "source": "rrf",
+   "rank": 1,
+   "question_id": "66088",
+   "annotator": "K S",
+   "at": "2026-09-02T02:48:21",
+   "method": "human_manual"
+  },
+  "128752": {
+   "grade": 2,
+   "title": "Why doesn't Random Forest handle missing values in predictors?",
+   "source": "rrf",
+   "rank": 3,
+   "question_id": "98953",
+   "annotator": "K S",
+   "at": "2026-09-02T02:48:32",
+   "method": "human_manual"
+  },
+  "471980": {
+   "grade": 1,
+   "title": "Missing data in a pattern - How to proceed?",
+   "source": "rrf",
+   "rank": 4,
+   "question_id": "471974",
+   "annotator": "K S",
+   "at": "2026-09-02T02:48:50",
+   "method": "human_manual"
+  },
+  "47409": {
+   "grade": 2,
+   "title": "How to decide what to do with missing data when doing data analysis?",
+   "source": "rrf",
+   "rank": 5,
+   "question_id": "47406",
+   "annotator": "K S",
+   "at": "2026-09-02T02:49:03",
+   "method": "human_manual"
+  }
+ },
+ "neg_03": {
+  "15694": {
+   "grade": 1,
+   "title": "How to test for differences between two group means when the data is not normally distributed?",
+   "source": "rerank",
+   "rank": 1,
+   "question_id": "15664",
+   "annotator": "K S",
+   "at": "2026-09-02T02:49:15",
+   "method": "human_manual"
+  },
+  "77729": {
+   "grade": 1,
+   "title": "Coefficients by group",
+   "source": "rerank",
+   "rank": 2,
+   "question_id": "77721",
+   "annotator": "K S",
+   "at": "2026-09-02T02:49:34",
+   "method": "human_manual"
+  },
+  "11663": {
+   "grade": 0,
+   "title": "Comparing means across two groups and over four time points when group sample sizes are very small",
+   "source": "rerank",
+   "rank": 3,
+   "question_id": "11661",
+   "annotator": "K S",
+   "at": "2026-09-02T02:49:45",
+   "method": "human_manual"
+  },
+  "499296": {
+   "grade": 0,
+   "title": "Comparing the difference in means (group 1 v. group 2 and group 1 v. group 3)",
+   "source": "rerank",
+   "rank": 4,
+   "question_id": "498557",
+   "annotator": "K S",
+   "at": "2026-09-02T02:49:55",
+   "method": "human_manual"
+  },
+  "470645": {
+   "grade": 1,
+   "title": "One vs all statistical test",
+   "source": "rerank",
+   "rank": 5,
+   "question_id": "470644",
+   "annotator": "K S",
+   "at": "2026-09-02T02:50:06",
+   "method": "human_manual"
+  },
+  "392878": {
+   "grade": 0,
+   "title": "When is deviation coding useful?",
+   "source": "rrf",
+   "rank": 2,
+   "question_id": "392242",
+   "annotator": "K S",
+   "at": "2026-09-02T02:50:16",
+   "method": "human_manual"
+  },
+  "28805": {
+   "grade": 0,
+   "title": "Using averages of two different size groups",
+   "source": "rrf",
+   "rank": 4,
+   "question_id": "28803",
+   "annotator": "K S",
+   "at": "2026-09-02T02:50:27",
+   "method": "human_manual"
+  }
+ },
+ "neg_04": {
+  "130244": {
+   "grade": 2,
+   "title": "Is there any value in dimensionality reduction of a data set where all variables are approximately orthogonal?",
+   "source": "rerank",
+   "rank": 1,
+   "question_id": "130207",
+   "annotator": "K S",
+   "at": "2026-09-02T02:50:56",
+   "method": "human_manual"
+  },
+  "225040": {
+   "grade": 1,
+   "title": "What is the value of linear dimensionality reduction in the presence of nonlinear alternatives?",
+   "source": "rerank",
+   "rank": 2,
+   "question_id": "224957",
+   "annotator": "K S",
+   "at": "2026-09-02T11:49:27",
+   "method": "human_manual"
+  },
+  "290753": {
+   "grade": 1,
+   "title": "Linearity of PCA",
+   "source": "rerank",
+   "rank": 3,
+   "question_id": "290750",
+   "annotator": "K S",
+   "at": "2026-09-02T11:49:40",
+   "method": "human_manual"
+  },
+  "131358": {
+   "grade": 2,
+   "title": "Dimensionality reduction technique similar to LDA when class labels are probabilistic",
+   "source": "rerank",
+   "rank": 4,
+   "question_id": "131357",
+   "annotator": "K S",
+   "at": "2026-09-02T11:50:30",
+   "method": "human_manual"
+  },
+  "457788": {
+   "grade": 2,
+   "title": "What're the differences between PCA and autoencoder?",
+   "source": "rerank",
+   "rank": 5,
+   "question_id": "120080",
+   "annotator": "K S",
+   "at": "2026-09-02T11:50:52",
+   "method": "human_manual"
+  },
+  "311010": {
+   "grade": 0,
+   "title": "Interpreting PCA figures in layman terms",
+   "source": "rrf",
+   "rank": 1,
+   "question_id": "310517",
+   "annotator": "K S",
+   "at": "2026-09-02T11:51:20",
+   "method": "human_manual"
+  },
+  "342072": {
+   "grade": 0,
+   "title": "Explaining dimensionality reduction using SVD (without reference to PCA)",
+   "source": "rrf",
+   "rank": 2,
+   "question_id": "342046",
+   "annotator": "K S",
+   "at": "2026-09-02T11:55:04",
+   "method": "human_manual"
+  },
+  "429044": {
+   "grade": 2,
+   "title": "Advantage & disadvantage of PCA vs kernel PCA",
+   "source": "rrf",
+   "rank": 3,
+   "question_id": "429026",
+   "annotator": "K S",
+   "at": "2026-09-02T11:55:18",
+   "method": "human_manual"
+  },
+  "612293": {
+   "grade": 1,
+   "title": "PCA via a Neural Network",
+   "source": "rrf",
+   "rank": 4,
+   "question_id": "612290",
+   "annotator": "K S",
+   "at": "2026-09-02T11:57:57",
+   "method": "human_manual"
+  },
+  "115307": {
+   "grade": 1,
+   "title": "Is it valid to reduce dimensionality of the data with PCA before running nonlinear dimensionality reduction?",
+   "source": "rrf",
+   "rank": 5,
+   "question_id": "115175",
+   "annotator": "K S",
+   "at": "2026-09-02T11:58:22",
+   "method": "human_manual"
+  }
+ },
+ "neg_05": {
+  "318141": {
+   "grade": 2,
+   "title": "How to do model selection with more regressors than observations?",
+   "source": "rerank",
+   "rank": 1,
+   "question_id": "295017",
+   "annotator": "K S",
+   "at": "2026-09-02T12:00:41",
+   "method": "human_manual"
+  },
+  "58978": {
+   "grade": 2,
+   "title": "R Forward and backward Selection",
+   "source": "rerank",
+   "rank": 2,
+   "question_id": "58975",
+   "annotator": "K S",
+   "at": "2026-09-02T12:00:57",
+   "method": "human_manual"
+  },
+  "65717": {
+   "grade": 0,
+   "title": "Negative binomial GLM, the most complex model always has lowest AIC (all interaction terms)",
+   "source": "rerank",
+   "rank": 3,
+   "question_id": "65709",
+   "annotator": "K S",
+   "at": "2026-09-02T12:01:27",
+   "method": "human_manual"
+  },
+  "406270": {
+   "grade": 2,
+   "title": "Beginner - Iteratively adding terms to regression model?",
+   "source": "rerank",
+   "rank": 4,
+   "question_id": "406258",
+   "annotator": "K S",
+   "at": "2026-09-02T12:01:36",
+   "method": "human_manual"
+  },
+  "17125": {
+   "grade": 1,
+   "title": "Classic linear model - model selection",
+   "source": "rerank",
+   "rank": 5,
+   "question_id": "17111",
+   "annotator": "K S",
+   "at": "2026-09-02T12:01:46",
+   "method": "human_manual"
+  },
+  "612321": {
+   "grade": 0,
+   "title": "BIC drop in regsubset summary different from manual calculation in R",
+   "source": "rrf",
+   "rank": 2,
+   "question_id": "612313",
+   "annotator": "K S",
+   "at": "2026-09-02T12:01:55",
+   "method": "human_manual"
+  },
+  "87684": {
+   "grade": 1,
+   "title": "Cross-validation and feature selection of a multivariate regression",
+   "source": "rrf",
+   "rank": 3,
+   "question_id": "87435",
+   "annotator": "K S",
+   "at": "2026-09-02T12:02:06",
+   "method": "human_manual"
+  },
+  "317763": {
+   "grade": 1,
+   "title": "To include or not include a predictor: making a model",
+   "source": "rrf",
+   "rank": 4,
+   "question_id": "317752",
+   "annotator": "K S",
+   "at": "2026-09-02T12:02:22",
+   "method": "human_manual"
+  },
+  "608301": {
+   "grade": 0,
+   "title": "How to interpret type I, type II, and type III ANOVA and MANOVA?",
+   "source": "rrf",
+   "rank": 5,
+   "question_id": "20452",
+   "annotator": "K S",
+   "at": "2026-09-02T12:02:34",
+   "method": "human_manual"
+  }
+ },
+ "neg_06": {
+  "490692": {
+   "grade": 0,
+   "title": "Can time series models be applied to synthetic data",
+   "source": "rerank",
+   "rank": 1,
+   "question_id": "490685",
+   "annotator": "K S",
+   "at": "2026-09-02T12:11:52",
+   "method": "human_manual"
+  },
+  "146849": {
+   "grade": 1,
+   "title": "Predict time series data from another",
+   "source": "rerank",
+   "rank": 2,
+   "question_id": "146846",
+   "annotator": "K S",
+   "at": "2026-09-02T12:12:13",
+   "method": "human_manual"
+  },
+  "4096": {
+   "grade": 2,
+   "title": "How to make forecasts for a time series?",
+   "source": "rerank",
+   "rank": 3,
+   "question_id": "4086",
+   "annotator": "K S",
+   "at": "2026-09-02T12:12:26",
+   "method": "human_manual"
+  },
+  "381012": {
+   "grade": 2,
+   "title": "Forecasting algorithms for incomplete time series data",
+   "source": "rerank",
+   "rank": 4,
+   "question_id": "380936",
+   "annotator": "K S",
+   "at": "2026-09-02T12:12:39",
+   "method": "human_manual"
+  },
+  "46495": {
+   "grade": 0,
+   "title": "Time series regression - ML estimation",
+   "source": "rerank",
+   "rank": 5,
+   "question_id": "46493",
+   "annotator": "K S",
+   "at": "2026-09-02T12:13:52",
+   "method": "human_manual"
+  },
+  "319550": {
+   "grade": 2,
+   "title": "Forecasting Monthly Timeseries Data in Excel",
+   "source": "rrf",
+   "rank": 1,
+   "question_id": "319548",
+   "annotator": "K S",
+   "at": "2026-09-02T12:14:05",
+   "method": "human_manual"
+  },
+  "72272": {
+   "grade": 0,
+   "title": "Is this a bug in auto arima or am I doing something wrong?",
+   "source": "rrf",
+   "rank": 2,
+   "question_id": "72244",
+   "annotator": "K S",
+   "at": "2026-09-02T12:18:43",
+   "method": "human_manual"
+  }
+ }
+}
