@@ -1,4 +1,5 @@
 from fastapi import APIRouter, HTTPException
+from fastapi.concurrency import run_in_threadpool
 from fastapi.responses import StreamingResponse
 import logging
 import json
@@ -26,7 +27,7 @@ logger = logging.getLogger(__name__)
 @router.get('/topics')
 async def list_topics():
     """Returns the distinct tags present in the indexed corpus."""
-    chunks = vector_db.get_all_chunks()
+    chunks = await run_in_threadpool(vector_db.get_all_chunks)
     tags = set()
     for chunk in chunks:
         for tag in (chunk.get("metadata", {}).get("tags") or []):
@@ -41,8 +42,10 @@ async def query_rag(payload: QueryRequest):
         logger.warning("Empty query received")
         raise HTTPException(status_code = 400, detail = 'Query cannot be empty.')
     
-    # Step 1: Rewrite Query (if chat history exists)
-    rewritten_query = llm_service.rewrite_query(payload.query, payload.chat_history)
+    # Step 1: Rewrite Query (offloaded to threadpool to prevent blocking event loop)
+    rewritten_query = await run_in_threadpool(
+        llm_service.rewrite_query, payload.query, payload.chat_history
+    )
 
     # Step 2: Build the SEARCH query. Falls back to concatenating the last two
     # conversation turns when the rewriter did nothing -- a follow-up like
@@ -53,14 +56,16 @@ async def query_rag(payload: QueryRequest):
     CANDIDATE_K = 15
 
     # Stage 1: Native Hybrid Search (Dense + Sparse) fused with RRF directly inside Qdrant
-    fused_candidates = vector_db.search_hybrid(query=search_query, n_results=CANDIDATE_K, source_file=payload.source_file)
+    # Offloaded to threadpool so network/disk latency doesn't block the event loop
+    fused_candidates = await run_in_threadpool(
+        vector_db.search_hybrid, query=search_query, n_results=CANDIDATE_K, source_file=payload.source_file
+    )
     logger.info(f"Stage 1 (Hybrid Search): Retrieved and fused {len(fused_candidates)} candidate chunks from Qdrant")
 
     # Stage 2: Cross-Encoder Re-Ranking
-    # Scored against what the user actually typed, not the history-padded
-    # search string -- the padding exists to find candidates, and would
-    # otherwise skew relevance toward the previous turn.
-    reranked_results = reranker.rerank(
+    # CPU-heavy inference offloaded to threadpool so it doesn't starve concurrent requests
+    reranked_results = await run_in_threadpool(
+        reranker.rerank,
         query = payload.query,
         chunks = fused_candidates,
         top_k = payload.top_k
