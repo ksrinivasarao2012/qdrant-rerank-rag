@@ -1,4 +1,10 @@
-from fastapi import APIRouter, HTTPException
+import os
+import secrets
+import time
+from collections import defaultdict
+from threading import Lock
+from fastapi import APIRouter, HTTPException, Security, Depends, Request
+from fastapi.security import APIKeyHeader
 from fastapi.concurrency import run_in_threadpool
 from fastapi.responses import StreamingResponse
 import logging
@@ -10,13 +16,53 @@ from backend.core.llm_service import LLMService, build_search_query
 from backend.core.reranker import ReRanker
 
 
-router = APIRouter(prefix = '/api/v1',tags = ['RAG'])
+# ---------------------------------------------------------------------------
+# Auth & Security: Constant-time API Key Verification
+# ---------------------------------------------------------------------------
+_key_header = APIKeyHeader(name="X-API-Key", auto_error=False)
 
-# No DocumentProcessor or HybridRetriever here.
-# Ingestion is an offline batch job (backend/scripts/seed_corpus.py), and sparse
-# search now lives inside Qdrant as a native sparse vector -- so there is no
-# in-process BM25 index to build at startup. The old version pulled the whole
-# corpus into RAM on every boot to do that.
+def require_api_key(key: str = Security(_key_header)) -> str:
+    """
+    Validates X-API-Key header against the API_KEYS environment variable using
+    constant-time comparison (secrets.compare_digest) to prevent timing attacks.
+    If API_KEYS is not configured in environment, auth is bypassed for dev/demo setups.
+    """
+    api_keys_str = os.getenv("API_KEYS", "").strip()
+    if not api_keys_str:
+        return "bypassed"
+    valid_keys = {k.strip() for k in api_keys_str.split(",") if k.strip()}
+    if not key or not any(secrets.compare_digest(key, valid_key) for valid_key in valid_keys):
+        raise HTTPException(status_code=401, detail="Invalid or missing API key in X-API-Key header")
+    return key
+
+
+# ---------------------------------------------------------------------------
+# Rate Limiter: Thread-safe Sliding Window Rate Limiter
+# ---------------------------------------------------------------------------
+class SlidingWindowRateLimiter:
+    """Per-key or per-IP sliding window rate limiter."""
+    def __init__(self, requests_per_minute: int = 20):
+        self.rpm = requests_per_minute
+        self.requests = defaultdict(list)
+        self.lock = Lock()
+
+    def check(self, key: str):
+        now = time.time()
+        window_start = now - 60.0
+        with self.lock:
+            timestamps = [t for t in self.requests[key] if t > window_start]
+            if len(timestamps) >= self.rpm:
+                raise HTTPException(
+                    status_code=429,
+                    detail=f"Rate limit exceeded: maximum {self.rpm} requests per minute."
+                )
+            timestamps.append(now)
+            self.requests[key] = timestamps
+
+limiter = SlidingWindowRateLimiter(requests_per_minute=int(os.getenv("RATE_LIMIT_RPM", "20")))
+
+router = APIRouter(prefix='/api/v1', tags=['RAG'], dependencies=[Depends(require_api_key)])
+
 vector_db = VectorDBManager()
 llm_service = LLMService()
 reranker = ReRanker()
@@ -35,7 +81,11 @@ async def list_topics():
     return {"topics": sorted(tags)}
 
 @router.post('/query')
-async def query_rag(payload: QueryRequest):
+async def query_rag(payload: QueryRequest, request: Request, api_key: str = Depends(require_api_key)):
+    # Rate limit check by API Key (or client IP fallback)
+    rate_key = api_key if api_key != "bypassed" else (request.client.host if request.client else "global")
+    limiter.check(rate_key)
+
     logger.info(f"Received query request: '{payload.query}' (top_k={payload.top_k}, source_file={payload.source_file}, history_len={len(payload.chat_history or [])})")
     
     if not payload.query.strip():
