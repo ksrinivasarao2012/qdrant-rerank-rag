@@ -20,6 +20,8 @@ from backend.core.llm_service import LLMService, build_search_query, decompose_q
 from backend.core.reranker import ReRanker
 from backend.core import guardrails
 from backend.core.rate_limiter import SlidingWindowRateLimiter, RateLimitExceeded
+from backend.core import chat_store
+import uuid
 import os as _os
 
 # Configure logging
@@ -41,6 +43,11 @@ reranker = ReRanker()
 # only routes.py (backend/api/routes.py), which HF Spaces does not run, did.
 # Same shared limiter class the FastAPI backend uses.
 rate_limiter = SlidingWindowRateLimiter(requests_per_minute=int(_os.getenv("RATE_LIMIT_RPM", "20")))
+
+# Chat history persistence (item #24). SQLite, stdlib only -- see
+# backend/core/chat_store.py. Safe to call on every startup: creates
+# the tables if they don't exist yet, no-ops otherwise.
+chat_store.init_db()
 
 # Force the lazy embedding/reranker singletons to actually load now, not on
 # whichever request happens to arrive first. Gradio Spaces have no separate
@@ -136,6 +143,81 @@ def get_text_content(content) -> str:
                 parts.append(p.text)
         return " ".join(parts)
     return str(content)
+
+
+# ---------------------------------------------------------------------------
+# Chat history persistence (item #24) -- helper functions wired into the
+# Blocks layout below. Kept as a separate .then() step after chat_stream
+# finishes, rather than instrumented into every return path inside
+# chat_stream, so the already-tested guardrail logic there is untouched.
+# ---------------------------------------------------------------------------
+
+def _resolve_session_id(stored_session_id):
+    """Called on page load. Returns the existing session id from this
+    browser's local storage (gr.BrowserState), or mints a new one on first
+    visit. There is no login system (see CLAUDE.md) -- this is the whole
+    identity model: one random id per browser, persisted client-side, never
+    sent anywhere else. Two different visitors never see the same id because
+    each browser's storage starts empty and gets its OWN fresh uuid here,
+    rather than sharing one fixed default baked in at server startup.
+    """
+    return stored_session_id or chat_store.new_session_id()
+
+
+def _conversation_choices(session_id):
+    """(label, value) pairs for the sidebar list, newest-active first."""
+    if not session_id:
+        return []
+    return [(c["title"], c["id"]) for c in chat_store.list_conversations(session_id)]
+
+
+def refresh_sidebar(session_id):
+    return gr.update(choices=_conversation_choices(session_id), value=None)
+
+
+def start_new_chat():
+    """'New chat' button: clears the visible chatbot and forgets the current
+    conversation id, WITHOUT deleting anything already saved."""
+    return [], None
+
+
+def load_conversation(conv_id):
+    """Sidebar selection: replaces the visible chatbot with a saved
+    conversation's full history."""
+    if not conv_id:
+        return [], None
+    return chat_store.get_messages(conv_id), conv_id
+
+
+def save_turn(history, session_id, conv_id):
+    """Runs after chat_stream finishes. Persists the just-completed
+    (user, assistant) pair and returns the updated conversation id + a
+    refreshed sidebar list.
+
+    Reads the LAST two messages off the final chatbot state rather than
+    threading extra bookkeeping through chat_stream's several early-return
+    branches (rate limit / blocked input / empty-result refusal / normal
+    answer) -- whichever branch fired, the visible chatbot ends up holding
+    the real user question and the real final reply either way.
+    """
+    if not session_id or not history or len(history) < 2:
+        return conv_id, gr.update()
+
+    a_role, a_content = get_message_role_and_content(history[-1])
+    u_role, u_content = get_message_role_and_content(history[-2])
+    assistant_text = get_text_content(a_content)
+    user_text = get_text_content(u_content)
+
+    if a_role != "assistant" or u_role != "user" or not user_text.strip():
+        return conv_id, gr.update()
+
+    if not conv_id:
+        conv_id = chat_store.create_conversation(session_id, user_text)
+
+    chat_store.add_message(conv_id, "user", user_text)
+    chat_store.add_message(conv_id, "assistant", assistant_text)
+
+    return conv_id, gr.update(choices=_conversation_choices(session_id), value=conv_id)
 
 
 def needs_query_rewrite(query: str, chat_history: list) -> bool:
@@ -342,6 +424,15 @@ custom_css = """
     font-weight: 600;
     margin-left: 8px;
 }
+#conv-list-radio {
+    max-height: 260px;
+    overflow-y: auto;
+    display: block;
+}
+#conv-list-radio > .wrap {
+    max-height: 260px;
+    overflow-y: auto;
+}
 """
 
 with gr.Blocks(title="⚡ QdrantRERANK", css=custom_css, theme=gr.themes.Soft(primary_hue="indigo", secondary_hue="blue")) as demo:
@@ -352,9 +443,29 @@ with gr.Blocks(title="⚡ QdrantRERANK", css=custom_css, theme=gr.themes.Soft(pr
         </div>
     """)
 
+    # Item #24: persistent chat history. gr.BrowserState survives a page
+    # refresh (stored in that browser's local storage); if this Gradio
+    # version predates BrowserState, fall back to a plain per-tab gr.State --
+    # history still saves to SQLite either way, it just won't survive a
+    # refresh without BrowserState.
+    _SessionState = getattr(gr, "BrowserState", gr.State)
+    session_id_state = _SessionState("")
+    conv_id_state = gr.State(None)
+
     with gr.Row():
         # Sidebar Controls
         with gr.Column(scale=1):
+            gr.Markdown("### 💬 Chats")
+            new_chat_btn = gr.Button("🆕 New chat", size="sm")
+            conv_list = gr.Radio(
+                label="Recent conversations",
+                choices=[],
+                value=None,
+                interactive=True,
+                elem_id="conv-list-radio"
+            )
+
+            gr.Markdown("---")
             gr.Markdown("### 🔍 Filter by topic")
             doc_dropdown = gr.Dropdown(
                 label="Tag",
@@ -396,6 +507,29 @@ with gr.Blocks(title="⚡ QdrantRERANK", css=custom_css, theme=gr.themes.Soft(pr
                 submit_btn = gr.Button("Send 🚀", variant="primary", scale=1)
                 clear_btn = gr.Button("Clear 🗑️", scale=1)
 
+    # Item #24 wiring: resolve/mint this browser's session id on load, then
+    # populate the sidebar with whatever conversations it already has.
+    demo.load(
+        fn=_resolve_session_id,
+        inputs=[session_id_state],
+        outputs=[session_id_state]
+    ).then(
+        fn=refresh_sidebar,
+        inputs=[session_id_state],
+        outputs=[conv_list]
+    )
+
+    new_chat_btn.click(
+        fn=start_new_chat,
+        outputs=[chatbot, conv_id_state]
+    )
+
+    conv_list.change(
+        fn=load_conversation,
+        inputs=[conv_list],
+        outputs=[chatbot, conv_id_state]
+    )
+
     # Event Handlers
     refresh_btn.click(
         fn=get_document_list,
@@ -412,6 +546,10 @@ with gr.Blocks(title="⚡ QdrantRERANK", css=custom_css, theme=gr.themes.Soft(pr
         fn=chat_stream,
         inputs=[chatbot, doc_dropdown],
         outputs=[chatbot]
+    ).then(
+        fn=save_turn,
+        inputs=[chatbot, session_id_state, conv_id_state],
+        outputs=[conv_id_state, conv_list]
     )
 
     msg_input.submit(
@@ -423,10 +561,17 @@ with gr.Blocks(title="⚡ QdrantRERANK", css=custom_css, theme=gr.themes.Soft(pr
         fn=chat_stream,
         inputs=[chatbot, doc_dropdown],
         outputs=[chatbot]
+    ).then(
+        fn=save_turn,
+        inputs=[chatbot, session_id_state, conv_id_state],
+        outputs=[conv_id_state, conv_list]
     )
 
-    clear_btn.click(fn=lambda: ([], ""), outputs=[chatbot, msg_input])
+    clear_btn.click(fn=lambda: ([], "", None), outputs=[chatbot, msg_input, conv_id_state])
 
 if __name__ == "__main__":
-    demo.queue()
+    # Bug #13: demo.queue() had no size limit -- unlimited requests could
+    # queue up in memory with no bound. Capped so it fails fast with a
+    # "queue full" message instead of growing forever.
+    demo.queue(max_size=int(os.getenv("GRADIO_QUEUE_MAX_SIZE", "40")))
     demo.launch(server_name="0.0.0.0", server_port=7860, show_api=False)

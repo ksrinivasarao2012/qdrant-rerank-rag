@@ -42,9 +42,17 @@ async def limit_body_size(request: Request, call_next):
     return await call_next(request)
 
 
+# Bug #15: allow_origins=["*"] + allow_credentials=True is a combination
+# browsers refuse outright (the spec forbids a wildcard origin alongside
+# credentials), so this was silently enforcing NO cross-origin restriction
+# at all. Auth here is the X-API-Key header (see routes.py), never a cookie
+# or browser session, so there is nothing "credentialed" to protect --
+# dropping allow_credentials is what actually makes "*" work as intended,
+# rather than naming specific origins for an API meant to be called from
+# anywhere with a valid key.
 app.add_middleware(
     CORSMiddleware,
-    allow_credentials=True,
+    allow_credentials=False,
     allow_methods=["*"],
     allow_origins=["*"],
     allow_headers=["*"],
